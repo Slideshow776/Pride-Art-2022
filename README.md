@@ -151,4 +151,4 @@ The number of players might be two.
         
         This game will be made available for free on desktop. It will be advertised to various indie game-portal websites (LibGDX, Reddit, ...). Gameplay images and a trailer video will be posted and marketed via social media.
 
-[Go back to the top](#pride-art-2022).
+[Go back to the top](#pride-art-2022-rainbow-two_hearts).
