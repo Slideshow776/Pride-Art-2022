@@ -116,7 +116,7 @@ Number of players might be two.
         Mastering the gameplay with its fast paced challenges, intentions and actions.
         And engaging in transgender pride art.
         
-5. Development :sparkles:
+5. Development :yellow_heart:
     
     * **List the team members and their roles, responsibilities, and skills.**  
       
