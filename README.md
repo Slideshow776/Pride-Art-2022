@@ -51,6 +51,8 @@ The number of players might be two.
 
         Multiple enemies with different abilities present interesting gameplay. Picking up experience points and leveling up.
         
+        Environmental challenges like line of sight and jumping over spikes(?)
+        
     * **What items can the character obtain**
 
         No items, but perhaps abilities will be available after earning some experience points?
