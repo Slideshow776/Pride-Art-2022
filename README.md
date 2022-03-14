@@ -11,9 +11,9 @@ This game will be for desktop only, and is best played with a controller. The ga
 The language of the game will be norwegian and/or english.
 Number of players might be two.
 
-## Game Design Document
+## Game Design Document :sparkling_heart:
 
-1. Overall Vision
+1. Overall Vision :blue_heart:
     * **Write a short paragraph explaining the game:**
     
         Top down bullet hell dogder. The players control an avatar from above and needs to dogde incomming attacks with various actions.
@@ -33,7 +33,7 @@ Number of players might be two.
         The challenge presented is to survive an ongoing bullet hell. Players may take multiple actions to do so, scaling with the difficulty.
         The game is also wanting to bring forth the feeling of community and preserverance with being LGBTQAI, especially transgender.
     
-2. Mechanics: the rules of the game world
+2. Mechanics: the rules of the game world :purple_heart:
     * **What are the character's goals?**
 
         To survive an ongoing bullet hell.
@@ -59,7 +59,7 @@ Number of players might be two.
 
         Experience points, health points, cool down on actions, (saving other characters?)    
         
- 3. Dynamics: the interaction between the player and the game mechanics
+ 3. Dynamics: the interaction between the player and the game mechanics :heart:
     * **What hardware is required by the game?** 
 
         * Desktop needs to have a functional mouse, keyboard and screen. Controllers are also supported. This game will not require a powerful computer.
@@ -90,7 +90,7 @@ Number of players might be two.
 
         As for now the left stick and pad will be used for movements, and the 4 colored buttons for actions. 'A' will be the dodge button.
     
-4. Aesthetics: the visual, audio, narrative, and psychological aspects of the game
+4. Aesthetics: the visual, audio, narrative, and psychological aspects of the game :green_heart:
     * **Describe the style and feel of the game.**
         
         Fast paced, simple graphics, classical video-game esthetics.
@@ -116,7 +116,7 @@ Number of players might be two.
         Mastering the gameplay with its fast paced challenges, intentions and actions.
         And engaging in transgender pride art.
         
-5. Development
+5. Development :sparkles:
     
     * **List the team members and their roles, responsibilities, and skills.**  
       
