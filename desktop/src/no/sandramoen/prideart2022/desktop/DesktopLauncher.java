@@ -18,8 +18,6 @@ public class DesktopLauncher {
 
 		config.vSyncEnabled = true;
 		config.useGL30 = true;
-
-		// miscellaneous
 		config.title = "Pride Art 2022";
 		config.resizable = true;
 		// config.fullscreen = true;

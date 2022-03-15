@@ -9,27 +9,24 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.badlogic.gdx.utils.viewport.ScreenViewport
 
 abstract class BaseScreen : Screen, InputProcessor {
     protected var mainStage: Stage
     protected var uiStage: Stage
     protected var uiTable: Table
-    protected var camera: OrthographicCamera
 
     init {
-        mainStage = Stage()
-        uiStage = Stage()
-
         uiTable = Table()
         uiTable.setFillParent(true)
+        uiStage = Stage()
         uiStage.addActor(uiTable)
+        uiStage.viewport = ScreenViewport()
 
-        camera = mainStage.camera as OrthographicCamera
+        mainStage = Stage()
+        mainStage.viewport = ExtendViewport(100f, 100f)
 
-        mainStage.viewport = ExtendViewport(BaseGame.WORLD_WIDTH, BaseGame.WORLD_HEIGHT, camera)
-        mainStage.viewport.apply()
-
-        camera.position.set(0f, 0f, 0f)
+        initialize()
     }
 
     abstract fun initialize()
@@ -38,17 +35,15 @@ abstract class BaseScreen : Screen, InputProcessor {
     override fun render(dt: Float) {
         uiStage.act(dt)
         mainStage.act(dt)
-
         update(dt)
-
-        camera.update()
 
         Gdx.gl.glClearColor(1f, 0.8f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        // this.mainStage.batch.projectionMatrix = camera.combined
-
+        mainStage.viewport.apply()
         mainStage.draw()
+
+        uiStage.viewport.apply()
         uiStage.draw()
     }
 
@@ -68,7 +63,6 @@ abstract class BaseScreen : Screen, InputProcessor {
 
     override fun resize(width: Int, height: Int) {
         mainStage.viewport.update(width, height)
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f)
     }
 
     override fun pause() {}

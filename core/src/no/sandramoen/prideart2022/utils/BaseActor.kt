@@ -93,9 +93,6 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     fun setAnimation(anim: Animation<TextureAtlas.AtlasRegion>) {
         animation = anim
         animationTime = 0f
-        val tr: TextureRegion = animation!!.getKeyFrame(0.toFloat())
-        val w: Float = tr.regionWidth.toFloat()
-        val h: Float = tr.regionHeight.toFloat()
 
         if (boundaryPolygon == null)
             setBoundaryRectangle()
@@ -175,8 +172,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
 
         // decrease speed (decelerate) when not accelerating
         if (accelerationVec.len() == 0f)
-            // speed -= deceleration * dt
-
+            speed -= deceleration * dt
 
         // keep speed within set bounds
         speed = MathUtils.clamp(speed, 0f, maxSpeed)
@@ -204,16 +200,15 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
 
     fun alignCamera(target: Vector2 = Vector2(x, y), lerp: Float = 1f) {
         if (this.stage != null) {
-            val camera = this.stage.camera as OrthographicCamera
-            // val viewport = this.stage.viewport
+            val camera = this.stage.viewport.camera as OrthographicCamera
 
             // center camera on actor
-            val position = camera.position
-            position.x = camera.position.x + (target.x + originX - camera.position.x) * lerp
-            position.y = camera.position.y + (target.y + originY - camera.position.y) * lerp
-            camera.position.set(position)
+            camera.position.set(Vector3(
+                camera.position.x + (target.x + originX - camera.position.x) * lerp,
+                camera.position.y + (target.y + originY - camera.position.y) * lerp,
+                0f
+            ))
 
-            // bind camera to layout
             bindCameraToWorld(camera)
             camera.update()
         }
@@ -252,12 +247,12 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         camera.position.x = MathUtils.clamp(
             camera.position.x,
             (camera.viewportWidth * camera.zoom) / 2,
-            worldBounds.width - (camera.viewportWidth * .9f) / 2
+            worldBounds.width - (camera.viewportWidth * camera.zoom) / 2
         )
         camera.position.y = MathUtils.clamp(
             camera.position.y,
             (camera.viewportHeight * camera.zoom) / 2,
-            worldBounds.height - (camera.viewportHeight * .9f) / 2
+            worldBounds.height - (camera.viewportHeight * camera.zoom) / 2
         )
     }
 
@@ -326,10 +321,15 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     fun setOpacity(opacity: Float) { this.color.a = opacity }
 
     fun boundToWorld() {
-        if (x < 0) // check left edge
+        if (x < 0)
             x = 0f
-        if (x + width > worldBounds.width) // check right edge
+        else if (x + width > worldBounds.width)
             x = worldBounds.width - width
+
+        if (y < 0)
+            y = 0f
+        else if (y + height > worldBounds.height)
+            y = worldBounds.height - height
     }
 
     companion object {

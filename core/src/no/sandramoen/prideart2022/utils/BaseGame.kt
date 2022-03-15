@@ -28,13 +28,9 @@ abstract class BaseGame() : Game(), AssetErrorListener {
 
         lateinit var assetManager: AssetManager
         lateinit var fontGenerator: FreeTypeFontGenerator
-        const val WORLD_WIDTH = 100f
-        const val WORLD_HEIGHT = WORLD_WIDTH
-        const val scale = 1.0f
-        var RATIO = 0f
+        const val WORLD_WIDTH = 200f
+        const val WORLD_HEIGHT = 200f
         val lightPink = Color(1f, .816f, .94f, 1f)
-        val lightBrown = Color(0.859f, 0.788f, 0.706f, 1f)
-        val lightYellowBrown = Color(0.969f, 0.812f, 0.569f, 1f)
         var enableCustomShaders = true // debugging purposes
 
         // game assets
@@ -53,7 +49,6 @@ abstract class BaseGame() : Game(), AssetErrorListener {
         var myBundle: I18NBundle? = null
 
         fun setActiveScreen(screen: BaseScreen) {
-            screen.initialize()
             game?.setScreen(screen)
         }
     }
