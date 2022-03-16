@@ -31,7 +31,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     var pause = false
     var animationWidth = width
     var animationHeight = height
-    var collisionEnabled = true
+    var isCollisionEnabled = true
 
     init {
         this.x = x
@@ -286,7 +286,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     }
 
     fun overlaps(other: BaseActor): Boolean {
-        if (!collisionEnabled) return false
+        if (!isCollisionEnabled || !other.isCollisionEnabled) return false
         val poly1: Polygon = this.getBoundaryPolygon()
         val poly2: Polygon = other.getBoundaryPolygon()
 
@@ -297,7 +297,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     }
 
     fun preventOverlap(other: BaseActor): Vector2? {
-        if (!collisionEnabled) return null
+        if (!isCollisionEnabled || !other.isCollisionEnabled) return null
         val poly1: Polygon = this.getBoundaryPolygon()
         val poly2: Polygon = other.getBoundaryPolygon()
 
@@ -330,6 +330,20 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
             y = 0f
         else if (y + height > worldBounds.height)
             y = worldBounds.height - height
+    }
+
+    fun isWithinDistance(distance: Float, other: BaseActor) : Boolean {
+        val poly1 = this.getBoundaryPolygon()
+        val scaleX = (this.width + 2 * distance) / this.width
+        val scaleY = (this.height + 2 * distance) / this.height
+        poly1.setScale(scaleX, scaleY)
+
+        val poly2 = other.getBoundaryPolygon()
+
+        // initial test to improve performance
+        if (!poly1.boundingRectangle.overlaps(poly2.boundingRectangle))
+            return false
+        return Intersector.overlapConvexPolygons(poly1, poly2)
     }
 
     companion object {

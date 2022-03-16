@@ -8,14 +8,16 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.utils.BaseActor
+import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.XBoxGamepad
 
 class Player(stage: Stage) : BaseActor(0f, 0f, stage) {
     init {
         loadImage("ghost")
         setSize(4f, 4f)
-        centerAtPosition(100f, 100f)
+        centerAtPosition(BaseGame.WORLD_WIDTH / 2, BaseGame.WORLD_HEIGHT / 2)
         debug = true
 
         setAcceleration(200f)
@@ -23,10 +25,15 @@ class Player(stage: Stage) : BaseActor(0f, 0f, stage) {
         setDeceleration(200f)
 
         zoomCamera(.5f)
+        /*alignCamera()*/
+
+        setBoundaryPolygon(8)
+        setOrigin(Align.center)
     }
 
     override fun act(dt: Float) {
         super.act(dt)
+        if (pause) return
 
         movementPolling(dt)
 
@@ -48,8 +55,7 @@ class Player(stage: Stage) : BaseActor(0f, 0f, stage) {
     private fun movementPolling(dt: Float) {
         if (Controllers.getControllers().size > 0)
             controllerPolling()
-        else
-            keyboardPolling()
+        keyboardPolling()
         applyPhysics(dt)
     }
 

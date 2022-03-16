@@ -19,14 +19,14 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     protected var uiTable: Table
 
     init {
+        mainStage = Stage()
+        mainStage.viewport = ExtendViewport(100f, 100f)
+
         uiTable = Table()
         uiTable.setFillParent(true)
         uiStage = Stage()
         uiStage.addActor(uiTable)
         uiStage.viewport = ScreenViewport()
-
-        mainStage = Stage()
-        mainStage.viewport = ExtendViewport(100f, 100f)
 
         initialize()
     }
@@ -66,7 +66,8 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     }
 
     override fun resize(width: Int, height: Int) {
-        mainStage.viewport.update(width, height)
+        mainStage.viewport.update(width, height, true)
+        uiStage.viewport.update(width, height, true)
     }
 
     override fun pause() {}
