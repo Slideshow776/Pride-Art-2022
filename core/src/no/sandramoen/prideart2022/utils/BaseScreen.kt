@@ -4,14 +4,16 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.controllers.Controller
+import com.badlogic.gdx.controllers.ControllerListener
+import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 
-abstract class BaseScreen : Screen, InputProcessor {
+abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     protected var mainStage: Stage
     protected var uiStage: Stage
     protected var uiTable: Table
@@ -52,6 +54,7 @@ abstract class BaseScreen : Screen, InputProcessor {
         im.addProcessor(this)
         im.addProcessor(uiStage)
         im.addProcessor(mainStage)
+        Controllers.addListener(this)
     }
 
     override fun hide() {
@@ -59,6 +62,7 @@ abstract class BaseScreen : Screen, InputProcessor {
         im.removeProcessor(this)
         im.removeProcessor(uiStage)
         im.removeProcessor(mainStage)
+        Controllers.removeListener(this)
     }
 
     override fun resize(width: Int, height: Int) {
@@ -77,4 +81,23 @@ abstract class BaseScreen : Screen, InputProcessor {
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean { return false }
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean { return false }
     override fun scrolled(amountX: Float, amountY: Float): Boolean { return false }
+
+    override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean { return false }
+    override fun buttonUp(controller: Controller?, buttonCode: Int): Boolean  { return false }
+    override fun axisMoved(controller: Controller?, axisCode: Int, value: Float): Boolean  { return false }
+    override fun connected(controller: Controller?) {
+        Gdx.app.error(
+            javaClass.simpleName, "Controller connected: " + controller!!.name
+                    + "/" + controller!!.uniqueId
+        )
+        if (controller!!.canVibrate())
+            controller!!.startVibration(1000, .1f)
+    }
+
+    override fun disconnected(controller: Controller?) {
+        Gdx.app.error(
+            javaClass.simpleName, "Controller disconnected: " + controller!!.name
+                    + "/" + controller!!.uniqueId
+        )
+    }
 }

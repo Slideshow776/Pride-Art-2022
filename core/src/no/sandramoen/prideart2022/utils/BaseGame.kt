@@ -20,7 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.utils.I18NBundle
 import kotlin.system.measureTimeMillis
 
-abstract class BaseGame() : Game(), AssetErrorListener {
+abstract class BaseGame : Game(), AssetErrorListener {
     init { game = this }
 
     companion object {
