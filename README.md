@@ -11,6 +11,14 @@ This game will be for desktop only and is best played with a controller. The gam
 The language of the game will be norwegian and/or english.
 The number of players might be two.
 
+Read on below for project specifics.
+
+1. [Game Design Document](#game-design-document-sparkling_heart)
+2. [Credits](#credits)
+3. [Project Comments](#project-comments)
+4. [Other](#other)
+5. [Project Kanban Board](https://github.com/Slideshow776/Pride-Art-2022/projects/1)
+
 ## Game Design Document :sparkling_heart:
 
 1. :blue_heart: Overall Vision 
@@ -152,5 +160,12 @@ The number of players might be two.
     * **What are the plans for publication?**
         
         This game will be made available for free on desktop. It will be advertised to various indie game-portal websites (LibGDX, Reddit, ...). Gameplay images and a trailer video will be posted and marketed via social media.
+
+## Credits
+
+## Project comments
+
+## Other
+For other project specifics check out the [commits](https://github.com/Slideshow776/Pride-Art-2022/commits/main).
 
 [Go back to the top](#pride-art-2022-rainbow-two_hearts).
