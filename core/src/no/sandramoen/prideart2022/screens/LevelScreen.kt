@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.Enemy
+import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
 import no.sandramoen.prideart2022.myUI.ExperienceBar
 import no.sandramoen.prideart2022.utils.*
@@ -37,6 +38,14 @@ class LevelScreen : BaseScreen() {
     override fun update(dt: Float) {
         if (isGameOver) return
         handleEnemies()
+
+        for (experience: BaseActor in BaseActor.getList(mainStage, Experience::class.java.canonicalName)) {
+            if (player.overlaps(experience)) {
+                experience as Experience
+                experienceBar.increment(experience.amount)
+                experience.remove()
+            }
+        }
     }
 
     override fun keyDown(keycode: Int): Boolean {

@@ -81,7 +81,10 @@ class Enemy(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, 
                 isCollisionEnabled = false
             },
             Actions.fadeOut(1f),
-            Actions.run { remove() }
+            Actions.run {
+                Experience(x + width / 2, y + height / 2, stage, 1)
+                remove()
+            }
         )
     }
 
