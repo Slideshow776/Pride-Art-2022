@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
 import no.sandramoen.prideart2022.utils.BaseActor
+import no.sandramoen.prideart2022.utils.BaseGame
 
 class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
@@ -63,6 +64,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
                         Shot(x + width / 2, y + height / 2, stage, 180f)
                         Shot(x + width / 2, y + height / 2, stage, 270f)
                         shotsUntilDeath--
+                        BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
                     },
                     Actions.delay(shootFrequency)
                 )
@@ -81,6 +83,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
                 remove()
             }
         ))
+        BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume, .8f, 0f)
     }
 
     private fun getAngleTowardPlayer() =

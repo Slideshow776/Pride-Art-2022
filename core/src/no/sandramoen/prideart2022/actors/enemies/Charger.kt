@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
 import no.sandramoen.prideart2022.utils.BaseActor
+import no.sandramoen.prideart2022.utils.BaseGame
 
 class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
@@ -60,6 +61,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
     private fun stopToCharge() {
         isStoppingToCharge = true
         angleToCharge = getAngleTowardPlayer()
+        BaseGame.enemyChargeupSound!!.play(BaseGame.soundVolume)
         addAction(
             Actions.sequence(
                 stoppingToChargeAnimation(),
@@ -68,6 +70,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
                     setAcceleration(chargeSpeed * 10)
                     setMaxSpeed(chargeSpeed)
                     setDeceleration(chargeSpeed * 10)
+                    BaseGame.enemyChargeSound!!.play(BaseGame.soundVolume)
                 },
                 resetStoppingToChargeAnimation(),
                 die()
@@ -81,6 +84,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
             Actions.run {
                 dying = true
                 isCollisionEnabled = false
+                BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume)
             },
             Actions.fadeOut(1f),
             Actions.run {

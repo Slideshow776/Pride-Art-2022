@@ -50,6 +50,7 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
             currentXP = restXP
             percent = currentXP / nextLevel
             label.setText("Level ${++level}")
+            BaseGame.playerLevelUpSound!!.play(BaseGame.soundVolume)
         }
 
         // println("current XP: $currentXP, next level: $nextLevel")

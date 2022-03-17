@@ -35,12 +35,20 @@ class LevelScreen : BaseScreen() {
         spawnEnemies()
 
         uiSetup()
+
+        GameUtils.playAndLoopMusic(BaseGame.levelMusic)
+        Gdx.input.isCursorCatched = true
     }
 
     override fun update(dt: Float) {
         if (isGameOver) return
         handleEnemies()
         handlePickups()
+    }
+
+    override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
+        Gdx.input.isCursorCatched = false
+        return super.mouseMoved(screenX, screenY)
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -79,6 +87,7 @@ class LevelScreen : BaseScreen() {
                 experience as Experience
                 experienceBar.increment(experience.amount)
                 experience.remove()
+                BaseGame.experiencePickupSound!!.play(BaseGame.soundVolume)
             }
         }
     }
@@ -86,7 +95,7 @@ class LevelScreen : BaseScreen() {
     private fun spawnEnemies() {
         enemySpawner = BaseActor(0f, 0f, mainStage)
         enemySpawner.addAction(Actions.forever(Actions.sequence(
-            Actions.delay(1f),
+            Actions.delay(2.5f),
             Actions.run {
                 val range = 30f
                 val xPos = if (MathUtils.randomBoolean()) player.x - range else player.x + range
@@ -110,6 +119,7 @@ class LevelScreen : BaseScreen() {
             isGameOver = true
             gameOverLabel.isVisible = true
             pauseLevel()
+            BaseGame.playerDeathSound!!.play(BaseGame.soundVolume)
         }
     }
 

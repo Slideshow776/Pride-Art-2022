@@ -6,6 +6,8 @@ import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
+import com.badlogic.gdx.audio.Music
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.BitmapFont
@@ -39,6 +41,14 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var textButtonStyle: TextButtonStyle? = null
         var textureAtlas: TextureAtlas? = null
         var skin: Skin? = null
+        var levelMusic: Music? = null
+        var enemyChargeSound: Sound? = null
+        var enemyChargeupSound: Sound? = null
+        var enemyDeathSound: Sound? = null
+        var enemyShootSound: Sound? = null
+        var experiencePickupSound: Sound? = null
+        var playerDeathSound: Sound? = null
+        var playerLevelUpSound: Sound? = null
 
         // game state
         var prefs: Preferences? = null
@@ -71,10 +81,16 @@ abstract class BaseGame : Game(), AssetErrorListener {
             assetManager.load("images/included/packed/images.pack.atlas", TextureAtlas::class.java)
 
             // music
-            // assetManager.load("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
+            assetManager.load("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
 
             // sounds
-            // assetManager.load("audio/sound/Laser_Shoot28.wav", Sound::class.java)
+            assetManager.load("audio/sound/enemyCharge.wav", Sound::class.java)
+            assetManager.load("audio/sound/enemyChargeup.wav", Sound::class.java)
+            assetManager.load("audio/sound/enemyDeath.wav", Sound::class.java)
+            assetManager.load("audio/sound/enemyShoot.wav", Sound::class.java)
+            assetManager.load("audio/sound/experiencePickup.wav", Sound::class.java)
+            assetManager.load("audio/sound/playerDeath.wav", Sound::class.java)
+            assetManager.load("audio/sound/playerLevelUp.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -96,9 +112,15 @@ abstract class BaseGame : Game(), AssetErrorListener {
             textureAtlas = assetManager.get("images/included/packed/images.pack.atlas") // all images are found in this global static variable
 
             // audio
-            // ambient1Music = assetManager.get("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
+            levelMusic = assetManager.get("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
 
-            // shotSound = assetManager.get("audio/sound/Laser_Shoot28.wav", Sound::class.java)
+            enemyChargeSound = assetManager.get("audio/sound/enemyCharge.wav", Sound::class.java)
+            enemyChargeupSound = assetManager.get("audio/sound/enemyChargeup.wav", Sound::class.java)
+            enemyDeathSound = assetManager.get("audio/sound/enemyDeath.wav", Sound::class.java)
+            enemyShootSound = assetManager.get("audio/sound/enemyShoot.wav", Sound::class.java)
+            experiencePickupSound = assetManager.get("audio/sound/experiencePickup.wav", Sound::class.java)
+            playerDeathSound = assetManager.get("audio/sound/playerDeath.wav", Sound::class.java)
+            playerLevelUpSound = assetManager.get("audio/sound/playerLevelUp.wav", Sound::class.java)
 
             // text files
             // defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
