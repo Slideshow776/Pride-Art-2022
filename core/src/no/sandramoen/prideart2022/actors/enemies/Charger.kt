@@ -1,4 +1,4 @@
-package no.sandramoen.prideart2022.actors
+package no.sandramoen.prideart2022.actors.enemies
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Interpolation
@@ -8,9 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.Align
+import no.sandramoen.prideart2022.actors.Experience
+import no.sandramoen.prideart2022.actors.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 
-class Enemy(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
+class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
 
     private val chargeDistance = 10f
@@ -29,9 +31,9 @@ class Enemy(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, 
         color = Color.RED
         debug = true
 
-        setAcceleration(200f)
+        setAcceleration(movementSpeed * 10f)
         setMaxSpeed(movementSpeed)
-        setDeceleration(200f)
+        setDeceleration(movementSpeed * 10f)
 
         setBoundaryPolygon(8)
         setOrigin(Align.center)

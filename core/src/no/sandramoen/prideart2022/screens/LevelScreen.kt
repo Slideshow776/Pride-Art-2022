@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import no.sandramoen.prideart2022.actors.Enemy
+import no.sandramoen.prideart2022.actors.enemies.Charger
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
+import no.sandramoen.prideart2022.actors.enemies.Shooter
+import no.sandramoen.prideart2022.actors.enemies.Shot
 import no.sandramoen.prideart2022.myUI.ExperienceBar
 import no.sandramoen.prideart2022.utils.*
 
@@ -38,14 +40,7 @@ class LevelScreen : BaseScreen() {
     override fun update(dt: Float) {
         if (isGameOver) return
         handleEnemies()
-
-        for (experience: BaseActor in BaseActor.getList(mainStage, Experience::class.java.canonicalName)) {
-            if (player.overlaps(experience)) {
-                experience as Experience
-                experienceBar.increment(experience.amount)
-                experience.remove()
-            }
-        }
+        handlePickups()
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -70,12 +65,20 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun handleEnemies() {
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Enemy::class.java.canonicalName)) {
-            player.preventOverlap(enemy)
-            if (player.overlaps(enemy) && !isGameOver) {
-                isGameOver = true
-                gameOverLabel.isVisible = true
-                pauseLevel()
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName))
+            enemyCollidedWithPlayer(enemy)
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shooter::class.java.canonicalName))
+            enemyCollidedWithPlayer(enemy)
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName))
+            enemyCollidedWithPlayer(enemy)
+    }
+
+    private fun handlePickups() {
+        for (experience: BaseActor in BaseActor.getList(mainStage, Experience::class.java.canonicalName)) {
+            if (player.overlaps(experience)) {
+                experience as Experience
+                experienceBar.increment(experience.amount)
+                experience.remove()
             }
         }
     }
@@ -88,7 +91,8 @@ class LevelScreen : BaseScreen() {
                 val range = 30f
                 val xPos = if (MathUtils.randomBoolean()) player.x - range else player.x + range
                 val yPos = if (MathUtils.randomBoolean()) player.y - range else player.y + range
-                Enemy(xPos, yPos, mainStage, player)
+                Charger(xPos, yPos, mainStage, player)
+                Shooter(xPos, yPos, mainStage, player)
             }
         )))
     }
@@ -96,8 +100,17 @@ class LevelScreen : BaseScreen() {
     private fun pauseLevel() {
         enemySpawner.clearActions()
         player.pause = true
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Enemy::class.java.canonicalName))
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName))
             enemy.pause = true
+    }
+
+    private fun enemyCollidedWithPlayer(enemy: BaseActor) {
+        player.preventOverlap(enemy)
+        if (player.overlaps(enemy) && !isGameOver) {
+            isGameOver = true
+            gameOverLabel.isVisible = true
+            pauseLevel()
+        }
     }
 
     private fun uiSetup() {
