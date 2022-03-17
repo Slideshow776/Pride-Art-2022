@@ -1,7 +1,7 @@
 # Pride Art 2022 :rainbow: :two_hearts:
 *This document is subject to change.*
 
-This game is part of a norwegian [pride art](https://www.prideart.no) project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
+This game is part of a [norwegian pride art](https://www.prideart.no) project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
 This will be done with symbols and other imagery, and hopefully through gameplay.
 
 The release date will be sometime in mid-April.
