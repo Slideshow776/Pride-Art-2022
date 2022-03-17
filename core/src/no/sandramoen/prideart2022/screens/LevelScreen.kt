@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.screens
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.graphics.Color
@@ -8,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.Enemy
 import no.sandramoen.prideart2022.actors.Player
+import no.sandramoen.prideart2022.myUI.ExperienceBar
 import no.sandramoen.prideart2022.utils.*
 
 class LevelScreen : BaseScreen() {
@@ -17,6 +19,7 @@ class LevelScreen : BaseScreen() {
     private var isGameOver = false
 
     private lateinit var gameOverLabel: Label
+    private lateinit var experienceBar: ExperienceBar
 
     override fun initialize() {
         ground = BaseActor(0f, 0f, mainStage)
@@ -37,8 +40,9 @@ class LevelScreen : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (keycode == Keys.R)
-            BaseGame.setActiveScreen(LevelScreen())
+        if (keycode == Keys.R) BaseGame.setActiveScreen(LevelScreen())
+        if (keycode == Keys.Q) Gdx.app.exit()
+        if (keycode == Keys.E) experienceBar.increment(1)
         return super.keyDown(keycode)
     }
 
@@ -91,5 +95,7 @@ class LevelScreen : BaseScreen() {
         gameOverLabel = Label("Game Over!", BaseGame.bigLabelStyle)
         gameOverLabel.isVisible = false
         uiTable.add(gameOverLabel)
+
+        experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
     }
 }
