@@ -37,18 +37,13 @@ class LevelScreen : BaseScreen() {
         uiSetup()
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)
-        Gdx.input.isCursorCatched = true
+        Gdx.input.setCursorPosition(Gdx.graphics.width / 2, Gdx.graphics.height + 10)
     }
 
     override fun update(dt: Float) {
         if (isGameOver) return
         handleEnemies()
         handlePickups()
-    }
-
-    override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        Gdx.input.isCursorCatched = false
-        return super.mouseMoved(screenX, screenY)
     }
 
     override fun keyDown(keycode: Int): Boolean {

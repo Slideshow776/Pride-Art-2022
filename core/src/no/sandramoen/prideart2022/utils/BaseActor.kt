@@ -244,16 +244,19 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     }
 
     private fun bindCameraToWorld(camera: OrthographicCamera) {
-        camera.position.x = MathUtils.clamp(
-            camera.position.x,
-            (camera.viewportWidth * camera.zoom) / 2,
-            worldBounds.width - (camera.viewportWidth * camera.zoom) / 2
-        )
-        camera.position.y = MathUtils.clamp(
-            camera.position.y,
-            (camera.viewportHeight * camera.zoom) / 2,
-            worldBounds.height - (camera.viewportHeight * camera.zoom) / 2
-        )
+        val minX = (camera.viewportWidth * camera.zoom) / 2
+        val maxX = worldBounds.width - (camera.viewportWidth * camera.zoom) / 2
+        if (minX <= maxX)
+            camera.position.x = MathUtils.clamp(camera.position.x, minX, maxX)
+        else
+            camera.position.x = (camera.viewportWidth * camera.zoom) / 2 - ((camera.viewportWidth * camera.zoom) - worldBounds.width) / 2
+
+        val minY = (camera.viewportHeight * camera.zoom) / 2
+        val maxY = worldBounds.height - (camera.viewportHeight * camera.zoom) / 2
+        if (minY <= maxY)
+            camera.position.y = MathUtils.clamp(camera.position.y, minY, maxY)
+        else
+            camera.position.y = (camera.viewportHeight * camera.zoom) / 2 - ((camera.viewportHeight * camera.zoom) - worldBounds.height) / 2
     }
 
     // Collision detection --------------------------------------------------------------------------------------
@@ -302,13 +305,13 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         val poly2: Polygon = other.getBoundaryPolygon()
 
         // initial test to improve performance
-        if(!poly1.boundingRectangle.overlaps(poly2.boundingRectangle))
+        if (!poly1.boundingRectangle.overlaps(poly2.boundingRectangle))
             return null
 
         val mtv = Intersector.MinimumTranslationVector()
         val polygonOverlap = Intersector.overlapConvexPolygons(poly1, poly2, mtv)
 
-        if(!polygonOverlap)
+        if (!polygonOverlap)
             return null
 
         this.moveBy(mtv.normal.x * mtv.depth, mtv.normal.y * mtv.depth)

@@ -25,7 +25,7 @@ class Player(stage: Stage) : BaseActor(0f, 0f, stage) {
         setDeceleration(200f)
 
         zoomCamera(.5f)
-        /*alignCamera()*/
+        alignCamera()
 
         setBoundaryPolygon(8)
         setOrigin(Align.center)

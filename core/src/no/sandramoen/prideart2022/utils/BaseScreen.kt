@@ -66,7 +66,7 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     }
 
     override fun resize(width: Int, height: Int) {
-        mainStage.viewport.update(width, height, true)
+        mainStage.viewport.update(width, height)
         uiStage.viewport.update(width, height, true)
     }
 
