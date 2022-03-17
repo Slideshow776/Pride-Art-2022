@@ -11,6 +11,9 @@ This game will be for desktop only and is best played with a controller. The gam
 The language of the game will be norwegian and/or english.
 The number of players might be two.
 
+[Play it](github.com/Slideshow776/Pride-Art-2022/releases/latest)
+![demo](https://user-images.githubusercontent.com/4059636/158825053-02b28178-7122-4d75-8d26-ac22f8a1d021.gif)
+
 Read on below for project specifics.
 
 1. [Game Design Document](#game-design-document-sparkling_heart)
