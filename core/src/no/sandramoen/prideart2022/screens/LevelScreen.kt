@@ -3,10 +3,14 @@ package no.sandramoen.prideart2022.screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
+import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.enemies.Charger
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
@@ -14,6 +18,7 @@ import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.enemies.Shooter
 import no.sandramoen.prideart2022.actors.enemies.Shot
 import no.sandramoen.prideart2022.myUI.ExperienceBar
+import no.sandramoen.prideart2022.myUI.HealthBar
 import no.sandramoen.prideart2022.utils.*
 
 class LevelScreen : BaseScreen() {
@@ -25,6 +30,7 @@ class LevelScreen : BaseScreen() {
 
     private lateinit var gameOverLabel: Label
     private lateinit var experienceBar: ExperienceBar
+    private lateinit var healthBar: HealthBar
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
@@ -117,18 +123,32 @@ class LevelScreen : BaseScreen() {
     private fun enemyCollidedWithPlayer(enemy: BaseActor) {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
-            isGameOver = true
-            gameOverLabel.isVisible = true
-            pauseLevel()
-            BaseGame.playerDeathSound!!.play(BaseGame.soundVolume)
+            if (player.health <= 0) {
+                isGameOver = true
+                gameOverLabel.isVisible = true
+                pauseLevel()
+                BaseGame.playerDeathSound!!.play(BaseGame.soundVolume)
+                healthBar.subtractHealth()
+                player.color = Color.BLACK
+            } else {
+                BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
+                player.hit()
+                healthBar.subtractHealth()
+            }
         }
     }
 
     private fun uiSetup() {
+        experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
+
+        healthBar = HealthBar()
+        val padding = Gdx.graphics.height * .05f
+        uiTable.add(healthBar).top().padTop(padding).padBottom(-healthBar.prefHeight - padding).row()
+
         gameOverLabel = Label("Game Over!", BaseGame.bigLabelStyle)
         gameOverLabel.isVisible = false
-        uiTable.add(gameOverLabel)
+        uiTable.add(gameOverLabel).expandY()
 
-        experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
+        /*uiTable.debug = true*/
     }
 }

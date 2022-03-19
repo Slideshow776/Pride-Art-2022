@@ -10,9 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.utils.BaseActor
+import no.sandramoen.prideart2022.utils.GameUtils
 import no.sandramoen.prideart2022.utils.XBoxGamepad
 
 class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
+    var health = 2
+
     init {
         loadImage("ghost")
         centerAtPosition(x, y)
@@ -37,6 +40,19 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         boundToWorld()
         alignCamera(lerp = .1f)
+    }
+
+    fun hit() {
+        isCollisionEnabled = false
+        health--
+        addAction(Actions.sequence(
+            Actions.color(Color.BLACK, .5f),
+            Actions.run {
+                isCollisionEnabled = true
+                color.a = 1f
+            },
+            Actions.color(Color.WHITE, .5f)
+        ))
     }
 
     fun flashColor(color: Color) {

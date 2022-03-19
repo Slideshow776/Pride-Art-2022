@@ -165,6 +165,7 @@ Read on below for project specifics.
         This game will be made available for free on desktop. It will be advertised to various indie game-portal websites (LibGDX, Reddit, ...). Gameplay images and a trailer video will be posted and marketed via social media.
 
 ## Credits
+* Level tiles by [Hyptosis](www.lorestrome.com).
 * Music by [frankum](https://freesound.org/people/frankum/) on [freesound.org](freesound.org).
 
 ## Project comments
