@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.enemies.Charger
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
+import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.enemies.Shooter
 import no.sandramoen.prideart2022.actors.enemies.Shot
 import no.sandramoen.prideart2022.myUI.ExperienceBar
@@ -18,6 +19,7 @@ import no.sandramoen.prideart2022.utils.*
 class LevelScreen : BaseScreen() {
     private lateinit var ground: BaseActor
     private lateinit var player: Player
+    private lateinit var tilemap: TilemapActor
     private lateinit var enemySpawner: BaseActor
     private var isGameOver = false
 
@@ -25,13 +27,8 @@ class LevelScreen : BaseScreen() {
     private lateinit var experienceBar: ExperienceBar
 
     override fun initialize() {
-        ground = BaseActor(0f, 0f, mainStage)
-        // ground.loadImage("ground")
-        ground.loadTexture("images/excluded/ground1.png")
-        ground.setSize(BaseGame.WORLD_WIDTH, BaseGame.WORLD_HEIGHT)
-
-        player = Player(mainStage)
-
+        tilemap = TilemapActor(BaseGame.level1, mainStage)
+        player = Player(100f, 100f, mainStage)
         spawnEnemies()
 
         uiSetup()

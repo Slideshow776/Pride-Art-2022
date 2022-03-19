@@ -23,7 +23,6 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
 
     init {
         loadImage("ghost")
-        setSize(3f, 5f)
         color = Color.MAGENTA
         debug = true
 

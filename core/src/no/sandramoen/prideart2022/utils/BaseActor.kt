@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.*
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.scenes.scene2d.Group
+import no.sandramoen.prideart2022.actors.TilemapActor
 import kotlin.math.abs
 
 open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
@@ -93,6 +94,12 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     fun setAnimation(anim: Animation<TextureAtlas.AtlasRegion>) {
         animation = anim
         animationTime = 0f
+
+        val tr: TextureRegion = animation!!.getKeyFrame(0.toFloat())
+        val w: Float = tr.regionWidth.toFloat() * TilemapActor.unitScale
+        val h: Float = tr.regionHeight.toFloat() * TilemapActor.unitScale
+        setSize(w, h)
+        setOrigin(w / 2, h / 2)
 
         if (boundaryPolygon == null)
             setBoundaryRectangle()

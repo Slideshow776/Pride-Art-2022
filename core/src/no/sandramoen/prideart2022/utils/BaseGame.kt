@@ -1,7 +1,10 @@
 package no.sandramoen.prideart2022.utils
 
-import com.badlogic.gdx.*
+import com.badlogic.gdx.Game
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
+import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
@@ -16,11 +19,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader
+import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.utils.I18NBundle
 import kotlin.system.measureTimeMillis
+
 
 abstract class BaseGame : Game(), AssetErrorListener {
     init { game = this }
@@ -49,6 +55,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var experiencePickupSound: Sound? = null
         var playerDeathSound: Sound? = null
         var playerLevelUpSound: Sound? = null
+        var level1: TiledMap? = null
 
         // game state
         var prefs: Preferences? = null
@@ -107,6 +114,10 @@ abstract class BaseGame : Game(), AssetErrorListener {
             // shaders
             // assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
 
+            // tiled maps
+            assetManager.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
+            assetManager.load("map/level1.tmx", TiledMap::class.java)
+
             assetManager.finishLoading()
 
             textureAtlas = assetManager.get("images/included/packed/images.pack.atlas") // all images are found in this global static variable
@@ -130,6 +141,9 @@ abstract class BaseGame : Game(), AssetErrorListener {
 
             // i18n
             // myBundle = assetManager["i18n/MyBundle", I18NBundle::class.java]
+
+            // tiled map
+            level1 = assetManager.get("map/level1.tmx", TiledMap::class.java)
 
             // fonts
             FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android

@@ -10,9 +10,8 @@ class Experience(x: Float, y: Float, stage: Stage, amount: Int) : BaseActor(x, y
     val amount = amount
 
     init {
-        loadImage("whitePixel")
+        loadImage("experience")
         color = Color.PINK
-        setSize(2f, 2f)
         centerAtPosition(x, y)
         setBoundaryRectangle()
         setOrigin(Align.center)

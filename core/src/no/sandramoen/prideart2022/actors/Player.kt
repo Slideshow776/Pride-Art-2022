@@ -10,22 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.utils.BaseActor
-import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.XBoxGamepad
 
-class Player(stage: Stage) : BaseActor(0f, 0f, stage) {
+class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     init {
         loadImage("ghost")
-        setSize(4f, 4f)
-        centerAtPosition(BaseGame.WORLD_WIDTH / 2, BaseGame.WORLD_HEIGHT / 2)
+        centerAtPosition(x, y)
         debug = true
 
         setAcceleration(200f)
         setMaxSpeed(25f)
         setDeceleration(200f)
 
-        zoomCamera(.5f)
         alignCamera()
+        zoomCamera(.6f)
 
         setBoundaryPolygon(8)
         setOrigin(Align.center)

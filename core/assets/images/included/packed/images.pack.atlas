@@ -4,23 +4,37 @@ size: 1024, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+experience
+  rotate: false
+  xy: 900, 599
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+shot
+  rotate: false
+  xy: 900, 599
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 ghost
   rotate: false
-  xy: 2, 2
+  xy: 2, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ground
   rotate: false
-  xy: 2, 36
+  xy: 2, 39
   size: 896, 576
   orig: 896, 576
   offset: 0, 0
   index: -1
 whitePixel
   rotate: false
-  xy: 900, 611
+  xy: 2, 2
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

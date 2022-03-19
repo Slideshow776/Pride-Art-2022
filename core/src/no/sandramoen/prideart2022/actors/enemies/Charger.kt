@@ -28,7 +28,6 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
 
     init {
         loadImage("ghost")
-        setSize(4f, 4f)
         color = Color.RED
         debug = true
 

@@ -11,8 +11,7 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
     private val movementSpeed = 10f
 
     init {
-        loadImage("whitePixel")
-        setSize(3f, 3f)
+        loadImage("shot")
         centerAtPosition(x, y)
         color = Color.YELLOW
 
