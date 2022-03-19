@@ -5,15 +5,18 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.utils.BaseActor
-import no.sandramoen.prideart2022.utils.GameUtils
 import no.sandramoen.prideart2022.utils.XBoxGamepad
 
 class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
+    private var movementSpeed = 25f
+    private var movementAcceleration = movementSpeed * 8f
+
     var health = 2
 
     init {
@@ -21,9 +24,9 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         centerAtPosition(x, y)
         debug = true
 
-        setAcceleration(200f)
-        setMaxSpeed(25f)
-        setDeceleration(200f)
+        setAcceleration(movementAcceleration)
+        setMaxSpeed(movementSpeed)
+        setDeceleration(movementAcceleration)
 
         alignCamera()
         zoomCamera(.6f)
@@ -53,6 +56,9 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             },
             Actions.color(Color.WHITE, .5f)
         ))
+
+        movementSpeed *= .8f
+        setMaxSpeed(movementSpeed)
     }
 
     fun flashColor(color: Color) {
@@ -65,6 +71,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             )
         )
     }
+
 
     private fun movementPolling(dt: Float) {
         if (Controllers.getControllers().size > 0)
