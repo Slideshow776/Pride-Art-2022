@@ -28,7 +28,13 @@ class LevelScreen : BaseScreen() {
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
-        player = Player(100f, 100f, mainStage)
+
+        val startPoint = tilemap.getRectangleList("player start")[0]
+        player = Player(
+            startPoint.properties.get("x") as Float * TilemapActor.unitScale,
+            startPoint.properties.get("y") as Float * TilemapActor.unitScale,
+            mainStage
+        )
         spawnEnemies()
 
         uiSetup()
@@ -74,7 +80,10 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun handlePickups() {
-        for (experience: BaseActor in BaseActor.getList(mainStage, Experience::class.java.canonicalName)) {
+        for (experience: BaseActor in BaseActor.getList(
+            mainStage,
+            Experience::class.java.canonicalName
+        )) {
             if (player.overlaps(experience)) {
                 experience as Experience
                 experienceBar.increment(experience.amount)

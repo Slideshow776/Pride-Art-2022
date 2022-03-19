@@ -10,8 +10,8 @@ import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.utils.BaseActor
-import java.util.ArrayList
 
 class TilemapActor(private val tiledMap: TiledMap?, stage: Stage) : Actor() {
     companion object {
@@ -39,15 +39,14 @@ class TilemapActor(private val tiledMap: TiledMap?, stage: Stage) : Actor() {
         tiledMapRenderer.render()
     }
 
-    fun getRectangleList(propertyName: String): ArrayList<MapObject> {
-        val list = ArrayList<MapObject>()
+    fun getRectangleList(propertyName: String): Array<MapObject> {
+        val list = Array<MapObject>()
         for (layer in tiledMap!!.layers) {
             for (obj in layer.objects) {
                 if (obj !is RectangleMapObject)
                     continue
 
-                val props = obj.getProperties()
-                if (props.containsKey("name") && props.get("name") == propertyName)
+                if (obj.name == propertyName)
                     list.add(obj)
             }
         }
