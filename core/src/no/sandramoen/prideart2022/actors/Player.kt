@@ -48,13 +48,14 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     fun hit() {
         isCollisionEnabled = false
         health--
+        val duration = 1f
         addAction(Actions.sequence(
-            Actions.color(Color.BLACK, .5f),
+            Actions.color(Color.BLACK, duration / 2),
             Actions.run {
                 isCollisionEnabled = true
                 color.a = 1f
             },
-            Actions.color(Color.WHITE, .5f)
+            Actions.color(Color.WHITE, duration / 2)
         ))
 
         movementSpeed *= .8f

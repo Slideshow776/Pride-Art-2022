@@ -28,9 +28,12 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
         accelerateAtAngle(angle)
         applyPhysics(dt)
 
-        if (
-            x < 0f - width || x > BaseGame.WORLD_WIDTH + width ||
-            y < 0f - height || y > BaseGame.WORLD_HEIGHT + height
-        ) remove()
+        if (outOfBounds())
+            remove()
+    }
+
+    private fun outOfBounds(): Boolean {
+        return x < 0f - width || x > getWorldBounds().width + width ||
+                y < 0f - height || y > getWorldBounds().height + height
     }
 }

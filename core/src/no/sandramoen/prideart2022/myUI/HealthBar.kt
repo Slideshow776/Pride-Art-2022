@@ -11,8 +11,6 @@ class HealthBar : Table() {
     private var healths: Array<Image>
     private var numHealths = -1
 
-    var padding = -1f
-
     init {
         val health1 = Image(BaseGame.textureAtlas!!.findRegion("heart"))
         val health2 = Image(BaseGame.textureAtlas!!.findRegion("heart"))
@@ -40,6 +38,8 @@ class HealthBar : Table() {
     }
 
     fun subtractHealth() {
+        if (numHealths < 0)
+            Gdx.app.error(javaClass.simpleName, "Error: cannot subtract health, health is: $numHealths")
         healths[numHealths-1].addAction(Actions.fadeOut(.5f))
         numHealths--
     }

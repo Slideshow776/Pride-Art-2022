@@ -54,6 +54,6 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         }
 
         // println("current XP: $currentXP, next level: $nextLevel")
-        increment.setSize(width * percent, height)
+        increment.addAction(Actions.sizeTo(width * percent, height, .25f))
     }
 }

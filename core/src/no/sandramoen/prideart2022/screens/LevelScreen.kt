@@ -3,14 +3,10 @@ package no.sandramoen.prideart2022.screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
-import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.enemies.Charger
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
@@ -22,7 +18,6 @@ import no.sandramoen.prideart2022.myUI.HealthBar
 import no.sandramoen.prideart2022.utils.*
 
 class LevelScreen : BaseScreen() {
-    private lateinit var ground: BaseActor
     private lateinit var player: Player
     private lateinit var tilemap: TilemapActor
     private lateinit var enemySpawner: BaseActor
@@ -35,6 +30,11 @@ class LevelScreen : BaseScreen() {
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
 
+        val overlay = BaseActor(0f, 0f, mainStage)
+        overlay.loadImage("whitePixel")
+        overlay.color = Color(0f, 0f, 0f, .6f)
+        overlay.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
+
         val startPoint = tilemap.getRectangleList("player start")[0]
         player = Player(
             startPoint.properties.get("x") as Float * TilemapActor.unitScale,
@@ -42,6 +42,11 @@ class LevelScreen : BaseScreen() {
             mainStage
         )
         spawnEnemies()
+
+        val vignette = BaseActor(0f, 0f, mainStage)
+        vignette.loadImage("vignette")
+        vignette.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
+
 
         uiSetup()
 
