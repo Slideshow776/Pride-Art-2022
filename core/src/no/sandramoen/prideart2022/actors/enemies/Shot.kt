@@ -2,9 +2,9 @@ package no.sandramoen.prideart2022.actors.enemies
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.utils.BaseActor
-import no.sandramoen.prideart2022.utils.BaseGame
 
 class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, stage) {
     private val angle = angle
@@ -21,6 +21,7 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
 
         setBoundaryPolygon(8)
         setOrigin(Align.center)
+        setPulseAnimation()
     }
 
     override fun act(dt: Float) {
@@ -32,8 +33,10 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
             remove()
     }
 
-    private fun outOfBounds(): Boolean {
-        return x < 0f - width || x > getWorldBounds().width + width ||
-                y < 0f - height || y > getWorldBounds().height + height
+    private fun setPulseAnimation() {
+        addAction(Actions.forever(Actions.sequence(
+            Actions.scaleTo(1.05f, 1.05f, .5f),
+            Actions.scaleTo(.95f, .95f, .5f)
+        )))
     }
 }

@@ -329,6 +329,12 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     fun centerAtPosition(x: Float, y: Float) = setPosition(x - width / 2, y - height / 2)
     fun centerAtActor(other: BaseActor) = centerAtPosition(other.x + other.width / 2, other.y + other.height / 2)
     fun setOpacity(opacity: Float) { this.color.a = opacity }
+    fun getAngleTowardActor(other: BaseActor) = (MathUtils.atan2(y - other.y, x - other.x) * MathUtils.radiansToDegrees) + 180
+
+    fun outOfBounds(): Boolean {
+        return x < 0f - width || x > worldBounds.width + width ||
+                y < 0f - height || y > worldBounds.height + height
+    }
 
     fun boundToWorld() {
         if (x < 0)

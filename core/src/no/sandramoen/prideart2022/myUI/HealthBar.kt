@@ -16,7 +16,7 @@ class HealthBar : Table() {
         val health2 = Image(BaseGame.textureAtlas!!.findRegion("heart"))
         val health3 = Image(BaseGame.textureAtlas!!.findRegion("heart"))
 
-        healths = Array<Image>()
+        healths = Array()
         healths.add(health1)
         healths.add(health2)
         healths.add(health3)
@@ -25,7 +25,7 @@ class HealthBar : Table() {
             healths[i].color.a = 0f
             healths[i].addAction(
                 Actions.sequence(
-                    Actions.delay(i / 2f), // bigger number yields faster animations
+                    Actions.delay(i / 2f),
                     Actions.fadeIn(.5f)
                 )
             )
@@ -38,9 +38,14 @@ class HealthBar : Table() {
     }
 
     fun subtractHealth() {
-        if (numHealths < 0)
-            Gdx.app.error(javaClass.simpleName, "Error: cannot subtract health, health is: $numHealths")
-        healths[numHealths-1].addAction(Actions.fadeOut(.5f))
-        numHealths--
+        if (numHealths < 0) {
+            Gdx.app.error(
+                javaClass.simpleName,
+                "Error: cannot subtract health, health is: $numHealths"
+            )
+        } else {
+            healths[numHealths - 1].addAction(Actions.fadeOut(.5f))
+            numHealths--
+        }
     }
 }

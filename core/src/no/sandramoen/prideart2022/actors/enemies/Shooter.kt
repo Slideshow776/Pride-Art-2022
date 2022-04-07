@@ -23,6 +23,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
 
     init {
         loadImage("ghost")
+        centerAtPosition(x, y)
         color = Color.MAGENTA
         debug = true
 
@@ -42,7 +43,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         if (dying || pause) return
 
         if (!isWithinDistance(shootDistance, player) && !isStoppedToShoot) {
-            accelerateAtAngle(getAngleTowardPlayer())
+            accelerateAtAngle(getAngleTowardActor(player))
             applyPhysics(dt)
         } else if (!isStoppedToShoot) {
             isStoppedToShoot = true
@@ -84,7 +85,4 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         ))
         BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume, .8f, 0f)
     }
-
-    private fun getAngleTowardPlayer() =
-        (MathUtils.atan2(y - player.y, x - player.x) * MathUtils.radiansToDegrees) + 180
 }

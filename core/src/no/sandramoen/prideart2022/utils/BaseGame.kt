@@ -74,7 +74,6 @@ abstract class BaseGame : Game(), AssetErrorListener {
         Gdx.input.setCatchKey(Keys.BACK, true) // so that android doesn't exit game on back button
         Gdx.input.inputProcessor = InputMultiplexer() // discrete input
 
-
         try {
             skin = Skin(Gdx.files.internal("skins/default/uiskin.json"))
         } catch (error: Throwable) {

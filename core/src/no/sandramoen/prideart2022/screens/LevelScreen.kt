@@ -20,6 +20,7 @@ import no.sandramoen.prideart2022.utils.*
 class LevelScreen : BaseScreen() {
     private lateinit var player: Player
     private lateinit var tilemap: TilemapActor
+    private lateinit var vignette: BaseActor
     private lateinit var enemySpawner: BaseActor
     private var isGameOver = false
 
@@ -30,10 +31,10 @@ class LevelScreen : BaseScreen() {
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
 
-        val overlay = BaseActor(0f, 0f, mainStage)
-        overlay.loadImage("whitePixel")
-        overlay.color = Color(0f, 0f, 0f, .6f)
-        overlay.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
+        val tintOverlay = BaseActor(0f, 0f, mainStage)
+        tintOverlay.loadImage("whitePixel")
+        tintOverlay.color = Color(0f, 0f, 0f, .6f)
+        tintOverlay.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
 
         val startPoint = tilemap.getRectangleList("player start")[0]
         player = Player(
@@ -42,12 +43,6 @@ class LevelScreen : BaseScreen() {
             mainStage
         )
         spawnEnemies()
-
-        val vignette = BaseActor(0f, 0f, mainStage)
-        vignette.loadImage("vignette")
-        vignette.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
-
-
         uiSetup()
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)
@@ -95,11 +90,9 @@ class LevelScreen : BaseScreen() {
             mainStage,
             Experience::class.java.canonicalName
         )) {
-            if (player.overlaps(experience)) {
-                experience as Experience
+            if (player.overlaps(experience as Experience)) {
                 experienceBar.increment(experience.amount)
                 experience.remove()
-                BaseGame.experiencePickupSound!!.play(BaseGame.soundVolume)
             }
         }
     }
@@ -132,14 +125,12 @@ class LevelScreen : BaseScreen() {
                 isGameOver = true
                 gameOverLabel.isVisible = true
                 pauseLevel()
-                BaseGame.playerDeathSound!!.play(BaseGame.soundVolume)
-                healthBar.subtractHealth()
-                player.color = Color.BLACK
+                player.death()
             } else {
-                BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
                 player.hit()
-                healthBar.subtractHealth()
             }
+            BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
+            healthBar.subtractHealth()
         }
     }
 
@@ -148,12 +139,11 @@ class LevelScreen : BaseScreen() {
 
         healthBar = HealthBar()
         val padding = Gdx.graphics.height * .05f
-        uiTable.add(healthBar).top().padTop(padding).padBottom(-healthBar.prefHeight - padding).row()
+        uiTable.add(healthBar).top().padTop(padding).padBottom(-healthBar.prefHeight - padding)
+            .row()
 
         gameOverLabel = Label("Game Over!", BaseGame.bigLabelStyle)
         gameOverLabel.isVisible = false
         uiTable.add(gameOverLabel).expandY()
-
-        /*uiTable.debug = true*/
     }
 }

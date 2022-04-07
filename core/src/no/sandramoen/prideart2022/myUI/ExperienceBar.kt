@@ -7,10 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
-import kotlin.math.ceil
 
 class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
-    private var increment: BaseActor
+    private var progress: BaseActor
     private var label: Label
 
     private var level = 1
@@ -25,11 +24,11 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height * .05f)
         setPosition(x, y - height)
 
-        increment = BaseActor(0f, 0f, stage)
-        increment.loadImage("whitePixel")
-        increment.color = Color.PINK
-        increment.setSize(0f,height)
-        addActor(increment)
+        progress = BaseActor(0f, 0f, stage)
+        progress.loadImage("whitePixel")
+        progress.color = Color.PINK
+        progress.setSize(0f,height)
+        addActor(progress)
 
         label = Label("Level $level", BaseGame.smallLabelStyle)
         label.setFontScale(.5f)
@@ -54,6 +53,6 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         }
 
         // println("current XP: $currentXP, next level: $nextLevel")
-        increment.addAction(Actions.sizeTo(width * percent, height, .25f))
+        progress.addAction(Actions.sizeTo(width * percent, height, .25f))
     }
 }

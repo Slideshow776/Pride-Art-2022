@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -40,6 +39,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         if (pause) return
 
         movementPolling(dt)
+        applyPhysics(dt)
 
         boundToWorld()
         alignCamera(lerp = .1f)
@@ -48,22 +48,19 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     fun hit() {
         isCollisionEnabled = false
         health--
-        val duration = 1f
-        addAction(Actions.sequence(
-            Actions.color(Color.BLACK, duration / 2),
-            Actions.run {
-                isCollisionEnabled = true
-                color.a = 1f
-            },
-            Actions.color(Color.WHITE, duration / 2)
-        ))
+        val colourDuration = .75f
+        addAction(
+            Actions.sequence(
+                Actions.color(Color.BLACK, colourDuration / 2),
+                Actions.run { isCollisionEnabled = true },
+                Actions.color(Color.WHITE, colourDuration / 2)
+            )
+        )
 
-        movementSpeed *= .8f
-        setMaxSpeed(movementSpeed)
+        reduceMovementSpeedBy(20)
     }
 
     fun flashColor(color: Color) {
-        actions.clear()
         val duration = .25f
         addAction(
             Actions.sequence(
@@ -73,12 +70,19 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         )
     }
 
+    fun death() {
+        color = Color.BLACK
+    }
+
+    private fun reduceMovementSpeedBy(percent: Int) {
+        movementSpeed *= (100 - percent) / 100f
+        setMaxSpeed(movementSpeed)
+    }
 
     private fun movementPolling(dt: Float) {
         if (Controllers.getControllers().size > 0)
             controllerPolling()
         keyboardPolling()
-        applyPhysics(dt)
     }
 
     private fun controllerPolling() {

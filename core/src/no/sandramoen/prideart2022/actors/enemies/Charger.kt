@@ -28,6 +28,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
 
     init {
         loadImage("ghost")
+        centerAtPosition(x, y)
         color = Color.RED
         debug = true
 
@@ -47,7 +48,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         if (dying || pause) return
 
         if (!isWithinDistance(chargeDistance, player) && !isStoppingToCharge) {
-            accelerateAtAngle(getAngleTowardPlayer())
+            accelerateAtAngle(getAngleTowardActor(player))
         } else if (!isStoppingToCharge) {
             stopToCharge()
         } else if (isCharging) {
@@ -59,7 +60,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
 
     private fun stopToCharge() {
         isStoppingToCharge = true
-        angleToCharge = getAngleTowardPlayer()
+        angleToCharge = getAngleTowardActor(player)
         BaseGame.enemyChargeupSound!!.play(BaseGame.soundVolume)
         addAction(
             Actions.sequence(
@@ -106,7 +107,4 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
             Actions.color(Color.RED, .25f)
         )
     }
-
-    private fun getAngleTowardPlayer() =
-        (MathUtils.atan2(y - player.y, x - player.x) * MathUtils.radiansToDegrees) + 180
 }
