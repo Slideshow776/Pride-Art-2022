@@ -11,6 +11,7 @@ import no.sandramoen.prideart2022.actors.enemies.Charger
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Player
 import no.sandramoen.prideart2022.actors.TilemapActor
+import no.sandramoen.prideart2022.actors.Vignette
 import no.sandramoen.prideart2022.actors.enemies.Shooter
 import no.sandramoen.prideart2022.actors.enemies.Shot
 import no.sandramoen.prideart2022.myUI.ExperienceBar
@@ -20,7 +21,6 @@ import no.sandramoen.prideart2022.utils.*
 class LevelScreen : BaseScreen() {
     private lateinit var player: Player
     private lateinit var tilemap: TilemapActor
-    private lateinit var vignette: BaseActor
     private lateinit var enemySpawner: BaseActor
     private var isGameOver = false
 
@@ -30,6 +30,7 @@ class LevelScreen : BaseScreen() {
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
+        Vignette(uiStage)
 
         val tintOverlay = BaseActor(0f, 0f, mainStage)
         tintOverlay.loadImage("whitePixel")

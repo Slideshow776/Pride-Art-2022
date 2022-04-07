@@ -8,11 +8,13 @@ import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.ControllerListener
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import no.sandramoen.prideart2022.actors.TilemapActor
+import no.sandramoen.prideart2022.utils.GameUtils.Companion.initShaderProgram
 
 abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     protected var mainStage: Stage
@@ -28,7 +30,6 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
         uiStage = Stage()
         uiStage.addActor(uiTable)
         uiStage.viewport = ScreenViewport()
-
         initialize()
     }
 
