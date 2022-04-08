@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.enemies.Charger
 import no.sandramoen.prideart2022.actors.Experience
-import no.sandramoen.prideart2022.actors.Player
+import no.sandramoen.prideart2022.actors.player.Player
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.Vignette
 import no.sandramoen.prideart2022.actors.enemies.Shooter

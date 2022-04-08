@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Experience
-import no.sandramoen.prideart2022.actors.Player
+import no.sandramoen.prideart2022.actors.player.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 

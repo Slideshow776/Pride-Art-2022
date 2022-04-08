@@ -1,4 +1,4 @@
-package no.sandramoen.prideart2022.actors
+package no.sandramoen.prideart2022.actors.player
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
@@ -7,6 +7,7 @@ import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -31,6 +32,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     init {
         loadAnimation()
         centerAtPosition(x, y)
+        playEnterAnimation()
 
         setAcceleration(movementAcceleration)
         setMaxSpeed(movementSpeed)
@@ -204,5 +206,24 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private enum class State {
         Idle, RunningWES, RunningWEN, RunningN, RunningS
+    }
+
+    private fun playEnterAnimation() {
+        val beamIn = BeamIn(x, y + 100, stage, this)
+        revealAnimation(beamIn.animationDuration)
+    }
+
+    private fun revealAnimation(beamDuration: Float) {
+        setScale(0f, 0f)
+        color.a = 0f
+        addAction(
+            Actions.sequence(
+                Actions.delay(beamDuration / 3),
+                Actions.parallel(
+                    Actions.scaleTo(1f, 1f, 1f, Interpolation.bounceOut),
+                    Actions.fadeIn(1f, Interpolation.bounceOut)
+                )
+            )
+        )
     }
 }
