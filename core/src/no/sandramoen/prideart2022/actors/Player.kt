@@ -37,7 +37,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         setDeceleration(movementAcceleration)
 
         alignCamera()
-        zoomCamera(.6f)
+        zoomCamera(.5f)
 
         setBoundaryPolygon(8)
         setOrigin(Align.center)

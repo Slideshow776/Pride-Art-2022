@@ -43,7 +43,7 @@ class LevelScreen : BaseScreen() {
             startPoint.properties.get("y") as Float * TilemapActor.unitScale,
             mainStage
         )
-        spawnEnemies()
+        /*spawnEnemies()*/
         uiSetup()
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)
