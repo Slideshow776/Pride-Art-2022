@@ -13,7 +13,6 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
     init {
         loadImage("shot")
         centerAtPosition(x, y)
-        color = Color.YELLOW
 
         setAcceleration(movementSpeed * 10f)
         setMaxSpeed(movementSpeed)

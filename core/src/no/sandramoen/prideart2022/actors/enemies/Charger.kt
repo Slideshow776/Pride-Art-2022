@@ -27,10 +27,8 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
     private var dying = false
 
     init {
-        loadImage("ghost")
+        loadImage("ghost1")
         centerAtPosition(x, y)
-        color = Color.RED
-        debug = true
 
         setAcceleration(movementSpeed * 10f)
         setMaxSpeed(movementSpeed)
@@ -104,7 +102,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
     private fun resetStoppingToChargeAnimation(): ParallelAction? {
         return Actions.parallel(
             Actions.scaleTo(1f, 1f, .25f, Interpolation.bounceOut),
-            Actions.color(Color.RED, .25f)
+            Actions.color(Color.WHITE, .25f)
         )
     }
 }

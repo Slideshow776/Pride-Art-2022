@@ -5,23 +5,32 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.utils.BaseActor
+import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.XBoxGamepad
 
 class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var movementSpeed = 25f
     private var movementAcceleration = movementSpeed * 8f
+    private lateinit var runAnimationWES: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runAnimationWEN: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
+    private var state = State.Idle
 
     var health = 2
 
     init {
-        loadImage("ghost")
+        loadAnimation()
         centerAtPosition(x, y)
-        debug = true
 
         setAcceleration(movementAcceleration)
         setMaxSpeed(movementSpeed)
@@ -40,6 +49,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         movementPolling(dt)
         applyPhysics(dt)
+        setMovementAnimation()
 
         boundToWorld()
         alignCamera(lerp = .1f)
@@ -125,5 +135,74 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             accelerateAtAngle(270f)
         if (Gdx.input.isKeyPressed(Keys.D))
             accelerateAtAngle(0f)
+    }
+
+    private fun loadAnimation() {
+        var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/idle"))
+        idleAnimation = Animation(1f, animationImages)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWES1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWES2"))
+        runAnimationWES = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWEN1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWEN2"))
+        runAnimationWEN = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runN1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runN2"))
+        runAnimationN = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runS1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runS2"))
+        runAnimationS = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.clear()
+
+        setAnimation(idleAnimation)
+    }
+
+    private fun setMovementAnimation() {
+        setAnimation()
+        flipAnimation()
+    }
+
+    private fun setAnimation() {
+        if (!isMoving() && !isState(State.Idle)) {
+            setAnimationAndState(idleAnimation, State.Idle)
+        } else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f)) {
+            setAnimationAndState(runAnimationN, State.RunningN)
+        } else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f))) {
+            setAnimationAndState(runAnimationWEN, State.RunningWEN)
+        } else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135))) {
+            setAnimationAndState(runAnimationWES, State.RunningWES)
+        } else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f)) {
+            setAnimationAndState(runAnimationS, State.RunningS)
+        }
+    }
+
+    private fun isState(state: State): Boolean {
+        return this.state == state
+    }
+
+    private fun setAnimationAndState(animation: Animation<TextureAtlas.AtlasRegion>, state: State) {
+        setAnimation(animation)
+        this.state = state
+    }
+
+    private fun flipAnimation() {
+        if ((getMotionAngle() <= 90 || getMotionAngle() >= 270) && !isFacingRight)
+            flip()
+        else if ((getMotionAngle() > 90 && getMotionAngle() < 270) && isFacingRight)
+            flip()
+    }
+
+    private enum class State {
+        Idle, RunningWES, RunningWEN, RunningN, RunningS
     }
 }

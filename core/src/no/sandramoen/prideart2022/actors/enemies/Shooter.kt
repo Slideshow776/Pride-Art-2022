@@ -1,7 +1,5 @@
 package no.sandramoen.prideart2022.actors.enemies
 
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
@@ -22,10 +20,8 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
     private var isStoppedToShoot = false
 
     init {
-        loadImage("ghost")
+        loadImage("ghost2")
         centerAtPosition(x, y)
-        color = Color.MAGENTA
-        debug = true
 
         setAcceleration(movementSpeed * 10f)
         setMaxSpeed(movementSpeed)
