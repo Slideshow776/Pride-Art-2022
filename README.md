@@ -13,6 +13,8 @@ The number of players might be two.
 
 [Play it](github.com/Slideshow776/Pride-Art-2022/releases/latest)
 ![demo](https://user-images.githubusercontent.com/4059636/158825053-02b28178-7122-4d75-8d26-ac22f8a1d021.gif)
+![demo](https://user-images.githubusercontent.com/4059636/162579541-c4386f83-7d6e-4977-bf7f-0fbf9a514cdf.gif)
+
 
 Read on below for project specifics.
 
