@@ -56,6 +56,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var playerDeathSound: Sound? = null
         var playerLevelUpSound: Sound? = null
         var beamInSound: Sound? = null
+        var healthUpSound: Sound? = null
         var level1: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
@@ -101,6 +102,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             assetManager.load("audio/sound/playerDeath.wav", Sound::class.java)
             assetManager.load("audio/sound/playerLevelUp.wav", Sound::class.java)
             assetManager.load("audio/sound/beamIn.wav", Sound::class.java)
+            assetManager.load("audio/sound/healthUp.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -137,6 +139,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             playerDeathSound = assetManager.get("audio/sound/playerDeath.wav", Sound::class.java)
             playerLevelUpSound = assetManager.get("audio/sound/playerLevelUp.wav", Sound::class.java)
             beamInSound = assetManager.get("audio/sound/beamIn.wav", Sound::class.java)
+            healthUpSound = assetManager.get("audio/sound/healthUp.wav", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()

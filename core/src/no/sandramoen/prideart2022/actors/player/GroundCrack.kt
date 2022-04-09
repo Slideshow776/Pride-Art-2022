@@ -27,7 +27,7 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
                 Actions.fadeIn(.1f),
                 Actions.delay(5f),
                 Actions.run { enableShader = false },
-                Actions.color(Color.DARK_GRAY, 1f)
+                Actions.color(Color.BLACK, 1f)
             )
         )
     }
@@ -52,7 +52,7 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
 
     private fun drawWithShader(batch: Batch, parentAlpha: Float) {
         batch.shader = shaderProgram
-        shaderProgram!!.setUniformf("u_time", time * .25f)
+        shaderProgram!!.setUniformf("u_time", time * .5f)
         shaderProgram!!.setUniformf("u_imageSize", Vector2(width, height))
         shaderProgram!!.setUniformf("u_glowRadius", 1f)
         super.draw(batch, parentAlpha)

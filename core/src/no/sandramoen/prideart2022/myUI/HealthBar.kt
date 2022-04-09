@@ -21,15 +21,24 @@ class HealthBar : Table() {
         healths.add(health2)
         healths.add(health3)
         numHealths = healths.size
-        for (i in 0 until healths.size) {
+        for (i in 0 until healths.size)
             healths[i].color.a = 0f
-            healths[i].addAction(
-                Actions.sequence(
-                    Actions.delay(i / 2f),
-                    Actions.fadeIn(.5f)
-                )
-            )
-        }
+        addAction(Actions.sequence(
+            Actions.delay(.75f),
+            Actions.run {
+                for (i in 0 until healths.size) {
+                    healths[i].color.a = 0f
+                    healths[i].addAction(
+                        Actions.sequence(
+                            Actions.delay(i / 2f),
+                            Actions.run { BaseGame.healthUpSound!!.play(BaseGame.soundVolume) },
+                            Actions.fadeIn(.5f)
+                        )
+                    )
+                }
+            }
+        ))
+
         val healthWidth = Gdx.graphics.width * .03f
 
         add(health1).width(healthWidth).height(healthWidth).padRight(Gdx.graphics.width * .02f)
