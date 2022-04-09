@@ -4,10 +4,12 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
+import no.sandramoen.prideart2022.actors.particles.StarsVerticalEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
 class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
+    private val player = player
     companion object {
         const val animationDuration = .2f
     }
@@ -29,5 +31,14 @@ class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y,
                 }
             )
         )
+        particles()
+    }
+
+    private fun particles() {
+        val effect = StarsVerticalEffect()
+        effect.setScale(.05f)
+        effect.centerAtActor(player)
+        parent.addActor(effect)
+        effect.start()
     }
 }
