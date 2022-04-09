@@ -33,6 +33,8 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     var animationWidth = width
     var animationHeight = height
     var isCollisionEnabled = true
+    var shakyCamIntensity = .5f
+    var isShakyCam = false
 
     init {
         this.x = x
@@ -52,6 +54,9 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
 
         if (!animationPaused)
             animationTime += dt
+
+        if (isShakyCam)
+            shakeCamera()
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {
@@ -264,6 +269,14 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
             camera.position.y = MathUtils.clamp(camera.position.y, minY, maxY)
         else
             camera.position.y = (camera.viewportHeight * camera.zoom) / 2 - ((camera.viewportHeight * camera.zoom) - worldBounds.height) / 2
+    }
+
+    private fun shakeCamera() {
+        this.stage.viewport.camera.position.set(Vector3(
+            this.stage.viewport.camera.position.x + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
+            this.stage.viewport.camera.position.y + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
+                0f
+        ))
     }
 
     // Collision detection --------------------------------------------------------------------------------------

@@ -55,7 +55,10 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var experiencePickupSound: Sound? = null
         var playerDeathSound: Sound? = null
         var playerLevelUpSound: Sound? = null
+        var beamInSound: Sound? = null
         var level1: TiledMap? = null
+        var defaultShader: String? = null
+        var glowShader: String? = null
 
         // game state
         var prefs: Preferences? = null
@@ -97,6 +100,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             assetManager.load("audio/sound/experiencePickup.wav", Sound::class.java)
             assetManager.load("audio/sound/playerDeath.wav", Sound::class.java)
             assetManager.load("audio/sound/playerLevelUp.wav", Sound::class.java)
+            assetManager.load("audio/sound/beamIn.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -111,7 +115,8 @@ abstract class BaseGame : Game(), AssetErrorListener {
             // assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleParameter(Locale(currentLocale)))
 
             // shaders
-            // assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
+            assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
+            assetManager.load(AssetDescriptor("shaders/glow-pulse.fs", Text::class.java, TextLoader.TextParameter()))
 
             // tiled maps
             assetManager.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
@@ -131,9 +136,11 @@ abstract class BaseGame : Game(), AssetErrorListener {
             experiencePickupSound = assetManager.get("audio/sound/experiencePickup.wav", Sound::class.java)
             playerDeathSound = assetManager.get("audio/sound/playerDeath.wav", Sound::class.java)
             playerLevelUpSound = assetManager.get("audio/sound/playerLevelUp.wav", Sound::class.java)
+            beamInSound = assetManager.get("audio/sound/beamIn.wav", Sound::class.java)
 
             // text files
-            // defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
+            defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
+            glowShader = assetManager.get("shaders/glow-pulse.fs", Text::class.java).getString()
 
             // skin
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)

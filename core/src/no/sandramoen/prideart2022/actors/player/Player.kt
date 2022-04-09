@@ -209,8 +209,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     private fun playEnterAnimation() {
-        val beamIn = BeamIn(x, y + 100, stage, this)
-        revealAnimation(beamIn.animationDuration)
+        BeamIn(x, y + 100, stage, this)
+        revealAnimation(BeamIn.animationDuration)
     }
 
     private fun revealAnimation(beamDuration: Float) {

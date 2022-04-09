@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.enemies.Charger
@@ -14,6 +16,7 @@ import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.Vignette
 import no.sandramoen.prideart2022.actors.enemies.Shooter
 import no.sandramoen.prideart2022.actors.enemies.Shot
+import no.sandramoen.prideart2022.actors.player.GroundCrack
 import no.sandramoen.prideart2022.myUI.ExperienceBar
 import no.sandramoen.prideart2022.myUI.HealthBar
 import no.sandramoen.prideart2022.utils.*
@@ -38,11 +41,13 @@ class LevelScreen : BaseScreen() {
         tintOverlay.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
 
         val startPoint = tilemap.getRectangleList("player start")[0]
-        player = Player(
-            startPoint.properties.get("x") as Float * TilemapActor.unitScale,
-            startPoint.properties.get("y") as Float * TilemapActor.unitScale,
-            mainStage
-        )
+        val playerPosX = startPoint.properties.get("x") as Float * TilemapActor.unitScale
+        val playerPosY = startPoint.properties.get("y") as Float * TilemapActor.unitScale
+
+        val groundCrack = GroundCrack(0f, 0f, mainStage)
+        player = Player(playerPosX, playerPosY, mainStage)
+        groundCrack.centerAtActor(player)
+
         /*spawnEnemies()*/
         uiSetup()
 
