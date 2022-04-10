@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Experience
+import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.player.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -75,6 +76,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         addAction(Actions.sequence(
             Actions.fadeOut(1f),
             Actions.run {
+                Explosion(this, stage)
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 remove()
             }

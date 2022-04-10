@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.prideart2022.actors.particles.Explosion0
-import no.sandramoen.prideart2022.actors.particles.StarsVerticalEffect
+import no.sandramoen.prideart2022.actors.Explosion
+import no.sandramoen.prideart2022.actors.particles.Explosion0Effect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -26,7 +26,7 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         addAction(
             Actions.sequence(
                 Actions.delay(BeamIn.animationDuration),
-                Actions.run { particles() },
+                Actions.run { Explosion(this, stage) },
                 Actions.fadeIn(.1f),
                 Actions.delay(5f),
                 Actions.run { enableShader = false },
@@ -60,13 +60,5 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         shaderProgram!!.setUniformf("u_glowRadius", 1f)
         super.draw(batch, parentAlpha)
         batch.shader = null
-    }
-
-    private fun particles() {
-        val effect = Explosion0()
-        effect.setScale(.1f)
-        effect.centerAtActor(this)
-        stage.addActor(effect)
-        effect.start()
     }
 }

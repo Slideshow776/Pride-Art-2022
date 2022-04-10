@@ -48,7 +48,7 @@ class LevelScreen : BaseScreen() {
         player = Player(playerPosX, playerPosY, mainStage)
         groundCrack.centerAtActor(player)
 
-        /*spawnEnemies()*/
+        spawnEnemies()
         uiSetup()
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)

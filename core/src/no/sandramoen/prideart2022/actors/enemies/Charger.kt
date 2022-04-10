@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Experience
+import no.sandramoen.prideart2022.actors.Explosion
+import no.sandramoen.prideart2022.actors.player.GroundCrack
 import no.sandramoen.prideart2022.actors.player.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -85,6 +87,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
             },
             Actions.fadeOut(1f),
             Actions.run {
+                Explosion(this, stage)
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 remove()
             }
