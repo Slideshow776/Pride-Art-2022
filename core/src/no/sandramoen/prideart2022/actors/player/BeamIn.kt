@@ -20,7 +20,13 @@ class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y,
         centerAtActor(player)
         setOrigin(Align.bottom)
         setScale(1f, 300f)
+
         isShakyCam = true
+        animation()
+        particles()
+    }
+
+    private fun animation() {
         addAction(
             Actions.sequence(
                 Actions.moveTo(this.x, player.y, animationDuration / 2),
@@ -31,7 +37,6 @@ class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y,
                 }
             )
         )
-        particles()
     }
 
     private fun particles() {

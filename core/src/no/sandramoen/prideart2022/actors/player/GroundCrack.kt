@@ -22,17 +22,8 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
 
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.glowShader)
 
-        color = Color(0.875f, 0.518f, 0.647f, 0f)
-        addAction(
-            Actions.sequence(
-                Actions.delay(BeamIn.animationDuration),
-                Actions.run { Explosion(this, stage) },
-                Actions.fadeIn(.1f),
-                Actions.delay(5f),
-                Actions.run { enableShader = false },
-                Actions.color(Color.BLACK, 1f)
-            )
-        )
+        color = Color(0.875f, 0.518f, 0.647f, 0f) // pink
+        animation()
     }
 
     override fun act(dt: Float) {
@@ -51,6 +42,19 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         } else {
             super.draw(batch, parentAlpha)
         }
+    }
+
+    private fun animation() {
+        addAction(
+            Actions.sequence(
+                Actions.delay(BeamIn.animationDuration),
+                Actions.run { Explosion(this, stage) },
+                Actions.fadeIn(.1f),
+                Actions.delay(5f),
+                Actions.run { enableShader = false },
+                Actions.color(Color.BLACK, 1f)
+            )
+        )
     }
 
     private fun drawWithShader(batch: Batch, parentAlpha: Float) {
