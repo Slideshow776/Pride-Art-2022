@@ -11,8 +11,10 @@ import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
+import no.sandramoen.prideart2022.actors.particles.RunningSmokeEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.XBoxGamepad
@@ -26,6 +28,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     private var state = State.Idle
+    private var runningSmokeAction = runningSmokeAction()
+    private var isRunningSmoke = false
 
     var health = 2
 
@@ -52,6 +56,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         movementPolling(dt)
         applyPhysics(dt)
         setMovementAnimation()
+        addRunningSmoke()
 
         boundToWorld()
         alignCamera(lerp = .1f)
@@ -84,6 +89,31 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     fun death() {
         color = Color.BLACK
+    }
+
+    private fun runningSmokeAction(): RepeatAction? {
+        return Actions.forever(Actions.sequence(
+            Actions.delay(.1f),
+            Actions.run {
+                val effect = RunningSmokeEffect()
+                effect.setScale(.015f)
+                effect.setPosition(x + width / 2, y + height / 8)
+                stage.addActor(effect)
+                effect.zIndex = 2
+                effect.start()
+            }
+        ))
+    }
+
+    private fun addRunningSmoke() {
+        if (isState(State.Idle) && isRunningSmoke) {
+            isRunningSmoke = false
+            removeAction(runningSmokeAction)
+        } else if (!isState(State.Idle) && !isRunningSmoke) {
+            isRunningSmoke = true
+            runningSmokeAction = runningSmokeAction() // no idea why this works
+            addAction(runningSmokeAction)
+        }
     }
 
     private fun reduceMovementSpeedBy(percent: Int) {
