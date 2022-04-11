@@ -142,8 +142,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private fun loadAnimation() {
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/idle"))
-        idleAnimation = Animation(1f, animationImages)
+        for (i in 1..20)
+            animationImages.add(BaseGame.textureAtlas!!.findRegion("player/idle1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/idle2"))
+        idleAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWES1"))

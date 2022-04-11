@@ -88,10 +88,10 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         dying = true
         isCollisionEnabled = false
         clearActions()
+        Explosion(this, stage)
         addAction(Actions.sequence(
             Actions.fadeOut(1f),
             Actions.run {
-                Explosion(this, stage)
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 Remains(x, y, stage, this)
                 remove()

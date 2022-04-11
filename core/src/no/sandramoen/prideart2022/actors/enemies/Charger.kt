@@ -104,10 +104,10 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player, tilemapActor: Ti
                 isCollisionEnabled = false
                 removeAction(sprinkles)
                 BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume)
+                Explosion(this, stage)
             },
             Actions.fadeOut(1f),
             Actions.run {
-                Explosion(this, stage)
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume, .8f, 0f)
                 Remains(x, y, stage, this)
