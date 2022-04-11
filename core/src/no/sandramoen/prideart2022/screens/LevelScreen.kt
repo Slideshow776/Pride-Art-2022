@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.enemies.Charger
@@ -109,7 +110,7 @@ class LevelScreen : BaseScreen() {
                 val range = 30f
                 val xPos = if (MathUtils.randomBoolean()) player.x - range else player.x + range
                 val yPos = if (MathUtils.randomBoolean()) player.y - range else player.y + range
-                Charger(xPos, yPos, mainStage, player)
+                Charger(xPos, yPos, mainStage, player, tilemap)
                 Shooter(xPos, yPos, mainStage, player)
             }
         )))

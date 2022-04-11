@@ -16,11 +16,13 @@ import no.sandramoen.prideart2022.utils.BaseActor
 class TilemapActor(private val tiledMap: TiledMap?, stage: Stage) : Actor() {
     companion object {
         const val unitScale = .15f
+        const val zIndex = 0
     }
 
     private var tiledMapRenderer: OrthoCachedTiledMapRenderer
 
     init {
+        println("-------------------------------- $zIndex")
         val tileWidth = tiledMap!!.properties.get("tilewidth") as Int
         val tileHeight = tiledMap.properties.get("tileheight") as Int
         val numTilesHorizontal = tiledMap.properties.get("width") as Int
