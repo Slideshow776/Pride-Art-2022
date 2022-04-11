@@ -198,10 +198,37 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     private fun flipAnimation() {
-        if ((getMotionAngle() <= 90 || getMotionAngle() >= 270) && !isFacingRight)
+        if (getSpeed() > 0 && (getMotionAngle() <= 90 || getMotionAngle() >= 270) && !isFacingRight) {
+            val duration = .15f
             flip()
-        else if ((getMotionAngle() > 90 && getMotionAngle() < 270) && isFacingRight)
+            addAction(
+                Actions.sequence(
+                    Actions.parallel(
+                        Actions.scaleTo(0f, 1f, duration),
+                        Actions.color(Color.BLACK, duration)
+                    ),
+                    Actions.parallel(
+                        Actions.scaleTo(1f, 1f, duration),
+                        Actions.color(Color.WHITE, duration)
+                    )
+                )
+            )
+        } else if (getSpeed() > 0 && (getMotionAngle() > 90 && getMotionAngle() < 270) && isFacingRight) {
+            val duration = .15f
             flip()
+            addAction(
+                Actions.sequence(
+                    Actions.parallel(
+                        Actions.scaleTo(0f, 1f, duration),
+                        Actions.color(Color.BLACK, duration)
+                    ),
+                    Actions.parallel(
+                        Actions.scaleTo(1f, 1f, duration),
+                        Actions.color(Color.WHITE, duration)
+                    )
+                )
+            )
+        }
     }
 
     private enum class State {

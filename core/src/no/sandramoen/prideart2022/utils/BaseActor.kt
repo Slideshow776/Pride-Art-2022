@@ -81,7 +81,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
             else
                 batch.draw(
                     animation!!.getKeyFrame(animationTime),
-                    x + width - abs(width - animationWidth) / 2,
+                    x + (width * scaleX) - abs(width - animationWidth) / 2,
                     y + abs(height - animationHeight) / 2,
                     originX,
                     originY,
