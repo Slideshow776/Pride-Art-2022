@@ -171,6 +171,7 @@ Read on below for project specifics.
 * Music by [frankum](https://freesound.org/people/frankum/) on [freesound.org](freesound.org).
 
 ## Project comments
+### Flip animation
 I made this cardboard flip animation for the player, but not sure it fits this game...
 ![demo](https://user-images.githubusercontent.com/4059636/162734242-3f348796-6549-4712-bb23-e38e53a934da.gif)
 
@@ -187,6 +188,24 @@ addAction(Actions.sequence(
             Actions.color(Color.WHITE, duration)
         )
 ))
+```
+### 360 animation
+This code gives the player a 360 run animation, inspired by Enter the Gungeon.
+![demo](https://user-images.githubusercontent.com/4059636/162756582-aada152d-795e-4f8c-a12a-3fac425d980a.gif)
+
+```
+private fun setAnimation() {
+    if (!isMoving() && !isState(State.Idle))
+        setAnimationAndState(idleAnimation, State.Idle)
+    else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f))
+        setAnimationAndState(runAnimationN, State.RunningN)
+    else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f)))
+        setAnimationAndState(runAnimationWEN, State.RunningWEN)
+    else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135)))
+        setAnimationAndState(runAnimationWES, State.RunningWES)
+    else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f))
+        setAnimationAndState(runAnimationS, State.RunningS)
+}
 ```
 
 ## Other
