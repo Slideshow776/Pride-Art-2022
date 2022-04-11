@@ -177,17 +177,16 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     private fun setAnimation() {
-        if (!isMoving() && !isState(State.Idle)) {
+        if (!isMoving() && !isState(State.Idle))
             setAnimationAndState(idleAnimation, State.Idle)
-        } else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f)) {
+        else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f))
             setAnimationAndState(runAnimationN, State.RunningN)
-        } else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f))) {
+        else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f)))
             setAnimationAndState(runAnimationWEN, State.RunningWEN)
-        } else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135))) {
+        else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135)))
             setAnimationAndState(runAnimationWES, State.RunningWES)
-        } else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f)) {
+        else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f))
             setAnimationAndState(runAnimationS, State.RunningS)
-        }
     }
 
     private fun isState(state: State): Boolean {
