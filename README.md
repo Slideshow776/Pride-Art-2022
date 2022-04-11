@@ -177,16 +177,15 @@ I made this cardboard flip animation for the player, but not sure it fits this g
 
 ```
 val duration = .15f
-flip()
 addAction(Actions.sequence(
-        Actions.parallel(
-            Actions.scaleTo(0f, 1f, duration),
-            Actions.color(Color.BLACK, duration)
-        ),
-        Actions.parallel(
-            Actions.scaleTo(1f, 1f, duration),
-            Actions.color(Color.WHITE, duration)
-        )
+    Actions.parallel(
+        Actions.scaleTo(.025f, 1f, duration),
+        Actions.color(Color.BLACK, duration)
+    ),
+    Actions.parallel(
+        Actions.scaleTo(1f, 1f, duration),
+        Actions.color(Color.WHITE, duration)
+    )
 ))
 ```
 ### 360 animation
