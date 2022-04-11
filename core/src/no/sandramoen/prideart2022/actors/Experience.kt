@@ -21,9 +21,9 @@ class Experience(x: Float, y: Float, stage: Stage, amount: Int) : BaseActor(x, y
         setPulseAnimation()
     }
 
-    override fun remove(): Boolean {
+    fun pickup() {
         BaseGame.experiencePickupSound!!.play(BaseGame.soundVolume)
-        return super.remove()
+        remove()
     }
 
     private fun setPulseAnimation() {

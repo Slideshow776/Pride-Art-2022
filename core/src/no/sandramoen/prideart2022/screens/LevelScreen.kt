@@ -97,7 +97,7 @@ class LevelScreen : BaseScreen() {
         )) {
             if (player.overlaps(experience as Experience)) {
                 experienceBar.increment(experience.amount)
-                experience.remove()
+                experience.pickup()
             }
         }
     }

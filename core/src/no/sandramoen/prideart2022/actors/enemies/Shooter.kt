@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
+import no.sandramoen.prideart2022.actors.particles.FlameExplosion
+import no.sandramoen.prideart2022.actors.particles.FlameSprinklesEffect
 import no.sandramoen.prideart2022.actors.player.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -71,6 +73,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
             Actions.forever(
                 Actions.sequence(
                     Actions.run {
+                        shotExplosion()
                         Shot(x + width / 2, y + height / 2, stage, 0f)
                         Shot(x + width / 2, y + height / 2, stage, 90f)
                         Shot(x + width / 2, y + height / 2, stage, 180f)
@@ -99,6 +102,13 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         ))
     }
 
+    private fun shotExplosion() {
+        val effect = FlameExplosion()
+        effect.setScale(.01f)
+        effect.centerAtActor(this)
+        stage.addActor(effect)
+        effect.start()
+    }
 
     private enum class State {
         RunningN, RunningS

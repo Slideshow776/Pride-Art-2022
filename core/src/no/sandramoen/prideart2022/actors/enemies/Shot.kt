@@ -22,7 +22,7 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
         setOrigin(Align.center)
         setPulseAnimation()
 
-        addFlameSpinkles()
+        addFlameSprinkles()
     }
 
     override fun act(dt: Float) {
@@ -45,7 +45,7 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
         )
     }
 
-    private fun addFlameSpinkles() {
+    private fun addFlameSprinkles() {
         addAction(Actions.forever(Actions.sequence(
             Actions.delay(.1f),
             Actions.run {
