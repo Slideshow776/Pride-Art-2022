@@ -173,7 +173,8 @@ Read on below for project specifics.
 ## Project comments
 ### Flip animation
 I made this cardboard flip animation for the player, but not sure it fits this game...
-![demo](https://user-images.githubusercontent.com/4059636/162734242-3f348796-6549-4712-bb23-e38e53a934da.gif)
+
+![demo](https://user-images.githubusercontent.com/4059636/162816316-41fb9156-d1bc-4ab1-9298-ef87eacc05ef.gif)
 
 ```
 val duration = .15f
