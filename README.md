@@ -171,6 +171,23 @@ Read on below for project specifics.
 * Music by [frankum](https://freesound.org/people/frankum/) on [freesound.org](freesound.org).
 
 ## Project comments
+I made this cardboard flip animation for the player, but not sure it fits this game...
+![demo](https://user-images.githubusercontent.com/4059636/162734242-3f348796-6549-4712-bb23-e38e53a934da.gif)
+
+```
+val duration = .15f
+flip()
+addAction(Actions.sequence(
+        Actions.parallel(
+            Actions.scaleTo(0f, 1f, duration),
+            Actions.color(Color.BLACK, duration)
+        ),
+        Actions.parallel(
+            Actions.scaleTo(1f, 1f, duration),
+            Actions.color(Color.WHITE, duration)
+        )
+))
+```
 
 ## Other
 For other project specifics check out the [commits](https://github.com/Slideshow776/Pride-Art-2022/commits/main).
