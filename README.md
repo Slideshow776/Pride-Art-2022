@@ -12,8 +12,9 @@ The language of the game will be norwegian and/or english.
 The number of players might be two.
 
 [Play it](github.com/Slideshow776/Pride-Art-2022/releases/latest)
-![demo](https://user-images.githubusercontent.com/4059636/158825053-02b28178-7122-4d75-8d26-ac22f8a1d021.gif)
+
 ![demo](https://user-images.githubusercontent.com/4059636/162579541-c4386f83-7d6e-4977-bf7f-0fbf9a514cdf.gif)
+![demo](https://user-images.githubusercontent.com/4059636/162924889-6944eac5-90d4-495d-90a4-4272188daa2b.gif)
 
 
 Read on below for project specifics.
