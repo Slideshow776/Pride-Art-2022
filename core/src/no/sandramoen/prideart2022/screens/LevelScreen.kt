@@ -65,6 +65,7 @@ class LevelScreen : BaseScreen() {
         if (keycode == Keys.Q) Gdx.app.exit()
         if (keycode == Keys.E) experienceBar.increment(1)
         if (keycode == Keys.NUM_1) setGameOver()
+        if (keycode == Keys.NUM_2) player.hit()
         return super.keyDown(keycode)
     }
 

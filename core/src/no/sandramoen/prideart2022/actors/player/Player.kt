@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
+import no.sandramoen.prideart2022.actors.particles.Explosion0Effect
+import no.sandramoen.prideart2022.actors.particles.HurtEffect
 import no.sandramoen.prideart2022.actors.particles.RunningSmokeEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -68,6 +70,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         clearActions()
         addAction(Actions.parallel(
             Actions.color(Color.WHITE, 0f),
+            Actions.scaleTo(1f, 1f, 0f),
             Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
             Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn),
             Actions.rotateBy(40f, BeamOut.animationDuration)
@@ -79,17 +82,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     fun hit() {
-        isCollisionEnabled = false
         health--
-        val colourDuration = .75f
-        addAction(
-            Actions.sequence(
-                Actions.color(Color.BLACK, colourDuration / 2),
-                Actions.run { isCollisionEnabled = true },
-                Actions.color(Color.WHITE, colourDuration / 2)
-            )
-        )
-
+        isShakyCam = true
+        hurtAnimation()
+        hurtEffect()
         reduceMovementSpeedBy(20)
     }
 
@@ -99,6 +95,27 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             Actions.sequence(
                 Actions.color(color, duration / 2),
                 Actions.color(Color.WHITE, duration / 2)
+            )
+        )
+    }
+
+    private fun hurtEffect() {
+        val effect = HurtEffect()
+        effect.setScale(.025f)
+        effect.centerAtActor(this)
+        stage.addActor(effect)
+        effect.start()
+    }
+
+    private fun hurtAnimation() {
+        isCollisionEnabled = false
+        val colourDuration = 1.25f
+        addAction(
+            Actions.sequence(
+                Actions.color(Color.BLACK, colourDuration / 2),
+                Actions.run { isCollisionEnabled = true },
+                Actions.color(Color.WHITE, colourDuration / 2),
+                Actions.run { isShakyCam = false }
             )
         )
     }
