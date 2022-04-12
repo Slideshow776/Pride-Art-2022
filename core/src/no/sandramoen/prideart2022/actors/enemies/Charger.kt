@@ -104,12 +104,15 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
                 removeAction(sprinkles)
                 BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume)
                 Explosion(this, stage)
+                isShakyCam = true
+                shakyCamIntensity *= .125f
             },
             Actions.parallel(
                 Actions.fadeOut(1f),
                 cardboardFlipSpin()
             ),
             Actions.run {
+                isShakyCam = false
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume, .8f, 0f)
                 Remains(x, y, stage, this)

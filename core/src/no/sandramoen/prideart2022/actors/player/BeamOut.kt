@@ -28,6 +28,7 @@ class BeamOut(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         animation()
         particles()
         color = Color.WHITE
+        BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
     }
 
     private fun animation() {

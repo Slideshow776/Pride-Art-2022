@@ -94,6 +94,8 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         isCollisionEnabled = false
         clearActions()
         Explosion(this, stage)
+        isShakyCam = true
+        shakyCamIntensity *= .125f
         addAction(Actions.sequence(
             Actions.parallel(
                 Actions.fadeOut(1f),
@@ -102,6 +104,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
             Actions.run {
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 Remains(x, y, stage, this)
+                isShakyCam = false
                 remove()
             }
         ))

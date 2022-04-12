@@ -50,7 +50,7 @@ class LevelScreen : BaseScreen() {
         spawnEnemies()
         uiSetup()
 
-        /*GameUtils.playAndLoopMusic(BaseGame.levelMusic)*/
+        GameUtils.playAndLoopMusic(BaseGame.levelMusic)
         Gdx.input.setCursorPosition(Gdx.graphics.width / 2, Gdx.graphics.height + 10)
     }
 

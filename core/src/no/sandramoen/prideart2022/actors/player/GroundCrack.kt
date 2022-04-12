@@ -48,10 +48,7 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         addAction(
             Actions.sequence(
                 Actions.delay(BeamIn.animationDuration),
-                Actions.run {
-                    BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
-                    Explosion(this, stage)
-                },
+                Actions.run { Explosion(this, stage)},
                 Actions.fadeIn(.1f),
                 Actions.delay(5f),
                 Actions.run { enableShader = false },

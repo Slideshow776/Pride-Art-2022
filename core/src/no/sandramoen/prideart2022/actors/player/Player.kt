@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -81,11 +82,12 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         BeamOut(x, y - 2, stage, this)
         setAnimation(deathAnimation)
         isPlaying = false
-        GroundCrack(x, y, stage)
+        GroundCrack(x - width / 2, y - height / 1, stage)
     }
 
     fun hit() {
         health--
+        addAction(Actions.moveBy(MathUtils.random(-5f, 5f), MathUtils.random(-5f, 5f), .1f))
         hurtAnimation()
         hurtEffect()
         reduceMovementSpeedBy(20)

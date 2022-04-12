@@ -10,6 +10,7 @@ import no.sandramoen.prideart2022.utils.BaseGame
 
 class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y + 100, stage) {
     private val player = player
+
     companion object {
         const val animationDuration = .2f
     }
@@ -21,7 +22,6 @@ class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y 
         setOrigin(Align.bottom)
         setScale(1f, 300f)
 
-        isShakyCam = true
         animation()
         particles()
     }
@@ -31,6 +31,10 @@ class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y 
             Actions.sequence(
                 Actions.moveTo(this.x, player.y, animationDuration / 2),
                 Actions.scaleTo(1f, 0f, animationDuration / 2),
+                Actions.run {
+                    isShakyCam = true
+                    BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
+                },
                 Actions.delay(.5f),
                 Actions.run {
                     isShakyCam = false
