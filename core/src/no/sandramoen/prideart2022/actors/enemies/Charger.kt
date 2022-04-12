@@ -13,17 +13,14 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
-import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.particles.GhostSprinklesEffect
-import no.sandramoen.prideart2022.actors.player.GroundCrack
 import no.sandramoen.prideart2022.actors.player.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
-import no.sandramoen.prideart2022.utils.GameUtils
 
-class Charger(x: Float, y: Float, stage: Stage, player: Player, tilemapActor: TilemapActor) : BaseActor(x, y, stage) {
+class Charger(x: Float, y: Float, stage: Stage, player: Player) :
+    BaseActor(x, y, stage) {
     private val player = player
-    private val tilemapActor = tilemapActor
 
     private val chargeDistance = 10f
     private val movementSpeed = 18f
@@ -52,10 +49,12 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player, tilemapActor: Ti
         setOrigin(Align.center)
 
         color.a = 0f
-        addAction(Actions.sequence(
-            Actions.fadeIn(.25f),
-            Actions.alpha(.9f, .5f)
-        ))
+        addAction(
+            Actions.sequence(
+                Actions.fadeIn(.25f),
+                Actions.alpha(.9f, .5f)
+            )
+        )
         // GameUtils.pulseWidget(this)
         addSprinkles()
     }
@@ -106,7 +105,10 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player, tilemapActor: Ti
                 BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume)
                 Explosion(this, stage)
             },
-            Actions.fadeOut(1f),
+            Actions.parallel(
+                Actions.fadeOut(1f),
+                cardboardFlipSpin()
+            ),
             Actions.run {
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume, .8f, 0f)
@@ -115,6 +117,41 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player, tilemapActor: Ti
             }
         )
     }
+
+    private fun cardboardFlipSpin(): SequenceAction {
+        val duration = .1f
+        return Actions.sequence(
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(1f, 1f, duration),
+                Actions.color(Color.WHITE, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(1f, 1f, duration),
+                Actions.color(Color.WHITE, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(1f, 1f, duration),
+                Actions.color(Color.WHITE, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            )
+        )
+    }
+
 
     private fun stoppingToChargeAnimation(): ParallelAction? {
         return Actions.parallel(

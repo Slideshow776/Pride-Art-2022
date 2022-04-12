@@ -22,14 +22,16 @@ import no.sandramoen.prideart2022.utils.XBoxGamepad
 class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var movementSpeed = 25f
     private var movementAcceleration = movementSpeed * 8f
-    private lateinit var runAnimationWES: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var runAnimationWEN: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runWESAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runWENAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runNAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runSAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var deathAnimation: Animation<TextureAtlas.AtlasRegion>
     private var state = State.Idle
     private var runningSmokeAction = runningSmokeAction()
     private var isRunningSmoke = false
+    private var isPlaying = true
 
     var health = 2
 
@@ -51,7 +53,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     override fun act(dt: Float) {
         super.act(dt)
-        if (pause) return
+        if (!isPlaying) return
 
         movementPolling(dt)
         applyPhysics(dt)
@@ -60,6 +62,20 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         boundToWorld()
         alignCamera(lerp = .1f)
+    }
+
+    override fun death() {
+        clearActions()
+        addAction(Actions.parallel(
+            Actions.color(Color.WHITE, 0f),
+            Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
+            Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn),
+            Actions.rotateBy(40f, BeamOut.animationDuration)
+        ))
+        BeamOut(x, y - 2, stage, this)
+        setAnimation(deathAnimation)
+        isPlaying = false
+        GroundCrack(x, y, stage)
     }
 
     fun hit() {
@@ -85,10 +101,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 Actions.color(Color.WHITE, duration / 2)
             )
         )
-    }
-
-    fun death() {
-        color = Color.BLACK
     }
 
     private fun runningSmokeAction(): RepeatAction? {
@@ -180,22 +192,28 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWES1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWES2"))
-        runAnimationWES = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runWESAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWEN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWEN2"))
-        runAnimationWEN = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runWENAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runN2"))
-        runAnimationN = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runNAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runS2"))
-        runAnimationS = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runSAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/death1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/death2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/death3"))
+        deathAnimation = Animation(.2f, animationImages)
         animationImages.clear()
 
         setAnimation(idleAnimation)
@@ -203,20 +221,20 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private fun setMovementAnimation() {
         setAnimation()
-        this.flipPlayer()
+        flipPlayer()
     }
 
     private fun setAnimation() {
         if (!isMoving() && !isState(State.Idle))
             setAnimationAndState(idleAnimation, State.Idle)
         else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f))
-            setAnimationAndState(runAnimationN, State.RunningN)
+            setAnimationAndState(runNAnimation, State.RunningN)
         else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f)))
-            setAnimationAndState(runAnimationWEN, State.RunningWEN)
+            setAnimationAndState(runWENAnimation, State.RunningWEN)
         else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135)))
-            setAnimationAndState(runAnimationWES, State.RunningWES)
+            setAnimationAndState(runWESAnimation, State.RunningWES)
         else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f))
-            setAnimationAndState(runAnimationS, State.RunningS)
+            setAnimationAndState(runSAnimation, State.RunningS)
     }
 
     private fun isState(state: State): Boolean {
@@ -241,7 +259,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         addAction(
             Actions.sequence(
                 Actions.parallel(
-                    Actions.scaleTo(0f, 1f, duration),
+                    Actions.scaleTo(.025f, 1f, duration),
                     Actions.color(Color.BLACK, duration)
                 ),
                 Actions.parallel(
@@ -257,7 +275,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     private fun playEnterAnimation() {
-        BeamIn(x, y + 100, stage, this)
+        BeamIn(x, y, stage, this)
         revealAnimation(BeamIn.animationDuration)
     }
 

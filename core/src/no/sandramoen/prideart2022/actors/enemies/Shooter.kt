@@ -1,10 +1,12 @@
 package no.sandramoen.prideart2022.actors.enemies
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
@@ -93,13 +95,50 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         clearActions()
         Explosion(this, stage)
         addAction(Actions.sequence(
-            Actions.fadeOut(1f),
+            Actions.parallel(
+                Actions.fadeOut(1f),
+                cardboardFlipSpin()
+            ),
             Actions.run {
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 Remains(x, y, stage, this)
                 remove()
             }
         ))
+    }
+
+    private fun cardboardFlipSpin(): SequenceAction {
+        val duration = .1f
+        return Actions.sequence(
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(1f, 1f, duration),
+                Actions.color(Color.WHITE, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(1f, 1f, duration),
+                Actions.color(Color.WHITE, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(1f, 1f, duration),
+                Actions.color(Color.WHITE, duration)
+            ),
+            Actions.parallel(
+                Actions.scaleTo(.025f, 1f, duration),
+                Actions.color(Color.BLACK, duration)
+            )
+        )
     }
 
     private fun shotExplosion() {

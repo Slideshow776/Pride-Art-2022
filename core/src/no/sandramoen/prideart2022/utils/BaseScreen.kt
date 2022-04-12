@@ -20,6 +20,7 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     protected var mainStage: Stage
     protected var uiStage: Stage
     protected var uiTable: Table
+    protected var dtModifier = 1f
 
     init {
         mainStage = Stage()
@@ -38,8 +39,8 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
 
     override fun render(dt: Float) {
         uiStage.act(dt)
-        mainStage.act(dt)
-        update(dt)
+        mainStage.act(dt * dtModifier)
+        update(dt * dtModifier)
 
         Gdx.gl.glClearColor(1f, 0.8f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)

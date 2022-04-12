@@ -118,6 +118,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     fun flip() { isFacingRight = !isFacingRight }
     fun setAnimationPaused(pause: Boolean) { animationPaused = pause }
     fun isAnimationFinished(): Boolean { return animation!!.isAnimationFinished(animationTime) }
+    open fun death() {}
 
     fun loadTexture(fileName: String): Animation<TextureRegion> {
         val fileNames: Array<String> = Array(1)

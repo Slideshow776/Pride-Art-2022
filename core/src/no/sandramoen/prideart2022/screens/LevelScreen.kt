@@ -50,7 +50,7 @@ class LevelScreen : BaseScreen() {
         spawnEnemies()
         uiSetup()
 
-        GameUtils.playAndLoopMusic(BaseGame.levelMusic)
+        /*GameUtils.playAndLoopMusic(BaseGame.levelMusic)*/
         Gdx.input.setCursorPosition(Gdx.graphics.width / 2, Gdx.graphics.height + 10)
     }
 
@@ -64,6 +64,7 @@ class LevelScreen : BaseScreen() {
         if (keycode == Keys.R) BaseGame.setActiveScreen(LevelScreen())
         if (keycode == Keys.Q) Gdx.app.exit()
         if (keycode == Keys.E) experienceBar.increment(1)
+        if (keycode == Keys.NUM_1) setGameOver()
         return super.keyDown(keycode)
     }
 
@@ -87,7 +88,7 @@ class LevelScreen : BaseScreen() {
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shooter::class.java.canonicalName))
             enemyCollidedWithPlayer(enemy)
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName))
-            enemyCollidedWithPlayer(enemy)
+            enemyCollidedWithPlayer(enemy, remove = true)
     }
 
     private fun handlePickups() {
@@ -110,33 +111,28 @@ class LevelScreen : BaseScreen() {
                 val range = 30f
                 val xPos = if (MathUtils.randomBoolean()) player.x - range else player.x + range
                 val yPos = if (MathUtils.randomBoolean()) player.y - range else player.y + range
-                Charger(xPos, yPos, mainStage, player, tilemap)
+                Charger(xPos, yPos, mainStage, player)
                 Shooter(xPos, yPos, mainStage, player)
             }
         )))
     }
 
-    private fun pauseLevel() {
-        enemySpawner.clearActions()
-        player.pause = true
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName))
-            enemy.pause = true
-    }
-
-    private fun enemyCollidedWithPlayer(enemy: BaseActor) {
+    private fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean = false) {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
-            if (player.health <= 0) {
-                isGameOver = true
-                gameOverLabel.isVisible = true
-                pauseLevel()
-                player.death()
-            } else {
-                player.hit()
-            }
+            if (player.health <= 0) setGameOver()
+            else player.hit()
             BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
             healthBar.subtractHealth()
+            if (remove) enemy.death()
         }
+    }
+
+    private fun setGameOver() {
+        isGameOver = true
+        gameOverLabel.isVisible = true
+        dtModifier = .125f
+        player.death()
     }
 
     private fun uiSetup() {

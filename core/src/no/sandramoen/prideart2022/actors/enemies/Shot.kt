@@ -3,6 +3,7 @@ package no.sandramoen.prideart2022.actors.enemies
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
+import no.sandramoen.prideart2022.actors.particles.FlameExplosion
 import no.sandramoen.prideart2022.actors.particles.FlameSprinklesEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 
@@ -32,6 +33,20 @@ class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, sta
 
         if (outOfBounds())
             remove()
+    }
+
+    override fun death() {
+        super.death()
+        flameExplosionEffect()
+        remove()
+    }
+
+    private fun flameExplosionEffect() {
+        val effect = FlameExplosion()
+        effect.setScale(.01f)
+        effect.centerAtActor(this)
+        stage.addActor(effect)
+        effect.start()
     }
 
     private fun setPulseAnimation() {
