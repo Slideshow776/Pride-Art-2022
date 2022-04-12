@@ -74,7 +74,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 Actions.scaleTo(1f, 1f, 0f),
                 Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
                 Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn),
-                Actions.rotateBy(40f, BeamOut.animationDuration)
+                Actions.rotateBy(40f, BeamOut.animationDuration),
+                Actions.run { isShakyCam = false }
             )
         )
         BeamOut(x, y - 2, stage, this)
@@ -85,7 +86,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     fun hit() {
         health--
-        isShakyCam = true
         hurtAnimation()
         hurtEffect()
         reduceMovementSpeedBy(20)
@@ -113,6 +113,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         isCollisionEnabled = false
         val colourDuration = 1.25f
         setAnimation(deathAnimation)
+        isShakyCam = true
         addAction(
             Actions.sequence(
                 Actions.color(Color.BLACK, colourDuration / 2),
