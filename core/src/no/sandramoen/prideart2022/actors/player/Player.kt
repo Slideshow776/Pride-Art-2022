@@ -68,13 +68,15 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     override fun death() {
         clearActions()
-        addAction(Actions.parallel(
-            Actions.color(Color.WHITE, 0f),
-            Actions.scaleTo(1f, 1f, 0f),
-            Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
-            Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn),
-            Actions.rotateBy(40f, BeamOut.animationDuration)
-        ))
+        addAction(
+            Actions.parallel(
+                Actions.color(Color.WHITE, 0f),
+                Actions.scaleTo(1f, 1f, 0f),
+                Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
+                Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn),
+                Actions.rotateBy(40f, BeamOut.animationDuration)
+            )
+        )
         BeamOut(x, y - 2, stage, this)
         setAnimation(deathAnimation)
         isPlaying = false
@@ -110,12 +112,17 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private fun hurtAnimation() {
         isCollisionEnabled = false
         val colourDuration = 1.25f
+        setAnimation(deathAnimation)
         addAction(
             Actions.sequence(
                 Actions.color(Color.BLACK, colourDuration / 2),
                 Actions.run { isCollisionEnabled = true },
                 Actions.color(Color.WHITE, colourDuration / 2),
-                Actions.run { isShakyCam = false }
+                Actions.run {
+                    state = State.Idle
+                    setMovementAnimation()
+                    isShakyCam = false
+                }
             )
         )
     }
