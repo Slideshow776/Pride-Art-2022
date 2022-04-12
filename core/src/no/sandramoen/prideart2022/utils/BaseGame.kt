@@ -57,6 +57,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var playerLevelUpSound: Sound? = null
         var beamInSound: Sound? = null
         var healthUpSound: Sound? = null
+        var groundCrackSound: Sound? = null
         var level1: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
@@ -103,6 +104,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             assetManager.load("audio/sound/playerLevelUp.wav", Sound::class.java)
             assetManager.load("audio/sound/beamIn.wav", Sound::class.java)
             assetManager.load("audio/sound/healthUp.wav", Sound::class.java)
+            assetManager.load("audio/sound/groundCrack.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -140,6 +142,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             playerLevelUpSound = assetManager.get("audio/sound/playerLevelUp.wav", Sound::class.java)
             beamInSound = assetManager.get("audio/sound/beamIn.wav", Sound::class.java)
             healthUpSound = assetManager.get("audio/sound/healthUp.wav", Sound::class.java)
+            groundCrackSound = assetManager.get("audio/sound/groundCrack.wav", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()

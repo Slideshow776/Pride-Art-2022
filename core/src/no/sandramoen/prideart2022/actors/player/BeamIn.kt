@@ -31,6 +31,7 @@ class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y 
             Actions.sequence(
                 Actions.moveTo(this.x, player.y, animationDuration / 2),
                 Actions.scaleTo(1f, 0f, animationDuration / 2),
+                Actions.delay(.5f),
                 Actions.run {
                     isShakyCam = false
                     remove()
