@@ -16,7 +16,7 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
     private var nextLevel = 10f
     private var currentXP = 0f
     private var constant = 2f
-    private val ration = 1.14f
+    private val ratio = 1.14f
 
     init {
         loadImage("whitePixel")
@@ -45,14 +45,15 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         var percent = currentXP / nextLevel
         if (percent >= 1) {
             val restXP = (percent - 1) * nextLevel
-            nextLevel += constant * ration
+            constant += ratio
+            nextLevel += constant
             currentXP = restXP
             percent = currentXP / nextLevel
             label.setText("Level ${++level}")
             BaseGame.playerLevelUpSound!!.play(BaseGame.soundVolume)
         }
 
-        // println("current XP: $currentXP, next level: $nextLevel")
+        // println("current XP: $currentXP, next level: $nextLevel, constant: $constant")
         progress.addAction(Actions.sizeTo(width * percent, height, .25f))
     }
 }
