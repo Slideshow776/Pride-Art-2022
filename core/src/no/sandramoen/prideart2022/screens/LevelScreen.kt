@@ -36,7 +36,7 @@ class LevelScreen : BaseScreen() {
 
         val tintOverlay = BaseActor(0f, 0f, mainStage)
         tintOverlay.loadImage("whitePixel")
-        tintOverlay.color = Color(0f, 0f, 0f, .6f)
+        tintOverlay.color = Color(0f, 0f, 0f, .65f)
         tintOverlay.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
 
         val startPoint = tilemap.getRectangleList("player start")[0]

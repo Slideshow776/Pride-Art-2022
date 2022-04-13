@@ -44,6 +44,15 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         }
     }
 
+    private fun drawWithShader(batch: Batch, parentAlpha: Float) {
+        batch.shader = shaderProgram
+        shaderProgram!!.setUniformf("u_time", time * .5f)
+        shaderProgram!!.setUniformf("u_imageSize", Vector2(width, height))
+        shaderProgram!!.setUniformf("u_glowRadius", 1f)
+        super.draw(batch, parentAlpha)
+        batch.shader = null
+    }
+
     private fun animation() {
         addAction(
             Actions.sequence(
@@ -55,14 +64,5 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
                 Actions.color(Color.BLACK, 1f)
             )
         )
-    }
-
-    private fun drawWithShader(batch: Batch, parentAlpha: Float) {
-        batch.shader = shaderProgram
-        shaderProgram!!.setUniformf("u_time", time * .5f)
-        shaderProgram!!.setUniformf("u_imageSize", Vector2(width, height))
-        shaderProgram!!.setUniformf("u_glowRadius", 1f)
-        super.draw(batch, parentAlpha)
-        batch.shader = null
     }
 }
