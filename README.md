@@ -172,6 +172,9 @@ Read on below for project specifics.
 * Music by [frankum](https://freesound.org/people/frankum/) on [freesound.org](freesound.org).
 
 ## Project comments
+### Inspiration
+[This video](https://www.youtube.com/watch?v=AJdEqssNZ-U) was a great inspiration.
+
 ### Flip animation
 I made this cardboard flip animation for the player, but not sure it fits this game...
 
