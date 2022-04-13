@@ -13,7 +13,7 @@ class Explosion(val baseActor: BaseActor, val stage: Stage) {
 
     private fun addEffect() {
         val effect = Explosion0Effect()
-        effect.setScale(.1f)
+        effect.setScale(.12f)
         effect.centerAtActor(baseActor)
         stage.addActor(effect)
         effect.start()

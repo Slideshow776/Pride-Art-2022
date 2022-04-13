@@ -20,7 +20,7 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     protected var mainStage: Stage
     protected var uiStage: Stage
     protected var uiTable: Table
-    protected var dtModifier = 1f
+    var dtModifier = 1f
 
     init {
         mainStage = Stage()

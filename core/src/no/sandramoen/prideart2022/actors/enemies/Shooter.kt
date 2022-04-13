@@ -14,13 +14,13 @@ import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.particles.FlameExplosion
 import no.sandramoen.prideart2022.actors.particles.FlameSprinklesEffect
 import no.sandramoen.prideart2022.actors.player.Player
+import no.sandramoen.prideart2022.screens.LevelScreen
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
 class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
-
-    private val movementSpeed = 10f
+    private val movementSpeed = player.movementSpeed * .72f
     private val shootDistance = 20f
     private var shotsUntilDeath = 3
     private var shootFrequency = 5f
@@ -76,10 +76,10 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
                 Actions.sequence(
                     Actions.run {
                         shotExplosion()
-                        Shot(x + width / 2, y + height / 2, stage, 0f)
-                        Shot(x + width / 2, y + height / 2, stage, 90f)
-                        Shot(x + width / 2, y + height / 2, stage, 180f)
-                        Shot(x + width / 2, y + height / 2, stage, 270f)
+                        Shot(x + width / 2, y + height / 2, stage, 0f, player.movementSpeed)
+                        Shot(x + width / 2, y + height / 2, stage, 90f, player.movementSpeed)
+                        Shot(x + width / 2, y + height / 2, stage, 180f, player.movementSpeed)
+                        Shot(x + width / 2, y + height / 2, stage, 270f, player.movementSpeed)
                         shotsUntilDeath--
                         BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
                     },

@@ -81,12 +81,12 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
             else
                 batch.draw(
                     animation!!.getKeyFrame(animationTime),
-                    x + (width * scaleX) - abs(width - animationWidth) / 2,
-                    y + abs(height - animationHeight) / 2,
-                    originX,
+                    x + width,
+                    y,
+                    originX - width,
                     originY,
-                    -animationWidth,
-                    animationHeight,
+                    -width,
+                    height,
                     scaleX,
                     scaleY,
                     rotation
@@ -276,7 +276,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         this.stage.viewport.camera.position.set(Vector3(
             this.stage.viewport.camera.position.x + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
             this.stage.viewport.camera.position.y + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
-                0f
+            0f
         ))
     }
 

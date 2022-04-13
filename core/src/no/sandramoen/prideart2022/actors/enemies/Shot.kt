@@ -7,9 +7,9 @@ import no.sandramoen.prideart2022.actors.particles.FlameExplosion
 import no.sandramoen.prideart2022.actors.particles.FlameSprinklesEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 
-class Shot(x: Float, y: Float, stage: Stage, angle: Float) : BaseActor(x, y, stage) {
+class Shot(x: Float, y: Float, stage: Stage, angle: Float, playerMovementSpeed: Float) : BaseActor(x, y, stage) {
     private val angle = angle
-    private val movementSpeed = 10f
+    private val movementSpeed = playerMovementSpeed * .4f
 
     init {
         loadImage("shot")

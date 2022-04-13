@@ -15,16 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
-import no.sandramoen.prideart2022.actors.particles.Explosion0Effect
-import no.sandramoen.prideart2022.actors.particles.HurtEffect
+import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.particles.RunningSmokeEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.XBoxGamepad
 
 class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
-    private var movementSpeed = 25f
-    private var movementAcceleration = movementSpeed * 8f
     private lateinit var runWESAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var runWENAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var runNAnimation: Animation<TextureAtlas.AtlasRegion>
@@ -35,7 +32,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var runningSmokeAction = runningSmokeAction()
     private var isRunningSmoke = false
     private var isPlaying = true
+    private var wobbleAction: RepeatAction? = null
 
+    var movementSpeed = 26f
+    private var movementAcceleration = movementSpeed * 8f
     var health = 2
 
     init {
@@ -89,7 +89,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         health--
         addAction(Actions.moveBy(MathUtils.random(-5f, 5f), MathUtils.random(-5f, 5f), .1f))
         hurtAnimation()
-        hurtEffect()
+        Explosion(this, stage)
         reduceMovementSpeedBy(20)
     }
 
@@ -101,14 +101,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 Actions.color(Color.WHITE, duration / 2)
             )
         )
-    }
-
-    private fun hurtEffect() {
-        val effect = HurtEffect()
-        effect.setScale(.025f)
-        effect.centerAtActor(this)
-        stage.addActor(effect)
-        effect.start()
     }
 
     private fun hurtAnimation() {
@@ -251,17 +243,44 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         flipPlayer()
     }
 
+    private fun addWobbleAction() {
+        if (wobbleAction == null) {
+            val rotation = 8f
+            val duration = .18f
+            wobbleAction = Actions.forever(
+                Actions.sequence(
+                    Actions.rotateTo(rotation, duration),
+                    Actions.rotateTo(-rotation, duration * 2),
+                    Actions.rotateTo(0f, duration)
+                )
+            )
+            addAction(wobbleAction)
+        }
+    }
+
+    private fun removeWobbleAction() {
+        removeAction(wobbleAction)
+        rotation = 0f
+        wobbleAction = null
+    }
+
     private fun setAnimation() {
-        if (!isMoving() && !isState(State.Idle))
+        if (!isMoving() && !isState(State.Idle)) {
             setAnimationAndState(idleAnimation, State.Idle)
-        else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f))
+            removeWobbleAction()
+        } else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f)) {
             setAnimationAndState(runNAnimation, State.RunningN)
-        else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f)))
+            addWobbleAction()
+        } else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f))) {
             setAnimationAndState(runWENAnimation, State.RunningWEN)
-        else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135)))
+            addWobbleAction()
+        } else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135))) {
             setAnimationAndState(runWESAnimation, State.RunningWES)
-        else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f))
+            addWobbleAction()
+        } else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f)) {
             setAnimationAndState(runSAnimation, State.RunningS)
+            addWobbleAction()
+        }
     }
 
     private fun isState(state: State): Boolean {
@@ -275,12 +294,12 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private fun flipPlayer() {
         if (getSpeed() > 0 && (getMotionAngle() <= 90 || getMotionAngle() >= 270) && !isFacingRight)
-            flipAnimation()
+            cardboardFlipAnimation()
         else if (getSpeed() > 0 && (getMotionAngle() > 90 && getMotionAngle() < 270) && isFacingRight)
-            flipAnimation()
+            cardboardFlipAnimation()
     }
 
-    private fun flipAnimation() {
+    private fun cardboardFlipAnimation() {
         flip()
         val duration = .15f
         addAction(

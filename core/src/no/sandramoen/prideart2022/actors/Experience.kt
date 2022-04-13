@@ -17,8 +17,6 @@ class Experience(x: Float, y: Float, stage: Stage, amount: Int) : BaseActor(x, y
         centerAtPosition(x, y)
         setBoundaryRectangle()
         setOrigin(Align.center)
-
-        GameUtils.pulseWidget(this)
         setPulseAnimation()
     }
 

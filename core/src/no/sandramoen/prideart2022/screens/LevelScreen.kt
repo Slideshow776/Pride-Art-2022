@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.enemies.Charger
@@ -107,7 +106,7 @@ class LevelScreen : BaseScreen() {
     private fun spawnEnemies() {
         enemySpawner = BaseActor(0f, 0f, mainStage)
         enemySpawner.addAction(Actions.forever(Actions.sequence(
-            Actions.delay(2.5f),
+            Actions.delay(2.4f),
             Actions.run {
                 val range = 30f
                 val xPos = if (MathUtils.randomBoolean()) player.x - range else player.x + range
@@ -118,6 +117,15 @@ class LevelScreen : BaseScreen() {
         )))
     }
 
+    private fun pauseGameForDuration(duration: Float = .05f) {
+        val temp = dtModifier
+        dtModifier = 0f
+        BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
+            Actions.delay(duration),
+            Actions.run { dtModifier = temp }
+        ))
+    }
+
     private fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean = false) {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
@@ -126,6 +134,7 @@ class LevelScreen : BaseScreen() {
             BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
             healthBar.subtractHealth()
             if (remove) enemy.death()
+            pauseGameForDuration()
         }
     }
 

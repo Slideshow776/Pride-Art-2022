@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
@@ -15,6 +16,7 @@ import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.particles.GhostSprinklesEffect
 import no.sandramoen.prideart2022.actors.player.Player
+import no.sandramoen.prideart2022.screens.LevelScreen
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
@@ -23,7 +25,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
     private val player = player
 
     private val chargeDistance = 10f
-    private val movementSpeed = 18f
+    private val movementSpeed = player.movementSpeed * .72f
     private val chargeDuration = .5f
     private val chargeSpeed = 40f
 
@@ -77,7 +79,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
 
     private fun stopToCharge() {
         isStoppingToCharge = true
-        angleToCharge = getAngleTowardActor(player)
+        angleToCharge = getAngleTowardActor(player) + MathUtils.random(-5f, 5f)
         BaseGame.enemyChargeupSound!!.play(BaseGame.soundVolume)
         addAction(
             Actions.sequence(
@@ -154,7 +156,6 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
             )
         )
     }
-
 
     private fun stoppingToChargeAnimation(): ParallelAction? {
         return Actions.parallel(
