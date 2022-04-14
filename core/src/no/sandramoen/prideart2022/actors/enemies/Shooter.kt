@@ -103,7 +103,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
             ),
             Actions.run {
                 Experience(x + width / 2, y + height / 2, stage, 1)
-                Remains(x, y, stage, this)
+                Remains(stage, this)
                 isShakyCam = false
                 remove()
             }

@@ -3,10 +3,10 @@ package no.sandramoen.prideart2022.actors.enemies
 import com.badlogic.gdx.scenes.scene2d.Stage
 import no.sandramoen.prideart2022.utils.BaseActor
 
-class Remains(x: Float, y: Float, stage: Stage, baseActor: BaseActor) : BaseActor(x, y, stage) {
+class Remains(stage: Stage, baseActor: BaseActor) : BaseActor(baseActor.x, baseActor.y, stage) {
     init {
         loadImage("ghostRemains")
         centerAtActor(baseActor)
-        zIndex = 1
+        zIndex = baseActor.zIndex - 1
     }
 }

@@ -28,11 +28,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private lateinit var runSAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var deathAnimation: Animation<TextureAtlas.AtlasRegion>
-    private var state = State.Idle
-    private var runningSmokeAction = runningSmokeAction()
-    private var isRunningSmoke = false
-    private var isPlaying = true
     private var wobbleAction: RepeatAction? = null
+    private var runningSmokeAction: RepeatAction? = null
+    private var isPlaying = true
+    private var state = State.Idle
 
     var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
@@ -61,7 +60,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         movementPolling(dt)
         applyPhysics(dt)
         setMovementAnimation()
-        addRunningSmoke()
 
         boundToWorld()
         alignCamera(lerp = .1f)
@@ -122,29 +120,26 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         )
     }
 
-    private fun runningSmokeAction(): RepeatAction? {
-        return Actions.forever(Actions.sequence(
-            Actions.delay(.1f),
-            Actions.run {
-                val effect = RunningSmokeEffect()
-                effect.setScale(.015f)
-                effect.setPosition(x + width / 2, y + height / 8)
-                stage.addActor(effect)
-                effect.zIndex = 2
-                effect.start()
-            }
-        ))
-    }
-
-    private fun addRunningSmoke() {
-        if (isState(State.Idle) && isRunningSmoke) {
-            isRunningSmoke = false
-            removeAction(runningSmokeAction)
-        } else if (!isState(State.Idle) && !isRunningSmoke) {
-            isRunningSmoke = true
-            runningSmokeAction = runningSmokeAction() // no idea why this works
+    private fun addRunningSmokeAction() {
+        if (runningSmokeAction == null) {
+            runningSmokeAction = Actions.forever(Actions.sequence(
+                Actions.delay(.1f),
+                Actions.run {
+                    val effect = RunningSmokeEffect()
+                    effect.setScale(.015f)
+                    effect.setPosition(x + width / 2, y + height / 8)
+                    stage.addActor(effect)
+                    effect.zIndex = 2
+                    effect.start()
+                }
+            ))
             addAction(runningSmokeAction)
         }
+    }
+
+    private fun removeRunningSmokeAction() {
+        removeAction(runningSmokeAction)
+        runningSmokeAction = null
     }
 
     private fun reduceMovementSpeedBy(percent: Int) {
@@ -268,18 +263,23 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         if (!isMoving() && !isState(State.Idle)) {
             setAnimationAndState(idleAnimation, State.Idle)
             removeWobbleAction()
+            removeRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f)) {
             setAnimationAndState(runNAnimation, State.RunningN)
             addWobbleAction()
+            addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f))) {
             setAnimationAndState(runWENAnimation, State.RunningWEN)
             addWobbleAction()
+            addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135))) {
             setAnimationAndState(runWESAnimation, State.RunningWES)
             addWobbleAction()
+            addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f)) {
             setAnimationAndState(runSAnimation, State.RunningS)
             addWobbleAction()
+            addRunningSmokeAction()
         }
     }
 
