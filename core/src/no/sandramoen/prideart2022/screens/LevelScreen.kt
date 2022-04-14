@@ -88,15 +88,25 @@ class LevelScreen : BaseScreen() {
             player.flashColor(Color.YELLOW)
         if (buttonCode == XBoxGamepad.BUTTON_START)
             BaseGame.setActiveScreen(LevelScreen())
+
+        if (dtModifier == 0f)
+            resume()
+
         return super.buttonDown(controller, buttonCode)
     }
 
+    override fun axisMoved(controller: Controller?, axisCode: Int, value: Float): Boolean {
+        if (value > .1f && dtModifier == 0f)
+            resume()
+        return super.axisMoved(controller, axisCode, value)
+    }
+
     override fun connected(controller: Controller?) {
-        if (controller!!.canVibrate() && BaseGame.isVibrationsEnabled)
+        if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
             controller!!.startVibration(1000, .2f)
         controllerMessage.showConnected()
         BaseGame.controllerConnectedSound!!.play(BaseGame.soundVolume)
-        resume()
+        pause()
     }
 
     override fun disconnected(controller: Controller?) {
@@ -121,7 +131,7 @@ class LevelScreen : BaseScreen() {
         if (Controllers.getControllers().size > 0) {
             controllerMessage.showConnected()
             val controller = Controllers.getControllers()[0]
-            if (controller.canVibrate() && BaseGame.isVibrationsEnabled)
+            if (controller.canVibrate() && BaseGame.isVibrationEnabled)
                 controller.startVibration(1000, .2f)
         } else {
             controllerMessage.showNoControllerFound()

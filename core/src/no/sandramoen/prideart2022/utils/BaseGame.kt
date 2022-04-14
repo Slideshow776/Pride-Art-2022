@@ -39,7 +39,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         const val WORLD_WIDTH = 200f
         const val WORLD_HEIGHT = 200f
         const val isCustomShadersEnabled = true // debugging purposes
-        const val isVibrationsEnabled = true // debugging purposes
+        const val isVibrationEnabled = false // debugging purposes
         val lightPink = Color(1f, .816f, .94f, 1f)
 
         // game assets
