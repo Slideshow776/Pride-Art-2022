@@ -57,7 +57,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         super.act(dt)
         if (!isPlaying) return
 
-        movementPolling(dt)
+        movementPolling()
         applyPhysics(dt)
         setMovementAnimation()
 
@@ -147,7 +147,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         setMaxSpeed(movementSpeed)
     }
 
-    private fun movementPolling(dt: Float) {
+    private fun movementPolling() {
         if (Controllers.getControllers().size > 0)
             controllerPolling()
         keyboardPolling()

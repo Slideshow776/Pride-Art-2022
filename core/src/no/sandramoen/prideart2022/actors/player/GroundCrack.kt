@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.Explosion
-import no.sandramoen.prideart2022.actors.particles.Explosion0Effect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -33,7 +32,7 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {
-        if (BaseGame.enableCustomShaders && enableShader) {
+        if (BaseGame.isCustomShadersEnabled && enableShader) {
             try {
                 drawWithShader(batch, parentAlpha)
             } catch (error: Throwable) {

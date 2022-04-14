@@ -38,8 +38,9 @@ abstract class BaseGame : Game(), AssetErrorListener {
         lateinit var fontGenerator: FreeTypeFontGenerator
         const val WORLD_WIDTH = 200f
         const val WORLD_HEIGHT = 200f
+        const val isCustomShadersEnabled = true // debugging purposes
+        const val isVibrationsEnabled = true // debugging purposes
         val lightPink = Color(1f, .816f, .94f, 1f)
-        var enableCustomShaders = true // debugging purposes
 
         // game assets
         var smallLabelStyle: LabelStyle? = null
@@ -59,6 +60,8 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var healthUpSound: Sound? = null
         var groundCrackSound: Sound? = null
         var explosionSound: Sound? = null
+        var controllerConnectedSound: Sound? = null
+        var controllerDisconnectedSound: Sound? = null
         var level1: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
@@ -107,6 +110,8 @@ abstract class BaseGame : Game(), AssetErrorListener {
             assetManager.load("audio/sound/healthUp.wav", Sound::class.java)
             assetManager.load("audio/sound/groundCrack.wav", Sound::class.java)
             assetManager.load("audio/sound/Explosion7.wav", Sound::class.java)
+            assetManager.load("audio/sound/controllerConnected.wav", Sound::class.java)
+            assetManager.load("audio/sound/controllerDisconnected.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -146,6 +151,8 @@ abstract class BaseGame : Game(), AssetErrorListener {
             healthUpSound = assetManager.get("audio/sound/healthUp.wav", Sound::class.java)
             groundCrackSound = assetManager.get("audio/sound/groundCrack.wav", Sound::class.java)
             explosionSound = assetManager.get("audio/sound/Explosion7.wav", Sound::class.java)
+            controllerConnectedSound = assetManager.get("audio/sound/controllerConnected.wav", Sound::class.java)
+            controllerDisconnectedSound = assetManager.get("audio/sound/controllerDisconnected.wav", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()

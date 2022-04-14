@@ -89,19 +89,6 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean { return false }
     override fun buttonUp(controller: Controller?, buttonCode: Int): Boolean  { return false }
     override fun axisMoved(controller: Controller?, axisCode: Int, value: Float): Boolean  { return false }
-    override fun connected(controller: Controller?) {
-        Gdx.app.error(
-            javaClass.simpleName, "Controller connected: " + controller!!.name
-                    + "/" + controller!!.uniqueId
-        )
-        if (controller!!.canVibrate())
-            controller!!.startVibration(1000, .1f)
-    }
-
-    override fun disconnected(controller: Controller?) {
-        Gdx.app.error(
-            javaClass.simpleName, "Controller disconnected: " + controller!!.name
-                    + "/" + controller!!.uniqueId
-        )
-    }
+    override fun connected(controller: Controller?) {}
+    override fun disconnected(controller: Controller?) {}
 }

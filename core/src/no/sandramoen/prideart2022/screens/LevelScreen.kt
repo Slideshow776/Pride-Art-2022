@@ -3,6 +3,7 @@ package no.sandramoen.prideart2022.screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
+import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -15,6 +16,7 @@ import no.sandramoen.prideart2022.actors.Vignette
 import no.sandramoen.prideart2022.actors.enemies.Shooter
 import no.sandramoen.prideart2022.actors.enemies.Shot
 import no.sandramoen.prideart2022.actors.player.GroundCrack
+import no.sandramoen.prideart2022.myUI.ControllerMessage
 import no.sandramoen.prideart2022.myUI.ExperienceBar
 import no.sandramoen.prideart2022.myUI.HealthBar
 import no.sandramoen.prideart2022.utils.*
@@ -23,11 +25,12 @@ class LevelScreen : BaseScreen() {
     private lateinit var player: Player
     private lateinit var tilemap: TilemapActor
     private lateinit var enemySpawner: BaseActor
-    private var isGameOver = false
-
-    private lateinit var gameOverLabel: Label
+    private lateinit var mainLabel: Label
     private lateinit var experienceBar: ExperienceBar
     private lateinit var healthBar: HealthBar
+    private lateinit var controllerMessage: ControllerMessage
+
+    private var isGameOver = false
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
@@ -51,6 +54,8 @@ class LevelScreen : BaseScreen() {
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)
         Gdx.input.setCursorPosition(Gdx.graphics.width / 2, Gdx.graphics.height + 10)
+
+        checkControllerConnected()
     }
 
     override fun update(dt: Float) {
@@ -65,6 +70,10 @@ class LevelScreen : BaseScreen() {
         if (keycode == Keys.E) experienceBar.increment(1)
         if (keycode == Keys.NUM_1) setGameOver()
         if (keycode == Keys.NUM_2) player.hit()
+
+        if (dtModifier == 0f)
+            resume()
+
         return super.keyDown(keycode)
     }
 
@@ -80,6 +89,55 @@ class LevelScreen : BaseScreen() {
         if (buttonCode == XBoxGamepad.BUTTON_START)
             BaseGame.setActiveScreen(LevelScreen())
         return super.buttonDown(controller, buttonCode)
+    }
+
+    override fun connected(controller: Controller?) {
+        if (controller!!.canVibrate() && BaseGame.isVibrationsEnabled)
+            controller!!.startVibration(1000, .2f)
+        controllerMessage.showConnected()
+        BaseGame.controllerConnectedSound!!.play(BaseGame.soundVolume)
+        resume()
+    }
+
+    override fun disconnected(controller: Controller?) {
+        controllerMessage.showDisConnected()
+        BaseGame.controllerDisconnectedSound!!.play(BaseGame.soundVolume)
+        pause()
+    }
+
+    override fun resume() {
+        super.resume()
+        dtModifier = 1f
+        unpauseMainLabel()
+    }
+
+    override fun pause() {
+        super.pause()
+        dtModifier = 0f
+        setMainLabelToPaused()
+    }
+
+    private fun checkControllerConnected() {
+        if (Controllers.getControllers().size > 0) {
+            controllerMessage.showConnected()
+            val controller = Controllers.getControllers()[0]
+            if (controller.canVibrate() && BaseGame.isVibrationsEnabled)
+                controller.startVibration(1000, .2f)
+        } else {
+            controllerMessage.showNoControllerFound()
+        }
+    }
+
+    private fun unpauseMainLabel() {
+        mainLabel.isVisible = false
+        mainLabel.clearActions()
+        mainLabel.color.a = 1f
+    }
+
+    private fun setMainLabelToPaused() {
+        mainLabel.setText("PAUSED")
+        GameUtils.pulseWidget(mainLabel)
+        mainLabel.isVisible = true
     }
 
     private fun handleEnemies() {
@@ -140,7 +198,8 @@ class LevelScreen : BaseScreen() {
 
     private fun setGameOver() {
         isGameOver = true
-        gameOverLabel.isVisible = true
+        mainLabel.isVisible = true
+        mainLabel.setText("Game Over!")
         dtModifier = .125f
         player.death()
     }
@@ -150,11 +209,16 @@ class LevelScreen : BaseScreen() {
 
         healthBar = HealthBar()
         val padding = Gdx.graphics.height * .05f
-        uiTable.add(healthBar).top().padTop(padding).padBottom(-healthBar.prefHeight - padding)
+        uiTable.add(healthBar).padTop(padding).padBottom(-healthBar.prefHeight - padding)
             .row()
 
-        gameOverLabel = Label("Game Over!", BaseGame.bigLabelStyle)
-        gameOverLabel.isVisible = false
-        uiTable.add(gameOverLabel).expandY()
+        mainLabel = Label("", BaseGame.bigLabelStyle)
+        mainLabel.isVisible = false
+        uiTable.add(mainLabel).expandY().row()
+
+        controllerMessage = ControllerMessage()
+        uiTable.add(controllerMessage)
+            .padTop(-controllerMessage.prefHeight - Gdx.graphics.height * .1f)
+            .padBottom(Gdx.graphics.height * .1f)
     }
 }
