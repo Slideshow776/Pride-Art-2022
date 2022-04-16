@@ -3,7 +3,6 @@ package no.sandramoen.prideart2022.actors.enemies
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
@@ -12,9 +11,7 @@ import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.particles.FlameExplosion
-import no.sandramoen.prideart2022.actors.particles.FlameSprinklesEffect
 import no.sandramoen.prideart2022.actors.player.Player
-import no.sandramoen.prideart2022.screens.LevelScreen
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 

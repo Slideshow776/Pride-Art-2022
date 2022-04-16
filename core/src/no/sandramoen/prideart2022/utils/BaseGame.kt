@@ -8,6 +8,7 @@ import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
@@ -25,10 +26,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.utils.I18NBundle
+import java.util.*
 import kotlin.system.measureTimeMillis
 
 
-abstract class BaseGame : Game(), AssetErrorListener {
+abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
+    private val appLocale = appLocale
     init { game = this }
 
     companion object {
@@ -49,8 +52,9 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var textureAtlas: TextureAtlas? = null
         var skin: Skin? = null
         var levelMusic: Music? = null
+        var menuMusic: Music? = null
         var enemyChargeSound: Sound? = null
-        var enemyChargeupSound: Sound? = null
+        var enemyChargeUpSound: Sound? = null
         var enemyDeathSound: Sound? = null
         var enemyShootSound: Sound? = null
         var experiencePickupSound: Sound? = null
@@ -77,6 +81,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var myBundle: I18NBundle? = null
 
         fun setActiveScreen(screen: BaseScreen) {
+            screen.initialize()
             game?.setScreen(screen)
         }
     }
@@ -84,6 +89,8 @@ abstract class BaseGame : Game(), AssetErrorListener {
     override fun create() {
         Gdx.input.setCatchKey(Keys.BACK, true) // so that android doesn't exit game on back button
         Gdx.input.inputProcessor = InputMultiplexer() // discrete input
+
+        currentLocale = appLocale
 
         try {
             skin = Skin(Gdx.files.internal("skins/default/uiskin.json"))
@@ -99,6 +106,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
 
             // music
             assetManager.load("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
+            assetManager.load("audio/music/530376__andrewkn__pad-ambient.wav", Music::class.java)
 
             // sounds
             assetManager.load("audio/sound/enemyCharge.wav", Sound::class.java)
@@ -126,7 +134,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             // assetManager.load("skins/arcade/arcade.json", Skin::class.java)
 
             // i18n
-            // assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleParameter(Locale(currentLocale)))
+            assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleLoader.I18NBundleParameter(Locale(currentLocale)))
 
             // shaders
             assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
@@ -143,9 +151,10 @@ abstract class BaseGame : Game(), AssetErrorListener {
 
             // audio
             levelMusic = assetManager.get("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
+            menuMusic = assetManager.get("audio/music/530376__andrewkn__pad-ambient.wav", Music::class.java)
 
             enemyChargeSound = assetManager.get("audio/sound/enemyCharge.wav", Sound::class.java)
-            enemyChargeupSound = assetManager.get("audio/sound/enemyChargeup.wav", Sound::class.java)
+            enemyChargeUpSound = assetManager.get("audio/sound/enemyChargeup.wav", Sound::class.java)
             enemyDeathSound = assetManager.get("audio/sound/enemyDeath.wav", Sound::class.java)
             enemyShootSound = assetManager.get("audio/sound/enemyShoot.wav", Sound::class.java)
             experiencePickupSound = assetManager.get("audio/sound/experiencePickup.wav", Sound::class.java)
@@ -168,7 +177,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)
 
             // i18n
-            // myBundle = assetManager["i18n/MyBundle", I18NBundle::class.java]
+            myBundle = assetManager["i18n/MyBundle", I18NBundle::class.java]
 
             // tiled map
             level1 = assetManager.get("map/level1.tmx", TiledMap::class.java)

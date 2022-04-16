@@ -31,7 +31,6 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
         uiStage = Stage()
         uiStage.addActor(uiTable)
         uiStage.viewport = ScreenViewport()
-        initialize()
     }
 
     abstract fun initialize()

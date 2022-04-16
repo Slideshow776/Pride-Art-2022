@@ -16,7 +16,6 @@ import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.particles.GhostSprinklesEffect
 import no.sandramoen.prideart2022.actors.player.Player
-import no.sandramoen.prideart2022.screens.LevelScreen
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
@@ -80,7 +79,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
     private fun stopToCharge() {
         isStoppingToCharge = true
         angleToCharge = getAngleTowardActor(player) + MathUtils.random(-5f, 5f)
-        BaseGame.enemyChargeupSound!!.play(BaseGame.soundVolume)
+        BaseGame.enemyChargeUpSound!!.play(BaseGame.soundVolume)
         addAction(
             Actions.sequence(
                 stoppingToChargeAnimation(),

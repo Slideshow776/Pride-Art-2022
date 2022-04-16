@@ -22,6 +22,6 @@ public class DesktopLauncher {
 		config.resizable = true;
 		// config.fullscreen = true;
 
-		new LwjglApplication(new PrideArt2022Game(), config);
+		new LwjglApplication(new PrideArt2022Game("no"), config);
 	}
 }

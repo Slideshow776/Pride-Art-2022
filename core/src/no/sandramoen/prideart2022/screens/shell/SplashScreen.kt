@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.ShockwaveBackground
-import no.sandramoen.prideart2022.screens.LevelScreen
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.BaseScreen
@@ -33,7 +32,7 @@ class SplashScreen : BaseScreen() {
             BaseGame.clickSound!!.play(BaseGame.soundVolume)
             blackOverlay.clearActions()
             blackOverlay.addAction(Actions.sequence(
-                Actions.fadeIn(.45f),
+                Actions.fadeIn(.2f),
                 Actions.delay(.05f),
                 Actions.run {
                     super.dispose()
@@ -82,7 +81,7 @@ class SplashScreen : BaseScreen() {
     private fun disposeAndSetActiveScreen() {
         blackOverlay.addAction(Actions.after(Actions.run {
             dispose()
-            BaseGame.setActiveScreen(LevelScreen())
+            BaseGame.setActiveScreen(MenuScreen())
         }))
     }
 }
