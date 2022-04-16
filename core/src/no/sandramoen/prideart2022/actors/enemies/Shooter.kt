@@ -114,30 +114,37 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
                 Actions.scaleTo(.025f, 1f, duration),
                 Actions.color(Color.BLACK, duration)
             ),
+            Actions.run { flip() },
             Actions.parallel(
                 Actions.scaleTo(1f, 1f, duration),
                 Actions.color(Color.WHITE, duration)
             ),
+            Actions.run { flip() },
             Actions.parallel(
                 Actions.scaleTo(.025f, 1f, duration),
                 Actions.color(Color.BLACK, duration)
             ),
+            Actions.run { flip() },
             Actions.parallel(
                 Actions.scaleTo(1f, 1f, duration),
                 Actions.color(Color.WHITE, duration)
             ),
+            Actions.run { flip() },
             Actions.parallel(
                 Actions.scaleTo(.025f, 1f, duration),
                 Actions.color(Color.BLACK, duration)
             ),
+            Actions.run { flip() },
             Actions.parallel(
                 Actions.scaleTo(1f, 1f, duration),
                 Actions.color(Color.WHITE, duration)
             ),
+            Actions.run { flip() },
             Actions.parallel(
                 Actions.scaleTo(.025f, 1f, duration),
                 Actions.color(Color.BLACK, duration)
-            )
+            ),
+            Actions.run { flip() }
         )
     }
 
