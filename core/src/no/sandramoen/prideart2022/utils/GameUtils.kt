@@ -20,12 +20,37 @@ class GameUtils {
             return event is InputEvent && event.type == InputEvent.Type.touchDown
         }
 
+        fun saveGameState() {
+            BaseGame.prefs!!.putBoolean("loadPersonalParameters", true)
+            BaseGame.prefs!!.putFloat("musicVolume", BaseGame.musicVolume)
+            BaseGame.prefs!!.putFloat("soundVolume", BaseGame.soundVolume)
+            BaseGame.prefs!!.putString("locale", BaseGame.currentLocale)
+            BaseGame.prefs!!.flush()
+        }
+
+        fun loadGameState() {
+            BaseGame.prefs = Gdx.app.getPreferences("prideArt2022GameState")
+            BaseGame.loadPersonalParameters = BaseGame.prefs!!.getBoolean("loadPersonalParameters")
+            BaseGame.musicVolume = BaseGame.prefs!!.getFloat("musicVolume")
+            BaseGame.soundVolume = BaseGame.prefs!!.getFloat("soundVolume")
+            BaseGame.currentLocale = BaseGame.prefs!!.getString("locale")
+        }
+
         fun initShaderProgram(vertexShader: String?, fragmentShader: String?): ShaderProgram {
             ShaderProgram.pedantic = false
             val shaderProgram = ShaderProgram(vertexShader, fragmentShader)
             if (!shaderProgram.isCompiled)
                 Gdx.app.error(javaClass.simpleName, "Couldn't compile shader: " + shaderProgram.log)
             return shaderProgram
+        }
+
+        fun setMusicVolume(volume: Float) {
+            if (volume > 1f || volume < 0f)
+                Gdx.app.error(javaClass.simpleName, "Volume needs to be within [0-1]. Volume is: $volume")
+            BaseGame.musicVolume = volume
+            BaseGame.levelMusic!!.volume = BaseGame.musicVolume
+            BaseGame.menuMusic!!.volume = BaseGame.musicVolume
+            BaseGame.menuMusic!!.volume = BaseGame.musicVolume
         }
 
         fun playAndLoopMusic(music: Music?, volume: Float = BaseGame.musicVolume) {
@@ -38,6 +63,7 @@ class GameUtils {
             textButton.addListener(object : ClickListener() {
                 override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
                     textButton.label.addAction(Actions.color(enterColor, .125f))
+                    BaseGame.hoverOverEnterSound!!.play(BaseGame.soundVolume)
                     super.enter(event, x, y, pointer, fromActor)
                 }
 
@@ -52,6 +78,7 @@ class GameUtils {
             widget.addListener(object : ClickListener() {
                 override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
                     widget.addAction(Actions.color(enterColor, .125f))
+                    BaseGame.hoverOverEnterSound!!.play(BaseGame.soundVolume)
                     super.enter(event, x, y, pointer, fromActor)
                 }
 

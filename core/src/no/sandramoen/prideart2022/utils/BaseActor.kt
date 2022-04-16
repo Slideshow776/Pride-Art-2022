@@ -273,11 +273,12 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     }
 
     private fun shakeCamera() {
-        this.stage.viewport.camera.position.set(Vector3(
+        this.stage.camera.position.set(Vector3(
             this.stage.viewport.camera.position.x + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
             this.stage.viewport.camera.position.y + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
             0f
         ))
+        bindCameraToWorld(this.stage.camera as OrthographicCamera)
     }
 
     // Collision detection --------------------------------------------------------------------------------------

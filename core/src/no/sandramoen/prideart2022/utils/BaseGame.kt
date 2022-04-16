@@ -1,10 +1,7 @@
 package no.sandramoen.prideart2022.utils
 
-import com.badlogic.gdx.Game
-import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.*
 import com.badlogic.gdx.Input.Keys
-import com.badlogic.gdx.InputMultiplexer
-import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
@@ -67,6 +64,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var controllerConnectedSound: Sound? = null
         var controllerDisconnectedSound: Sound? = null
         var clickSound: Sound? = null
+        var hoverOverEnterSound: Sound? = null
         var level1: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
@@ -91,6 +89,12 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         Gdx.input.inputProcessor = InputMultiplexer() // discrete input
 
         currentLocale = appLocale
+        GameUtils.loadGameState()
+        if (!loadPersonalParameters) {
+            currentLocale = appLocale
+            soundVolume = .75f
+            musicVolume = .25f
+        }
 
         try {
             skin = Skin(Gdx.files.internal("skins/default/uiskin.json"))
@@ -123,6 +127,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/controllerConnected.wav", Sound::class.java)
             assetManager.load("audio/sound/controllerDisconnected.wav", Sound::class.java)
             assetManager.load("audio/sound/click1.wav", Sound::class.java)
+            assetManager.load("audio/sound/hoverOverEnter.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -167,6 +172,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             controllerConnectedSound = assetManager.get("audio/sound/controllerConnected.wav", Sound::class.java)
             controllerDisconnectedSound = assetManager.get("audio/sound/controllerDisconnected.wav", Sound::class.java)
             clickSound = assetManager.get("audio/sound/click1.wav", Sound::class.java)
+            hoverOverEnterSound = assetManager.get("audio/sound/hoverOverEnter.wav", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()

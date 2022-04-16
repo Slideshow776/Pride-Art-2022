@@ -95,12 +95,6 @@ class LevelScreen : BaseScreen() {
         return super.buttonDown(controller, buttonCode)
     }
 
-    override fun axisMoved(controller: Controller?, axisCode: Int, value: Float): Boolean {
-        if (value > .1f && dtModifier == 0f)
-            resume()
-        return super.axisMoved(controller, axisCode, value)
-    }
-
     override fun connected(controller: Controller?) {
         if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
             controller!!.startVibration(1000, .2f)

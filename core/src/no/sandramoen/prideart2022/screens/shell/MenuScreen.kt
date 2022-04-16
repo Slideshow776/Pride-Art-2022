@@ -108,8 +108,8 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
 
     private fun setOptionsScreenWithDelay() {
         optionsButton.addAction(Actions.sequence(
-            Actions.delay(.5f)/*,
-            Actions.run { BaseGame.setActiveScreen(OptionsScreen()) }*/
+            Actions.delay(.5f),
+            Actions.run { BaseGame.setActiveScreen(OptionsScreen()) }
         ))
     }
 
