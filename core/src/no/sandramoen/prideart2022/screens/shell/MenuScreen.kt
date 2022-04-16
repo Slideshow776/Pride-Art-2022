@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.Touchable
@@ -25,6 +26,8 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private lateinit var highlightedActor: Actor
     private var madeByLabel = MadeByLabel()
     private var usingMouse = true
+    private var isAxisFreeToMove = true
+    private var axisCounter = 0f
 
     override fun initialize() {
         titleLabel = Label(BaseGame.myBundle!!.get("title"), BaseGame.bigLabelStyle)
@@ -60,7 +63,12 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         }
     }
 
-    override fun update(dt: Float) {}
+    override fun update(dt: Float) {
+        if (axisCounter > .25f)
+            isAxisFreeToMove = true
+        else
+            axisCounter += dt
+    }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         if (!usingMouse) {
@@ -98,6 +106,24 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
             madeByLabel.openURIWithDelay()
         }
         return super.buttonDown(controller, buttonCode)
+    }
+
+    override fun axisMoved(controller: Controller?, axisCode: Int, value: Float): Boolean {
+        if (isAxisFreeToMove && value > .1f) {
+            val direction = Vector2(
+                controller!!.getAxis(XBoxGamepad.AXIS_LEFT_Y),
+                -controller!!.getAxis(XBoxGamepad.AXIS_LEFT_X)
+            )
+
+            if (direction.angleDeg() in 45.0..135.0) {
+                swapButtons(up = true)
+            } else if (direction.angleDeg() in 225.0..315.0)
+                swapButtons(up = false)
+
+            isAxisFreeToMove = false
+            axisCounter = 0f
+        }
+        return super.axisMoved(controller, axisCode, value)
     }
 
     private fun swapButtons(up: Boolean) {
