@@ -14,14 +14,15 @@ import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class BaseSlider(value: String, labelText: String) : Table() {
+    val slider = sliderInit(value)
+    var stepSize = .1f
+    val label = labelInit(labelText)
 
     init {
         val containerWidth = Gdx.graphics.width * .07f
         val containerHeight = Gdx.graphics.height * .02f
         val containerScaleX = 4f
         val containerScaleY = 4.5f
-
-        val slider = sliderInit(value)
 
         val container = Container(slider)
         container.isTransform = true
@@ -30,7 +31,6 @@ class BaseSlider(value: String, labelText: String) : Table() {
         container.setOrigin(container.width / 2, container.height / 2)
         container.setScale(containerScaleX, containerScaleY)
 
-        val label = labelInit(labelText)
         setContainerHoverColor(container, label)
 
         add(container).width(container.width).height(container.height)
@@ -40,7 +40,8 @@ class BaseSlider(value: String, labelText: String) : Table() {
     }
 
     private fun sliderInit(value: String): Slider {
-        val slider = Slider(0f, 1f, .1f, false, BaseGame.skin)
+        stepSize = .1f
+        val slider = Slider(0f, 1f, stepSize, false, BaseGame.skin)
         when (value) {
             "sound" -> slider.value = BaseGame.soundVolume
             "music" -> slider.value = BaseGame.musicVolume

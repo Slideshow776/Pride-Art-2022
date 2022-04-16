@@ -51,11 +51,9 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         }
 
         if (Controllers.getControllers().size > 0) {
-            Gdx.input.setCursorPosition(Gdx.graphics.width / 2, Gdx.graphics.height + 10)
             BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
                 Actions.delay(.05f),
                 Actions.run {
-                    startButton.label.color = BaseGame.lightPink
                     highlightedActor = startButton
                     usingMouse = false
                 }
@@ -74,7 +72,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         if (!usingMouse) {
             startButton.label.color = Color.WHITE
             optionsButton.label.color = Color.WHITE
-            madeByLabel.color = Color.WHITE
+            madeByLabel.color = madeByLabel.grayColor
         }
         usingMouse = true
         return super.mouseMoved(screenX, screenY)
