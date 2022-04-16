@@ -62,9 +62,11 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var explosionSound: Sound? = null
         var controllerConnectedSound: Sound? = null
         var controllerDisconnectedSound: Sound? = null
+        var clickSound: Sound? = null
         var level1: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
+        var shockwaveShader: String? = null
 
         // game state
         var prefs: Preferences? = null
@@ -112,6 +114,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             assetManager.load("audio/sound/Explosion7.wav", Sound::class.java)
             assetManager.load("audio/sound/controllerConnected.wav", Sound::class.java)
             assetManager.load("audio/sound/controllerDisconnected.wav", Sound::class.java)
+            assetManager.load("audio/sound/click1.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -128,6 +131,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
             // shaders
             assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
             assetManager.load(AssetDescriptor("shaders/glow-pulse.fs", Text::class.java, TextLoader.TextParameter()))
+            assetManager.load(AssetDescriptor("shaders/shockwave.fs", Text::class.java, TextLoader.TextParameter()))
 
             // tiled maps
             assetManager.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
@@ -153,10 +157,12 @@ abstract class BaseGame : Game(), AssetErrorListener {
             explosionSound = assetManager.get("audio/sound/Explosion7.wav", Sound::class.java)
             controllerConnectedSound = assetManager.get("audio/sound/controllerConnected.wav", Sound::class.java)
             controllerDisconnectedSound = assetManager.get("audio/sound/controllerDisconnected.wav", Sound::class.java)
+            clickSound = assetManager.get("audio/sound/click1.wav", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
             glowShader = assetManager.get("shaders/glow-pulse.fs", Text::class.java).getString()
+            shockwaveShader = assetManager.get("shaders/shockwave.fs", Text::class.java).getString()
 
             // skin
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)

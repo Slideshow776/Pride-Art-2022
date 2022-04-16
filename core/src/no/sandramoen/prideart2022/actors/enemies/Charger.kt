@@ -117,7 +117,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
                 isShakyCam = false
                 Experience(x + width / 2, y + height / 2, stage, 1)
                 BaseGame.enemyDeathSound!!.play(BaseGame.soundVolume, .8f, 0f)
-                Remains(stage, this)
+                Remains(stage, player)
                 remove()
             }
         )
