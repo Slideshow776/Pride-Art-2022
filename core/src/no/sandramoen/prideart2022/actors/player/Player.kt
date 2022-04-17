@@ -51,6 +51,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         setBoundaryPolygon(8)
         setOrigin(Align.center)
+
+        pantingAnimation()
     }
 
     override fun act(dt: Float) {
@@ -97,6 +99,20 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             Actions.sequence(
                 Actions.color(color, duration / 2),
                 Actions.color(Color.WHITE, duration / 2)
+            )
+        )
+    }
+
+    private fun pantingAnimation() {
+        addAction(
+            Actions.sequence(
+                Actions.delay(8f),
+                Actions.forever(
+                    Actions.sequence(
+                        Actions.scaleTo(1.025f, .975f, .5f),
+                        Actions.scaleTo(.975f, 1.025f, .5f)
+                    )
+                )
             )
         )
     }
