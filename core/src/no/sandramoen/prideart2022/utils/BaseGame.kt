@@ -50,6 +50,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var skin: Skin? = null
         var levelMusic: Music? = null
         var menuMusic: Music? = null
+        var cinematic1Music: Music? = null
+        var cinematic2Music: Music? = null
         var enemyChargeSound: Sound? = null
         var enemyChargeUpSound: Sound? = null
         var enemyDeathSound: Sound? = null
@@ -65,6 +67,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var controllerDisconnectedSound: Sound? = null
         var clickSound: Sound? = null
         var hoverOverEnterSound: Sound? = null
+        var spaceStationBeamSound: Sound? = null
+        var intro1VoiceSound: Sound? = null
         var level1: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
@@ -73,6 +77,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         // game state
         var prefs: Preferences? = null
         var loadPersonalParameters = false
+        var voiceVolume = 1f
         var soundVolume = .75f
         var musicVolume = .5f
         var currentLocale: String? = null
@@ -111,6 +116,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             // music
             assetManager.load("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
             assetManager.load("audio/music/530376__andrewkn__pad-ambient.wav", Music::class.java)
+            assetManager.load("audio/music/341652__devern__cinematic-build.wav", Music::class.java)
+            assetManager.load("audio/music/553418__eminyildirim__cinematic-boom-impact-hit-2021.wav", Music::class.java)
 
             // sounds
             assetManager.load("audio/sound/enemyCharge.wav", Sound::class.java)
@@ -128,6 +135,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/controllerDisconnected.wav", Sound::class.java)
             assetManager.load("audio/sound/click1.wav", Sound::class.java)
             assetManager.load("audio/sound/hoverOverEnter.wav", Sound::class.java)
+            assetManager.load("audio/sound/spaceStationBeam.wav", Sound::class.java)
+            assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -157,6 +166,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             // audio
             levelMusic = assetManager.get("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
             menuMusic = assetManager.get("audio/music/530376__andrewkn__pad-ambient.wav", Music::class.java)
+            cinematic1Music = assetManager.get("audio/music/341652__devern__cinematic-build.wav", Music::class.java)
+            cinematic2Music = assetManager.get("audio/music/553418__eminyildirim__cinematic-boom-impact-hit-2021.wav", Music::class.java)
 
             enemyChargeSound = assetManager.get("audio/sound/enemyCharge.wav", Sound::class.java)
             enemyChargeUpSound = assetManager.get("audio/sound/enemyChargeup.wav", Sound::class.java)
@@ -173,6 +184,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             controllerDisconnectedSound = assetManager.get("audio/sound/controllerDisconnected.wav", Sound::class.java)
             clickSound = assetManager.get("audio/sound/click1.wav", Sound::class.java)
             hoverOverEnterSound = assetManager.get("audio/sound/hoverOverEnter.wav", Sound::class.java)
+            spaceStationBeamSound = assetManager.get("audio/sound/spaceStationBeam.wav", Sound::class.java)
+            intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
