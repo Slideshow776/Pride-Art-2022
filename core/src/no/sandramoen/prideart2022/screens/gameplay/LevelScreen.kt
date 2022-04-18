@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import no.sandramoen.prideart2022.actors.enemies.Charger
+import no.sandramoen.prideart2022.actors.characters.enemies.Charger
 import no.sandramoen.prideart2022.actors.Experience
-import no.sandramoen.prideart2022.actors.player.Player
+import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.Vignette
-import no.sandramoen.prideart2022.actors.enemies.Shooter
-import no.sandramoen.prideart2022.actors.enemies.Shot
-import no.sandramoen.prideart2022.actors.player.GroundCrack
+import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
+import no.sandramoen.prideart2022.actors.characters.enemies.Shot
+import no.sandramoen.prideart2022.actors.characters.player.GroundCrack
 import no.sandramoen.prideart2022.ui.ControllerMessage
 import no.sandramoen.prideart2022.ui.ExperienceBar
 import no.sandramoen.prideart2022.ui.HealthBar
@@ -53,7 +53,6 @@ class LevelScreen : BaseScreen() {
         uiSetup()
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)
-        Gdx.input.setCursorPosition(Gdx.graphics.width / 2, Gdx.graphics.height + 10)
 
         checkControllerConnected()
     }

@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Vignette
-import no.sandramoen.prideart2022.screens.gameplay.LevelScreen
+import no.sandramoen.prideart2022.screens.shell.intro.IntroSaturnScreen
 import no.sandramoen.prideart2022.ui.MadeByLabel
 import no.sandramoen.prideart2022.utils.*
 
@@ -210,7 +210,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         prepLeaveMenuScreen()
         startButton.addAction(Actions.sequence(
             Actions.delay(.5f),
-            Actions.run { BaseGame.setActiveScreen(LevelScreen()) }
+            Actions.run { BaseGame.setActiveScreen(IntroSaturnScreen()) }
         ))
     }
 
