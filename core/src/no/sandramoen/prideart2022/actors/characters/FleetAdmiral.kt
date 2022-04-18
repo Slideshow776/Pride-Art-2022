@@ -44,6 +44,7 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
 
     fun stopTalking() {
         talk = false
+        setAnimation(idleAnimation)
     }
 
     fun idle() = setAnimation(idleAnimation)
