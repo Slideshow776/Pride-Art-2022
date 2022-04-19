@@ -49,7 +49,6 @@ class IntroSaturnScreen : BaseScreen() {
 
         camera.position.set(Vector3(saturn.width * .5f, saturn.height * .5f, 0f))
 
-
         BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
             Actions.delay(1.5f),
             Actions.run { act1() }
@@ -73,13 +72,19 @@ class IntroSaturnScreen : BaseScreen() {
         if (keycode == Keys.Q) Gdx.app.exit()
         else if (keycode == Keys.R) BaseGame.setActiveScreen(IntroSaturnScreen())
         else if (keycode == Keys.W) println("time elapsed: $timeElapsed")
-        else BaseGame.setActiveScreen(LevelScreen())
+        else skipIntro()
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        BaseGame.setActiveScreen(LevelScreen())
+        skipIntro()
         return super.buttonDown(controller, buttonCode)
+    }
+
+    private fun skipIntro() {
+        BaseGame.intro1VoiceSound!!.stop()
+        BaseGame.cinematic2Music!!.stop()
+        BaseGame.setActiveScreen(LevelScreen())
     }
 
     private fun act1() { // 6

@@ -55,13 +55,18 @@ class LightspeedScreen : BaseScreen() {
         if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(LevelScreen())
         else if (keycode == Input.Keys.W) println("time elapsed: $timeElapsed")
-        else BaseGame.setActiveScreen(LevelScreen())
+        else skipIntro()
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        BaseGame.setActiveScreen(LevelScreen())
+        skipIntro()
         return super.buttonDown(controller, buttonCode)
+    }
+
+    private fun skipIntro() {
+        BaseGame.cinematic3Music!!.stop()
+        BaseGame.setActiveScreen(LevelScreen())
     }
 
     private fun initializeBeam() {

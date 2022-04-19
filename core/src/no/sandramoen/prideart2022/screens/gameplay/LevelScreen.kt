@@ -110,14 +110,18 @@ class LevelScreen : BaseScreen() {
 
     override fun resume() {
         super.resume()
-        dtModifier = 1f
-        unpauseMainLabel()
+        if (!isGameOver) {
+            dtModifier = 1f
+            unpauseMainLabel()
+        }
     }
 
     override fun pause() {
         super.pause()
-        dtModifier = 0f
-        setMainLabelToPaused()
+        if (!isGameOver) {
+            dtModifier = 0f
+            setMainLabelToPaused()
+        }
     }
 
     private fun checkControllerConnected() {

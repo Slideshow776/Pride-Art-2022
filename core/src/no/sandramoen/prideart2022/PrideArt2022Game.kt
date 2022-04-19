@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022
 
+import no.sandramoen.prideart2022.screens.gameplay.LevelScreen
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.utils.BaseGame
 
