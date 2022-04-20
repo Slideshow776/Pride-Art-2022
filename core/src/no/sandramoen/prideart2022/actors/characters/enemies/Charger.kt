@@ -24,7 +24,7 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
     private val player = player
 
     private val chargeDistance = 10f
-    private val movementSpeed = player.movementSpeed * .72f
+    private val movementSpeed = player.originalMovementSpeed * .72f
     private val chargeDuration = .5f
     private val chargeSpeed = 40f
 

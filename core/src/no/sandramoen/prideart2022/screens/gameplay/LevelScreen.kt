@@ -3,12 +3,12 @@ package no.sandramoen.prideart2022.screens.gameplay
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
-import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.*
+import no.sandramoen.prideart2022.actors.characters.Boss0
 import no.sandramoen.prideart2022.actors.characters.enemies.Charger
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
@@ -16,6 +16,7 @@ import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
 import no.sandramoen.prideart2022.actors.characters.enemies.Shot
 import no.sandramoen.prideart2022.actors.characters.player.GroundCrack
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
+import no.sandramoen.prideart2022.ui.BossBar
 import no.sandramoen.prideart2022.ui.ControllerMessage
 import no.sandramoen.prideart2022.ui.ExperienceBar
 import no.sandramoen.prideart2022.ui.HealthBar
@@ -27,6 +28,7 @@ class LevelScreen : BaseScreen() {
     private lateinit var enemySpawner: BaseActor
     private lateinit var mainLabel: Label
     private lateinit var experienceBar: ExperienceBar
+    private lateinit var bossBar: BossBar
     private lateinit var healthBar: HealthBar
     private lateinit var controllerMessage: ControllerMessage
     private lateinit var fleetAdmiral: FleetAdmiral
@@ -61,7 +63,7 @@ class LevelScreen : BaseScreen() {
         else if (keycode == Keys.NUM_1) setGameOver()
         else if (keycode == Keys.NUM_2) {
             if (player.health > 0) {
-                player.hit()
+                player.hit(1)
                 player.health--
                 healthBar.subtractHealth()
                 dropHealth()
@@ -156,12 +158,23 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun handleEnemies() {
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Boss0::class.java.canonicalName)) {
+            enemy as Boss0
+            enemyCollidedWithPlayer(enemy, false, player.health)
+            if (bossBar.complete && !enemy.dying) {
+                enemy.death()
+                experienceBar.level++
+                bossBar.isVisible = false
+                fadeFleetAdmiralInAndOut("Godt jobba! Han kan ikke plage noen mere nå")
+                spawnEnemies()
+            }
+        }
         for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName))
-            enemyCollidedWithPlayer(enemy)
+            enemyCollidedWithPlayer(enemy, false, 1)
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shooter::class.java.canonicalName))
-            enemyCollidedWithPlayer(enemy)
+            enemyCollidedWithPlayer(enemy, false, 1)
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName))
-            enemyCollidedWithPlayer(enemy, remove = true)
+            enemyCollidedWithPlayer(enemy, true, 1)
     }
 
     private fun handlePickups() {
@@ -171,9 +184,18 @@ class LevelScreen : BaseScreen() {
         )) {
             if (player.overlaps(experience as Experience)) {
                 val isLevelUp = experienceBar.increment(experience.amount)
-                if (isLevelUp)
-                    fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
                 experience.pickup()
+                if (
+                    experienceBar.level == 2 &&
+                    BaseActor.count(mainStage, Boss0::class.java.canonicalName) == 0
+                ) {
+                    Boss0(player.x + 20f, player.y + 20f, mainStage, player)
+                    bossBar.countDown()
+                    enemySpawner.clearActions()
+                    fadeFleetAdmiralInAndOut("Kim Alexander Tønseth!\nDenne fascisten gjorde mye vold mot transfolk!", 4f)
+                }
+                else if (isLevelUp)
+                    fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
             }
         }
         for (healthDrop: BaseActor in BaseActor.getList(
@@ -213,12 +235,12 @@ class LevelScreen : BaseScreen() {
         ))
     }
 
-    private fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean = false) {
+    private fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int) {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
+            player.hit(damageAmount)
             if (player.health <= 0) setGameOver()
             else {
-                player.hit()
                 dropHealth()
                 pauseGameForDuration()
             }
@@ -247,13 +269,14 @@ class LevelScreen : BaseScreen() {
         )
     }
 
-    private fun fadeFleetAdmiralInAndOut(subtitles: String) {
+    private fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 2f) {
+        fleetAdmiral.clearActions()
         fleetAdmiral.fadeIn()
         fleetAdmiral.talk()
         fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
         fleetAdmiralSubtitles.setText(subtitles)
         fleetAdmiral.addAction(Actions.sequence(
-            Actions.delay(2f),
+            Actions.delay(talkDuration),
             Actions.run {
                 fleetAdmiral.stopTalking()
                 fleetAdmiral.fadeOut()
@@ -264,6 +287,7 @@ class LevelScreen : BaseScreen() {
 
     private fun uiSetup() {
         experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
+        bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage)
 
         healthBar = HealthBar()
         val padding = Gdx.graphics.height * .05f

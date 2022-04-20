@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.particles.HeartExplosion
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
-import no.sandramoen.prideart2022.utils.GameUtils
 
 class Experience(x: Float, y: Float, stage: Stage, amount: Int) : BaseActor(x, y, stage) {
     val amount = amount

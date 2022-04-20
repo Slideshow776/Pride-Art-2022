@@ -12,11 +12,12 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
     private var progress: BaseActor
     private var label: Label
 
-    private var level = 1
     private var nextLevel = 10f
     private var currentXP = 0f
     private var constant = 2f
     private val ratio = 1.14f
+
+    var level = 1
 
     init {
         loadImage("whitePixel")
@@ -26,7 +27,7 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
 
         progress = BaseActor(0f, 0f, stage)
         progress.loadImage("whitePixel")
-        progress.color = Color.PINK
+        progress.color = Color(0.875f, 0.518f, 0.647f, 1f) // light pink
         progress.setSize(0f,height)
         addActor(progress)
 

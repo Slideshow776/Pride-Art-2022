@@ -28,14 +28,16 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private lateinit var runSAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var deathAnimation: Animation<TextureAtlas.AtlasRegion>
+
     private var wobbleAction: RepeatAction? = null
     private var runningSmokeAction: RepeatAction? = null
     private var isPlaying = true
     private var state = State.Idle
-
-    var movementSpeed = 26f
+    private var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
-    var health = 2
+
+    var originalMovementSpeed = movementSpeed
+    var health: Int = 3
 
     init {
         loadAnimation()
@@ -85,8 +87,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         GroundCrack(x - width / 2, y - height / 1, stage)
     }
 
-    fun hit() {
-        health--
+    fun hit(amount: Int) {
+        health -= amount
         addAction(Actions.moveBy(MathUtils.random(-5f, 5f), MathUtils.random(-5f, 5f), .1f))
         hurtAnimation()
         Explosion(this, stage)

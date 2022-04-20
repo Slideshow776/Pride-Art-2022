@@ -17,7 +17,7 @@ import no.sandramoen.prideart2022.utils.BaseGame
 
 class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
-    private val movementSpeed = player.movementSpeed * .72f
+    private val movementSpeed = player.originalMovementSpeed * .72f
     private val shootDistance = 20f
     private var shotsUntilDeath = 3
     private var shootFrequency = 5f
@@ -73,10 +73,10 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
                 Actions.sequence(
                     Actions.run {
                         shotExplosion()
-                        Shot(x + width / 2, y + height / 2, stage, 0f, player.movementSpeed)
-                        Shot(x + width / 2, y + height / 2, stage, 90f, player.movementSpeed)
-                        Shot(x + width / 2, y + height / 2, stage, 180f, player.movementSpeed)
-                        Shot(x + width / 2, y + height / 2, stage, 270f, player.movementSpeed)
+                        Shot(x + width / 2, y + height / 2, stage, 0f, player.originalMovementSpeed)
+                        Shot(x + width / 2, y + height / 2, stage, 90f, player.originalMovementSpeed)
+                        Shot(x + width / 2, y + height / 2, stage, 180f, player.originalMovementSpeed)
+                        Shot(x + width / 2, y + height / 2, stage, 270f, player.originalMovementSpeed)
                         shotsUntilDeath--
                         BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
                     },
