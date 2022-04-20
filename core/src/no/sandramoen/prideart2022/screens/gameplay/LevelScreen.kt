@@ -60,10 +60,12 @@ class LevelScreen : BaseScreen() {
         else if (keycode == Keys.E) experienceBar.increment(1)
         else if (keycode == Keys.NUM_1) setGameOver()
         else if (keycode == Keys.NUM_2) {
-            player.hit()
-            player.health--
-            healthBar.subtractHealth()
-            dropHealth()
+            if (player.health > 0) {
+                player.hit()
+                player.health--
+                healthBar.subtractHealth()
+                dropHealth()
+            }
         } else if (keycode == Keys.ESCAPE) pauseOrGoMenu()
         return super.keyDown(keycode)
     }
@@ -215,12 +217,14 @@ class LevelScreen : BaseScreen() {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
             if (player.health <= 0) setGameOver()
-            else player.hit()
+            else {
+                player.hit()
+                dropHealth()
+                pauseGameForDuration()
+            }
             BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
             healthBar.subtractHealth()
-            dropHealth()
             if (remove) enemy.death()
-            pauseGameForDuration()
         }
     }
 
@@ -230,6 +234,7 @@ class LevelScreen : BaseScreen() {
         mainLabel.setText(BaseGame.myBundle!!.get("gameOver"))
         dtModifier = .125f
         player.death()
+        fadeFleetAdmiralInAndOut("Det er for farlig! kom tilbake!")
     }
 
     private fun dropHealth() {
