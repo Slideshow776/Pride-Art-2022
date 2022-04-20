@@ -57,4 +57,14 @@ class HealthBar : Table() {
             numHealths--
         }
     }
+
+    fun addHealth(): Boolean {
+        if (numHealths == healths.size) {
+            return false
+        } else {
+            healths[numHealths].addAction(Actions.fadeIn(.5f))
+            numHealths++
+            return true
+        }
+    }
 }

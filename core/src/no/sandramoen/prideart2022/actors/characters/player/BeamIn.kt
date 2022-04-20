@@ -8,8 +8,8 @@ import no.sandramoen.prideart2022.actors.particles.StarsVerticalEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
-class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y + 100, stage) {
-    private val player = player
+class BeamIn(x: Float, y: Float, stage: Stage, baseActor: BaseActor) : BaseActor(x, y + 100, stage) {
+    private val player = baseActor
 
     companion object {
         const val animationDuration = .2f
@@ -18,7 +18,7 @@ class BeamIn(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y 
     init {
         BaseGame.beamInSound!!.play(BaseGame.soundVolume, MathUtils.random(.9f, 1.1f), 0f)
         loadImage("beam")
-        centerAtActor(player)
+        centerAtActor(baseActor)
         setOrigin(Align.bottom)
         setScale(1f, 300f)
 

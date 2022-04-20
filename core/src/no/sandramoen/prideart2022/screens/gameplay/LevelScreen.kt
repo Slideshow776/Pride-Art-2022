@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import no.sandramoen.prideart2022.actors.*
 import no.sandramoen.prideart2022.actors.characters.enemies.Charger
-import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.characters.player.Player
-import no.sandramoen.prideart2022.actors.TilemapActor
-import no.sandramoen.prideart2022.actors.Vignette
+import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
 import no.sandramoen.prideart2022.actors.characters.enemies.Shot
 import no.sandramoen.prideart2022.actors.characters.player.GroundCrack
@@ -29,25 +28,16 @@ class LevelScreen : BaseScreen() {
     private lateinit var experienceBar: ExperienceBar
     private lateinit var healthBar: HealthBar
     private lateinit var controllerMessage: ControllerMessage
+    private lateinit var fleetAdmiral: FleetAdmiral
+    private lateinit var fleetAdmiralSubtitles: Label
 
     private var isGameOver = false
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
         Vignette(uiStage)
-
-        val tintOverlay = BaseActor(0f, 0f, mainStage)
-        tintOverlay.loadImage("whitePixel")
-        tintOverlay.color = Color(0f, 0f, 0f, .65f)
-        tintOverlay.setSize(BaseActor.getWorldBounds().width, BaseActor.getWorldBounds().height)
-
-        val startPoint = tilemap.getRectangleList("player start")[0]
-        val playerPosX = startPoint.properties.get("x") as Float * TilemapActor.unitScale
-        val playerPosY = startPoint.properties.get("y") as Float * TilemapActor.unitScale
-
-        val groundCrack = GroundCrack(0f, 0f, mainStage)
-        player = Player(playerPosX, playerPosY, mainStage)
-        groundCrack.centerAtActor(player)
+        TintOverlay(0f, 0f, mainStage)
+        initializePlayer()
 
         spawnEnemies()
         uiSetup()
@@ -68,7 +58,12 @@ class LevelScreen : BaseScreen() {
         if (keycode == Keys.Q) Gdx.app.exit()
         if (keycode == Keys.E) experienceBar.increment(1)
         if (keycode == Keys.NUM_1) setGameOver()
-        if (keycode == Keys.NUM_2) player.hit()
+        if (keycode == Keys.NUM_2) {
+            player.hit()
+            player.health--
+            healthBar.subtractHealth()
+            dropHealth()
+        }
 
         if (dtModifier == 0f)
             resume()
@@ -124,6 +119,16 @@ class LevelScreen : BaseScreen() {
         }
     }
 
+    private fun initializePlayer() {
+        val startPoint = tilemap.getRectangleList("player start")[0]
+        val playerPosX = startPoint.properties.get("x") as Float * TilemapActor.unitScale
+        val playerPosY = startPoint.properties.get("y") as Float * TilemapActor.unitScale
+
+        val groundCrack = GroundCrack(0f, 0f, mainStage)
+        player = Player(playerPosX, playerPosY, mainStage)
+        groundCrack.centerAtActor(player)
+    }
+
     private fun checkControllerConnected() {
         if (Controllers.getControllers().size > 0) {
             controllerMessage.showConnected()
@@ -166,6 +171,18 @@ class LevelScreen : BaseScreen() {
                 experience.pickup()
             }
         }
+        for (healthDrop: BaseActor in BaseActor.getList(
+            mainStage,
+            HealthDrop::class.java.canonicalName
+        )) {
+            if (player.overlaps(healthDrop as HealthDrop)) {
+                if (healthBar.addHealth()) {
+                    player.healthBack()
+                    healthDrop.pickup(true)
+                }
+                healthDrop.pickup(false)
+            }
+        }
     }
 
     private fun spawnEnemies() {
@@ -198,6 +215,7 @@ class LevelScreen : BaseScreen() {
             else player.hit()
             BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
             healthBar.subtractHealth()
+            dropHealth()
             if (remove) enemy.death()
             pauseGameForDuration()
         }
@@ -211,6 +229,31 @@ class LevelScreen : BaseScreen() {
         player.death()
     }
 
+    private fun dropHealth() {
+        fadeFleetAdmiralInAndOut("Jeg droppa helse til deg!")
+        HealthDrop(
+            MathUtils.random(10f, BaseActor.getWorldBounds().width - 10f),
+            MathUtils.random(10f, BaseActor.getWorldBounds().height - 10f),
+            mainStage,
+            player
+        )
+    }
+
+    private fun fadeFleetAdmiralInAndOut(subtitles: String) {
+        fleetAdmiral.fadeIn()
+        fleetAdmiral.talk()
+        fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
+        fleetAdmiralSubtitles.setText(subtitles)
+        fleetAdmiral.addAction(Actions.sequence(
+            Actions.delay(2f),
+            Actions.run {
+                fleetAdmiral.stopTalking()
+                fleetAdmiral.fadeOut()
+                fleetAdmiralSubtitles.addAction(Actions.fadeOut(1f))
+            }
+        ))
+    }
+
     private fun uiSetup() {
         experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
 
@@ -218,6 +261,17 @@ class LevelScreen : BaseScreen() {
         val padding = Gdx.graphics.height * .05f
         uiTable.add(healthBar).padTop(padding).padBottom(-healthBar.prefHeight - padding)
             .row()
+
+        fleetAdmiral = FleetAdmiral(0f, 0f, uiStage)
+        fleetAdmiral.scaleBy(100f)
+        fleetAdmiral.setPosition(
+            Gdx.graphics.width * .1f,
+            Gdx.graphics.height - fleetAdmiral.height * 100f
+        )
+
+        fleetAdmiralSubtitles = Label("", BaseGame.smallLabelStyle)
+        fleetAdmiralSubtitles.setPosition(fleetAdmiral.x - 50f, fleetAdmiral.y - 150)
+        uiStage.addActor(fleetAdmiralSubtitles)
 
         mainLabel = Label("", BaseGame.bigLabelStyle)
         mainLabel.isVisible = false

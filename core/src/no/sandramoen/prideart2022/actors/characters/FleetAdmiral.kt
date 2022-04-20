@@ -23,18 +23,7 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
 
     override fun act(dt: Float) {
         super.act(dt)
-
-        if (talk) {
-            if (talkCounter >= talkFrequency) {
-                BaseGame.fleetAdmiralSound!!.play(
-                    BaseGame.soundVolume,
-                    MathUtils.random(.9f, 1.1f),
-                    0f
-                )
-                talkCounter = MathUtils.random(0f, .28f)
-            }
-            talkCounter += dt
-        }
+        talkSounds(dt)
     }
 
     fun talk() {
@@ -50,6 +39,20 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
     fun idle() = setAnimation(idleAnimation)
     fun fadeIn() = addAction(Actions.fadeIn(1f))
     fun fadeOut() = addAction(Actions.fadeOut(1f))
+
+    private fun talkSounds(dt: Float) {
+        if (talk) {
+            if (talkCounter >= talkFrequency) {
+                BaseGame.fleetAdmiralSound!!.play(
+                    BaseGame.soundVolume,
+                    MathUtils.random(.9f, 1.1f),
+                    0f
+                )
+                talkCounter = MathUtils.random(0f, .28f)
+            }
+            talkCounter += dt
+        }
+    }
 
     private fun initializeAnimations() {
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()

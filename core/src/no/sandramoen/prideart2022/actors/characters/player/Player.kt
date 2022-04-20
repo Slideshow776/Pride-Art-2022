@@ -93,6 +93,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         reduceMovementSpeedBy(20)
     }
 
+    fun healthBack() {
+        health++
+        increaseMovementSpeedBy(20)
+    }
+
     fun flashColor(color: Color) {
         val duration = .25f
         addAction(
@@ -160,6 +165,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private fun reduceMovementSpeedBy(percent: Int) {
         movementSpeed *= (100 - percent) / 100f
+        setMaxSpeed(movementSpeed)
+    }
+
+    private fun increaseMovementSpeedBy(percent: Int) {
+        movementSpeed *= (100 + percent) / 100f
         setMaxSpeed(movementSpeed)
     }
 
