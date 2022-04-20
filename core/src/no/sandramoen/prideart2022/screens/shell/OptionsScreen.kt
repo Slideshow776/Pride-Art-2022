@@ -82,25 +82,25 @@ class OptionsScreen : BaseScreen() {
                 -controller!!.getAxis(XBoxGamepad.AXIS_LEFT_X)
             )
 
-            if (direction.angleDeg() in 45.0..135.0) {
+            if (direction.angleDeg() in 60.0..120.0) {
                 swapButtons(up = true)
                 return false
-            } else if (direction.angleDeg() in 225.0..315.0) {
+            } else if (direction.angleDeg() in 240.0..300.0) {
                 swapButtons(up = false)
                 return false
             }
 
-            else if (direction.angleDeg() in 135.0..225.0 && highlightedActor == soundSlider) {
+            else if (direction.angleDeg() in 120.0..240.0 && highlightedActor == soundSlider) {
                 soundSlider.slider.value -= soundSlider.stepSize
                 return false
-            }else if (direction.angleDeg() > 315f || direction.angleDeg() < 45 && highlightedActor == soundSlider) {
+            }else if (direction.angleDeg() > 300f || direction.angleDeg() < 60 && highlightedActor == soundSlider) {
                 soundSlider.slider.value += soundSlider.stepSize
                 return false
 
-            }else if (direction.angleDeg() in 135.0..225.0 && highlightedActor == musicSlider) {
+            }else if (direction.angleDeg() in 120.0..240.0 && highlightedActor == musicSlider) {
                 musicSlider.slider.value -= musicSlider.stepSize
                 return false
-            }else if (direction.angleDeg() > 315f || direction.angleDeg() < 45 && highlightedActor == musicSlider) {
+            }else if (direction.angleDeg() > 300f || direction.angleDeg() < 60 && highlightedActor == musicSlider) {
                 musicSlider.slider.value += musicSlider.stepSize
                 return false
             }
