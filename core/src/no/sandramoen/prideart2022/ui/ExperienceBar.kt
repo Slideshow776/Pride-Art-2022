@@ -36,9 +36,14 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         addActor(label)
     }
 
-    fun increment(number: Int) {
+    fun increment(number: Int): Boolean {
         currentXP += number
+        val level = this.level
         nearArithmeticProgression()
+
+        if (level < this.level)
+            return true
+        return false
     }
 
     private fun nearArithmeticProgression() {

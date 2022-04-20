@@ -15,6 +15,7 @@ import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
 import no.sandramoen.prideart2022.actors.characters.enemies.Shot
 import no.sandramoen.prideart2022.actors.characters.player.GroundCrack
+import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.ui.ControllerMessage
 import no.sandramoen.prideart2022.ui.ExperienceBar
 import no.sandramoen.prideart2022.ui.HealthBar
@@ -54,37 +55,36 @@ class LevelScreen : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
+        if (keycode != Keys.ESCAPE && dtModifier == 0f) resume()
+
         if (keycode == Keys.R) BaseGame.setActiveScreen(LevelScreen())
-        if (keycode == Keys.Q) Gdx.app.exit()
-        if (keycode == Keys.E) experienceBar.increment(1)
-        if (keycode == Keys.NUM_1) setGameOver()
-        if (keycode == Keys.NUM_2) {
+        else if (keycode == Keys.Q) Gdx.app.exit()
+        else if (keycode == Keys.E) experienceBar.increment(1)
+        else if (keycode == Keys.NUM_1) setGameOver()
+        else if (keycode == Keys.NUM_2) {
             player.hit()
             player.health--
             healthBar.subtractHealth()
             dropHealth()
-        }
-
-        if (dtModifier == 0f)
-            resume()
-
+        } else if (keycode == Keys.ESCAPE) pauseOrGoMenu()
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
+        if (buttonCode != XBoxGamepad.BUTTON_BACK && dtModifier == 0f) resume()
+
         if (buttonCode == XBoxGamepad.BUTTON_A)
             player.flashColor(Color.GREEN)
-        if (buttonCode == XBoxGamepad.BUTTON_B)
+        else if (buttonCode == XBoxGamepad.BUTTON_B)
             player.flashColor(Color.RED)
-        if (buttonCode == XBoxGamepad.BUTTON_X)
+        else if (buttonCode == XBoxGamepad.BUTTON_X)
             player.flashColor(Color.BLUE)
-        if (buttonCode == XBoxGamepad.BUTTON_Y)
+        else if (buttonCode == XBoxGamepad.BUTTON_Y)
             player.flashColor(Color.YELLOW)
-        if (buttonCode == XBoxGamepad.BUTTON_START)
+        else if (buttonCode == XBoxGamepad.BUTTON_START)
             BaseGame.setActiveScreen(LevelScreen())
-
-        if (dtModifier == 0f)
-            resume()
+        else if (buttonCode == XBoxGamepad.BUTTON_BACK)
+            pauseOrGoMenu()
 
         return super.buttonDown(controller, buttonCode)
     }
@@ -117,6 +117,20 @@ class LevelScreen : BaseScreen() {
             dtModifier = 0f
             setMainLabelToPaused()
         }
+    }
+
+    private fun pauseOrGoMenu() {
+        if (dtModifier == 0f) {
+            setMenuScreen()
+        } else {
+            pause()
+            BaseGame.controllerDisconnectedSound!!.play(BaseGame.soundVolume)
+        }
+    }
+
+    private fun setMenuScreen() {
+        BaseGame.setActiveScreen(MenuScreen())
+        BaseGame.levelMusic!!.stop()
     }
 
     private fun initializePlayer() {
@@ -167,7 +181,9 @@ class LevelScreen : BaseScreen() {
             Experience::class.java.canonicalName
         )) {
             if (player.overlaps(experience as Experience)) {
-                experienceBar.increment(experience.amount)
+                val isLevelUp = experienceBar.increment(experience.amount)
+                if (isLevelUp)
+                    fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
                 experience.pickup()
             }
         }
