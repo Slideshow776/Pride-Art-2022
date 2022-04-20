@@ -21,6 +21,7 @@ class OptionsScreen : BaseScreen() {
     private var backButton = backButton()
     private var soundSlider = BaseSlider("sound", BaseGame.myBundle!!.get("sound"))
     private var musicSlider = BaseSlider("music", BaseGame.myBundle!!.get("music"))
+    private var voiceSlider = BaseSlider("voice", BaseGame.myBundle!!.get("voice"))
     private var languageCarousel = LanguageCarousel()
     private lateinit var highlightedActor: Actor
     private var usingMouse = true
@@ -59,6 +60,7 @@ class OptionsScreen : BaseScreen() {
         if (!usingMouse) {
             soundSlider.label.color = Color.WHITE
             musicSlider.label.color = Color.WHITE
+            voiceSlider.label.color = Color.WHITE
             languageCarousel.chooseLanguageLabel.color = Color.WHITE
             madeByLabel.color = madeByLabel.grayColor
         }
@@ -88,20 +90,24 @@ class OptionsScreen : BaseScreen() {
             } else if (direction.angleDeg() in 240.0..300.0) {
                 swapButtons(up = false)
                 return false
-            }
-
-            else if (direction.angleDeg() in 120.0..240.0 && highlightedActor == soundSlider) {
+            } else if (direction.angleDeg() in 120.0..240.0 && highlightedActor == soundSlider) {
                 soundSlider.slider.value -= soundSlider.stepSize
                 return false
-            }else if (direction.angleDeg() > 300f || direction.angleDeg() < 60 && highlightedActor == soundSlider) {
+            } else if (direction.angleDeg() > 300f || direction.angleDeg() < 60 && highlightedActor == soundSlider) {
                 soundSlider.slider.value += soundSlider.stepSize
                 return false
 
-            }else if (direction.angleDeg() in 120.0..240.0 && highlightedActor == musicSlider) {
+            } else if (direction.angleDeg() in 120.0..240.0 && highlightedActor == musicSlider) {
                 musicSlider.slider.value -= musicSlider.stepSize
                 return false
-            }else if (direction.angleDeg() > 300f || direction.angleDeg() < 60 && highlightedActor == musicSlider) {
+            } else if (direction.angleDeg() > 300f || direction.angleDeg() < 60 && highlightedActor == musicSlider) {
                 musicSlider.slider.value += musicSlider.stepSize
+                return false
+            } else if (direction.angleDeg() in 120.0..240.0 && highlightedActor == voiceSlider) {
+                voiceSlider.slider.value -= voiceSlider.stepSize
+                return false
+            } else if (direction.angleDeg() > 300f || direction.angleDeg() < 60 && highlightedActor == voiceSlider) {
+                voiceSlider.slider.value += voiceSlider.stepSize
                 return false
             }
         }
@@ -123,6 +129,10 @@ class OptionsScreen : BaseScreen() {
                 musicSlider.slider.value -= musicSlider.stepSize
             else if (controller!!.getButton(XBoxGamepad.DPAD_RIGHT) && highlightedActor == musicSlider)
                 musicSlider.slider.value += musicSlider.stepSize
+            else if (controller!!.getButton(XBoxGamepad.DPAD_LEFT) && highlightedActor == voiceSlider)
+                voiceSlider.slider.value -= voiceSlider.stepSize
+            else if (controller!!.getButton(XBoxGamepad.DPAD_RIGHT) && highlightedActor == voiceSlider)
+                voiceSlider.slider.value += voiceSlider.stepSize
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_B)) {
             setMenuScreen()
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == languageCarousel) {
@@ -147,6 +157,7 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = madeByLabel
                 soundSlider.label.color = Color.WHITE
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = BaseGame.lightPink
@@ -154,13 +165,23 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = soundSlider
                 soundSlider.label.color = BaseGame.lightPink
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
+                languageCarousel.chooseLanguageLabel.color = Color.WHITE
+                backButton.label.color = Color.WHITE
+                madeByLabel.color = Color.WHITE
+            } else if (highlightedActor == voiceSlider) {
+                highlightedActor = musicSlider
+                soundSlider.label.color = Color.WHITE
+                musicSlider.label.color = BaseGame.lightPink
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = Color.WHITE
             } else if (highlightedActor == languageCarousel) {
-                highlightedActor = musicSlider
+                highlightedActor = voiceSlider
                 soundSlider.label.color = Color.WHITE
-                musicSlider.label.color = BaseGame.lightPink
+                musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = BaseGame.lightPink
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = Color.WHITE
@@ -168,6 +189,7 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = languageCarousel
                 soundSlider.label.color = Color.WHITE
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = BaseGame.lightPink
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = Color.WHITE
@@ -175,6 +197,7 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = backButton
                 soundSlider.label.color = Color.WHITE
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = BaseGame.lightPink
                 madeByLabel.color = Color.WHITE
@@ -184,13 +207,23 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = musicSlider
                 soundSlider.label.color = Color.WHITE
                 musicSlider.label.color = BaseGame.lightPink
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = Color.WHITE
             } else if (highlightedActor == musicSlider) {
+                highlightedActor = voiceSlider
+                soundSlider.label.color = Color.WHITE
+                musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = BaseGame.lightPink
+                languageCarousel.chooseLanguageLabel.color = Color.WHITE
+                backButton.label.color = Color.WHITE
+                madeByLabel.color = Color.WHITE
+            } else if (highlightedActor == voiceSlider) {
                 highlightedActor = languageCarousel
                 soundSlider.label.color = Color.WHITE
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = BaseGame.lightPink
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = Color.WHITE
@@ -198,6 +231,7 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = backButton
                 soundSlider.label.color = Color.WHITE
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = BaseGame.lightPink
                 madeByLabel.color = Color.WHITE
@@ -205,6 +239,7 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = madeByLabel
                 soundSlider.label.color = Color.WHITE
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = BaseGame.lightPink
@@ -212,6 +247,7 @@ class OptionsScreen : BaseScreen() {
                 highlightedActor = soundSlider
                 soundSlider.label.color = BaseGame.lightPink
                 musicSlider.label.color = Color.WHITE
+                voiceSlider.label.color = Color.WHITE
                 languageCarousel.chooseLanguageLabel.color = Color.WHITE
                 backButton.label.color = Color.WHITE
                 madeByLabel.color = Color.WHITE
@@ -224,6 +260,7 @@ class OptionsScreen : BaseScreen() {
         if (BaseGame.skin != null) {
             table.add(soundSlider).padBottom(Gdx.graphics.height * .01f).row()
             table.add(musicSlider).padBottom(Gdx.graphics.height * .02f).row()
+            table.add(voiceSlider).padBottom(Gdx.graphics.height * .02f).row()
         }
         table.add(languageCarousel).padBottom(Gdx.graphics.height * .04f).row()
         return table

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.badlogic.gdx.utils.compression.lzma.Base
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
@@ -45,6 +46,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
         when (value) {
             "sound" -> slider.value = BaseGame.soundVolume
             "music" -> slider.value = BaseGame.musicVolume
+            "voice" -> slider.value = BaseGame.voiceVolume
             else -> Gdx.app.error(
                 javaClass.simpleName,
                 "Error, value could not be appropriated => $value"
@@ -56,6 +58,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
                 when (value) {
                     "sound" -> BaseGame.soundVolume = slider.value
                     "music" -> GameUtils.setMusicVolume(slider.value)
+                    "voice" -> BaseGame.voiceVolume = slider.value
                 }
                 BaseGame.clickSound!!.play(BaseGame.musicVolume)
                 GameUtils.saveGameState()
