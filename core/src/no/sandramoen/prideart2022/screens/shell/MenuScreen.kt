@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Vignette
 import no.sandramoen.prideart2022.screens.shell.intro.IntroSaturnScreen
+import no.sandramoen.prideart2022.ui.ControllerMessage
 import no.sandramoen.prideart2022.ui.MadeByLabel
 import no.sandramoen.prideart2022.utils.*
 
@@ -24,6 +25,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private lateinit var optionsButton: TextButton
     private lateinit var titleLabel: Label
     private lateinit var highlightedActor: Actor
+    private lateinit var controllerMessage: ControllerMessage
     private var madeByLabel = MadeByLabel()
     private var usingMouse = true
     private var isAxisFreeToMove = true
@@ -35,13 +37,17 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         titleLabel.setAlignment(Align.center)
 
         Vignette(uiStage)
+        controllerMessage = ControllerMessage()
 
         val table = Table()
         table.add(titleLabel).padTop(Gdx.graphics.height * .1f)
         table.row()
         table.add(menuButtonsTable()).fillY().expandY()
         table.row()
+        table.add(controllerMessage)
+        table.row()
         table.add(madeByLabel).padBottom(Gdx.graphics.height * .02f)
+        /*table.debug = true*/
         uiTable.add(table).fill().expand()
 
         if (playMusic) {
@@ -59,6 +65,8 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
                 }
             ))
         }
+
+        checkControllerConnected()
     }
 
     override fun update(dt: Float) {
@@ -122,6 +130,34 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
             axisCounter = 0f
         }
         return super.axisMoved(controller, axisCode, value)
+    }
+
+    override fun connected(controller: Controller?) {
+        if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
+            controller!!.startVibration(1000, .2f)
+        controllerMessage.showConnected()
+        BaseGame.controllerConnectedSound!!.play(BaseGame.soundVolume)
+        pause()
+    }
+
+    override fun disconnected(controller: Controller?) {
+        controllerMessage.showDisConnected()
+        BaseGame.controllerDisconnectedSound!!.play(BaseGame.soundVolume)
+        pause()
+    }
+
+    private fun checkControllerConnected() {
+        if (!BaseGame.isControllerChecked) {
+            BaseGame.isControllerChecked = true
+            if (Controllers.getControllers().size > 0) {
+                controllerMessage.showConnected()
+                val controller = Controllers.getControllers()[0]
+                if (controller.canVibrate() && BaseGame.isVibrationEnabled)
+                    controller.startVibration(1000, .2f)
+            } else {
+                controllerMessage.showNoControllerFound()
+            }
+        }
     }
 
     private fun swapButtons(up: Boolean) {

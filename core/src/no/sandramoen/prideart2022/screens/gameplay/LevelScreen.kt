@@ -44,8 +44,6 @@ class LevelScreen : BaseScreen() {
         uiSetup()
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)
-
-        checkControllerConnected()
     }
 
     override fun update(dt: Float) {
@@ -141,17 +139,6 @@ class LevelScreen : BaseScreen() {
         val groundCrack = GroundCrack(0f, 0f, mainStage)
         player = Player(playerPosX, playerPosY, mainStage)
         groundCrack.centerAtActor(player)
-    }
-
-    private fun checkControllerConnected() {
-        if (Controllers.getControllers().size > 0) {
-            controllerMessage.showConnected()
-            val controller = Controllers.getControllers()[0]
-            if (controller.canVibrate() && BaseGame.isVibrationEnabled)
-                controller.startVibration(1000, .2f)
-        } else {
-            controllerMessage.showNoControllerFound()
-        }
     }
 
     private fun unpauseMainLabel() {
