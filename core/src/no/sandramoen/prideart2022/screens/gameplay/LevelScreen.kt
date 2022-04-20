@@ -8,12 +8,9 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.*
-import no.sandramoen.prideart2022.actors.characters.Boss0
-import no.sandramoen.prideart2022.actors.characters.enemies.Charger
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
-import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
-import no.sandramoen.prideart2022.actors.characters.enemies.Shot
+import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.player.GroundCrack
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.ui.BossBar
@@ -44,6 +41,13 @@ class LevelScreen : BaseScreen() {
 
         spawnEnemies()
         uiSetup()
+
+        // ----------------------------------------------------------------------------
+        Boss0(player.x + 20f, player.y + 20f, mainStage, player)
+        bossBar.countDown()
+        enemySpawner.clearActions()
+        fadeFleetAdmiralInAndOut("Kim Alexander Tønseth!\nDenne fascisten gjorde mye vold mot transfolk!", 5f)
+        // ----------------------------------------------------------------------------
 
         GameUtils.playAndLoopMusic(BaseGame.levelMusic)
     }
@@ -166,7 +170,10 @@ class LevelScreen : BaseScreen() {
                 experienceBar.level++
                 bossBar.isVisible = false
                 fadeFleetAdmiralInAndOut("Godt jobba! Han kan ikke plage noen mere nå")
-                spawnEnemies()
+                BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
+                    Actions.delay(5f),
+                    Actions.run { spawnEnemies() }
+                ))
             }
         }
         for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName))
@@ -175,6 +182,10 @@ class LevelScreen : BaseScreen() {
             enemyCollidedWithPlayer(enemy, false, 1)
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName))
             enemyCollidedWithPlayer(enemy, true, 1)
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Beam::class.java.canonicalName))
+            enemyCollidedWithPlayer(enemy, false, 1)
+
+        println(BaseActor.count(mainStage, Shot::class.java.canonicalName))
     }
 
     private fun handlePickups() {
@@ -192,7 +203,7 @@ class LevelScreen : BaseScreen() {
                     Boss0(player.x + 20f, player.y + 20f, mainStage, player)
                     bossBar.countDown()
                     enemySpawner.clearActions()
-                    fadeFleetAdmiralInAndOut("Kim Alexander Tønseth!\nDenne fascisten gjorde mye vold mot transfolk!", 4f)
+                    fadeFleetAdmiralInAndOut("Kim Alexander Tønseth!\nDenne fascisten gjorde mye vold mot transfolk!", 5f)
                 }
                 else if (isLevelUp)
                     fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
@@ -269,7 +280,7 @@ class LevelScreen : BaseScreen() {
         )
     }
 
-    private fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 2f) {
+    private fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
         fleetAdmiral.clearActions()
         fleetAdmiral.fadeIn()
         fleetAdmiral.talk()

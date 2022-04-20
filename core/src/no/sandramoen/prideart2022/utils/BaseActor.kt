@@ -115,9 +115,18 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         animationHeight = height
     }
 
-    fun flip() { isFacingRight = !isFacingRight }
-    fun setAnimationPaused(pause: Boolean) { animationPaused = pause }
-    fun isAnimationFinished(): Boolean { return animation!!.isAnimationFinished(animationTime) }
+    fun flip() {
+        isFacingRight = !isFacingRight
+    }
+
+    fun setAnimationPaused(pause: Boolean) {
+        animationPaused = pause
+    }
+
+    fun isAnimationFinished(): Boolean {
+        return animation!!.isAnimationFinished(animationTime)
+    }
+
     open fun death() {}
 
     fun loadTexture(fileName: String): Animation<TextureRegion> {
@@ -169,13 +178,26 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     fun setMotionAngle(angle: Float) = velocityVec.setAngleDeg(angle)
     fun getMotionAngle() = velocityVec.angleDeg()
     fun getVelocity() = velocityVec
-    fun setVelocity(vel: Vector2) { velocityVec = vel }
+    fun setVelocity(vel: Vector2) {
+        velocityVec = vel
+    }
+
     fun isMoving() = getSpeed() > 0
-    fun setAcceleration(acc: Float) { acceleration = acc }
-    fun accelerateAtAngle(angle: Float) = accelerationVec.add(Vector2(acceleration, 0f).setAngle(angle))
+    fun setAcceleration(acc: Float) {
+        acceleration = acc
+    }
+
+    fun accelerateAtAngle(angle: Float) =
+        accelerationVec.add(Vector2(acceleration, 0f).setAngle(angle))
+
     fun accelerateForward() = accelerateAtAngle(rotation)
-    fun setMaxSpeed(ms: Float) { maxSpeed = ms }
-    fun setDeceleration(dec: Float) { deceleration = dec }
+    fun setMaxSpeed(ms: Float) {
+        maxSpeed = ms
+    }
+
+    fun setDeceleration(dec: Float) {
+        deceleration = dec
+    }
 
     fun applyPhysics(dt: Float) {
         // apply acceleration
@@ -216,11 +238,13 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
             val camera = this.stage.viewport.camera as OrthographicCamera
 
             // center camera on actor
-            camera.position.set(Vector3(
-                camera.position.x + (target.x + originX - camera.position.x) * lerp,
-                camera.position.y + (target.y + originY - camera.position.y) * lerp,
-                0f
-            ))
+            camera.position.set(
+                Vector3(
+                    camera.position.x + (target.x + originX - camera.position.x) * lerp,
+                    camera.position.y + (target.y + originY - camera.position.y) * lerp,
+                    0f
+                )
+            )
 
             bindCameraToWorld(camera)
             camera.update()
@@ -243,7 +267,12 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         }
     }
 
-    fun searchFocalPoints(focalPoints: Array<Vector2>, target: Vector2, threshold: Float, lerp: Float = .1f): Boolean {
+    fun searchFocalPoints(
+        focalPoints: Array<Vector2>,
+        target: Vector2,
+        threshold: Float,
+        lerp: Float = .1f
+    ): Boolean {
         if (this.stage != null) {
             val camera = this.stage.camera as OrthographicCamera
             for (point in focalPoints) {
@@ -262,22 +291,32 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         if (minX <= maxX)
             camera.position.x = MathUtils.clamp(camera.position.x, minX, maxX)
         else
-            camera.position.x = (camera.viewportWidth * camera.zoom) / 2 - ((camera.viewportWidth * camera.zoom) - worldBounds.width) / 2
+            camera.position.x =
+                (camera.viewportWidth * camera.zoom) / 2 - ((camera.viewportWidth * camera.zoom) - worldBounds.width) / 2
 
         val minY = (camera.viewportHeight * camera.zoom) / 2
         val maxY = worldBounds.height - (camera.viewportHeight * camera.zoom) / 2
         if (minY <= maxY)
             camera.position.y = MathUtils.clamp(camera.position.y, minY, maxY)
         else
-            camera.position.y = (camera.viewportHeight * camera.zoom) / 2 - ((camera.viewportHeight * camera.zoom) - worldBounds.height) / 2
+            camera.position.y =
+                (camera.viewportHeight * camera.zoom) / 2 - ((camera.viewportHeight * camera.zoom) - worldBounds.height) / 2
     }
 
     private fun shakeCamera() {
-        this.stage.camera.position.set(Vector3(
-            this.stage.camera.position.x + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
-            this.stage.camera.position.y + MathUtils.random(-shakyCamIntensity, shakyCamIntensity),
-            0f
-        ))
+        this.stage.camera.position.set(
+            Vector3(
+                this.stage.camera.position.x + MathUtils.random(
+                    -shakyCamIntensity,
+                    shakyCamIntensity
+                ),
+                this.stage.camera.position.y + MathUtils.random(
+                    -shakyCamIntensity,
+                    shakyCamIntensity
+                ),
+                0f
+            )
+        )
         bindCameraToWorld(this.stage.camera as OrthographicCamera)
     }
 
@@ -342,9 +381,20 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
 
     // miscellaneous -------------------------------------------------------------------------------------------
     fun centerAtPosition(x: Float, y: Float) = setPosition(x - width / 2, y - height / 2)
-    fun centerAtActor(other: BaseActor) = centerAtPosition(other.x + other.width / 2, other.y + other.height / 2)
-    fun setOpacity(opacity: Float) { this.color.a = opacity }
-    fun getAngleTowardActor(other: BaseActor) = (MathUtils.atan2(y - other.y, x - other.x) * MathUtils.radiansToDegrees) + 180
+    fun centerAtActor(other: BaseActor) =
+        centerAtPosition(other.x + other.width / 2, other.y + other.height / 2)
+
+    fun setOpacity(opacity: Float) {
+        this.color.a = opacity
+    }
+
+    fun getAngleTowardActor(other: BaseActor): Float {
+        return (
+                MathUtils.atan2(
+                    (y + height / 2) - (other.y + other.height / 2),
+                    (x + width / 2) - (other.x + other.width / 2)
+                ) * MathUtils.radiansToDegrees) + 180
+    }
 
     fun outOfBounds(): Boolean {
         return x < 0f - width || x > worldBounds.width + width ||
@@ -363,7 +413,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
             y = worldBounds.height - height
     }
 
-    fun isWithinDistance(distance: Float, other: BaseActor) : Boolean {
+    fun isWithinDistance(distance: Float, other: BaseActor): Boolean {
         val poly1 = this.getBoundaryPolygon()
         val scaleX = (this.width + 2 * distance) / this.width
         val scaleY = (this.height + 2 * distance) / this.height
@@ -381,17 +431,24 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         private val token = "BaseActor.kt - companion: "
         private var worldBounds = Rectangle(0f, 0f, BaseGame.WORLD_WIDTH, BaseGame.WORLD_HEIGHT)
 
-        fun setWorldBounds(width: Float, height: Float) { worldBounds = Rectangle(0f, 0f, width, height) }
+        fun setWorldBounds(width: Float, height: Float) {
+            worldBounds = Rectangle(0f, 0f, width, height)
+        }
+
         fun setWorldBounds(ba: BaseActor) = setWorldBounds(ba.width, ba.height)
         fun getWorldBounds() = worldBounds
-        fun count(stage: Stage, className: String): Int = getList(stage, className).size // HTML incompatible
+        fun count(stage: Stage, className: String): Int =
+            getList(stage, className).size // HTML incompatible
 
         fun getList(stage: Stage, className: String): ArrayList<BaseActor> { // HTML incompatible
             var list: ArrayList<BaseActor> = ArrayList()
 
             var theClass: Class<*>? = null
-            try { theClass = Class.forName(className) }
-            catch (error: Exception) { error.printStackTrace() }
+            try {
+                theClass = Class.forName(className)
+            } catch (error: Exception) {
+                error.printStackTrace()
+            }
 
             for (actor in stage.actors)
                 if (theClass!!.isInstance(actor))

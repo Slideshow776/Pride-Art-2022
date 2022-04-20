@@ -73,6 +73,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var fleetAdmiralSound: Sound? = null
         var healthPickupSuccessSound: Sound? = null
         var healthPickupFailSound: Sound? = null
+        var beamChargeSound: Sound? = null
         var intro1VoiceSound: Sound? = null
         var level1: TiledMap? = null
         var defaultShader: String? = null
@@ -145,6 +146,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/fleetAdmiralSound.wav", Sound::class.java)
             assetManager.load("audio/sound/healthPickupSuccess.wav", Sound::class.java)
             assetManager.load("audio/sound/healthPickupFail.wav", Sound::class.java)
+            assetManager.load("audio/sound/beamChargeSound.wav", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
@@ -198,6 +200,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             healthPickupSuccessSound = assetManager.get("audio/sound/healthPickupSuccess.wav", Sound::class.java)
             healthPickupFailSound = assetManager.get("audio/sound/healthPickupFail.wav", Sound::class.java)
             fleetAdmiralSound = assetManager.get("audio/sound/fleetAdmiralSound.wav", Sound::class.java)
+            beamChargeSound = assetManager.get("audio/sound/beamChargeSound.wav", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files
