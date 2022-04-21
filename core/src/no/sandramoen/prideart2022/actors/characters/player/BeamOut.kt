@@ -36,7 +36,6 @@ class BeamOut(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
                 Actions.scaleTo(1f, 300f, animationDuration / 2),
                 Actions.moveTo(x, y + 100, animationDuration / 2),
                 Actions.run {
-                    BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
                     isShakyCam = false
                     remove()
                 }

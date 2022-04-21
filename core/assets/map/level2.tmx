@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="12">
+ <tileset firstgid="1" name="magecity" tilewidth="32" tileheight="32" tilecount="360" columns="8">
+  <image source="magecity.png" width="256" height="1450"/>
+ </tileset>
+ <layer id="8" name="Tile Layer 1" width="56" height="36">
+  <data encoding="base64" compression="zlib">
+   eAHt10tywjAMgGFzFZbsuqR3YNPh/D1LrZn+M6pHVoIftYAsPHIcG/RFDiHnlNLnKaVLjq/Srtkj7ZxN0t7B952dK9tX/v5RzarfShvf/eo+cY4wRq3fqDrO8N0G3789dZzh49pHiIdv7bOidw9Er1/PvSdrI/sesclvmjV/lu8q126jeXvPyrVlbKbPyx+7NafFUVuzyicuMXq+2p6rWazxmT5qZMWajxzv2U6/NX78vheJUb8fWde0ZUy79PrauMypWVpqiYvI+5/OpbUvBr1Wm+jr89Ivbb01xEUc7bMc1hjO0td7jIs40kfOeHTkXBk9j1VL2bPevsVFnOErDbVjz8Y5z8IcHXERo/t07nv6uIhRfLW9uMek5+AiRvHpHHv6uIirfD0G1lr3Ji7iM/tw6oiLGM1n1UTnv9XHRYzm28p/z3mxRfH11svyRvZZzwnL4F2XSD6du5eznid9b24En/xnK3MedXz4/r7H1f4f946Pqlf5OUf9/qd+s+5BXb8fSDyXfw==
+  </data>
+ </layer>
+ <layer id="9" name="Tile Layer 2" width="56" height="36">
+  <data encoding="base64" compression="zlib">
+   eAHtmL1KxEAQx3PeKYKFoFbqK4iVWomCCr6GpaW1dtppp5Wlje/lG/j9Lf6D2WNc5kh2Zr8STlh2nOzM/H87m+RIUfz9XVezPeXk57RwPpuh/P+Gc2bmtzUuVPrmMM8z+geMr02u5UrsIualyr5rE4BA65hPsGkZhYTq32YvD8hQfHnQFcWYL34nVjye7dT9W2dY1hifdJclfE8o9ozxIi0aMU7C9wV93xg/EXVKS0n4Bjg/kxhTHs+RVD8Xt0F0Sfi4nLF8M46FUvOtkr12lF67PDVbrUDlAsPXV+bJNdzwafUdI8GJNkmAeF98p9B2FkCfNqUr3xaeBdvM8+AcQi60Ykj8NFODXG5sGr7bxhH8wku4r/hLau8ByTDryG34SIrszEOFojbwHUXk437rK8oPQ/cdz90wkBjcPWv3L+RvCSIlmmnzhSh8j6QPGI8hktfk1PI16fc7NHxgfNZoCXWZMmrfE5zGHu6tCYx+oHuMq0l9lI/6u2J3hW/U99aSb8/D2cm136n694oNeSObYr4Jcu8xsuyfOapndFEqPqqhtH1+E6S5c+GjmnzaXeTbwfNkF8PMZr/K9/UvmnxCgg==
+  </data>
+ </layer>
+ <objectgroup id="4" name="Object Layer 1">
+  <object id="2" x="576" y="770.5" width="0.5"/>
+  <object id="3" name="player start" x="711.167" y="459.833"/>
+ </objectgroup>
+</map>

@@ -56,7 +56,6 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
                 Actions.alpha(.9f, .5f)
             )
         )
-        // GameUtils.pulseWidget(this)
         addSprinkles()
     }
 

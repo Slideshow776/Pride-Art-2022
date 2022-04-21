@@ -31,11 +31,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private var wobbleAction: RepeatAction? = null
     private var runningSmokeAction: RepeatAction? = null
-    private var isPlaying = true
     private var state = State.Idle
     private var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
 
+    var isPlaying = true
     var originalMovementSpeed = movementSpeed
     var health: Int = 3
 

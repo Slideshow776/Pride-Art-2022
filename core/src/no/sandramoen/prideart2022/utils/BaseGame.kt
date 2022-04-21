@@ -76,6 +76,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var beamChargeSound: Sound? = null
         var intro1VoiceSound: Sound? = null
         var level1: TiledMap? = null
+        var level2: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
         var shockwaveShader: String? = null
@@ -169,6 +170,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             // tiled maps
             assetManager.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
             assetManager.load("map/level1.tmx", TiledMap::class.java)
+            assetManager.load("map/level2.tmx", TiledMap::class.java)
 
             assetManager.finishLoading()
 
@@ -216,6 +218,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
 
             // tiled map
             level1 = assetManager.get("map/level1.tmx", TiledMap::class.java)
+            level2 = assetManager.get("map/level2.tmx", TiledMap::class.java)
 
             // fonts
             FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android

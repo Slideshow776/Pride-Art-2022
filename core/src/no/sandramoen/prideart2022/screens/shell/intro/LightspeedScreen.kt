@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
-import no.sandramoen.prideart2022.screens.gameplay.LevelScreen
+import no.sandramoen.prideart2022.screens.gameplay.Level1
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.BaseScreen
@@ -53,7 +53,7 @@ class LightspeedScreen : BaseScreen() {
 
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Input.Keys.Q) Gdx.app.exit()
-        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(LevelScreen())
+        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level1())
         else if (keycode == Input.Keys.W) println("time elapsed: $timeElapsed")
         else skipIntro()
         return super.keyDown(keycode)
@@ -66,7 +66,7 @@ class LightspeedScreen : BaseScreen() {
 
     private fun skipIntro() {
         BaseGame.cinematic3Music!!.stop()
-        BaseGame.setActiveScreen(LevelScreen())
+        BaseGame.setActiveScreen(Level1())
     }
 
     private fun initializeBeam() {
