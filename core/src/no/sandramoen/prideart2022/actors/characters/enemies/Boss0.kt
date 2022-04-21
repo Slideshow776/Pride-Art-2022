@@ -117,6 +117,7 @@ class Boss0(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x,
     }
 
     private fun circleShot(shots: Int) {
+        BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
         val angleDisplacement = MathUtils.random(0f, 360f)
         for (i in 0 until shots)
             Shot(
@@ -129,6 +130,7 @@ class Boss0(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x,
     }
 
     private fun multiShot(shots: Int) {
+        BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
         val angleDisplacement = 10f
         val angleStart = getAngleTowardActor(player) - angleDisplacement
         for (i in 0 until shots)

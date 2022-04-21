@@ -1,7 +1,6 @@
 package no.sandramoen.prideart2022
 
-import no.sandramoen.prideart2022.screens.gameplay.LevelScreen
-import no.sandramoen.prideart2022.screens.shell.MenuScreen
+import no.sandramoen.prideart2022.screens.gameplay.Level1
 import no.sandramoen.prideart2022.utils.BaseGame
 
 class PrideArt2022Game(appLocale: String) : BaseGame(appLocale) {
@@ -10,7 +9,7 @@ class PrideArt2022Game(appLocale: String) : BaseGame(appLocale) {
         // setActiveScreen(MenuScreen())
         // setActiveScreen(OptionsScreen())
         // setActiveScreen(SplashScreen())
-        setActiveScreen(LevelScreen())
+        setActiveScreen(Level1())
         // setActiveScreen(IntroSaturnScreen())
         // setActiveScreen(IntroLightspeedScreen())
     }

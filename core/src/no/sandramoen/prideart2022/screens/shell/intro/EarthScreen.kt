@@ -1,12 +1,10 @@
 package no.sandramoen.prideart2022.screens.shell.intro
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.prideart2022.screens.gameplay.LevelScreen
+import no.sandramoen.prideart2022.screens.gameplay.Level1
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.BaseScreen
@@ -28,12 +26,12 @@ class EarthScreen : BaseScreen() {
     override fun update(dt: Float) {}
 
     override fun keyDown(keycode: Int): Boolean {
-        BaseGame.setActiveScreen(LevelScreen())
+        BaseGame.setActiveScreen(Level1())
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        BaseGame.setActiveScreen(LevelScreen())
+        BaseGame.setActiveScreen(Level1())
         return super.buttonDown(controller, buttonCode)
     }
 }

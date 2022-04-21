@@ -7,24 +7,33 @@ import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
-class Beam(x: Float, y: Float, stage: Stage, angleTowardsPlayer: Float) : BaseActor(x, y, stage) {
+class Beam(x: Float, y: Float, stage: Stage, angleTowardsPlayer: Float) :
+    BaseActor(x, y, stage) {
     init {
         BaseGame.spaceStationBeamSound!!.play(BaseGame.soundVolume)
         loadImage("whitePixel")
         color = Color.ORANGE
         setOrigin(Align.bottom)
-        rotation = angleTowardsPlayer
 
+        rotation = angleTowardsPlayer
+        scaleTo()
+        removeWithDelay()
+    }
+
+    private fun scaleTo() {
         addAction(
             Actions.sequence(
                 Actions.scaleTo(20f, 2_000f, 1.5f)
             )
         )
+    }
 
+    private fun removeWithDelay() {
         addAction(
             Actions.sequence(
                 Actions.delay(3f),
                 Actions.run { remove() }
-            ))
+            )
+        )
     }
 }

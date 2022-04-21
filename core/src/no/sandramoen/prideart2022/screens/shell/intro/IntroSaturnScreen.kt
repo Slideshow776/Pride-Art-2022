@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
-import no.sandramoen.prideart2022.screens.gameplay.LevelScreen
+import no.sandramoen.prideart2022.screens.gameplay.Level1
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.BaseScreen
@@ -84,7 +84,7 @@ class IntroSaturnScreen : BaseScreen() {
     private fun skipIntro() {
         BaseGame.intro1VoiceSound!!.stop()
         BaseGame.cinematic2Music!!.stop()
-        BaseGame.setActiveScreen(LevelScreen())
+        BaseGame.setActiveScreen(Level1())
     }
 
     private fun act1() { // 6
