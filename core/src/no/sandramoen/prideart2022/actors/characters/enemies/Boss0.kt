@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
-import no.sandramoen.prideart2022.actors.Explosion
+import no.sandramoen.prideart2022.actors.BigExplosion
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.particles.BeamChargeEffect
 import no.sandramoen.prideart2022.utils.BaseActor
@@ -59,14 +59,14 @@ class Boss0(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x,
 
     override fun death() {
         super.death()
-
+        BaseGame.beamChargeSound!!.stop()
         dying = true
         isCollisionEnabled = false
         clearActions()
         for (i in 0 until 8)
-            Explosion(this, stage)
+            BigExplosion(this, stage)
         isShakyCam = true
-        shakyCamIntensity *= .125f
+        shakyCamIntensity *= 4f
         addAction(Actions.sequence(
             Actions.parallel(
                 Actions.fadeOut(1f),

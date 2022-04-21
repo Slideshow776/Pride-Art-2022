@@ -1,23 +1,26 @@
-package no.sandramoen.prideart2022.actors.characters.player
+package no.sandramoen.prideart2022.actors
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.Explosion
+import no.sandramoen.prideart2022.actors.characters.player.BeamIn
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
-class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
+class GroundCrack(x: Float, y: Float, stage: Stage, private val glowDuration: Float = 5f) : BaseActor(x, y, stage) {
     private var shaderProgram: ShaderProgram
     private var time = 0f
     private var enableShader = true
 
     init {
         loadImage("groundCrack")
+        rotation = MathUtils.random(-20f, 20f)
 
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.glowShader)
 
@@ -58,7 +61,7 @@ class GroundCrack(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
                 Actions.delay(BeamIn.animationDuration),
                 Actions.run { Explosion(this, stage)},
                 Actions.fadeIn(.1f),
-                Actions.delay(5f),
+                Actions.delay(glowDuration),
                 Actions.run { enableShader = false },
                 Actions.color(Color.BLACK, 1f)
             )

@@ -74,12 +74,19 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var healthPickupSuccessSound: Sound? = null
         var healthPickupFailSound: Sound? = null
         var beamChargeSound: Sound? = null
+        var barrelDestroyedSound: Sound? = null
+        var vaseDestroyedSound: Sound? = null
+        var bottleDestroyedSound: Sound? = null
+        var chairDestroyedSound: Sound? = null
+        var skeletonDestroyedSound: Sound? = null
+        var skullsDestroyedSound: Sound? = null
         var intro1VoiceSound: Sound? = null
         var level1: TiledMap? = null
         var level2: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
         var shockwaveShader: String? = null
+        var waveShader: String? = null
 
         // game state
         var prefs: Preferences? = null
@@ -148,6 +155,12 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/healthPickupSuccess.wav", Sound::class.java)
             assetManager.load("audio/sound/healthPickupFail.wav", Sound::class.java)
             assetManager.load("audio/sound/beamChargeSound.wav", Sound::class.java)
+            assetManager.load("audio/sound/barrelDestroyed.wav", Sound::class.java)
+            assetManager.load("audio/sound/vaseDestroyed.wav", Sound::class.java)
+            assetManager.load("audio/sound/bottleDestroyed.wav", Sound::class.java)
+            assetManager.load("audio/sound/chairDestroyed.wav", Sound::class.java)
+            assetManager.load("audio/sound/skeletonDestroyed.wav", Sound::class.java)
+            assetManager.load("audio/sound/skullsDestroyed.wav", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
@@ -166,6 +179,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
             assetManager.load(AssetDescriptor("shaders/glow-pulse.fs", Text::class.java, TextLoader.TextParameter()))
             assetManager.load(AssetDescriptor("shaders/shockwave.fs", Text::class.java, TextLoader.TextParameter()))
+            assetManager.load(AssetDescriptor("shaders/wave.fs", Text::class.java, TextLoader.TextParameter()))
 
             // tiled maps
             assetManager.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
@@ -203,12 +217,19 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             healthPickupFailSound = assetManager.get("audio/sound/healthPickupFail.wav", Sound::class.java)
             fleetAdmiralSound = assetManager.get("audio/sound/fleetAdmiralSound.wav", Sound::class.java)
             beamChargeSound = assetManager.get("audio/sound/beamChargeSound.wav", Sound::class.java)
+            barrelDestroyedSound = assetManager.get("audio/sound/barrelDestroyed.wav", Sound::class.java)
+            vaseDestroyedSound = assetManager.get("audio/sound/vaseDestroyed.wav", Sound::class.java)
+            bottleDestroyedSound = assetManager.get("audio/sound/bottleDestroyed.wav", Sound::class.java)
+            chairDestroyedSound = assetManager.get("audio/sound/chairDestroyed.wav", Sound::class.java)
+            skeletonDestroyedSound = assetManager.get("audio/sound/skeletonDestroyed.wav", Sound::class.java)
+            skullsDestroyedSound = assetManager.get("audio/sound/skullsDestroyed.wav", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
             glowShader = assetManager.get("shaders/glow-pulse.fs", Text::class.java).getString()
             shockwaveShader = assetManager.get("shaders/shockwave.fs", Text::class.java).getString()
+            waveShader = assetManager.get("shaders/wave.fs", Text::class.java).getString()
 
             // skin
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)

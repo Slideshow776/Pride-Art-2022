@@ -12,7 +12,7 @@ import no.sandramoen.prideart2022.actors.*
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.player.BeamOut
-import no.sandramoen.prideart2022.actors.characters.player.GroundCrack
+import no.sandramoen.prideart2022.actors.GroundCrack
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.ui.BossBar
@@ -44,6 +44,7 @@ open class BaseLevel : BaseScreen() {
         if (isGameOver) return
         handleEnemies()
         handlePickups()
+        handleDestructibles(player)
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -138,6 +139,17 @@ open class BaseLevel : BaseScreen() {
         groundCrack.centerAtActor(player)
     }
 
+    fun initializeDestructibles() {
+        for (i in 0 until 55) {
+            Destructible(
+                MathUtils.random(0f, BaseActor.getWorldBounds().width),
+                MathUtils.random(0f, BaseActor.getWorldBounds().height),
+                mainStage,
+                player
+            )
+        }
+    }
+
     private fun unpauseMainLabel() {
         mainLabel.isVisible = false
         mainLabel.clearActions()
@@ -166,33 +178,49 @@ open class BaseLevel : BaseScreen() {
         for (enemy: BaseActor in BaseActor.getList(mainStage, Boss0::class.java.canonicalName)) {
             enemy as Boss0
             enemyCollidedWithPlayer(enemy, false, player.health)
+            handleDestructibles(enemy)
             if (bossBar.complete && !enemy.dying) {
                 enemy.death()
-                experienceBar.level++
-                bossBar.isVisible = false
-                fadeFleetAdmiralInAndOut("Godt jobba! Han kan ikke plage noen mere nå")
-                BaseActor(0f, 0f, mainStage).addAction(
-                    Actions.sequence(
-                    Actions.delay(5f),
-                    Actions.run {
-                        fadeFleetAdmiralInAndOut(
-                            "Artefakten er ikke her. Vi trenger å gå dypere inn i riksen...",
-                            5f
-                        )
-                    },
-                    Actions.delay(5f),
-                    Actions.run { playerExitLevel() }
-                ))
+                bossDeath()
             }
         }
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName))
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Shooter::class.java.canonicalName))
+            handleDestructibles(enemy)
+        }
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shooter::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName))
+            handleDestructibles(enemy)
+        }
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, true, 1)
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Beam::class.java.canonicalName))
+            handleDestructibles(enemy)
+        }
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Beam::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
+            handleDestructibles(enemy)
+        }
+        for (enemy: BaseActor in BaseActor.getList(mainStage, GhostFreed::class.java.canonicalName)) {
+            player.preventOverlap(enemy)
+        }
+    }
+
+    private fun bossDeath() {
+        experienceBar.level++
+        bossBar.isVisible = false
+        fadeFleetAdmiralInAndOut("Godt jobba! Han kan ikke plage noen mere nå")
+        BaseActor(0f, 0f, mainStage).addAction(
+            Actions.sequence(
+                Actions.delay(5f),
+                Actions.run {
+                    fadeFleetAdmiralInAndOut(
+                        "Artefakten er ikke her. Vi trenger å gå dypere inn i riksen...",
+                        5f
+                    )
+                },
+                Actions.delay(5f),
+                Actions.run { playerExitLevel() }
+            ))
     }
 
     private fun handlePickups() {
@@ -232,20 +260,34 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
+    private fun handleDestructibles(baseActor: BaseActor) {
+        for (destructible: BaseActor in BaseActor.getList(
+            mainStage,
+            Destructible::class.java.canonicalName
+        )) {
+            destructible as Destructible
+            if (baseActor.overlaps(destructible)) {
+                destructible.destroy()
+            }
+        }
+    }
+
     fun spawnEnemies() {
         enemySpawner = BaseActor(0f, 0f, mainStage)
         enemySpawner.addAction(
             Actions.forever(
                 Actions.sequence(
-            Actions.delay(2.4f),
-            Actions.run {
-                val range = 30f
-                val xPos = if (MathUtils.randomBoolean()) player.x - range else player.x + range
-                val yPos = if (MathUtils.randomBoolean()) player.y - range else player.y + range
-                Charger(xPos, yPos, mainStage, player)
-                Shooter(xPos, yPos, mainStage, player)
-            }
-        )))
+                    Actions.delay(2.4f),
+                    Actions.run {
+                        val range = 30f
+                        val xPos =
+                            if (MathUtils.randomBoolean()) player.x - range else player.x + range
+                        val yPos =
+                            if (MathUtils.randomBoolean()) player.y - range else player.y + range
+                        Charger(xPos, yPos, mainStage, player)
+                        Shooter(xPos, yPos, mainStage, player)
+                    }
+                )))
     }
 
     private fun pauseGameForDuration(duration: Float = .05f) {
@@ -253,9 +295,9 @@ open class BaseLevel : BaseScreen() {
         dtModifier = 0f
         BaseActor(0f, 0f, uiStage).addAction(
             Actions.sequence(
-            Actions.delay(duration),
-            Actions.run { dtModifier = temp }
-        ))
+                Actions.delay(duration),
+                Actions.run { dtModifier = temp }
+            ))
     }
 
     private fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int) {
@@ -301,13 +343,13 @@ open class BaseLevel : BaseScreen() {
         fleetAdmiralSubtitles.setText(subtitles)
         fleetAdmiral.addAction(
             Actions.sequence(
-            Actions.delay(talkDuration),
-            Actions.run {
-                fleetAdmiral.stopTalking()
-                fleetAdmiral.fadeOut()
-                fleetAdmiralSubtitles.addAction(Actions.fadeOut(1f))
-            }
-        ))
+                Actions.delay(talkDuration),
+                Actions.run {
+                    fleetAdmiral.stopTalking()
+                    fleetAdmiral.fadeOut()
+                    fleetAdmiralSubtitles.addAction(Actions.fadeOut(1f))
+                }
+            ))
     }
 
     fun uiSetup() {

@@ -1,20 +1,22 @@
 package no.sandramoen.prideart2022.utils
 
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.Animation
-import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.*
-import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.scenes.scene2d.Group
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.TilemapActor
 import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     private var animation: Animation<TextureAtlas.AtlasRegion>?
@@ -425,6 +427,11 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         if (!poly1.boundingRectangle.overlaps(poly2.boundingRectangle))
             return false
         return Intersector.overlapConvexPolygons(poly1, poly2)
+    }
+
+    fun isWithinDistance2(distance: Float, other: BaseActor): Boolean {
+        val distanceBetween = sqrt((other.x - x).toDouble().pow(2.0) + (other.y - y).toDouble().pow(2.0))
+        return distanceBetween <= distance
     }
 
     companion object {
