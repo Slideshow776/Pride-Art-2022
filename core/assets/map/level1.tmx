@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="23">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="41">
  <tileset firstgid="1" name="magecity" tilewidth="32" tileheight="32" tilecount="360" columns="8">
   <image source="magecity.png" width="256" height="1450"/>
  </tileset>
@@ -10,11 +10,20 @@
  </layer>
  <layer id="9" name="Tile Layer 2" width="56" height="36">
   <data encoding="base64" compression="zlib">
-   eAHtmL1KxEAQx3PeKYKFoFbqK4iVWomCCr6GpaW1dtppp5Wlje/lG/j9Lf6D2WNc5kh2Zr8STlh2nOzM/H87m+RIUfz9XVezPeXk57RwPpuh/P+Gc2bmtzUuVPrmMM8z+geMr02u5UrsIualyr5rE4BA65hPsGkZhYTq32YvD8hQfHnQFcWYL34nVjye7dT9W2dY1hifdJclfE8o9ozxIi0aMU7C9wV93xg/EXVKS0n4Bjg/kxhTHs+RVD8Xt0F0Sfi4nLF8M46FUvOtkr12lF67PDVbrUDlAsPXV+bJNdzwafUdI8GJNkmAeF98p9B2FkCfNqUr3xaeBdvM8+AcQi60Ykj8NFODXG5sGr7bxhH8wku4r/hLau8ByTDryG34SIrszEOFojbwHUXk437rK8oPQ/cdz90wkBjcPWv3L+RvCSIlmmnzhSh8j6QPGI8hktfk1PI16fc7NHxgfNZoCXWZMmrfE5zGHu6tCYx+oHuMq0l9lI/6u2J3hW/U99aSb8/D2cm136n694oNeSObYr4Jcu8xsuyfOapndFEqPqqhtH1+E6S5c+GjmnzaXeTbwfNkF8PMZr/K9/UvmnxCgg==
+   eAHtmL1OAkEQxw9BQ2JholbqK1hqRyRRE17D0tJaO+20w8rSxvfyDRDwG+P/4i0ZL0NgZ3b3di+QTHaY25n9//aDJZdlf5+Hoi03McU5LVyszJB/f+SCkcXLGrcLfZtotxj9LSaWUmivELuDdrfwn1MCEGhd8gkmLaIUX+vXacQB6YsvDrosW/KFX4l9h3u76vU7ZFgOmJh0liV8Iww2hr1KBw2YJ+H7hr4J7CegTulQEr4W9s8qbM3hPpLqn5cn4ZtX0+fzdcviqfHZ4NWZLZ8Hw9e0mZSE+ho+reRLFLjSFvGQ74rvGtpuPOjTlrTlO8J90GXuhFsIudOKIfltZgzyeGHX8D0tnMF37CN8zz9SR89IhQ1LbsNHSkTnnisUpcB3EZCP+6+vGH6a2rPcd9NE4nBnNoX1IwjWbgi+AVS9wIbW6vQJIfg+IPMT9qWXK6pAGbX3BCeggbO1Amt6OmPcmDRG+Wi8Ln5d+Ga9b835Th3snVjXu6r1e8OEvJNJMe8EuXuMdPvnzloz2qkqPqoh912+E6S1Y+Gjmlz6deQ7xu/JCcy0dL5+Ab98QYo=
   </data>
  </layer>
  <objectgroup id="4" name="Object Layer 1">
   <object id="2" x="576" y="770.5" width="0.5"/>
   <object id="3" name="player start" x="711.167" y="459.833"/>
+  <object id="28" name="impassable" x="301.636" y="359.455" width="71.2727" height="62.5455"/>
+  <object id="29" name="impassable" x="429.5" y="664.5" width="47.5" height="26.75"/>
+  <object id="33" name="impassable" x="655.75" y="850.75" width="61.25" height="51"/>
+  <object id="34" name="impassable" x="1157.38" y="751.375" width="21.375" height="12.75"/>
+  <object id="35" name="impassable" x="2" y="0" width="59" height="1149"/>
+  <object id="36" name="impassable" x="68" y="2" width="1626" height="56"/>
+  <object id="37" name="impassable" x="1695" y="-2" width="94" height="1150"/>
+  <object id="38" name="impassable" x="1667" y="482" width="61" height="377"/>
+  <object id="39" name="impassable" x="1568.25" y="1120.25" width="132.25" height="31.25"/>
  </objectgroup>
 </map>

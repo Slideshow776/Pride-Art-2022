@@ -38,7 +38,7 @@ class Destructible(x: Float, y: Float, stage: Stage, val player: Player) : BaseA
             if (isWithinDistance2(soundDistance, player))
                 BaseGame.vaseDestroyedSound!!.play(BaseGame.soundVolume)
         } else if (type == Type.Bottle) {
-            loadImage("destructibles/vaseDestroyed")
+            loadImage("destructibles/bottleDestroyed")
             if (isWithinDistance2(soundDistance, player))
                 BaseGame.bottleDestroyedSound!!.play(BaseGame.soundVolume)
         } else if (type == Type.Chair) {
@@ -53,11 +53,19 @@ class Destructible(x: Float, y: Float, stage: Stage, val player: Player) : BaseA
             loadImage("destructibles/skullsDestroyed")
             if (isWithinDistance2(soundDistance, player))
                 BaseGame.skullsDestroyedSound!!.play(BaseGame.soundVolume)
+        } else if (type == Type.Skull) {
+            loadImage("destructibles/skullDestroyed")
+            if (isWithinDistance2(soundDistance, player))
+                BaseGame.skullDestroyedSound!!.play(BaseGame.soundVolume)
+        } else if (type == Type.SmallBush) {
+            loadImage("destructibles/smallBushDestroyed")
+            if (isWithinDistance2(soundDistance, player))
+                BaseGame.smallBushDestroyedSound!!.play(BaseGame.soundVolume)
         }
     }
 
     private fun randomType() {
-        when (MathUtils.random(0, 5)) {
+        when (MathUtils.random(0, 7)) {
             0 -> {
                 type = Type.Barrel
                 loadImage("destructibles/barrel")
@@ -84,10 +92,20 @@ class Destructible(x: Float, y: Float, stage: Stage, val player: Player) : BaseA
                 type = Type.Skulls
                 loadImage("destructibles/skulls")
             }
+            6 -> {
+                type = Type.Skull
+                rotation = MathUtils.random(-10f, 10f)
+                loadImage("destructibles/skull")
+            }
+            7 -> {
+                type = Type.Skull
+                rotation = MathUtils.random(0f, 360f)
+                loadImage("destructibles/smallBush")
+            }
         }
     }
 
     private enum class Type {
-        Barrel, Vase, Bottle, Chair, Skeleton, Skulls
+        Barrel, Vase, Bottle, Chair, Skeleton, Skulls, Skull, SmallBush
     }
 }

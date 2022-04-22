@@ -45,6 +45,7 @@ open class BaseLevel : BaseScreen() {
         handleEnemies()
         handlePickups()
         handleDestructibles(player)
+        handleImpassables(player)
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -142,11 +143,22 @@ open class BaseLevel : BaseScreen() {
     fun initializeDestructibles() {
         for (i in 0 until 55) {
             Destructible(
-                MathUtils.random(0f, BaseActor.getWorldBounds().width),
-                MathUtils.random(0f, BaseActor.getWorldBounds().height),
+                MathUtils.random(0f, BaseActor.getWorldBounds().width - 5),
+                MathUtils.random(0f, BaseActor.getWorldBounds().height - 5),
                 mainStage,
                 player
             )
+        }
+    }
+
+    fun initializeImpassables() {
+        for (obj in tilemap.getRectangleList("impassable")) {
+            val props = obj.properties
+            val xPos = props.get("x") as Float * TilemapActor.unitScale
+            val yPos = props.get("y") as Float * TilemapActor.unitScale
+            val width = props.get("width") as Float * TilemapActor.unitScale
+            val height = props.get("height") as Float * TilemapActor.unitScale
+            Impassable(xPos, yPos, width, height, mainStage)
         }
     }
 
@@ -200,7 +212,10 @@ open class BaseLevel : BaseScreen() {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
-        for (enemy: BaseActor in BaseActor.getList(mainStage, GhostFreed::class.java.canonicalName)) {
+        for (enemy: BaseActor in BaseActor.getList(
+            mainStage,
+            GhostFreed::class.java.canonicalName
+        )) {
             player.preventOverlap(enemy)
         }
     }
@@ -224,28 +239,11 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun handlePickups() {
-        for (experience: BaseActor in BaseActor.getList(
-            mainStage,
-            Experience::class.java.canonicalName
-        )) {
-            if (player.overlaps(experience as Experience)) {
-                val isLevelUp = experienceBar.increment(experience.amount)
-                experience.pickup()
-                if (
-                    experienceBar.level == 2 &&
-                    BaseActor.count(mainStage, Boss0::class.java.canonicalName) == 0
-                ) {
-                    Boss0(player.x + 20f, player.y + 20f, mainStage, player)
-                    bossBar.countDown()
-                    enemySpawner.clearActions()
-                    fadeFleetAdmiralInAndOut(
-                        "Kim Alexander Tønseth!\nDenne fascisten gjorde mye vold mot transfolk!",
-                        5f
-                    )
-                } else if (isLevelUp)
-                    fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
-            }
-        }
+        handleExperiencePickup()
+        handleHealthPickup()
+    }
+
+    private fun handleHealthPickup() {
         for (healthDrop: BaseActor in BaseActor.getList(
             mainStage,
             HealthDrop::class.java.canonicalName
@@ -260,6 +258,35 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
+    private fun handleExperiencePickup() {
+        for (experience: BaseActor in BaseActor.getList(
+            mainStage,
+            Experience::class.java.canonicalName
+        )) {
+            if (player.overlaps(experience as Experience)) {
+                val isLevelUp = experienceBar.increment(experience.amount)
+                experience.pickup()
+                if (
+                    experienceBar.level == 2 &&
+                    BaseActor.count(mainStage, Boss0::class.java.canonicalName) == 0
+                ) {
+                    spawnBoss()
+                } else if (isLevelUp)
+                    fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
+            }
+        }
+    }
+
+    private fun spawnBoss() {
+        Boss0(player.x + 20f, player.y + 20f, mainStage, player)
+        bossBar.countDown()
+        enemySpawner.clearActions()
+        fadeFleetAdmiralInAndOut(
+            "Kim Alexander Tønseth!\nDenne fascisten gjorde mye vold mot transfolk!",
+            5f
+        )
+    }
+
     private fun handleDestructibles(baseActor: BaseActor) {
         for (destructible: BaseActor in BaseActor.getList(
             mainStage,
@@ -269,6 +296,17 @@ open class BaseLevel : BaseScreen() {
             if (baseActor.overlaps(destructible)) {
                 destructible.destroy()
             }
+        }
+    }
+
+    private fun handleImpassables(baseActor: BaseActor, isRemovable: Boolean = false) {
+        for (impassable: BaseActor in BaseActor.getList(
+            mainStage,
+            Impassable::class.java.canonicalName
+        )) {
+            if (isRemovable && baseActor.overlaps(impassable))
+                baseActor.death()
+            baseActor.preventOverlap(impassable)
         }
     }
 
