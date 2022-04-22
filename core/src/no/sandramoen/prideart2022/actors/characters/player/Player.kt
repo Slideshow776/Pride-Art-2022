@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
@@ -109,6 +110,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 Actions.color(Color.WHITE, duration / 2)
             )
         )
+    }
+
+    fun exitLevel() {
+        isPlaying = false
+        addAction(stretchAndMoveOut())
     }
 
     private fun pantingAnimation() {
@@ -355,8 +361,12 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     private fun revealAnimation(beamDuration: Float) {
-        setScale(0f, 0f)
         color.a = 0f
+        setScale(0f, 0f)
+        bouncyFadeIn(beamDuration)
+    }
+
+    private fun bouncyFadeIn(beamDuration: Float) {
         addAction(
             Actions.sequence(
                 Actions.delay(beamDuration / 3),
@@ -365,6 +375,14 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     Actions.fadeIn(1f, Interpolation.bounceOut)
                 )
             )
+        )
+    }
+
+    private fun stretchAndMoveOut(): ParallelAction? {
+        return Actions.parallel(
+            Actions.scaleTo(.1f, 3f, BeamOut.animationDuration),
+            Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
+            Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn)
         )
     }
 }

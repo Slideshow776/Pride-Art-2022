@@ -36,6 +36,20 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         setAnimation(idleAnimation)
     }
 
+    fun fadeFleetAdmiralInAndOut(talkDuration: Float = 3f) {
+        clearActions()
+        fadeIn()
+        talk()
+        addAction(
+            Actions.sequence(
+                Actions.delay(talkDuration),
+                Actions.run {
+                    stopTalking()
+                    fadeOut()
+                }
+            ))
+    }
+
     fun idle() = setAnimation(idleAnimation)
     fun fadeIn() = addAction(Actions.fadeIn(1f))
     fun fadeOut() = addAction(Actions.fadeOut(1f))

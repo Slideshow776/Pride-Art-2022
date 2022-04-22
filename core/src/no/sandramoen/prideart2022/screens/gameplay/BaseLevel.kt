@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -20,6 +19,8 @@ import no.sandramoen.prideart2022.ui.ControllerMessage
 import no.sandramoen.prideart2022.ui.ExperienceBar
 import no.sandramoen.prideart2022.ui.HealthBar
 import no.sandramoen.prideart2022.utils.*
+import no.sandramoen.prideart2022.utils.BaseActor
+import no.sandramoen.prideart2022.utils.BaseActor.Companion.getList
 
 open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
@@ -51,7 +52,10 @@ open class BaseLevel : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         if (keycode != Input.Keys.ESCAPE && dtModifier == 0f) resume()
 
-        if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level1())
+        if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
+
+        // TODO: for debugging, remove on launch -------------
+        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level1())
         else if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.E) experienceBar.increment(1)
         else if (keycode == Input.Keys.NUM_1) setGameOver()
@@ -63,7 +67,7 @@ open class BaseLevel : BaseScreen() {
                 dropHealth()
             }
         } else if (keycode == Input.Keys.NUM_3) playerExitLevel()
-        else if (keycode == Input.Keys.ESCAPE) pauseOrGoMenu()
+        // ----------------------------------------------------
         return super.keyDown(keycode)
     }
 
@@ -81,14 +85,14 @@ open class BaseLevel : BaseScreen() {
         else if (buttonCode == XBoxGamepad.BUTTON_START)
             BaseGame.setActiveScreen(Level1())
         else if (buttonCode == XBoxGamepad.BUTTON_BACK)
-            pauseOrGoMenu()
+            pauseOrGoToMenu()
 
         return super.buttonDown(controller, buttonCode)
     }
 
     override fun connected(controller: Controller?) {
         if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
-            controller!!.startVibration(1000, .2f)
+            controller.startVibration(1000, .2f)
         controllerMessage.showConnected()
         BaseGame.controllerConnectedSound!!.play(BaseGame.soundVolume)
         pause()
@@ -116,7 +120,39 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
-    private fun pauseOrGoMenu() {
+    protected fun initializePlayer() {
+        val startPoint = tilemap.getRectangleList("player start")[0]
+        val playerPosX = startPoint.properties.get("x") as Float * TilemapActor.unitScale
+        val playerPosY = startPoint.properties.get("y") as Float * TilemapActor.unitScale
+
+        val groundCrack = GroundCrack(0f, 0f, mainStage)
+        player = Player(playerPosX, playerPosY, mainStage)
+        groundCrack.centerAtActor(player)
+    }
+
+    protected fun initializeDestructibles() {
+        for (i in 0 until 55) {
+            Destructible(
+                MathUtils.random(0f, BaseActor.getWorldBounds().width - 5),
+                MathUtils.random(0f, BaseActor.getWorldBounds().height - 5),
+                mainStage,
+                player
+            )
+        }
+    }
+
+    protected fun initializeImpassables() {
+        for (obj in tilemap.getRectangleList("impassable")) {
+            val props = obj.properties
+            val xPos = props.get("x") as Float * TilemapActor.unitScale
+            val yPos = props.get("y") as Float * TilemapActor.unitScale
+            val width = props.get("width") as Float * TilemapActor.unitScale
+            val height = props.get("height") as Float * TilemapActor.unitScale
+            Impassable(xPos, yPos, width, height, mainStage)
+        }
+    }
+
+    private fun pauseOrGoToMenu() {
         if (dtModifier == 0f) {
             setMenuScreen()
         } else {
@@ -128,38 +164,6 @@ open class BaseLevel : BaseScreen() {
     private fun setMenuScreen() {
         BaseGame.setActiveScreen(MenuScreen())
         BaseGame.levelMusic!!.stop()
-    }
-
-    fun initializePlayer() {
-        val startPoint = tilemap.getRectangleList("player start")[0]
-        val playerPosX = startPoint.properties.get("x") as Float * TilemapActor.unitScale
-        val playerPosY = startPoint.properties.get("y") as Float * TilemapActor.unitScale
-
-        val groundCrack = GroundCrack(0f, 0f, mainStage)
-        player = Player(playerPosX, playerPosY, mainStage)
-        groundCrack.centerAtActor(player)
-    }
-
-    fun initializeDestructibles() {
-        for (i in 0 until 55) {
-            Destructible(
-                MathUtils.random(0f, BaseActor.getWorldBounds().width - 5),
-                MathUtils.random(0f, BaseActor.getWorldBounds().height - 5),
-                mainStage,
-                player
-            )
-        }
-    }
-
-    fun initializeImpassables() {
-        for (obj in tilemap.getRectangleList("impassable")) {
-            val props = obj.properties
-            val xPos = props.get("x") as Float * TilemapActor.unitScale
-            val yPos = props.get("y") as Float * TilemapActor.unitScale
-            val width = props.get("width") as Float * TilemapActor.unitScale
-            val height = props.get("height") as Float * TilemapActor.unitScale
-            Impassable(xPos, yPos, width, height, mainStage)
-        }
     }
 
     private fun unpauseMainLabel() {
@@ -176,18 +180,11 @@ open class BaseLevel : BaseScreen() {
 
     private fun playerExitLevel() {
         BeamOut(player.x, player.y, mainStage, player)
-        player.isPlaying = false
-        player.addAction(
-            Actions.parallel(
-                Actions.scaleTo(.1f, 3f, BeamOut.animationDuration),
-                Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
-                Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn)
-            )
-        )
+        player.exitLevel()
     }
 
     private fun handleEnemies() {
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Boss0::class.java.canonicalName)) {
+        for (enemy: BaseActor in getList(mainStage, Boss0::class.java.canonicalName)) {
             enemy as Boss0
             enemyCollidedWithPlayer(enemy, false, player.health)
             handleDestructibles(enemy)
@@ -196,26 +193,23 @@ open class BaseLevel : BaseScreen() {
                 bossDeath()
             }
         }
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Charger::class.java.canonicalName)) {
+        for (enemy: BaseActor in getList(mainStage, Charger::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Shooter::class.java.canonicalName)) {
+        for (enemy: BaseActor in getList(mainStage, Shooter::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
+        for (enemy: BaseActor in getList(mainStage, Shot::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, true, 1)
             handleDestructibles(enemy)
         }
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Beam::class.java.canonicalName)) {
+        for (enemy: BaseActor in getList(mainStage, Beam::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
-        for (enemy: BaseActor in BaseActor.getList(
-            mainStage,
-            GhostFreed::class.java.canonicalName
-        )) {
+        for (enemy: BaseActor in getList(mainStage, GhostFreed::class.java.canonicalName)) {
             player.preventOverlap(enemy)
         }
     }
@@ -226,11 +220,11 @@ open class BaseLevel : BaseScreen() {
         fadeFleetAdmiralInAndOut("Godt jobba! Han kan ikke plage noen mere nå")
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
-                Actions.delay(5f),
+                Actions.delay(6f),
                 Actions.run {
                     fadeFleetAdmiralInAndOut(
                         "Artefakten er ikke her. Vi trenger å gå dypere inn i riksen...",
-                        5f
+                        6f
                     )
                 },
                 Actions.delay(5f),
@@ -244,10 +238,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun handleHealthPickup() {
-        for (healthDrop: BaseActor in BaseActor.getList(
-            mainStage,
-            HealthDrop::class.java.canonicalName
-        )) {
+        for (healthDrop: BaseActor in getList(mainStage, HealthDrop::class.java.canonicalName)) {
             if (player.overlaps(healthDrop as HealthDrop)) {
                 if (healthBar.addHealth()) {
                     player.healthBack()
@@ -259,10 +250,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun handleExperiencePickup() {
-        for (experience: BaseActor in BaseActor.getList(
-            mainStage,
-            Experience::class.java.canonicalName
-        )) {
+        for (experience: BaseActor in getList(mainStage, Experience::class.java.canonicalName)) {
             if (player.overlaps(experience as Experience)) {
                 val isLevelUp = experienceBar.increment(experience.amount)
                 experience.pickup()
@@ -272,7 +260,8 @@ open class BaseLevel : BaseScreen() {
                 ) {
                     spawnBoss()
                 } else if (isLevelUp)
-                    fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
+                    if (fleetAdmiral.actions.size == 0)
+                        fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
             }
         }
     }
@@ -288,7 +277,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun handleDestructibles(baseActor: BaseActor) {
-        for (destructible: BaseActor in BaseActor.getList(
+        for (destructible: BaseActor in getList(
             mainStage,
             Destructible::class.java.canonicalName
         )) {
@@ -300,10 +289,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun handleImpassables(baseActor: BaseActor, isRemovable: Boolean = false) {
-        for (impassable: BaseActor in BaseActor.getList(
-            mainStage,
-            Impassable::class.java.canonicalName
-        )) {
+        for (impassable: BaseActor in getList(mainStage, Impassable::class.java.canonicalName)) {
             if (isRemovable && baseActor.overlaps(impassable))
                 baseActor.death()
             baseActor.preventOverlap(impassable)
@@ -342,7 +328,8 @@ open class BaseLevel : BaseScreen() {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
             player.hit(damageAmount)
-            if (player.health <= 0) setGameOver()
+            if (player.health <= 0)
+                setGameOver()
             else {
                 dropHealth()
                 pauseGameForDuration()
@@ -364,7 +351,8 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun dropHealth() {
-        fadeFleetAdmiralInAndOut("Jeg droppa helse til deg!")
+        if (fleetAdmiral.actions.size == 0)
+            fadeFleetAdmiralInAndOut("Jeg droppa helse til deg!")
         HealthDrop(
             MathUtils.random(10f, BaseActor.getWorldBounds().width - 10f),
             MathUtils.random(10f, BaseActor.getWorldBounds().height - 10f),
@@ -374,23 +362,16 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
-        fleetAdmiral.clearActions()
-        fleetAdmiral.fadeIn()
-        fleetAdmiral.talk()
+        fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
         fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
         fleetAdmiralSubtitles.setText(subtitles)
-        fleetAdmiral.addAction(
-            Actions.sequence(
-                Actions.delay(talkDuration),
-                Actions.run {
-                    fleetAdmiral.stopTalking()
-                    fleetAdmiral.fadeOut()
-                    fleetAdmiralSubtitles.addAction(Actions.fadeOut(1f))
-                }
-            ))
+        fleetAdmiralSubtitles.addAction(Actions.sequence(
+            Actions.delay(talkDuration),
+            Actions.fadeOut(1f)
+        ))
     }
 
-    fun uiSetup() {
+    private fun uiSetup() {
         experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
         bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage)
 
@@ -399,6 +380,19 @@ open class BaseLevel : BaseScreen() {
         uiTable.add(healthBar).padTop(padding).padBottom(-healthBar.prefHeight - padding)
             .row()
 
+        fleetAdmiralSetup()
+
+        mainLabel = Label("", BaseGame.bigLabelStyle)
+        mainLabel.isVisible = false
+        uiTable.add(mainLabel).expandY().row()
+
+        controllerMessage = ControllerMessage()
+        uiTable.add(controllerMessage)
+            .padTop(-controllerMessage.prefHeight - Gdx.graphics.height * .1f)
+            .padBottom(Gdx.graphics.height * .1f)
+    }
+
+    private fun fleetAdmiralSetup() {
         fleetAdmiral = FleetAdmiral(0f, 0f, uiStage)
         fleetAdmiral.scaleBy(100f)
         fleetAdmiral.setPosition(
@@ -409,14 +403,5 @@ open class BaseLevel : BaseScreen() {
         fleetAdmiralSubtitles = Label("", BaseGame.smallLabelStyle)
         fleetAdmiralSubtitles.setPosition(fleetAdmiral.x - 50f, fleetAdmiral.y - 150)
         uiStage.addActor(fleetAdmiralSubtitles)
-
-        mainLabel = Label("", BaseGame.bigLabelStyle)
-        mainLabel.isVisible = false
-        uiTable.add(mainLabel).expandY().row()
-
-        controllerMessage = ControllerMessage()
-        uiTable.add(controllerMessage)
-            .padTop(-controllerMessage.prefHeight - Gdx.graphics.height * .1f)
-            .padBottom(Gdx.graphics.height * .1f)
     }
 }

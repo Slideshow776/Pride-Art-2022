@@ -9,13 +9,11 @@ import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.BaseScreen
 
 class RikshospitaletScreen : BaseScreen() {
-    /*private val camera = mainStage.camera as OrthographicCamera*/
 
     override fun initialize() {
         val earth = BaseActor(0f, 0f, uiStage)
         earth.loadImage("rikshospitalet")
         earth.setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-        /*camera.position.set(Vector3(earth.width * .5f, earth.height * .5f, 0f))*/
 
         BaseActor(0f, 0f, uiStage).addAction(
             Actions.sequence(

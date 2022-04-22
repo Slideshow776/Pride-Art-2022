@@ -69,9 +69,11 @@ class IntroSaturnScreen : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
+        // TODO: debug, remove before launch -------------------------
         if (keycode == Keys.Q) Gdx.app.exit()
         else if (keycode == Keys.R) BaseGame.setActiveScreen(IntroSaturnScreen())
         else if (keycode == Keys.W) println("time elapsed: $timeElapsed")
+        // -----------------------------------------------------------
         else skipIntro()
         return super.keyDown(keycode)
     }

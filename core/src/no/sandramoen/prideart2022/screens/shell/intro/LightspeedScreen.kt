@@ -52,9 +52,11 @@ class LightspeedScreen : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
+        // TODO: debug, remove before launch -------------------------
         if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level1())
         else if (keycode == Input.Keys.W) println("time elapsed: $timeElapsed")
+        // ------------------------------------------------------------
         else skipIntro()
         return super.keyDown(keycode)
     }
@@ -105,7 +107,7 @@ class LightspeedScreen : BaseScreen() {
             Actions.sequence(
                 Actions.moveTo(0f, -spaceship.height / 2, 3f),
                 Actions.run { monologue() },
-                Actions.delay(20f),
+                Actions.delay(26f),
                 Actions.moveTo(horizontalSidesOfScreen, -spaceship.height / 2, 3f),
                 Actions.run { BaseGame.setActiveScreen(EarthScreen()) }
             )
@@ -123,17 +125,17 @@ class LightspeedScreen : BaseScreen() {
                     ))
                     label.setText("Jeg er overveldet over din entusiasme for å delta i dette oppdraget, Trans Agent X")
                 },
-                Actions.delay(4f),
+                Actions.delay(5f),
                 Actions.run { label.setText("De ciskjønnede klarte ikke å overleve uten oss transfolk, og har utslettet seg selv fulstendig.") },
-                Actions.delay(4f),
+                Actions.delay(5f),
                 Actions.run { label.setText("Pass dog på spøkelsene deres! Det er mange vonde minner på jorden.") },
-                Actions.delay(4f),
+                Actions.delay(5f),
                 Actions.run { label.setText("Vi trenger at du drar til rikshospitalet, og finner cisfolks tapte verdighet") },
-                Actions.delay(4f),
+                Actions.delay(5f),
                 Actions.run { label.setText("En mystisk artefakt som vil forbedre vår helbredelsesprosess") },
-                Actions.delay(4f),
+                Actions.delay(5f),
                 Actions.run { label.setText("Lykke til, Trans Agent X") },
-                Actions.delay(1.5f),
+                Actions.delay(2.5f),
                 Actions.run {
                     label.setText("")
                     fleetAdmiral.stopTalking()
