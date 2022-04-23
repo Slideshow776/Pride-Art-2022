@@ -82,6 +82,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var skullsDestroyedSound: Sound? = null
         var skullDestroyedSound: Sound? = null
         var smallBushDestroyedSound: Sound? = null
+        var shieldInSound: Sound? = null
+        var shieldOutSound: Sound? = null
         var intro1VoiceSound: Sound? = null
         var level1: TiledMap? = null
         var level2: TiledMap? = null
@@ -165,6 +167,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/skullsDestroyed.wav", Sound::class.java)
             assetManager.load("audio/sound/skullDestroyed.wav", Sound::class.java)
             assetManager.load("audio/sound/smallBushDestroyed.wav", Sound::class.java)
+            assetManager.load("audio/sound/shieldIn.wav", Sound::class.java)
+            assetManager.load("audio/sound/shieldOut.wav", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
@@ -229,6 +233,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             skullsDestroyedSound = assetManager.get("audio/sound/skullsDestroyed.wav", Sound::class.java)
             skullDestroyedSound = assetManager.get("audio/sound/skullDestroyed.wav", Sound::class.java)
             smallBushDestroyedSound = assetManager.get("audio/sound/smallBushDestroyed.wav", Sound::class.java)
+            shieldInSound = assetManager.get("audio/sound/shieldIn.wav", Sound::class.java)
+            shieldOutSound = assetManager.get("audio/sound/shieldOut.wav", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files

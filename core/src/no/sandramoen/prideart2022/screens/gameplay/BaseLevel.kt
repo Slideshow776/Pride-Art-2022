@@ -61,12 +61,20 @@ open class BaseLevel : BaseScreen() {
         else if (keycode == Input.Keys.NUM_1) setGameOver()
         else if (keycode == Input.Keys.NUM_2) {
             if (player.health > 0) {
-                player.hit(1)
+                player.isHurt(1)
                 player.health--
                 healthBar.subtractHealth()
                 dropHealth()
             }
         } else if (keycode == Input.Keys.NUM_3) playerExitLevel()
+        else if (keycode == Input.Keys.NUM_2) {
+            if (player.health > 0) {
+                player.isHurt(1)
+                player.health--
+                healthBar.subtractHealth()
+                dropHealth()
+            }
+        } else if (keycode == Input.Keys.NUM_4) dropShield()
         // ----------------------------------------------------
         return super.keyDown(keycode)
     }
@@ -235,6 +243,7 @@ open class BaseLevel : BaseScreen() {
     private fun handlePickups() {
         handleExperiencePickup()
         handleHealthPickup()
+        handleShieldPickup()
     }
 
     private fun handleHealthPickup() {
@@ -245,6 +254,15 @@ open class BaseLevel : BaseScreen() {
                     healthDrop.pickup(true)
                 }
                 healthDrop.pickup(false)
+            }
+        }
+    }
+
+    private fun handleShieldPickup() {
+        for (shieldDrop: BaseActor in getList(mainStage, ShieldDrop::class.java.canonicalName)) {
+            if (player.overlaps(shieldDrop as ShieldDrop)) {
+                shieldDrop.pickup()
+                player.activateShield()
             }
         }
     }
@@ -327,16 +345,17 @@ open class BaseLevel : BaseScreen() {
     private fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int) {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
-            player.hit(damageAmount)
-            if (player.health <= 0)
-                setGameOver()
-            else {
-                dropHealth()
-                pauseGameForDuration()
-            }
-            BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
-            healthBar.subtractHealth()
             if (remove) enemy.death()
+            if (player.isHurt(damageAmount)) {
+                BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
+                if (player.health <= 0)
+                    setGameOver()
+                else {
+                    dropHealth()
+                    pauseGameForDuration()
+                }
+                healthBar.subtractHealth()
+            }
         }
     }
 
@@ -348,6 +367,17 @@ open class BaseLevel : BaseScreen() {
         player.death()
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
+    }
+
+    private fun dropShield() {
+        if (fleetAdmiral.actions.size == 0)
+            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral7"))
+        ShieldDrop(
+            MathUtils.random(10f, BaseActor.getWorldBounds().width - 10f),
+            MathUtils.random(10f, BaseActor.getWorldBounds().height - 10f),
+            mainStage,
+            player
+        )
     }
 
     private fun dropHealth() {
@@ -365,10 +395,12 @@ open class BaseLevel : BaseScreen() {
         fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
         fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
         fleetAdmiralSubtitles.setText(subtitles)
-        fleetAdmiralSubtitles.addAction(Actions.sequence(
-            Actions.delay(talkDuration),
-            Actions.fadeOut(1f)
-        ))
+        fleetAdmiralSubtitles.addAction(
+            Actions.sequence(
+                Actions.delay(talkDuration),
+                Actions.fadeOut(1f)
+            )
+        )
     }
 
     private fun uiSetup() {

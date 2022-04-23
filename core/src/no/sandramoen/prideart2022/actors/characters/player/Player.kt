@@ -30,6 +30,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private lateinit var runSAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var deathAnimation: Animation<TextureAtlas.AtlasRegion>
+    private var shield: Shield
 
     private var wobbleAction: RepeatAction? = null
     private var runningSmokeAction: RepeatAction? = null
@@ -57,6 +58,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         setOrigin(Align.center)
 
         pantingAnimation()
+        shield = Shield(0f, 0f, stage)
+        shield.fadeIn()
     }
 
     override fun act(dt: Float) {
@@ -69,6 +72,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         boundToWorld()
         alignCamera(lerp = .1f)
+        shield.centerAtActor(this)
     }
 
     override fun death() {
@@ -89,12 +93,18 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         GroundCrack(x - width / 2, y - height / 1, stage)
     }
 
-    fun hit(amount: Int) {
-        health -= amount
-        addAction(Actions.moveBy(MathUtils.random(-5f, 5f), MathUtils.random(-5f, 5f), .1f))
+    fun isHurt(amount: Int): Boolean {
         hurtAnimation()
-        Explosion(this, stage)
-        reduceMovementSpeedBy(20)
+        if (shield.isActive) {
+            shield.fadeOut()
+            return false
+        } else {
+            health -= amount
+            Explosion(this, stage)
+            reduceMovementSpeedBy(20)
+            jumpToRandomLocation()
+            return true
+        }
     }
 
     fun healthBack() {
@@ -115,6 +125,14 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     fun exitLevel() {
         isPlaying = false
         addAction(stretchAndMoveOut())
+    }
+
+    fun activateShield() {
+        shield.fadeIn()
+    }
+
+    private fun jumpToRandomLocation() {
+        addAction(Actions.moveBy(MathUtils.random(-5f, 5f), MathUtils.random(-5f, 5f), .1f))
     }
 
     private fun pantingAnimation() {
