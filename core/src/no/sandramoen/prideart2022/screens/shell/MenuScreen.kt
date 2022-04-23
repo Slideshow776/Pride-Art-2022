@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.Vignette
-import no.sandramoen.prideart2022.screens.shell.intro.IntroSaturnScreen
+import no.sandramoen.prideart2022.screens.shell.intro.SaturnScreen
 import no.sandramoen.prideart2022.ui.ControllerMessage
 import no.sandramoen.prideart2022.ui.MadeByLabel
 import no.sandramoen.prideart2022.utils.*
@@ -121,9 +121,9 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
                 -controller!!.getAxis(XBoxGamepad.AXIS_LEFT_X)
             )
 
-            if (direction.angleDeg() in 45.0..135.0) {
+            if (direction.angleDeg() in 30.0..150.0) {
                 swapButtons(up = true)
-            } else if (direction.angleDeg() in 225.0..315.0)
+            } else if (direction.angleDeg() in 210.0..330.0)
                 swapButtons(up = false)
 
             isAxisFreeToMove = false
@@ -246,7 +246,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         prepLeaveMenuScreen()
         startButton.addAction(Actions.sequence(
             Actions.delay(.5f),
-            Actions.run { BaseGame.setActiveScreen(IntroSaturnScreen()) }
+            Actions.run { BaseGame.setActiveScreen(SaturnScreen()) }
         ))
     }
 

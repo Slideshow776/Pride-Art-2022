@@ -217,13 +217,13 @@ open class BaseLevel : BaseScreen() {
     private fun bossDeath() {
         experienceBar.level++
         bossBar.isVisible = false
-        fadeFleetAdmiralInAndOut("Godt jobba! Han kan ikke plage noen mere nå")
+        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(6f),
                 Actions.run {
                     fadeFleetAdmiralInAndOut(
-                        "Artefakten er ikke her. Vi trenger å gå dypere inn i riksen...",
+                        BaseGame.myBundle!!.get("fleetAdmiral6"),
                         6f
                     )
                 },
@@ -261,7 +261,7 @@ open class BaseLevel : BaseScreen() {
                     spawnBoss()
                 } else if (isLevelUp)
                     if (fleetAdmiral.actions.size == 0)
-                        fadeFleetAdmiralInAndOut("Ja! Fortsett å provosere dem")
+                        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral3"))
             }
         }
     }
@@ -271,7 +271,7 @@ open class BaseLevel : BaseScreen() {
         bossBar.countDown()
         enemySpawner.clearActions()
         fadeFleetAdmiralInAndOut(
-            "Kim Alexander Tønseth!\nDenne fascisten gjorde mye vold mot transfolk!",
+            BaseGame.myBundle!!.get("fleetAdmiral4"),
             5f
         )
     }
@@ -347,12 +347,12 @@ open class BaseLevel : BaseScreen() {
         dtModifier = .125f
         player.death()
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
-        fadeFleetAdmiralInAndOut("Det er for farlig! kom tilbake!")
+        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
     }
 
     private fun dropHealth() {
         if (fleetAdmiral.actions.size == 0)
-            fadeFleetAdmiralInAndOut("Jeg droppa helse til deg!")
+            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral2"))
         HealthDrop(
             MathUtils.random(10f, BaseActor.getWorldBounds().width - 10f),
             MathUtils.random(10f, BaseActor.getWorldBounds().height - 10f),

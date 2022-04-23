@@ -15,7 +15,7 @@ import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.BaseScreen
 
-class IntroSaturnScreen : BaseScreen() {
+class SaturnScreen : BaseScreen() {
     private val camera = mainStage.camera as OrthographicCamera
     private lateinit var saturn: BaseActor
     private lateinit var spaceStation: BaseActor
@@ -29,7 +29,7 @@ class IntroSaturnScreen : BaseScreen() {
 
     private var timeElapsed = 0f
 
-    private val label = Label("(trykk for å hoppe over)", BaseGame.smallLabelStyle)
+    private val label = Label(BaseGame.myBundle!!.get("skipIntro"), BaseGame.smallLabelStyle)
 
     override fun initialize() {
         saturn = BaseActor(0f, 0f, mainStage)
@@ -71,7 +71,7 @@ class IntroSaturnScreen : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         // TODO: debug, remove before launch -------------------------
         if (keycode == Keys.Q) Gdx.app.exit()
-        else if (keycode == Keys.R) BaseGame.setActiveScreen(IntroSaturnScreen())
+        else if (keycode == Keys.R) BaseGame.setActiveScreen(SaturnScreen())
         else if (keycode == Keys.W) println("time elapsed: $timeElapsed")
         // -----------------------------------------------------------
         else skipIntro()
@@ -98,16 +98,16 @@ class IntroSaturnScreen : BaseScreen() {
         act2 = false
         act3 = false
 
-        label.setText("I en galakse langt, langt unna...")
+        label.setText(BaseGame.myBundle!!.get("saturn1"))
         saturn.setScale(0f)
         saturn.isVisible = true
         saturn.addAction(
             Actions.sequence(
                 Actions.scaleTo(.3f, .3f, 3f, Interpolation.linear),
-                Actions.run { label.setText("Nei vent! Det er jo Saturn!") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("saturn2")) },
                 Actions.scaleTo(1f, 1f, 1f, Interpolation.bounceOut),
                 Actions.delay(1f),
-                Actions.run { label.setText("Etter kjønnskrigen flyktet transfolk til en ny planet, og lagde den sin egen...") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("saturn3")) },
                 Actions.delay(1f),
                 Actions.run { act2() }
             )
@@ -127,7 +127,7 @@ class IntroSaturnScreen : BaseScreen() {
                     BaseGame.cinematic1Music!!.volume = BaseGame.musicVolume
                 },
                 Actions.delay(3f),
-                Actions.run { label.setText("Men de glemte noe!") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("saturn4")) },
                 Actions.delay(3.5f),
                 Actions.run { act3() }
             ))

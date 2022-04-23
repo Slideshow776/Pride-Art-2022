@@ -123,18 +123,18 @@ class LightspeedScreen : BaseScreen() {
                         Actions.delay(1f),
                         Actions.run { fleetAdmiral.talk() }
                     ))
-                    label.setText("Jeg er overveldet over din entusiasme for å delta i dette oppdraget, Trans Agent X")
+                    label.setText(BaseGame.myBundle!!.get("lightSpeed1"))
                 },
                 Actions.delay(5f),
-                Actions.run { label.setText("De ciskjønnede klarte ikke å overleve uten oss transfolk, og har utslettet seg selv fulstendig.") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed2")) },
                 Actions.delay(5f),
-                Actions.run { label.setText("Pass dog på spøkelsene deres! Det er mange vonde minner på jorden.") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed3")) },
                 Actions.delay(5f),
-                Actions.run { label.setText("Vi trenger at du drar til rikshospitalet, og finner cisfolks tapte verdighet") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed4")) },
                 Actions.delay(5f),
-                Actions.run { label.setText("En mystisk artefakt som vil forbedre vår helbredelsesprosess") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed5")) },
                 Actions.delay(5f),
-                Actions.run { label.setText("Lykke til, Trans Agent X") },
+                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed6")) },
                 Actions.delay(2.5f),
                 Actions.run {
                     label.setText("")

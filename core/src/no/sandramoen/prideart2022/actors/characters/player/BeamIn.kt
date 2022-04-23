@@ -20,7 +20,7 @@ class BeamIn(x: Float, y: Float, stage: Stage, baseActor: BaseActor) : BaseActor
         loadImage("beam")
         centerAtActor(baseActor)
         setOrigin(Align.bottom)
-        setScale(1f, 300f)
+        setScale(1f, 600f)
 
         animation()
         particles()
