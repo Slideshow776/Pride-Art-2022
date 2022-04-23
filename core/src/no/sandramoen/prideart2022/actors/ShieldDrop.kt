@@ -2,14 +2,13 @@ package no.sandramoen.prideart2022.actors
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.characters.player.BeamIn
 import no.sandramoen.prideart2022.actors.characters.player.Player
-import no.sandramoen.prideart2022.actors.particles.HeartExplosion
+import no.sandramoen.prideart2022.actors.particles.ShieldExplosion
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -28,9 +27,9 @@ class ShieldDrop(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
     }
 
     fun pickup() {
-        heartExplosionEffect()
         removeAnimation()
         isCollisionEnabled = false
+        rainbowExplosionEffect()
     }
 
     override fun act(dt: Float) {
@@ -68,18 +67,18 @@ class ShieldDrop(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
             ))
     }
 
-    private fun heartExplosionEffect() {
-        val effect = HeartExplosion()
-        effect.setScale(.05f)
-        effect.centerAtActor(this)
-        stage.addActor(effect)
-        effect.start()
-    }
-
     private fun initializeGroundCrack() {
         val groundCrack = GroundCrack(x, y, stage, 10f)
         groundCrack.centerAtActor(this)
         groundCrack.zIndex = player.zIndex - 1
+    }
+
+    private fun rainbowExplosionEffect() {
+        val effect = ShieldExplosion()
+        effect.setScale(.03f)
+        effect.centerAtActor(this)
+        stage.addActor(effect)
+        effect.start()
     }
 
     private fun initializeAnimation() {
