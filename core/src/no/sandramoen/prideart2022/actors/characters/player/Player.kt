@@ -130,6 +130,14 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         shield.fadeIn()
     }
 
+    fun speedBoost() {
+        movementSpeed += 2
+        addAction(Actions.sequence(
+            Actions.delay(3f),
+            Actions.run { movementSpeed -= 2 }
+        ))
+    }
+
     private fun jumpToRandomLocation() {
         addAction(Actions.moveBy(MathUtils.random(-5f, 5f), MathUtils.random(-5f, 5f), .1f))
     }

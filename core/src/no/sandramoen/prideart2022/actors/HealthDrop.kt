@@ -75,7 +75,7 @@ class HealthDrop(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
         clearActions()
         addAction(
             Actions.sequence(
-                Actions.scaleTo(0f, 1f, .25f),
+                Actions.scaleTo(.1f, 1f, .25f),
                 Actions.run { remove() }
             ))
     }

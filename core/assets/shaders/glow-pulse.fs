@@ -18,10 +18,8 @@ void main()
 
     vec4 averageColor = vec4(.0, .0, .0, .0);
 
-    for (float dx = -u_glowRadius; dx <= u_glowRadius; dx++)
-    {
-        for (float dy = -u_glowRadius; dy <= u_glowRadius; dy++)
-        {
+    for (float dx = -u_glowRadius; dx <= u_glowRadius; dx++) {
+        for (float dy = -u_glowRadius; dy <= u_glowRadius; dy++) {
             vec2 point = v_texCoords + vec2(dx, dy) * pixelToTextureCoords;
             averageColor += texture2D(u_texture, point);
         }

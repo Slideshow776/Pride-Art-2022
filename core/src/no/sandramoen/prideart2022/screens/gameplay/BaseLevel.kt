@@ -55,7 +55,7 @@ open class BaseLevel : BaseScreen() {
         if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
 
         // TODO: for debugging, remove on launch -------------
-        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level1())
+        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level2())
         else if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.E) experienceBar.increment(1)
         else if (keycode == Input.Keys.NUM_1) setGameOver()
@@ -244,6 +244,15 @@ open class BaseLevel : BaseScreen() {
         handleExperiencePickup()
         handleHealthPickup()
         handleShieldPickup()
+        handleCrystals()
+    }
+
+    private fun handleCrystals() {
+        for (crystal: BaseActor in getList(mainStage, Crystal::class.java.canonicalName)) {
+            if (player.overlaps(crystal as Crystal)) {
+                crystal.pickup()
+            }
+        }
     }
 
     private fun handleHealthPickup() {
@@ -270,6 +279,7 @@ open class BaseLevel : BaseScreen() {
     private fun handleExperiencePickup() {
         for (experience: BaseActor in getList(mainStage, Experience::class.java.canonicalName)) {
             if (player.overlaps(experience as Experience)) {
+                player.speedBoost()
                 val isLevelUp = experienceBar.increment(experience.amount)
                 experience.pickup()
                 if (
@@ -314,7 +324,7 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
-    fun spawnEnemies() {
+    open fun spawnEnemies() {
         enemySpawner = BaseActor(0f, 0f, mainStage)
         enemySpawner.addAction(
             Actions.forever(
@@ -391,7 +401,7 @@ open class BaseLevel : BaseScreen() {
         )
     }
 
-    private fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
+    fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
         fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
         fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
         fleetAdmiralSubtitles.setText(subtitles)
