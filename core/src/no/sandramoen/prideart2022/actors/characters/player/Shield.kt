@@ -15,7 +15,7 @@ class Shield(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         loadImage("shield")
         centerAtPosition(x, y)
         setOrigin(Align.center)
-        animate()
+        color.a = 0f
     }
 
     fun fadeIn() {

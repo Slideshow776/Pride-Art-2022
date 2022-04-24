@@ -59,7 +59,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         pantingAnimation()
         shield = Shield(0f, 0f, stage)
-        shield.fadeIn()
     }
 
     override fun act(dt: Float) {
