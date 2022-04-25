@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.actors.*
@@ -14,10 +15,7 @@ import no.sandramoen.prideart2022.actors.characters.player.BeamOut
 import no.sandramoen.prideart2022.actors.GroundCrack
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
-import no.sandramoen.prideart2022.ui.BossBar
-import no.sandramoen.prideart2022.ui.ControllerMessage
-import no.sandramoen.prideart2022.ui.ExperienceBar
-import no.sandramoen.prideart2022.ui.HealthBar
+import no.sandramoen.prideart2022.ui.*
 import no.sandramoen.prideart2022.utils.*
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseActor.Companion.getList
@@ -25,8 +23,8 @@ import no.sandramoen.prideart2022.utils.BaseActor.Companion.getList
 open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
     protected lateinit var tilemap: TilemapActor
-    protected lateinit var enemySpawner: BaseActor
     protected lateinit var mainLabel: Label
+    protected lateinit var crystalLabel: CrystalLabel
     protected lateinit var experienceBar: ExperienceBar
     protected lateinit var bossBar: BossBar
     protected lateinit var healthBar: HealthBar
@@ -35,6 +33,8 @@ open class BaseLevel : BaseScreen() {
     protected lateinit var fleetAdmiralSubtitles: Label
 
     protected var isGameOver = false
+    protected var enemySpawner1 = BaseActor(0f, 0f, mainStage)
+    protected var enemySpawner2 = BaseActor(0f, 0f, mainStage)
 
     override fun initialize() {
         Vignette(uiStage)
@@ -186,20 +186,15 @@ open class BaseLevel : BaseScreen() {
         mainLabel.isVisible = true
     }
 
-    private fun playerExitLevel() {
+    fun playerExitLevel() {
         BeamOut(player.x, player.y, mainStage, player)
         player.exitLevel()
     }
 
     private fun handleEnemies() {
-        for (enemy: BaseActor in getList(mainStage, Boss0::class.java.canonicalName)) {
-            enemy as Boss0
-            enemyCollidedWithPlayer(enemy, false, player.health)
+        for (enemy: BaseActor in getList(mainStage, Follower::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy, true, 1)
             handleDestructibles(enemy)
-            if (bossBar.complete && !enemy.dying) {
-                enemy.death()
-                bossDeath()
-            }
         }
         for (enemy: BaseActor in getList(mainStage, Charger::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
@@ -220,24 +215,6 @@ open class BaseLevel : BaseScreen() {
         for (enemy: BaseActor in getList(mainStage, GhostFreed::class.java.canonicalName)) {
             player.preventOverlap(enemy)
         }
-    }
-
-    private fun bossDeath() {
-        experienceBar.level++
-        bossBar.isVisible = false
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
-        BaseActor(0f, 0f, mainStage).addAction(
-            Actions.sequence(
-                Actions.delay(6f),
-                Actions.run {
-                    fadeFleetAdmiralInAndOut(
-                        BaseGame.myBundle!!.get("fleetAdmiral6"),
-                        6f
-                    )
-                },
-                Actions.delay(5f),
-                Actions.run { playerExitLevel() }
-            ))
     }
 
     private fun handlePickups() {
@@ -282,29 +259,13 @@ open class BaseLevel : BaseScreen() {
                 player.speedBoost()
                 val isLevelUp = experienceBar.increment(experience.amount)
                 experience.pickup()
-                if (
-                    experienceBar.level == 2 &&
-                    BaseActor.count(mainStage, Boss0::class.java.canonicalName) == 0
-                ) {
-                    spawnBoss()
-                } else if (isLevelUp)
-                    if (fleetAdmiral.actions.size == 0)
-                        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral3"))
+                if (isLevelUp && fleetAdmiral.actions.size == 0)
+                    fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral3"))
             }
         }
     }
 
-    private fun spawnBoss() {
-        Boss0(player.x + 20f, player.y + 20f, mainStage, player)
-        bossBar.countDown()
-        enemySpawner.clearActions()
-        fadeFleetAdmiralInAndOut(
-            BaseGame.myBundle!!.get("fleetAdmiral4"),
-            5f
-        )
-    }
-
-    private fun handleDestructibles(baseActor: BaseActor) {
+    fun handleDestructibles(baseActor: BaseActor) {
         for (destructible: BaseActor in getList(
             mainStage,
             Destructible::class.java.canonicalName
@@ -324,22 +285,43 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
-    open fun spawnEnemies() {
-        enemySpawner = BaseActor(0f, 0f, mainStage)
-        enemySpawner.addAction(
-            Actions.forever(
-                Actions.sequence(
-                    Actions.delay(2.4f),
-                    Actions.run {
-                        val range = 30f
-                        val xPos =
-                            if (MathUtils.randomBoolean()) player.x - range else player.x + range
-                        val yPos =
-                            if (MathUtils.randomBoolean()) player.y - range else player.y + range
-                        Charger(xPos, yPos, mainStage, player)
-                        Shooter(xPos, yPos, mainStage, player)
-                    }
-                )))
+    fun spawnAroundPlayer(offset: Float): Vector2 {
+        var x: Float
+        var y: Float
+        if (MathUtils.randomBoolean()) { // horizontal
+            x = MathUtils.random(player.x - offset, player.x + offset)
+            if (MathUtils.randomBoolean())
+                y = player.y + offset
+            else
+                y = player.y - offset
+        } else { // vertical
+            if (MathUtils.randomBoolean())
+                x = player.x + offset
+            else
+                x = player.x - offset
+            y = MathUtils.random(player.y - offset, player.y + offset)
+        }
+        return Vector2(x, y)
+    }
+
+
+    fun spawnAtEdgesOfMap(offset: Float): Vector2 {
+        var x: Float
+        var y: Float
+        if (MathUtils.randomBoolean()) { // horizontal
+            x = MathUtils.random(offset, BaseActor.getWorldBounds().width - offset)
+            if (MathUtils.randomBoolean())
+                y = offset
+            else
+                y = BaseActor.getWorldBounds().height - offset
+        } else { // vertical
+            if (MathUtils.randomBoolean())
+                x = offset
+            else
+                x = BaseActor.getWorldBounds().width - offset
+            y = MathUtils.random(offset, BaseActor.getWorldBounds().height - offset)
+        }
+        return Vector2(x, y)
     }
 
     private fun pauseGameForDuration(duration: Float = .05f) {
@@ -352,7 +334,7 @@ open class BaseLevel : BaseScreen() {
             ))
     }
 
-    private fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int) {
+    fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int) {
         player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
             if (remove) enemy.death()
@@ -403,6 +385,7 @@ open class BaseLevel : BaseScreen() {
 
     fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
         fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
+        fleetAdmiralSubtitles.clearActions()
         fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
         fleetAdmiralSubtitles.setText(subtitles)
         fleetAdmiralSubtitles.addAction(
@@ -418,9 +401,13 @@ open class BaseLevel : BaseScreen() {
         bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage)
 
         healthBar = HealthBar()
-        val padding = Gdx.graphics.height * .05f
-        uiTable.add(healthBar).padTop(padding).padBottom(-healthBar.prefHeight - padding)
+        uiTable.add(healthBar).padTop(experienceBar.height)
+            .padBottom(-healthBar.prefHeight - experienceBar.height)
             .row()
+
+        crystalLabel = CrystalLabel()
+        uiTable.add(crystalLabel).padTop(experienceBar.height + healthBar.prefHeight)
+            .padBottom(-crystalLabel.prefHeight).row()
 
         fleetAdmiralSetup()
 

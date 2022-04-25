@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
@@ -49,14 +51,38 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
         setBoundaryPolygon(8)
         setOrigin(Align.center)
 
-        color.a = 0f
-        addAction(
-            Actions.sequence(
-                Actions.fadeIn(.25f),
-                Actions.alpha(.9f, .5f)
-            )
-        )
+        fadeIn()
         addSprinkles()
+        experimentalLabel()
+    }
+
+    private fun experimentalLabel() {
+        var text = ""
+        when (MathUtils.random(1, 8)) {
+            1 -> text = "Hvor ofte vasker\ndu hendene dine?"
+            2 -> text = "Tenker du på foreldrene\ndine når du onanerer?"
+            3 -> text = "Liker du å stjele?"
+            4 -> text = "Hvordan masturberte du\nnår du var tennåring?"
+            5 -> text = "Du lukter som en ung mann!"
+            6 -> text = "Du lukter som en ung kvinne!"
+            7 -> text = "Det er frivillig å\ndelta i forskningen vår!"
+            8 -> text = "Du er ikke moden nokk\nfordi du er ikke gift enda!"
+        }
+        val label = Label(text, BaseGame.smallLabelStyle)
+        label.color = Color(0.816f, 0.855f, 0.569f, 1f)
+        label.setAlignment(Align.center)
+        val group = Group()
+        group.addActor(label)
+        group.setScale(.02f, .02f)
+        group.setPosition(width / 2 - label.prefWidth * .01f, height)
+        addActor(group)
+
+        group.addAction(Actions.sequence(
+            Actions.delay(5f),
+            Actions.run { group.isVisible = false },
+            Actions.delay(5f),
+            Actions.run { group.isVisible = true }
+        ))
     }
 
     override fun act(dt: Float) {
@@ -73,6 +99,16 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
 
         setAnimationDirection()
         applyPhysics(dt)
+    }
+
+    private fun fadeIn() {
+        color.a = 0f
+        addAction(
+            Actions.sequence(
+                Actions.fadeIn(.25f),
+                Actions.alpha(.9f, .5f)
+            )
+        )
     }
 
     private fun stopToCharge() {

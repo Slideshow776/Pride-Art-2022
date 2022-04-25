@@ -37,8 +37,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var state = State.Idle
     private var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
+    private var isPlaying = true
 
-    var isPlaying = true
     var originalMovementSpeed = movementSpeed
     var health: Int = 3
 

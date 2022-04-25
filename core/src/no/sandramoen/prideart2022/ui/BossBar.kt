@@ -10,7 +10,7 @@ import no.sandramoen.prideart2022.utils.BaseGame
 
 class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var progress: BaseActor
-    private var time = 60f
+    private var time = 10f
 
     var complete = false
 

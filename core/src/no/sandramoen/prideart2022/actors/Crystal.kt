@@ -1,14 +1,13 @@
 package no.sandramoen.prideart2022.actors
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import no.sandramoen.prideart2022.actors.particles.ShieldExplosion
 import no.sandramoen.prideart2022.actors.particles.blueCrystalExplosion
 import no.sandramoen.prideart2022.actors.particles.pinkCrystalExplosion
 import no.sandramoen.prideart2022.actors.particles.whiteCrystalExplosion
@@ -20,6 +19,8 @@ class Crystal(x: Float, y: Float, stage: Stage, val color: String) : BaseActor(x
     private var shaderProgram: ShaderProgram
     private var time = 0f
 
+    var isPickedUp = false
+
     init {
         when (color) {
             "white" -> loadImage("whiteCrystal")
@@ -27,12 +28,12 @@ class Crystal(x: Float, y: Float, stage: Stage, val color: String) : BaseActor(x
             "blue" -> loadImage("blueCrystal")
             else -> Gdx.app.error(
                 javaClass.canonicalName,
-                "Error creating crystal, color was: $color"
+                "Error creating crystal, color was: $color. (acceptable colors are: 'white', 'pink' and 'blue)"
             )
         }
 
-        setBoundaryRectangle()
         animation()
+        setBoundaryRectangle()
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.glowShader)
     }
 
@@ -55,6 +56,7 @@ class Crystal(x: Float, y: Float, stage: Stage, val color: String) : BaseActor(x
 
     fun pickup() {
         isCollisionEnabled = false
+        isPickedUp = true
         BaseGame.crystalPickupSound!!.play(BaseGame.soundVolume)
         addAction(removeAnimation())
         crystalExplosionEffect()
@@ -63,7 +65,7 @@ class Crystal(x: Float, y: Float, stage: Stage, val color: String) : BaseActor(x
     private fun removeAnimation(): SequenceAction? {
         return Actions.sequence(
             Actions.parallel(
-                Actions.fadeOut(.25f),
+                Actions.color(Color.BLACK, .25f),
                 Actions.scaleTo(.1f, 1f, .25f)
             ),
             Actions.removeActor()
@@ -96,7 +98,7 @@ class Crystal(x: Float, y: Float, stage: Stage, val color: String) : BaseActor(x
             Actions.forever(
                 Actions.sequence(
                     Actions.moveBy(0f, 1f, 1f),
-                    Actions.moveBy(0f, -2f, 2f)
+                    Actions.moveBy(0f, -1f, 2f)
                 )
             )
         )

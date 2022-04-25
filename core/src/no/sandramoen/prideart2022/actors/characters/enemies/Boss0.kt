@@ -23,7 +23,7 @@ class Boss0(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x,
     private var state = State.RunningN
     private var beam: Beam? = null
 
-    var dying = false
+    var isDying = false
 
     init {
         loadAnimation()
@@ -47,7 +47,7 @@ class Boss0(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x,
 
     override fun act(dt: Float) {
         super.act(dt)
-        if (dying || pause) return
+        if (isDying || pause) return
 
         accelerateAtAngle(getAngleTowardActor(player))
         setAnimationDirection()
@@ -60,7 +60,7 @@ class Boss0(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x,
     override fun death() {
         super.death()
         BaseGame.beamChargeSound!!.stop()
-        dying = true
+        isDying = true
         isCollisionEnabled = false
         clearActions()
         for (i in 0 until 8)
