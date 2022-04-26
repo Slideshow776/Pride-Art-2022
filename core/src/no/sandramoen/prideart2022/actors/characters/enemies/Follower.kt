@@ -3,7 +3,6 @@ package no.sandramoen.prideart2022.actors.characters.enemies
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -15,15 +14,15 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
-import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.particles.GhostSprinklesEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.GameUtils
 
 class Follower(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
-    private var movementSpeed = player.originalMovementSpeed * .75f
+    private var movementSpeed = player.originalMovementSpeed * .7f
 
     private var dying = false
     private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>
@@ -48,8 +47,7 @@ class Follower(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, 
         fadeIn()
         addSprinkles()
         dieAfterDuration()
-
-        experimentalLabel()
+        addActor(GameUtils.statementLabel(width, height))
     }
 
     override fun act(dt: Float) {
@@ -59,35 +57,6 @@ class Follower(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, 
         accelerateAtAngle(getAngleTowardActor(player))
         applyPhysics(dt)
         setAnimationDirection()
-    }
-
-    private fun experimentalLabel() {
-        var text = ""
-        when (MathUtils.random(1, 8)) {
-            1 -> text = "Hvor ofte vasker\ndu hendene dine?"
-            2 -> text = "Tenker du på foreldrene\ndine når du onanerer?"
-            3 -> text = "Liker du å stjele?"
-            4 -> text = "Hvordan masturberte du\nnår du var tennåring?"
-            5 -> text = "Du lukter som en ung mann!"
-            6 -> text = "Du lukter som en ung kvinne!"
-            7 -> text = "Det er frivillig å\ndelta i forskningen vår!"
-            8 -> text = "Du er ikke moden nokk\nfordi du er ikke gift enda!"
-        }
-        val label = Label(text, BaseGame.smallLabelStyle)
-        label.color = Color(0.816f, 0.855f, 0.569f, 1f)
-        label.setAlignment(Align.center)
-        val group = Group()
-        group.addActor(label)
-        group.setScale(.02f, .02f)
-        group.setPosition(width / 2 - label.prefWidth * .01f, height)
-        addActor(group)
-
-        group.addAction(Actions.sequence(
-            Actions.delay(5f),
-            Actions.run { group.isVisible = false },
-            Actions.delay(5f),
-            Actions.run { group.isVisible = true }
-        ))
     }
 
     private fun dieAfterDuration() {
@@ -197,7 +166,7 @@ class Follower(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, 
                 state = State.CloseS
                 setAnimation(closeAnimationS)
             }
-            movementSpeed = player.originalMovementSpeed * .7f
+            movementSpeed = player.originalMovementSpeed * .62f
         } else {
             if (getMotionAngle() in 45.0..135.0 && state != State.RunningN) {
                 state = State.RunningN
@@ -206,8 +175,13 @@ class Follower(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, 
                 state = State.RunningS
                 setAnimation(runAnimationS)
             }
-            movementSpeed = player.originalMovementSpeed * .6f
+
+            if (isWithinDistance2(closeDistance * 1.5f, player))
+                movementSpeed = player.originalMovementSpeed * .52f
+            else
+                movementSpeed = player.originalMovementSpeed * .8f
         }
+
         setMaxSpeed(movementSpeed)
     }
 

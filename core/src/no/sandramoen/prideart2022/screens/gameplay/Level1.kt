@@ -3,7 +3,7 @@ package no.sandramoen.prideart2022.screens.gameplay
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.TintOverlay
-import no.sandramoen.prideart2022.actors.characters.enemies.Boss0
+import no.sandramoen.prideart2022.actors.characters.enemies.BossKim
 import no.sandramoen.prideart2022.actors.characters.enemies.Charger
 import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
 import no.sandramoen.prideart2022.utils.BaseActor
@@ -64,8 +64,8 @@ class Level1 : BaseLevel() {
     }
 
     private fun handleBoss() {
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Boss0::class.java.canonicalName)) {
-            enemyCollidedWithPlayer(enemy as Boss0, false, player.health)
+        for (enemy: BaseActor in BaseActor.getList(mainStage, BossKim::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy as BossKim, false, player.health)
             handleDestructibles(enemy)
             if (bossBar.complete && !enemy.isDying) {
                 enemy.death()
@@ -75,7 +75,7 @@ class Level1 : BaseLevel() {
     }
 
     private fun spawnBoss() {
-        Boss0(player.x + 20f, player.y + 20f, mainStage, player)
+        BossKim(player.x + 20f, player.y + 20f, mainStage, player)
         bossBar.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()

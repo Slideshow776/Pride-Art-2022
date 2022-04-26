@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="42">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="53">
  <tileset firstgid="1" name="magecity" tilewidth="32" tileheight="32" tilecount="360" columns="8">
   <image source="magecity.png" width="256" height="1450"/>
  </tileset>
  <layer id="8" name="Tile Layer 1" width="56" height="36">
   <data encoding="base64" compression="zlib">
-   eAHtljEOACEIBPms3v3/BUJBY644LQTMFISYaIE7CzQReTWeC3PTmiyor6a+6FdTN/cb+qFf5rkCn/AJn3H7Ef7Df/gv1n+Z/9/3yN1s/YX64vja1c3foV9tfpnv6Df33649+SvmeyfO8AmfJzjzebaa4RM+4TNuf8V/+A//4b/Vuf33vvWXAdctLos=
+   eAHtWUEKhDAM7EvdPQi7B4/7fzRgoQjBJM2sxuZQhBrjTGZoap1LKd9tfBTXWRkvyU85JXFanAsgrwUnAgfltORF6KfRRVo/Kz96zhvPD+AjKz/C4s0Pka/lN22YX/t47/iPc1JfXBlXMVO9Wn6I+l3JM/n596N/65n+jLFOcr5I/VK/nr5Se9Wx73J+086P4E/Evk9bZ1Q86dfjLxQur7zJL7a+qV98/RDnOl7rQ2+eJ/W/dq9Qv88R/Nr3oPYlUl0R/O7UT5Nf/PWTNJT6OVrc6P6Mcg7P+epMP7p/p/WQ48HNj84vyn8Gq37cc1Hmz/wZhQeHk/g9+fyFuK38oy+6
   </data>
  </layer>
  <layer id="9" name="Tile Layer 2" width="56" height="36">
@@ -17,5 +17,16 @@
   <object id="2" x="576" y="770.5" width="0.5"/>
   <object id="3" name="player start" x="869.834" y="562.5"/>
   <object id="41" name="impassable" x="640" y="735.636" width="191.636" height="32.3636"/>
+  <object id="42" name="impassable" x="991.932" y="415.568" width="159.636" height="32.3636"/>
+  <object id="43" name="impassable" x="1600.52" y="702.818" width="126.969" height="32.3636"/>
+  <object id="44" name="impassable" x="1664.85" y="159.818" width="61.9693" height="32.3636"/>
+  <object id="45" name="impassable" x="64.8487" y="160.152" width="125.969" height="32.3636"/>
+  <object id="46" name="impassable" x="224.515" y="158.818" width="126.303" height="32.3636"/>
+  <object id="47" name="impassable" x="416.432" y="64.8182" width="31.636" height="93.3636"/>
+  <object id="48" name="impassable" x="416.432" y="0.0682" width="31.636" height="30.3636"/>
+  <object id="49" name="impassable" x="224.849" y="927.485" width="31.636" height="127.697"/>
+  <object id="50" name="impassable" x="0.0153333" y="672.485" width="31.636" height="479.364"/>
+  <object id="51" name="impassable" x="-0.484667" y="0.8182" width="31.636" height="510.364"/>
+  <object id="52" name="impassable" x="1760.18" y="0.8182" width="31.636" height="1150.36"/>
  </objectgroup>
 </map>

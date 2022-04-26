@@ -195,6 +195,10 @@ open class BaseLevel : BaseScreen() {
         for (enemy: BaseActor in getList(mainStage, Follower::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, true, 1)
             handleDestructibles(enemy)
+            for (other: BaseActor in getList(mainStage, Follower::class.java.canonicalName)) {
+                if (other != enemy)
+                    other.preventOverlap(enemy)
+            }
         }
         for (enemy: BaseActor in getList(mainStage, Charger::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
@@ -361,25 +365,24 @@ open class BaseLevel : BaseScreen() {
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
     }
 
-    private fun dropShield() {
+    fun dropShield() {
         if (fleetAdmiral.actions.size == 0)
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral7"))
-        ShieldDrop(
-            MathUtils.random(10f, BaseActor.getWorldBounds().width - 10f),
-            MathUtils.random(10f, BaseActor.getWorldBounds().height - 10f),
-            mainStage,
-            player
-        )
+        val position = randomWorldPosition()
+        ShieldDrop(position.x, position.y, mainStage, player)
     }
 
     private fun dropHealth() {
         if (fleetAdmiral.actions.size == 0)
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral2"))
-        HealthDrop(
-            MathUtils.random(10f, BaseActor.getWorldBounds().width - 10f),
-            MathUtils.random(10f, BaseActor.getWorldBounds().height - 10f),
-            mainStage,
-            player
+        val position = randomWorldPosition()
+        HealthDrop(position.x, position.y, mainStage, player)
+    }
+
+    fun randomWorldPosition(offset: Float = 10f): Vector2 {
+        return Vector2(
+            MathUtils.random(10f, BaseActor.getWorldBounds().width - offset),
+            MathUtils.random(10f, BaseActor.getWorldBounds().height - offset)
         )
     }
 

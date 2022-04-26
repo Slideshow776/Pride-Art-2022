@@ -17,6 +17,7 @@ import no.sandramoen.prideart2022.actors.particles.FlameExplosion
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.GameUtils
 
 class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
@@ -44,7 +45,7 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
         setOrigin(Align.center)
 
         fadeIn()
-        experimentalLabel()
+        addActor(GameUtils.statementLabel(width, height))
     }
 
     override fun act(dt: Float) {
@@ -166,35 +167,6 @@ class Shooter(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
 
     private enum class State {
         RunningN, RunningS
-    }
-
-    private fun experimentalLabel() {
-        var text = ""
-        when (MathUtils.random(1, 8)) {
-            1 -> text = "Hvor ofte vasker\ndu hendene dine?"
-            2 -> text = "Tenker du på foreldrene\ndine når du onanerer?"
-            3 -> text = "Liker du å stjele?"
-            4 -> text = "Hvordan masturberte du\nnår du var tennåring?"
-            5 -> text = "Du lukter som en ung mann!"
-            6 -> text = "Du lukter som en ung kvinne!"
-            7 -> text = "Det er frivillig å\ndelta i forskningen vår!"
-            8 -> text = "Du er ikke moden nokk\nfordi du er ikke gift enda!"
-        }
-        val label = Label(text, BaseGame.smallLabelStyle)
-        label.color = Color(0.816f, 0.855f, 0.569f, 1f)
-        label.setAlignment(Align.center)
-        val group = Group()
-        group.addActor(label)
-        group.setScale(.02f, .02f)
-        group.setPosition(width / 2 - label.prefWidth * .01f, height)
-        addActor(group)
-
-        group.addAction(Actions.sequence(
-            Actions.delay(5f),
-            Actions.run { group.isVisible = false },
-            Actions.delay(5f),
-            Actions.run { group.isVisible = true }
-        ))
     }
 
     private fun setAnimationDirection() {

@@ -7,11 +7,14 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
+import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.badlogic.gdx.utils.Align
 
 class GameUtils {
     companion object {
@@ -96,6 +99,28 @@ class GameUtils {
                     Actions.alpha(lowestAlpha, duration / 2),
                     Actions.alpha(1f, duration / 2)
             )))
+        }
+
+        fun statementLabel(width: Float, height: Float, statement: String = "statement", numStatements: Int = 31, scaleModifier: Float = 1f): Group {
+            val label = Label(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"), BaseGame.smallLabelStyle)
+            label.color = Color(0.816f, 0.855f, 0.569f, 1f)
+            label.setAlignment(Align.center)
+
+            val group = Group()
+            group.addActor(label)
+            group.setScale(.02f * scaleModifier)
+            group.setPosition(width / 2 - label.prefWidth * .01f * scaleModifier, height)
+
+            group.addAction(Actions.forever(Actions.sequence(
+                Actions.delay(5f),
+                Actions.run {
+                    group.isVisible = false
+                    label.setText(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"))
+                },
+                Actions.delay(5f),
+                Actions.run { group.isVisible = true }
+            )))
+            return group
         }
     }
 }
