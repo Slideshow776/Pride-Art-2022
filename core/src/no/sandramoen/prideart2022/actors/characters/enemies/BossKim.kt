@@ -4,11 +4,9 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.BigExplosion
@@ -25,7 +23,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
     private val movementSpeed = player.originalMovementSpeed * .2f
     private var state = State.RunningN
-    private var beam: Beam? = null
+    private var beam: BossBeam? = null
 
     var isDying = false
 
@@ -42,7 +40,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
         fadeIn()
 
-        shootMultiSho()
+        shootMultiShot()
         shootCircleShot()
         shootBeam()
 
@@ -85,7 +83,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         ))
     }
 
-    private fun shootMultiSho() {
+    private fun shootMultiShot() {
         addAction(Actions.forever(Actions.sequence(
             Actions.delay(5f),
             Actions.run { multiShot(3) }
@@ -160,7 +158,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     }
 
     private fun beam() {
-        beam = Beam(width / 2, height / 2, stage, getAngleTowardActor(player) - 90f)
+        beam = BossBeam(width / 2, height / 2, stage, getAngleTowardActor(player) - 90f)
     }
 
     private fun beamCharge() {

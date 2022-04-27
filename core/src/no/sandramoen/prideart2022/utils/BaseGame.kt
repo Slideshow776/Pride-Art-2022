@@ -87,6 +87,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var shieldOutSound: Sound? = null
         var crystalPickupSound: Sound? = null
         var scream1Sound: Sound? = null
+        var tentacleChargeUpSound: Sound? = null
+        var tentacleWhipSound: Sound? = null
         var intro1VoiceSound: Sound? = null
         var level1: TiledMap? = null
         var level2: TiledMap? = null
@@ -175,6 +177,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/shieldOut.wav", Sound::class.java)
             assetManager.load("audio/sound/crystalPickup.wav", Sound::class.java)
             assetManager.load("audio/sound/scream1.wav", Sound::class.java)
+            assetManager.load("audio/sound/tentacleChargeUp.wav", Sound::class.java)
+            assetManager.load("audio/sound/tentacleWhip.wav", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
@@ -244,6 +248,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             shieldOutSound = assetManager.get("audio/sound/shieldOut.wav", Sound::class.java)
             crystalPickupSound = assetManager.get("audio/sound/crystalPickup.wav", Sound::class.java)
             scream1Sound = assetManager.get("audio/sound/scream1.wav", Sound::class.java)
+            tentacleChargeUpSound = assetManager.get("audio/sound/tentacleChargeUp.wav", Sound::class.java)
+            tentacleWhipSound = assetManager.get("audio/sound/tentacleWhip.wav", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files

@@ -200,6 +200,13 @@ open class BaseLevel : BaseScreen() {
                     other.preventOverlap(enemy)
             }
         }
+        for (enemy: BaseActor in getList(mainStage, Tentacle::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy, false, 1)
+            handleDestructibles(enemy)
+        }
+        for (enemy: BaseActor in getList(mainStage, Teleport::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy, false, 1, false)
+        }
         for (enemy: BaseActor in getList(mainStage, Charger::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
@@ -212,7 +219,7 @@ open class BaseLevel : BaseScreen() {
             enemyCollidedWithPlayer(enemy, true, 1)
             handleDestructibles(enemy)
         }
-        for (enemy: BaseActor in getList(mainStage, Beam::class.java.canonicalName)) {
+        for (enemy: BaseActor in getList(mainStage, BossBeam::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
@@ -338,8 +345,9 @@ open class BaseLevel : BaseScreen() {
             ))
     }
 
-    fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int) {
-        player.preventOverlap(enemy)
+    fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int, preventOverlap: Boolean = true) {
+        if (preventOverlap)
+            player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
             if (remove) enemy.death()
             if (player.isHurt(damageAmount)) {

@@ -53,6 +53,18 @@ class Level2 : BaseLevel() {
         bossBar.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
+        enemySpawner2.addAction(
+            Actions.forever(
+                Actions.sequence(
+                    Actions.delay(10f),
+                    Actions.run {
+                        var position = spawnAroundPlayer(50f)
+                        Follower(position.x, position.y, mainStage, player)
+                    },
+                    Actions.delay(15f)
+                )
+            )
+        )
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral13"), 5f)
     }
 
@@ -70,14 +82,20 @@ class Level2 : BaseLevel() {
     private fun bossDeath() {
         experienceBar.level++
         bossBar.isVisible = false
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
+        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral14"))
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Follower::class.java.canonicalName)) {
+            enemy.death()
+        }
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Teleport::class.java.canonicalName)) {
+            enemy.death()
+        }
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(6f),
                 Actions.run {
                     fadeFleetAdmiralInAndOut(
                         BaseGame.myBundle!!.get("fleetAdmiral6"),
-                        6f
+                        9f
                     )
                 },
                 Actions.delay(5f),
@@ -103,10 +121,10 @@ class Level2 : BaseLevel() {
         )))
     }
 
-    private fun spawnFollowers() {
+    private fun spawnFollowers(duration: Float = 3f) {
         enemySpawner2 = BaseActor(0f, 0f, mainStage)
         enemySpawner2.addAction(Actions.forever(Actions.sequence(
-            Actions.delay(3f),
+            Actions.delay(duration),
             Actions.run {
                 var position = spawnAroundPlayer(50f)
                 Follower(position.x, position.y, mainStage, player)
@@ -118,12 +136,14 @@ class Level2 : BaseLevel() {
         var position = spawnAtEdgesOfMap(10f)
         whiteCrystal = Crystal(position.x, position.y, mainStage, "white")
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral8"), 7f)
-        BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
-            Actions.delay(2f),
-            Actions.run { crystalLabel.fadeIn() },
-            Actions.delay(1f),
-            Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }
-        ))
+        BaseActor(0f, 0f, mainStage).addAction(
+            Actions.sequence(
+                Actions.delay(2f),
+                Actions.run { crystalLabel.fadeIn() },
+                Actions.delay(1f)/*,
+            Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }*/
+            )
+        )
     }
 
     private fun spawnPinkCrystal() {

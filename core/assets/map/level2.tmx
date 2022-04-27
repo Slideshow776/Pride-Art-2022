@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="53">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="55">
  <tileset firstgid="1" name="magecity" tilewidth="32" tileheight="32" tilecount="360" columns="8">
   <image source="magecity.png" width="256" height="1450"/>
  </tileset>
@@ -28,5 +28,7 @@
   <object id="50" name="impassable" x="0.0153333" y="672.485" width="31.636" height="479.364"/>
   <object id="51" name="impassable" x="-0.484667" y="0.8182" width="31.636" height="510.364"/>
   <object id="52" name="impassable" x="1760.18" y="0.8182" width="31.636" height="1150.36"/>
+  <object id="53" name="impassable" x="1088.56" y="96.3182" width="31.636" height="30.3636"/>
+  <object id="54" name="impassable" x="1088.68" y="0.5682" width="31.636" height="62.8636"/>
  </objectgroup>
 </map>

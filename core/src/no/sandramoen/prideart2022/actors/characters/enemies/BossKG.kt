@@ -22,8 +22,14 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
     private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>
 
-    private val movementSpeed = player.originalMovementSpeed * .2f
+    private val movementSpeed = player.originalMovementSpeed * .3f
     private var state = State.RunningN
+    private lateinit var tentacle0: Tentacle
+    private lateinit var tentacle1: Tentacle
+    private lateinit var tentacle2: Tentacle
+    private lateinit var tentacle3: Tentacle
+    private lateinit var tentacle4: Tentacle
+    private lateinit var tentacle5: Tentacle
 
     var isDying = false
 
@@ -43,7 +49,8 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
         shakyCamIntensity = 1f
         addActor(GameUtils.statementLabel(width, height, "guldbrandsen", 4, 2f))
 
-        addActor(Tentacle(width * .95f, height * .5f, stage, this))
+        initializeTentacles()
+        shootCircleShot()
     }
 
     override fun act(dt: Float) {
@@ -53,6 +60,11 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
         accelerateAtAngle(getAngleTowardActor(player))
         setAnimationDirection()
         applyPhysics(dt)
+
+        setTentaclePositions()
+
+        if (!isWithinDistance2(45f, player))
+            teleportToPlayer()
     }
 
     override fun death() {
@@ -74,8 +86,33 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
                 Remains(stage, player)
                 isShakyCam = false
                 remove()
+                tentacle0.remove()
+                tentacle1.remove()
+                tentacle2.remove()
+                tentacle3.remove()
+                tentacle4.remove()
+                tentacle5.remove()
             }
         ))
+    }
+
+    private fun teleportToPlayer() {
+        Teleport(this, stage, player)
+        val distance = 25f
+        if (MathUtils.randomBoolean()) { // horizontal
+            x = MathUtils.random(player.x - distance, player.x + distance)
+            if (MathUtils.randomBoolean())
+                y = player.y + distance
+            else
+                y = player.y - distance
+        } else { // vertical
+            if (MathUtils.randomBoolean())
+                x = player.x + distance
+            else
+                x = player.x - distance
+            y = MathUtils.random(player.y - distance, player.y + distance)
+        }
+        Teleport(this, stage, player)
     }
 
     private fun fadeIn() {
@@ -89,22 +126,6 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
                 Actions.run { isShakyCam = false }
             )
         )
-    }
-
-    private fun loadAnimation() {
-        var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
-
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runN1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
-        animationImages.clear()
-
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
-        animationImages.clear()
-
-        setAnimation(runAnimationN)
     }
 
     private enum class State {
@@ -160,5 +181,84 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
             state = State.RunningS
             setAnimation(runAnimationS)
         }
+    }
+
+    private fun loadAnimation() {
+        var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runN1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runN2"))
+        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS2"))
+        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.clear()
+
+        setAnimation(runAnimationN)
+    }
+
+    private fun shootCircleShot() {
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(.8f),
+            Actions.run { circleShot(12) }
+        )))
+    }
+
+    private fun circleShot(shots: Int) {
+        BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
+        val angleDisplacement = MathUtils.random(0f, 360f)
+        for (i in 0 until shots)
+            Shot(
+                x + width / 2,
+                y + height / 2,
+                stage,
+                i * 40f + angleDisplacement,
+                player.originalMovementSpeed
+            )
+    }
+
+    private fun setTentaclePositions() {
+        tentacle0.setPosition(x + width / 2 - tentacle0.width / 2, y + height / 2)
+        tentacle1.setPosition(x + width / 2 - tentacle0.width / 2, y + height / 2)
+        tentacle2.setPosition(x + width / 2 - tentacle0.width / 2, y + height / 2)
+        tentacle3.setPosition(x + width / 2 - tentacle0.width / 2, y + height / 2)
+        tentacle4.setPosition(x + width / 2 - tentacle0.width / 2, y + height / 2)
+        tentacle5.setPosition(x + width / 2 - tentacle0.width / 2, y + height / 2)
+    }
+
+    private fun initializeTentacles() {
+        tentacle0 = Tentacle(stage, this, player)
+        tentacle1 = Tentacle(stage, this, player)
+        tentacle2 = Tentacle(stage, this, player)
+        tentacle3 = Tentacle(stage, this, player)
+        tentacle4 = Tentacle(stage, this, player)
+        tentacle5 = Tentacle(stage, this, player)
+
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(5f),
+            Actions.run { tentacle0.attack() }
+        )))
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(7f),
+            Actions.run { tentacle1.attack() }
+        )))
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(11f),
+            Actions.run { tentacle2.attack() }
+        )))
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(13f),
+            Actions.run { tentacle3.attack() }
+        )))
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(17f),
+            Actions.run { tentacle4.attack() }
+        )))
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(19f),
+            Actions.run { tentacle5.attack() }
+        )))
     }
 }

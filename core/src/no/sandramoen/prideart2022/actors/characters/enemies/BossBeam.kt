@@ -11,7 +11,7 @@ import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
-class Beam(x: Float, y: Float, stage: Stage, angleTowardsPlayer: Float) :
+class BossBeam(x: Float, y: Float, stage: Stage, angleTowardsPlayer: Float) :
     BaseActor(x, y, stage) {
     private var shaderProgram: ShaderProgram
     private var time = 0f

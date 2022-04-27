@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.*
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.TilemapActor
 import kotlin.math.abs
@@ -390,12 +391,20 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         this.color.a = opacity
     }
 
-    fun getAngleTowardActor(other: BaseActor): Float {
-        return (
-                MathUtils.atan2(
-                    (y + height / 2) - (other.y + other.height / 2),
-                    (x + width / 2) - (other.x + other.width / 2)
-                ) * MathUtils.radiansToDegrees) + 180
+    fun getAngleTowardActor(other: BaseActor, alignment: Int = Align.center): Float {
+        if (alignment == Align.bottom) {
+            return (
+                    MathUtils.atan2(
+                        y - (other.y + other.height / 2),
+                        (x + width / 2) - (other.x + other.width / 2)
+                    ) * MathUtils.radiansToDegrees) + 180
+        } else {
+            return (
+                    MathUtils.atan2(
+                        (y + height / 2) - (other.y + other.height / 2),
+                        (x + width / 2) - (other.x + other.width / 2)
+                    ) * MathUtils.radiansToDegrees) + 180
+        }
     }
 
     fun outOfBounds(): Boolean {
@@ -430,7 +439,8 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     }
 
     fun isWithinDistance2(distance: Float, other: BaseActor): Boolean {
-        val distanceBetween = sqrt((other.x - x).toDouble().pow(2.0) + (other.y - y).toDouble().pow(2.0))
+        val distanceBetween =
+            sqrt((other.x - x).toDouble().pow(2.0) + (other.y - y).toDouble().pow(2.0))
         return distanceBetween <= distance
     }
 
