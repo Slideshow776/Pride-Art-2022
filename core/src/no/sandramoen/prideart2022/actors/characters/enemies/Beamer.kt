@@ -4,32 +4,31 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
-import no.sandramoen.prideart2022.actors.particles.FlameExplosion
 import no.sandramoen.prideart2022.actors.characters.player.Player
+import no.sandramoen.prideart2022.actors.particles.BeamChargeEffect
+import no.sandramoen.prideart2022.actors.particles.BloodBeam
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
-class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x, y, stage) {
-    private val movementSpeed = player.originalMovementSpeed * .72f
-    private val shootDistance = 20f
-    private var shotsUntilDeath = 3
-    private var shootFrequency = 5f
-
-    private var dying = false
-    private var isStoppedToShoot = false
+class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x, y, stage) {
     private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>
     private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
     private lateinit var shootingAnimation: Animation<TextureAtlas.AtlasRegion>
+
+    private val movementSpeed = player.originalMovementSpeed * .7f
+    private val shootDistance = 20f
+    private var shotsUntilDeath = 3
+    private var dying = false
+    private var isStoppedToShoot = false
+    private var beam: EnemyBeam? = null
     private var state = State.RunningN
 
     init {
@@ -58,11 +57,24 @@ class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
             isStoppedToShoot = true
             shoot()
             setAnimation(shootingAnimation)
+            startEffect()
         }
 
         setAnimationDirection()
         if (shotsUntilDeath == 0 && !dying)
             die()
+
+
+        if (beam != null)
+            beam!!.centerAtActor(this)
+    }
+
+    private fun startEffect() {
+        val effect = BloodBeam()
+        effect.setScale(.02f)
+        effect.setPosition(x + width / 2, y + height / 5)
+        stage.addActor(effect)
+        effect.start()
     }
 
     private fun fadeIn() {
@@ -76,20 +88,23 @@ class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     }
 
     private fun shoot() {
+        val angle = getAngleTowardActor(player) - 90f
         addAction(
-            Actions.forever(
-                Actions.sequence(
-                    Actions.run {
-                        shotExplosion()
-                        Shot(x + width / 2, y + height / 2, stage, 0f, player.originalMovementSpeed)
-                        Shot(x + width / 2, y + height / 2, stage, 90f, player.originalMovementSpeed)
-                        Shot(x + width / 2, y + height / 2, stage, 180f, player.originalMovementSpeed)
-                        Shot(x + width / 2, y + height / 2, stage, 270f, player.originalMovementSpeed)
-                        shotsUntilDeath--
-                        BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
-                    },
-                    Actions.delay(shootFrequency)
-                )
+            Actions.sequence(
+                Actions.run {
+                    BaseGame.beamCharge2Sound!!.play(
+                        BaseGame.soundVolume * .6f,
+                        MathUtils.random(.8f, 1.1f), 0f
+                    )
+                },
+                Actions.delay(1f),
+                Actions.run {
+                    /*shotExplosion()*/
+                    beam =
+                        EnemyBeam(width / 2, height / 2, stage, angle)
+                },
+                Actions.delay(10f),
+                Actions.run { die() }
             )
         )
     }
@@ -101,18 +116,19 @@ class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         Explosion(this, stage)
         isShakyCam = true
         shakyCamIntensity *= .125f
-        addAction(Actions.sequence(
-            Actions.parallel(
-                Actions.fadeOut(1f),
-                cardboardFlipSpin()
-            ),
-            Actions.run {
-                Experience(x + width / 2, y + height / 2, stage, 1)
-                Remains(stage, player)
-                isShakyCam = false
-                remove()
-            }
-        ))
+        addAction(
+            Actions.sequence(
+                Actions.parallel(
+                    Actions.fadeOut(1f),
+                    cardboardFlipSpin()
+                ),
+                Actions.run {
+                    Experience(x + width / 2, y + height / 2, stage, 1)
+                    Remains(stage, player)
+                    isShakyCam = false
+                    remove()
+                }
+            ))
     }
 
     private fun cardboardFlipSpin(): SequenceAction {
@@ -156,14 +172,6 @@ class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         )
     }
 
-    private fun shotExplosion() {
-        val effect = FlameExplosion()
-        effect.setScale(.01f)
-        effect.centerAtActor(this)
-        stage.addActor(effect)
-        effect.start()
-    }
-
     private enum class State {
         RunningN, RunningS
     }
@@ -181,21 +189,18 @@ class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     private fun loadAnimation() {
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runN1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runN2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runN1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runN2"))
         runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runS1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runS2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runS1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runS2"))
         runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/shooting1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/shooting2"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/shooting3"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/shooting4"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/shooting5"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/shooting1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/shooting2"))
         shootingAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 

@@ -75,6 +75,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var healthPickupSuccessSound: Sound? = null
         var healthPickupFailSound: Sound? = null
         var beamChargeSound: Sound? = null
+        var beamCharge2Sound: Sound? = null
         var barrelDestroyedSound: Sound? = null
         var vaseDestroyedSound: Sound? = null
         var bottleDestroyedSound: Sound? = null
@@ -166,6 +167,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/healthPickupSuccess.wav", Sound::class.java)
             assetManager.load("audio/sound/healthPickupFail.wav", Sound::class.java)
             assetManager.load("audio/sound/beamChargeSound.wav", Sound::class.java)
+            assetManager.load("audio/sound/beamChargeSound2.wav", Sound::class.java)
             assetManager.load("audio/sound/barrelDestroyed.wav", Sound::class.java)
             assetManager.load("audio/sound/vaseDestroyed.wav", Sound::class.java)
             assetManager.load("audio/sound/bottleDestroyed.wav", Sound::class.java)
@@ -238,6 +240,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             healthPickupFailSound = assetManager.get("audio/sound/healthPickupFail.wav", Sound::class.java)
             fleetAdmiralSound = assetManager.get("audio/sound/fleetAdmiralSound.wav", Sound::class.java)
             beamChargeSound = assetManager.get("audio/sound/beamChargeSound.wav", Sound::class.java)
+            beamCharge2Sound = assetManager.get("audio/sound/beamChargeSound2.wav", Sound::class.java)
             barrelDestroyedSound = assetManager.get("audio/sound/barrelDestroyed.wav", Sound::class.java)
             vaseDestroyedSound = assetManager.get("audio/sound/vaseDestroyed.wav", Sound::class.java)
             bottleDestroyedSound = assetManager.get("audio/sound/bottleDestroyed.wav", Sound::class.java)

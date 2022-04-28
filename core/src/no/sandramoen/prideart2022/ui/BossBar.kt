@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -23,8 +24,9 @@ class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         progress = BaseActor(0f, 0f, stage)
         progress.loadImage("whitePixel")
-        progress.color = Color(0.459f, 0.141f, 0.22f, 1f) // wine red
+        progress.color = Color(0.816f, 0.855f, 0.569f, 1f) // light green
         progress.setSize(width, height)
+        progress.addAction(pulse())
         addActor(progress)
     }
 
@@ -50,6 +52,15 @@ class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     },
                     Actions.delay(1f)
                 )
+            )
+        )
+    }
+
+    private fun pulse(): RepeatAction? {
+        return Actions.forever(
+            Actions.sequence(
+                Actions.alpha(1f, .5f),
+                Actions.alpha(.5f, .5f)
             )
         )
     }

@@ -100,7 +100,9 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         } else {
             health -= amount
             Explosion(this, stage)
-            reduceMovementSpeedBy(20)
+            setHealthSpeed()
+            movementSpeed += 3
+            setMaxSpeed(movementSpeed)
             jumpToRandomLocation()
             return true
         }
@@ -108,7 +110,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     fun healthBack() {
         health++
-        increaseMovementSpeedBy(20)
+        setHealthSpeed()
     }
 
     fun flashColor(color: Color) {
@@ -136,6 +138,15 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             Actions.delay(3f),
             Actions.run { movementSpeed -= 2 }
         ))
+    }
+
+    private fun setHealthSpeed() {
+        when (health) {
+            3 -> movementSpeed = 27f
+            2 -> movementSpeed = 28f
+            1 -> movementSpeed = 30f
+        }
+        setMaxSpeed(movementSpeed)
     }
 
     private fun jumpToRandomLocation() {
@@ -197,16 +208,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         runningSmokeAction = null
     }
 
-    private fun reduceMovementSpeedBy(percent: Int) {
-        movementSpeed *= (100 - percent) / 100f
-        setMaxSpeed(movementSpeed)
-    }
-
-    private fun increaseMovementSpeedBy(percent: Int) {
-        movementSpeed *= (100 + percent) / 100f
-        setMaxSpeed(movementSpeed)
-    }
-
     private fun movementPolling() {
         if (Controllers.getControllers().size > 0)
             controllerPolling()
@@ -228,7 +229,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         val length = direction.len()
         val deadZone = .1f
         if (length > deadZone) {
-            setSpeed(length * 100f)
+            setSpeed(length * movementSpeed)
             setMotionAngle(direction.angleDeg())
         }
     }

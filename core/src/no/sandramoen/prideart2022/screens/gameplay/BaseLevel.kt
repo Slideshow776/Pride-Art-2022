@@ -25,7 +25,7 @@ open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
     protected lateinit var tilemap: TilemapActor
     protected lateinit var mainLabel: Label
-    protected lateinit var crystalLabel: LostLabel
+    protected lateinit var lostLabel: LostLabel
     protected lateinit var experienceBar: ExperienceBar
     protected lateinit var bossBar: BossBar
     protected lateinit var healthBar: HealthBar
@@ -60,7 +60,7 @@ open class BaseLevel : BaseScreen() {
         if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
 
         // TODO: for debugging, remove on launch -------------
-        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level2())
+        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level3())
         else if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.E) experienceBar.increment(1)
         else if (keycode == Input.Keys.NUM_1) setGameOver()
@@ -196,6 +196,11 @@ open class BaseLevel : BaseScreen() {
         player.exitLevel()
     }
 
+    fun bossSpawn(): Vector2 {
+        return if (MathUtils.randomBoolean()) Vector2(player.x - 30f, player.y + -10f)
+        else Vector2(player.x + 30f, player.y - 5f)
+    }
+
     private fun handleEnemies() {
         for (enemy: BaseActor in getList(mainStage, Follower::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, true, 1)
@@ -216,6 +221,10 @@ open class BaseLevel : BaseScreen() {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
+        for (enemy: BaseActor in getList(mainStage, Beamer::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy, false, 1)
+            handleDestructibles(enemy)
+        }
         for (enemy: BaseActor in getList(mainStage, Shooter::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
@@ -225,6 +234,10 @@ open class BaseLevel : BaseScreen() {
             handleDestructibles(enemy)
         }
         for (enemy: BaseActor in getList(mainStage, BossBeam::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy, false, 1)
+            handleDestructibles(enemy)
+        }
+        for (enemy: BaseActor in getList(mainStage, EnemyBeam::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
@@ -357,7 +370,12 @@ open class BaseLevel : BaseScreen() {
             ))
     }
 
-    fun enemyCollidedWithPlayer(enemy: BaseActor, remove: Boolean, damageAmount: Int, preventOverlap: Boolean = true) {
+    fun enemyCollidedWithPlayer(
+        enemy: BaseActor,
+        remove: Boolean,
+        damageAmount: Int,
+        preventOverlap: Boolean = true
+    ) {
         if (preventOverlap)
             player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
@@ -384,6 +402,7 @@ open class BaseLevel : BaseScreen() {
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
         bossBar.stop()
+        lostLabel.fadeOut()
     }
 
     fun dropShield() {
@@ -429,9 +448,9 @@ open class BaseLevel : BaseScreen() {
             .padBottom(-healthBar.prefHeight - experienceBar.height)
             .row()
 
-        crystalLabel = LostLabel()
-        uiTable.add(crystalLabel).padTop(experienceBar.height + healthBar.prefHeight)
-            .padBottom(-crystalLabel.prefHeight).row()
+        lostLabel = LostLabel()
+        uiTable.add(lostLabel).padTop(experienceBar.height + healthBar.prefHeight)
+            .padBottom(-lostLabel.prefHeight).row()
 
         fleetAdmiralSetup()
 

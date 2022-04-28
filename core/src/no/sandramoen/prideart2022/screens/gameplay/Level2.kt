@@ -19,7 +19,6 @@ class Level2 : BaseLevel() {
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level2, mainStage)
         super.initialize()
-
         spawnLost0()
     }
 
@@ -34,14 +33,15 @@ class Level2 : BaseLevel() {
     }
 
     private fun checkIfBossShouldSpawn() {
-        if (crystalLabel.textEquals("3/3") && experienceBar.level >= 5 && !isSpawnedBoss) {
+        if (lostLabel.textEquals("3/3") && experienceBar.level >= 5 && !isSpawnedBoss) {
             isSpawnedBoss = true
             spawnBoss()
         }
     }
 
     private fun spawnBoss() {
-        BossKG(player.x + 20f, player.y + 20f, mainStage, player)
+        val position = bossSpawn()
+        BossKG(position.x, position.y, mainStage, player)
         bossBar.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
@@ -83,7 +83,7 @@ class Level2 : BaseLevel() {
                 Actions.delay(2f),
                 Actions.run {
                     BaseGame.levelMusic!!.stop()
-                    BaseGame.setActiveScreen(Level2())
+                    BaseGame.setActiveScreen(Level3())
                 }
             ))
     }
@@ -101,10 +101,10 @@ class Level2 : BaseLevel() {
         )))
     }
 
-    private fun spawnFollowers(duration: Float = 3f) {
+    private fun spawnFollowers() {
         enemySpawner2 = BaseActor(0f, 0f, mainStage)
         enemySpawner2.addAction(Actions.forever(Actions.sequence(
-            Actions.delay(duration),
+            Actions.delay(3f),
             Actions.run {
                 var position = spawnAroundPlayer(50f)
                 Follower(position.x, position.y, mainStage, player)
@@ -118,8 +118,8 @@ class Level2 : BaseLevel() {
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral8"), 7f)
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
-                Actions.delay(2f),
-                Actions.run { crystalLabel.fadeIn() },
+                Actions.delay(9f),
+                Actions.run { lostLabel.fadeIn() },
                 Actions.delay(1f),
             Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }
             )
@@ -130,18 +130,20 @@ class Level2 : BaseLevel() {
         var position = spawnAtEdgesOfMap(10f)
         lost1 = Lost1(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral10"), 5f)
+        lostLabel.glintToWhiteAndBack()
     }
 
     private fun spawnLost2() {
         var position = spawnAtEdgesOfMap(10f)
         lost2 = Lost2(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral11"), 5f)
+        lostLabel.glintToWhiteAndBack()
     }
 
     private fun lost0Pickup() {
         if (lost0.isPickedUp) {
             lost0.isPickedUp = false
-            crystalLabel.setText("1/3")
+            lostLabel.setText("Redd 1/3 transpersoner")
             spawnFollowers()
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral9"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
@@ -153,7 +155,7 @@ class Level2 : BaseLevel() {
 
     private fun lost1Pickup() {
         if (lost1 != null && lost1!!.isPickedUp) {
-            crystalLabel.setText("2/3")
+            lostLabel.setText("Redd 2/3 transpersoner")
             lost1!!.isPickedUp = false
             spawnEnemies()
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral12"), 5f)
@@ -172,10 +174,10 @@ class Level2 : BaseLevel() {
 
     private fun lost2Pickup() {
         if (lost2 != null && lost2!!.isPickedUp) {
-            crystalLabel.setText("3/3")
-            crystalLabel.addAction(Actions.sequence(
+            lostLabel.setText("Redd 3/3 transpersoner")
+            lostLabel.addAction(Actions.sequence(
                 Actions.delay(5f),
-                Actions.run { crystalLabel.fadeOut() }
+                Actions.run { lostLabel.fadeOut() }
             ))
             lost2!!.isPickedUp = false
 

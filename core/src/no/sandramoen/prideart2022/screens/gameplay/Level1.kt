@@ -1,10 +1,13 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.characters.enemies.BossKim
 import no.sandramoen.prideart2022.actors.characters.enemies.Charger
 import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
+import no.sandramoen.prideart2022.actors.characters.enemies.Shot
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -70,7 +73,8 @@ class Level1 : BaseLevel() {
     }
 
     private fun spawnBoss() {
-        BossKim(player.x + 20f, player.y + 20f, mainStage, player)
+        val position = bossSpawn()
+        BossKim(position.x, position.y, mainStage, player)
         bossBar.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
@@ -81,6 +85,9 @@ class Level1 : BaseLevel() {
     }
 
     private fun bossDeath() {
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
+            enemy.death()
+        }
         experienceBar.level++
         bossBar.isVisible = false
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
