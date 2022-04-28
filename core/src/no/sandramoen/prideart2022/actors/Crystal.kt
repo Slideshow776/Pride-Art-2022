@@ -57,7 +57,7 @@ class Crystal(x: Float, y: Float, stage: Stage, val color: String) : BaseActor(x
     fun pickup() {
         isCollisionEnabled = false
         isPickedUp = true
-        BaseGame.crystalPickupSound!!.play(BaseGame.soundVolume)
+        BaseGame.lostPickupSound!!.play(BaseGame.soundVolume)
         addAction(removeAnimation())
         crystalExplosionEffect()
     }

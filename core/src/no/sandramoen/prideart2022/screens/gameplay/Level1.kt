@@ -2,7 +2,6 @@ package no.sandramoen.prideart2022.screens.gameplay
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.TilemapActor
-import no.sandramoen.prideart2022.actors.TintOverlay
 import no.sandramoen.prideart2022.actors.characters.enemies.BossKim
 import no.sandramoen.prideart2022.actors.characters.enemies.Charger
 import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
@@ -14,12 +13,8 @@ class Level1 : BaseLevel() {
     private var isSpawnedBoss = false
 
     override fun initialize() {
-        super.initialize()
         tilemap = TilemapActor(BaseGame.level1, mainStage)
-        TintOverlay(0f, 0f, mainStage)
-        initializePlayer()
-        initializeDestructibles()
-        initializeImpassables()
+        super.initialize()
 
         spawnEnemyChargers()
         BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(

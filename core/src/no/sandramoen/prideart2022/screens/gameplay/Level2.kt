@@ -1,41 +1,33 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.prideart2022.actors.Crystal
 import no.sandramoen.prideart2022.actors.TilemapActor
-import no.sandramoen.prideart2022.actors.TintOverlay
 import no.sandramoen.prideart2022.actors.characters.enemies.*
+import no.sandramoen.prideart2022.actors.characters.lost.Lost0
+import no.sandramoen.prideart2022.actors.characters.lost.Lost1
+import no.sandramoen.prideart2022.actors.characters.lost.Lost2
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level2 : BaseLevel() {
-    private lateinit var whiteCrystal: Crystal
-    private var pinkCrystal: Crystal? = null
-    private var blueCrystal: Crystal? = null
+    private lateinit var lost0: Lost0
+    private var lost1: Lost1? = null
+    private var lost2: Lost2? = null
     private var isSpawnedBoss = false
 
     override fun initialize() {
-        super.initialize()
         tilemap = TilemapActor(BaseGame.level2, mainStage)
-        TintOverlay(0f, 0f, mainStage)
-        initializePlayer()
-        initializeDestructibles()
-        initializeImpassables()
+        super.initialize()
 
-        spawnWhiteCrystal()
-        /*GameUtils.playAndLoopMusic(BaseGame.levelMusic)*/
-
-        /*spawnEnemies()*/
-        /*spawnFollowers()*/
-        spawnBoss()
+        spawnLost0()
     }
 
     override fun update(dt: Float) {
         super.update(dt)
-        whiteCrystalPickup()
-        pinkCrystalPickup()
-        blueCrystalPickup()
+        lost0Pickup()
+        lost1Pickup()
+        lost2Pickup()
 
         checkIfBossShouldSpawn()
         handleBoss()
@@ -53,18 +45,6 @@ class Level2 : BaseLevel() {
         bossBar.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
-        enemySpawner2.addAction(
-            Actions.forever(
-                Actions.sequence(
-                    Actions.delay(10f),
-                    Actions.run {
-                        var position = spawnAroundPlayer(50f)
-                        Follower(position.x, position.y, mainStage, player)
-                    },
-                    Actions.delay(15f)
-                )
-            )
-        )
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral13"), 5f)
     }
 
@@ -132,51 +112,49 @@ class Level2 : BaseLevel() {
         )))
     }
 
-    private fun spawnWhiteCrystal() {
+    private fun spawnLost0() {
         var position = spawnAtEdgesOfMap(10f)
-        whiteCrystal = Crystal(position.x, position.y, mainStage, "white")
+        lost0 = Lost0(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral8"), 7f)
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(2f),
                 Actions.run { crystalLabel.fadeIn() },
-                Actions.delay(1f)/*,
-            Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }*/
+                Actions.delay(1f),
+            Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }
             )
         )
     }
 
-    private fun spawnPinkCrystal() {
+    private fun spawnLost1() {
         var position = spawnAtEdgesOfMap(10f)
-        pinkCrystal = Crystal(position.x, position.y, mainStage, "pink")
+        lost1 = Lost1(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral10"), 5f)
-        crystalLabel.changeToPink()
     }
 
-    private fun spawnBlueCrystal() {
+    private fun spawnLost2() {
         var position = spawnAtEdgesOfMap(10f)
-        blueCrystal = Crystal(position.x, position.y, mainStage, "blue")
+        lost2 = Lost2(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral11"), 5f)
-        crystalLabel.changeToBlue()
     }
 
-    private fun whiteCrystalPickup() {
-        if (whiteCrystal.isPickedUp) {
-            whiteCrystal.isPickedUp = false
+    private fun lost0Pickup() {
+        if (lost0.isPickedUp) {
+            lost0.isPickedUp = false
             crystalLabel.setText("1/3")
             spawnFollowers()
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral9"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
                 Actions.delay(30f),
-                Actions.run { spawnPinkCrystal() }
+                Actions.run { spawnLost1() }
             ))
         }
     }
 
-    private fun pinkCrystalPickup() {
-        if (pinkCrystal != null && pinkCrystal!!.isPickedUp) {
+    private fun lost1Pickup() {
+        if (lost1 != null && lost1!!.isPickedUp) {
             crystalLabel.setText("2/3")
-            pinkCrystal!!.isPickedUp = false
+            lost1!!.isPickedUp = false
             spawnEnemies()
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral12"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.parallel(
@@ -186,20 +164,20 @@ class Level2 : BaseLevel() {
                 ),
                 Actions.sequence(
                     Actions.delay(30f),
-                    Actions.run { spawnBlueCrystal() }
+                    Actions.run { spawnLost2() }
                 )
             ))
         }
     }
 
-    private fun blueCrystalPickup() {
-        if (blueCrystal != null && blueCrystal!!.isPickedUp) {
+    private fun lost2Pickup() {
+        if (lost2 != null && lost2!!.isPickedUp) {
             crystalLabel.setText("3/3")
             crystalLabel.addAction(Actions.sequence(
                 Actions.delay(5f),
                 Actions.run { crystalLabel.fadeOut() }
             ))
-            blueCrystal!!.isPickedUp = false
+            lost2!!.isPickedUp = false
 
             enemySpawner1.clearActions()
             enemySpawner2.clearActions()

@@ -13,6 +13,7 @@ import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.player.BeamOut
 import no.sandramoen.prideart2022.actors.GroundCrack
+import no.sandramoen.prideart2022.actors.characters.lost.BaseLost
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.ui.*
@@ -24,7 +25,7 @@ open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
     protected lateinit var tilemap: TilemapActor
     protected lateinit var mainLabel: Label
-    protected lateinit var crystalLabel: CrystalLabel
+    protected lateinit var crystalLabel: LostLabel
     protected lateinit var experienceBar: ExperienceBar
     protected lateinit var bossBar: BossBar
     protected lateinit var healthBar: HealthBar
@@ -38,6 +39,10 @@ open class BaseLevel : BaseScreen() {
 
     override fun initialize() {
         Vignette(uiStage)
+        TintOverlay(0f, 0f, mainStage)
+        initializePlayer()
+        initializeDestructibles()
+        initializeImpassables()
         uiSetup()
     }
 
@@ -233,6 +238,7 @@ open class BaseLevel : BaseScreen() {
         handleHealthPickup()
         handleShieldPickup()
         handleCrystals()
+        handleLost()
     }
 
     private fun handleCrystals() {
@@ -241,6 +247,12 @@ open class BaseLevel : BaseScreen() {
                 crystal.pickup()
             }
         }
+    }
+
+    private fun handleLost() {
+        for (lost: BaseActor in getList(mainStage, BaseLost::class.java.canonicalName))
+            if (player.overlaps(lost as BaseLost))
+                lost.pickup()
     }
 
     private fun handleHealthPickup() {
@@ -371,6 +383,7 @@ open class BaseLevel : BaseScreen() {
         player.death()
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
+        bossBar.stop()
     }
 
     fun dropShield() {
@@ -416,7 +429,7 @@ open class BaseLevel : BaseScreen() {
             .padBottom(-healthBar.prefHeight - experienceBar.height)
             .row()
 
-        crystalLabel = CrystalLabel()
+        crystalLabel = LostLabel()
         uiTable.add(crystalLabel).padTop(experienceBar.height + healthBar.prefHeight)
             .padBottom(-crystalLabel.prefHeight).row()
 

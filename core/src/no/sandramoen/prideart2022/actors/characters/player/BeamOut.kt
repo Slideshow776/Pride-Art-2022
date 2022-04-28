@@ -9,8 +9,8 @@ import no.sandramoen.prideart2022.actors.particles.StarsVerticalEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
-class BeamOut(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
-    private val player = player
+class BeamOut(x: Float, y: Float, stage: Stage, baseActor: BaseActor) : BaseActor(x, y, stage) {
+    private val player = baseActor
 
     companion object {
         const val animationDuration = .4f
@@ -19,10 +19,10 @@ class BeamOut(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y
     init {
         BaseGame.beamInSound!!.play(BaseGame.soundVolume, MathUtils.random(.9f, 1.1f), 0f)
         loadImage("beam")
-        centerAtActor(player)
-        setY(player.y - player.height / 8)
+        centerAtActor(baseActor)
+        setY(baseActor.y - baseActor.height / 8)
         setOrigin(Align.bottom)
-        zIndex = player.zIndex - 1
+        zIndex = baseActor.zIndex - 1
 
         isShakyCam = true
         animation()

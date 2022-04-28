@@ -2,6 +2,7 @@ package no.sandramoen.prideart2022
 
 import no.sandramoen.prideart2022.screens.gameplay.Level1
 import no.sandramoen.prideart2022.screens.gameplay.Level2
+import no.sandramoen.prideart2022.screens.gameplay.Level3
 import no.sandramoen.prideart2022.utils.BaseGame
 
 class PrideArt2022Game(appLocale: String) : BaseGame(appLocale) {
@@ -12,6 +13,7 @@ class PrideArt2022Game(appLocale: String) : BaseGame(appLocale) {
         // setActiveScreen(SplashScreen())
         // setActiveScreen(Level1())
         setActiveScreen(Level2())
+        // setActiveScreen(Level3())
         // setActiveScreen(IntroSaturnScreen())
         // setActiveScreen(IntroLightspeedScreen())
     }

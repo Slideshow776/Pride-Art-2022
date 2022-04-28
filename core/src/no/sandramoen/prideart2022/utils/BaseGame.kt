@@ -85,13 +85,14 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var smallBushDestroyedSound: Sound? = null
         var shieldInSound: Sound? = null
         var shieldOutSound: Sound? = null
-        var crystalPickupSound: Sound? = null
+        var lostPickupSound: Sound? = null
         var scream1Sound: Sound? = null
         var tentacleChargeUpSound: Sound? = null
         var tentacleWhipSound: Sound? = null
         var intro1VoiceSound: Sound? = null
         var level1: TiledMap? = null
         var level2: TiledMap? = null
+        var level3: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
         var shockwaveShader: String? = null
@@ -175,7 +176,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/smallBushDestroyed.wav", Sound::class.java)
             assetManager.load("audio/sound/shieldIn.wav", Sound::class.java)
             assetManager.load("audio/sound/shieldOut.wav", Sound::class.java)
-            assetManager.load("audio/sound/crystalPickup.wav", Sound::class.java)
+            assetManager.load("audio/sound/lostPickup.wav", Sound::class.java)
             assetManager.load("audio/sound/scream1.wav", Sound::class.java)
             assetManager.load("audio/sound/tentacleChargeUp.wav", Sound::class.java)
             assetManager.load("audio/sound/tentacleWhip.wav", Sound::class.java)
@@ -203,6 +204,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
             assetManager.load("map/level1.tmx", TiledMap::class.java)
             assetManager.load("map/level2.tmx", TiledMap::class.java)
+            assetManager.load("map/level3.tmx", TiledMap::class.java)
 
             assetManager.finishLoading()
 
@@ -246,7 +248,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             smallBushDestroyedSound = assetManager.get("audio/sound/smallBushDestroyed.wav", Sound::class.java)
             shieldInSound = assetManager.get("audio/sound/shieldIn.wav", Sound::class.java)
             shieldOutSound = assetManager.get("audio/sound/shieldOut.wav", Sound::class.java)
-            crystalPickupSound = assetManager.get("audio/sound/crystalPickup.wav", Sound::class.java)
+            lostPickupSound = assetManager.get("audio/sound/lostPickup.wav", Sound::class.java)
             scream1Sound = assetManager.get("audio/sound/scream1.wav", Sound::class.java)
             tentacleChargeUpSound = assetManager.get("audio/sound/tentacleChargeUp.wav", Sound::class.java)
             tentacleWhipSound = assetManager.get("audio/sound/tentacleWhip.wav", Sound::class.java)
@@ -267,6 +269,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             // tiled map
             level1 = assetManager.get("map/level1.tmx", TiledMap::class.java)
             level2 = assetManager.get("map/level2.tmx", TiledMap::class.java)
+            level3 = assetManager.get("map/level3.tmx", TiledMap::class.java)
 
             // fonts
             FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android

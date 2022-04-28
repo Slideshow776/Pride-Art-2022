@@ -28,6 +28,8 @@ class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         addActor(progress)
     }
 
+    fun stop() = clearActions()
+
     fun countDown() {
         isVisible = true
         addAction(
