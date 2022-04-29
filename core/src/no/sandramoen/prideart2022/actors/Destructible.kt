@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import no.sandramoen.prideart2022.actors.characters.enemies.GhostFreed
 import no.sandramoen.prideart2022.actors.characters.player.Player
+import no.sandramoen.prideart2022.actors.particles.BloodBeamEffect
+import no.sandramoen.prideart2022.actors.particles.DestructiblesEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
@@ -26,6 +28,15 @@ class Destructible(x: Float, y: Float, stage: Stage, val player: Player) : BaseA
         isCollisionEnabled = false
         SmallExplosion(this, stage)
         GhostFreed(x, y, stage)
+        particleEffects()
+    }
+
+    private fun particleEffects() {
+        val effect = DestructiblesEffect()
+        effect.setScale(.03f)
+        effect.setPosition(x + width / 2, y + height / 5)
+        stage.addActor(effect)
+        effect.start()
     }
 
     private fun destroyType() {

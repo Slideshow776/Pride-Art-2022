@@ -13,6 +13,7 @@ class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var progress: BaseActor
     private var time = 60f
 
+    var label: Label
     var complete = false
 
     init {
@@ -28,6 +29,11 @@ class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         progress.setSize(width, height)
         progress.addAction(pulse())
         addActor(progress)
+
+        label = Label("Kjersti Gulbrandsen", BaseGame.smallLabelStyle)
+        label.setFontScale(.5f)
+        label.setPosition(width / 2, 0f)
+        addActor(label)
     }
 
     fun stop() = clearActions()

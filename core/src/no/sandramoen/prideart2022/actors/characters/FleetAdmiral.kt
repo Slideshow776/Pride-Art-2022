@@ -58,7 +58,7 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         if (talk) {
             if (talkCounter >= talkFrequency) {
                 BaseGame.fleetAdmiralSound!!.play(
-                    BaseGame.voiceVolume,
+                    BaseGame.soundVolume,
                     MathUtils.random(.9f, 1.1f),
                     0f
                 )

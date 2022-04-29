@@ -19,7 +19,7 @@ class Teleport(bossKG: BossKG, stage: Stage, player: Player) :
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/teleport1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/teleport2"))
-        val wiggleAnimation = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        val wiggleAnimation = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         setAnimation(wiggleAnimation)
     }
 

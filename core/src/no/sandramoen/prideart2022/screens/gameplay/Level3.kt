@@ -15,9 +15,6 @@ class Level3 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level3, mainStage)
         super.initialize()
 
-
-        /*val lion = BaseActor(player.x + 10f, player.y + 10f, mainStage)
-        lion.loadImage("enemies/lion/lion")*/
         spawnEnemies()
     }
 

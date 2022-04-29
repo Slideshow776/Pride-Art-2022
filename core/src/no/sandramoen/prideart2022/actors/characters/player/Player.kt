@@ -24,12 +24,15 @@ import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.XBoxGamepad
 
 class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
-    private lateinit var runWESAnimation: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var runWENAnimation: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var runNAnimation: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var runSAnimation: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var deathAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var bodyRunWESAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var bodyRunWENAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var bodyRunNAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var bodyRunSAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var bodyIdleAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var bodyDeathAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var bodySmileAnimation: Animation<TextureAtlas.AtlasRegion>
+
+
     private var shield: Shield
 
     private var wobbleAction: RepeatAction? = null
@@ -38,14 +41,18 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
     private var isPlaying = true
+    private var hair: Hair = Hair(this)
+    private var skin: Skin = Skin(this)
 
     var originalMovementSpeed = movementSpeed
     var health: Int = 3
 
     init {
-        loadAnimation()
+        addActor(skin)
+        addActor(hair)
+
+        loadBodyAnimation()
         centerAtPosition(x, y)
-        playEnterAnimation()
 
         setAcceleration(movementAcceleration)
         setMaxSpeed(movementSpeed)
@@ -59,6 +66,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         pantingAnimation()
         shield = Shield(0f, 0f, stage)
+        playEnterAnimation()
     }
 
     override fun act(dt: Float) {
@@ -78,7 +86,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         clearActions()
         addAction(
             Actions.parallel(
-                Actions.color(Color.WHITE, 0f),
+                Actions.parallel(
+                    Actions.color(Color.WHITE, 0f),
+                    Actions.run { hair.addAction(Actions.color(Color.WHITE, 0f)) }
+                ),
                 Actions.scaleTo(1f, 1f, 0f),
                 Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
                 Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn),
@@ -87,9 +98,17 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             )
         )
         BeamOut(x, y - 2, stage, this)
-        setAnimation(deathAnimation)
+        setAnimation(bodyDeathAnimation)
+        hair.setAnimation(hair.hair0DeathAnimation)
+        skin.setAnimation(skin.deathAnimation)
         isPlaying = false
         GroundCrack(x - width / 2, y - height / 1, stage)
+    }
+
+    override fun flip() {
+        super.flip()
+        hair.flip()
+        skin.flip()
     }
 
     fun isHurt(amount: Int): Boolean {
@@ -113,14 +132,16 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         setHealthSpeed()
     }
 
-    fun flashColor(color: Color) {
-        val duration = .25f
-        addAction(
-            Actions.sequence(
-                Actions.color(color, duration / 2),
-                Actions.color(Color.WHITE, duration / 2)
-            )
-        )
+    fun toggleHairColor() {
+        hair.toggleColor()
+    }
+
+    fun toggleHairStyle() {
+        hair.toggleStyle()
+    }
+
+    fun toggleSkinColor() {
+        skin.toggleColor()
     }
 
     fun exitLevel() {
@@ -170,13 +191,27 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private fun hurtAnimation() {
         isCollisionEnabled = false
         val colourDuration = 1.25f
-        setAnimation(deathAnimation)
+        setAnimation(bodyDeathAnimation)
+        hair.setAnimation(hair.hair0DeathAnimation)
+        skin.setAnimation(skin.deathAnimation)
         isShakyCam = true
         addAction(
             Actions.sequence(
-                Actions.color(Color.BLACK, colourDuration / 2),
+                Actions.parallel(
+                    Actions.color(Color.BLACK, colourDuration / 2),
+                    Actions.run {
+                        hair.addAction(Actions.color(Color.BLACK, colourDuration / 2))
+                        skin.addAction(Actions.color(Color.BLACK, colourDuration / 2))
+                    }
+                ),
                 Actions.run { isCollisionEnabled = true },
-                Actions.color(Color.WHITE, colourDuration / 2),
+                Actions.parallel(
+                    Actions.color(Color.WHITE, colourDuration / 2),
+                    Actions.run {
+                        hair.addAction(Actions.color(hair.activeColor, colourDuration / 2))
+                        skin.addAction(Actions.color(skin.activeColor, colourDuration / 2))
+                    }
+                ),
                 Actions.run {
                     state = State.Idle
                     setMovementAnimation()
@@ -195,7 +230,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     effect.setScale(.015f)
                     effect.setPosition(x + width / 2, y + height / 8)
                     stage.addActor(effect)
-                    effect.zIndex = 2
+                    effect.zIndex = zIndex
                     effect.start()
                 }
             ))
@@ -256,42 +291,50 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             accelerateAtAngle(0f)
     }
 
-    private fun loadAnimation() {
+    private fun loadBodyAnimation() {
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
 
         for (i in 1..20)
-            animationImages.add(BaseGame.textureAtlas!!.findRegion("player/idle1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/idle2"))
-        idleAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+            animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/idle1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/idle2"))
+        bodyIdleAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWES1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWES2"))
-        runWESAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runWES1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runWES2"))
+        bodyRunWESAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWEN1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runWEN2"))
-        runWENAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runWEN1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runWEN2"))
+        bodyRunWENAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runN1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runN2"))
-        runNAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runN1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runN2"))
+        bodyRunNAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runS1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/runS2"))
-        runSAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runS1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/runS2"))
+        bodyRunSAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/death1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/death2"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/death3"))
-        deathAnimation = Animation(.2f, animationImages)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/death1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/death2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/death3"))
+        bodyDeathAnimation = Animation(.2f, animationImages)
         animationImages.clear()
 
-        setAnimation(idleAnimation)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/smile1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/smile2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/body/smile3"))
+        bodySmileAnimation = Animation(.2f, animationImages)
+        animationImages.clear()
+
+        setAnimation(bodyIdleAnimation)
+        hair.setAnimation(hair.hair0IdleAnimation)
+        skin.setAnimation(skin.idleAnimation)
     }
 
     private fun setMovementAnimation() {
@@ -322,23 +365,23 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private fun setAnimation() {
         if (!isMoving() && !isState(State.Idle)) {
-            setAnimationAndState(idleAnimation, State.Idle)
+            setAnimationAndState(bodyIdleAnimation, State.Idle, hair.hair0IdleAnimation, skin.idleAnimation)
             removeWobbleAction()
             removeRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f)) {
-            setAnimationAndState(runNAnimation, State.RunningN)
+            setAnimationAndState(bodyRunNAnimation, State.RunningN, hair.hair0RunNAnimation, skin.runNAnimation)
             addWobbleAction()
             addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f))) {
-            setAnimationAndState(runWENAnimation, State.RunningWEN)
+            setAnimationAndState(bodyRunWENAnimation, State.RunningWEN, hair.hair0RunWENAnimation, skin.runWENAnimation)
             addWobbleAction()
             addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135))) {
-            setAnimationAndState(runWESAnimation, State.RunningWES)
+            setAnimationAndState(bodyRunWESAnimation, State.RunningWES, hair.hair0RunWESAnimation, skin.runWESAnimation)
             addWobbleAction()
             addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f)) {
-            setAnimationAndState(runSAnimation, State.RunningS)
+            setAnimationAndState(bodyRunSAnimation, State.RunningS, hair.hair0RunSAnimation, skin.runSAnimation)
             addWobbleAction()
             addRunningSmokeAction()
         }
@@ -348,8 +391,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         return this.state == state
     }
 
-    private fun setAnimationAndState(animation: Animation<TextureAtlas.AtlasRegion>, state: State) {
+    private fun setAnimationAndState(animation: Animation<TextureAtlas.AtlasRegion>, state: State, hairAnimation: Animation<TextureAtlas.AtlasRegion>, skinAnimation: Animation<TextureAtlas.AtlasRegion>) {
         setAnimation(animation)
+        hair.setAnimation(hairAnimation)
+        skin.setAnimation(skinAnimation)
         this.state = state
     }
 
@@ -367,11 +412,23 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             Actions.sequence(
                 Actions.parallel(
                     Actions.scaleTo(.025f, 1f, duration),
-                    Actions.color(Color.BLACK, duration)
+                    Actions.parallel(
+                        Actions.color(Color.BLACK, duration),
+                        Actions.run {
+                            hair.addAction(Actions.color(Color.BLACK, duration))
+                            skin.addAction(Actions.color(Color.BLACK, duration))
+                        }
+                    )
                 ),
                 Actions.parallel(
                     Actions.scaleTo(1f, 1f, duration),
-                    Actions.color(Color.WHITE, duration)
+                    Actions.parallel(
+                        Actions.color(Color.WHITE, duration),
+                        Actions.run {
+                            hair.addAction(Actions.color(hair.activeColor, duration))
+                            skin.addAction(Actions.color(skin.activeColor, duration))
+                        }
+                    )
                 )
             )
         )
@@ -388,6 +445,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private fun revealAnimation(beamDuration: Float) {
         color.a = 0f
+        hair.color.a = 0f
         setScale(0f, 0f)
         bouncyFadeIn(beamDuration)
     }
@@ -398,7 +456,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 Actions.delay(beamDuration / 3),
                 Actions.parallel(
                     Actions.scaleTo(1f, 1f, 1f, Interpolation.bounceOut),
-                    Actions.fadeIn(1f, Interpolation.bounceOut)
+                    Actions.fadeIn(1f, Interpolation.bounceOut),
+                    Actions.run { hair.addAction(Actions.fadeIn(1f, Interpolation.bounceOut)) }
                 )
             )
         )

@@ -36,6 +36,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
 
         lateinit var assetManager: AssetManager
         lateinit var fontGenerator: FreeTypeFontGenerator
+        lateinit var spookyFontGenerator: FreeTypeFontGenerator
         const val WORLD_WIDTH = 200f
         const val WORLD_HEIGHT = 200f
         const val isCustomShadersEnabled = true // debugging purposes
@@ -46,6 +47,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         // game assets
         var smallLabelStyle: LabelStyle? = null
         var bigLabelStyle: LabelStyle? = null
+        var spookySmallLabelStyle: LabelStyle? = null
+        var spookyBigLabelStyle: LabelStyle? = null
         var textButtonStyle: TextButtonStyle? = null
         var textureAtlas: TextureAtlas? = null
         var skin: Skin? = null
@@ -276,7 +279,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
 
             // fonts
             FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android
-            fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf"))
+            fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf")) // hemi-head-426.rg-bolditalic
             val fontParameters = FreeTypeFontParameter()
             fontParameters.size = (.038f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
             fontParameters.color = Color.WHITE
@@ -310,8 +313,34 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             textButtonStyle = TextButtonStyle()
             textButtonStyle!!.font = buttonCustomFont
             textButtonStyle!!.fontColor = Color.WHITE
+
+            spookyFont()
         }
         Gdx.app.error(javaClass.simpleName, "Asset manager took $time ms to load all game assets.")
+    }
+
+    private fun spookyFont() {
+        FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android
+        spookyFontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/SHLOP___.ttf"))
+        val fontParameters = FreeTypeFontParameter()
+        fontParameters.size = (.06f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+        fontParameters.color = Color.WHITE
+        fontParameters.borderWidth = 4f
+        fontParameters.shadowColor = Color(0f, 0f, 0f, .25f)
+        fontParameters.shadowOffsetX = 2
+        fontParameters.shadowOffsetY = 2
+        fontParameters.borderColor = Color.BLACK
+        fontParameters.borderStraight = true
+        fontParameters.minFilter = TextureFilter.Linear
+        fontParameters.magFilter = TextureFilter.Linear
+        val fontSmall = spookyFontGenerator.generateFont(fontParameters)
+        fontParameters.size = (.3f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+        val fontBig = spookyFontGenerator.generateFont(fontParameters)
+
+        spookySmallLabelStyle = LabelStyle()
+        spookySmallLabelStyle!!.font = fontSmall
+        spookyBigLabelStyle = LabelStyle()
+        spookyBigLabelStyle!!.font = fontBig
     }
 
     override fun dispose() {

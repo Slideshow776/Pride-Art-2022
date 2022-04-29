@@ -101,8 +101,8 @@ class GameUtils {
             )))
         }
 
-        fun statementLabel(width: Float, height: Float, statement: String = "statement", numStatements: Int = 31, scaleModifier: Float = 1f): Group {
-            val label = Label(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"), BaseGame.smallLabelStyle)
+        fun statementLabel(width: Float, height: Float, statement: String = "statement", numStatements: Int = 70, scaleModifier: Float = 1f): Group {
+            val label = Label(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"), BaseGame.spookySmallLabelStyle)
             label.color = Color(0.816f, 0.855f, 0.569f, 1f)
             label.setAlignment(Align.center)
 

@@ -19,12 +19,8 @@ class Level1 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
         super.initialize()
 
-        spawnEnemyChargers()
-        BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
-            Actions.delay(30f),
-            Actions.run { spawnEnemyShooters() }
-        ))
-        GameUtils.playAndLoopMusic(BaseGame.levelMusic)
+        /*spawnEnemies()
+        GameUtils.playAndLoopMusic(BaseGame.levelMusic)*/
     }
 
     override fun update(dt: Float) {
@@ -35,6 +31,18 @@ class Level1 : BaseLevel() {
             isSpawnedBoss = true
             spawnBoss()
         }
+    }
+
+    private fun spawnEnemies() {
+        spawnEnemyChargers()
+        delaySpawnShooters()
+    }
+
+    private fun delaySpawnShooters() {
+        enemySpawner2.addAction(Actions.sequence(
+            Actions.delay(30f),
+            Actions.run { spawnEnemyShooters() }
+        ))
     }
 
     private fun spawnEnemyChargers() {
@@ -50,6 +58,7 @@ class Level1 : BaseLevel() {
     }
 
     private fun spawnEnemyShooters() {
+        enemySpawner2.clearActions()
         enemySpawner2 = BaseActor(0f, 0f, mainStage)
         enemySpawner2.addAction(Actions.forever(
             Actions.sequence(
@@ -75,6 +84,7 @@ class Level1 : BaseLevel() {
     private fun spawnBoss() {
         val position = bossSpawn()
         BossKim(position.x, position.y, mainStage, player)
+        bossBar.label.setText("Kim Alexander Tønseth")
         bossBar.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()

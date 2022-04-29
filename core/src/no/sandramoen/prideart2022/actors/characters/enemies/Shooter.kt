@@ -183,12 +183,12 @@ class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/shooter/shooting1"))

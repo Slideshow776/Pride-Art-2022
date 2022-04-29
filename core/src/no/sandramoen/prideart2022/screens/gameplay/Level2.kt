@@ -1,6 +1,7 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.lost.Lost0
@@ -15,6 +16,7 @@ class Level2 : BaseLevel() {
     private var lost1: Lost1? = null
     private var lost2: Lost2? = null
     private var isSpawnedBoss = false
+    private var isReadyToSpawnBoss = false
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level2, mainStage)
@@ -33,8 +35,10 @@ class Level2 : BaseLevel() {
     }
 
     private fun checkIfBossShouldSpawn() {
-        if (lostLabel.textEquals("3/3") && experienceBar.level >= 5 && !isSpawnedBoss) {
+        if (isReadyToSpawnBoss && experienceBar.level >= 5 && !isSpawnedBoss) {
             isSpawnedBoss = true
+            spawnBoss()
+        } else if (isReadyToSpawnBoss && BaseActor.count(mainStage, Experience::class.java.canonicalName) <= 0) {
             spawnBoss()
         }
     }
@@ -42,6 +46,7 @@ class Level2 : BaseLevel() {
     private fun spawnBoss() {
         val position = bossSpawn()
         BossKG(position.x, position.y, mainStage, player)
+        bossBar.label.setText("Kjersti Gulbrandsen")
         bossBar.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
@@ -67,6 +72,9 @@ class Level2 : BaseLevel() {
             enemy.death()
         }
         for (enemy: BaseActor in BaseActor.getList(mainStage, Teleport::class.java.canonicalName)) {
+            enemy.death()
+        }
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
             enemy.death()
         }
         BaseActor(0f, 0f, mainStage).addAction(
@@ -119,9 +127,12 @@ class Level2 : BaseLevel() {
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(9f),
-                Actions.run { lostLabel.fadeIn() },
+                Actions.run {
+                    lostLabel.fadeIn()
+                    lostLabel.glintToWhiteAndBack()
+                },
                 Actions.delay(1f),
-            Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }
+                Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }
             )
         )
     }
@@ -147,7 +158,7 @@ class Level2 : BaseLevel() {
             spawnFollowers()
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral9"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
-                Actions.delay(30f),
+                Actions.delay(35f),
                 Actions.run { spawnLost1() }
             ))
         }
@@ -165,7 +176,7 @@ class Level2 : BaseLevel() {
                     Actions.run { dropShield() }
                 ),
                 Actions.sequence(
-                    Actions.delay(30f),
+                    Actions.delay(35f),
                     Actions.run { spawnLost2() }
                 )
             ))
@@ -180,6 +191,7 @@ class Level2 : BaseLevel() {
                 Actions.run { lostLabel.fadeOut() }
             ))
             lost2!!.isPickedUp = false
+            isReadyToSpawnBoss = true
 
             enemySpawner1.clearActions()
             enemySpawner2.clearActions()

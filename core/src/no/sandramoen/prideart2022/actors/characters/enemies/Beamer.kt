@@ -12,8 +12,7 @@ import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.characters.player.Player
-import no.sandramoen.prideart2022.actors.particles.BeamChargeEffect
-import no.sandramoen.prideart2022.actors.particles.BloodBeam
+import no.sandramoen.prideart2022.actors.particles.BloodBeamEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -30,6 +29,7 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     private var isStoppedToShoot = false
     private var beam: EnemyBeam? = null
     private var state = State.RunningN
+    private val beamDuration = 5f
 
     init {
         loadAnimation()
@@ -70,7 +70,7 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     }
 
     private fun startEffect() {
-        val effect = BloodBeam()
+        val effect = BloodBeamEffect()
         effect.setScale(.02f)
         effect.setPosition(x + width / 2, y + height / 5)
         stage.addActor(effect)
@@ -98,12 +98,8 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
                     )
                 },
                 Actions.delay(1f),
-                Actions.run {
-                    /*shotExplosion()*/
-                    beam =
-                        EnemyBeam(width / 2, height / 2, stage, angle)
-                },
-                Actions.delay(10f),
+                Actions.run { beam = EnemyBeam(width / 2, height / 2, stage, angle, beamDuration) },
+                Actions.delay(beamDuration),
                 Actions.run { die() }
             )
         )
@@ -191,17 +187,17 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/shooting1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/beamer/shooting2"))
-        shootingAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        shootingAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         setAnimation(runAnimationN)

@@ -21,6 +21,6 @@ class Remains(stage: Stage, player: Player) : BaseActor(player.x, player.y, stag
         for (i in 1..20)
             animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/remains1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/remains2"))
-        setAnimation(Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG))
+        setAnimation(Animation(.1f, animationImages, Animation.PlayMode.LOOP))
     }
 }

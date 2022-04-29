@@ -189,12 +189,12 @@ class Charger(x: Float, y: Float, stage: Stage, player: Player) :
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/charger/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/charger/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/charger/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/charger/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         setAnimation(runAnimationN)

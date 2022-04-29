@@ -99,7 +99,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     }
 
     // Graphics ---------------------------------------------------------------------------------------------------
-    fun setAnimation(anim: Animation<TextureAtlas.AtlasRegion>) {
+    open fun setAnimation(anim: Animation<TextureAtlas.AtlasRegion>) {
         animation = anim
         animationTime = 0f
 
@@ -118,7 +118,7 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         animationHeight = height
     }
 
-    fun flip() {
+    open fun flip() {
         isFacingRight = !isFacingRight
     }
 

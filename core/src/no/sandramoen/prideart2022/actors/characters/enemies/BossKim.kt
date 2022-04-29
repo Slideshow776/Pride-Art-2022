@@ -45,7 +45,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         shootBeam()
 
         shakyCamIntensity = 1f
-        addActor(GameUtils.statementLabel(width, height, "kim", 6, 2f))
+        addActor(GameUtils.statementLabel(width, height, "kim", 8, 2f))
     }
 
     override fun act(dt: Float) {
@@ -176,17 +176,17 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKim/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKim/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKim/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKim/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKim/scream1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKim/scream2"))
-        screamAnimation = Animation(.001f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        screamAnimation = Animation(.001f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         setAnimation(runAnimationN)

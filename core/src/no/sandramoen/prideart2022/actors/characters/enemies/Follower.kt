@@ -190,22 +190,22 @@ class Follower(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, 
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/closeN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/closeN2"))
-        closeAnimationN = Animation(.4f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        closeAnimationN = Animation(.4f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/closeS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/follower/closeS2"))
-        closeAnimationS = Animation(.4f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        closeAnimationS = Animation(.4f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         setAnimation(runAnimationN)

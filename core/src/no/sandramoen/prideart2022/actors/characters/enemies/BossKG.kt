@@ -47,7 +47,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
         fadeIn()
 
         shakyCamIntensity = 1f
-        addActor(GameUtils.statementLabel(width, height, "guldbrandsen", 4, 2f))
+        addActor(GameUtils.statementLabel(width, height, "guldbrandsen", 8, 2f))
 
         initializeTentacles()
         shootCircleShot()
@@ -188,12 +188,12 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         setAnimation(runAnimationN)
