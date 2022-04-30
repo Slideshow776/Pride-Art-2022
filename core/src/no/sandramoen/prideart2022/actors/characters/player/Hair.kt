@@ -52,10 +52,8 @@ class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
     }
 
     private fun setStyles() {
-        styles.add(0)
-        styles.add(1)
-        styles.add(2)
-        styles.add(3)
+        for (i in 0..4)
+            styles.add(i)
     }
 
     private fun getNextStyle(): Int {
