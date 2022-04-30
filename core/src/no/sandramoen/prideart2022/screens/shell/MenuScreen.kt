@@ -102,9 +102,9 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
                 swapButtons(up = true)
             else if (controller!!.getButton(XBoxGamepad.DPAD_DOWN))
                 swapButtons(up = false)
-        } else if (controller!!.getButton(XBoxGamepad.BUTTON_B)) {
+        }/* else if (controller!!.getButton(XBoxGamepad.BUTTON_B)) {
             exitGame()
-        } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == startButton) {
+        }*/ else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == startButton) {
             setLevelScreenWithDelay()
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == optionsButton) {
             setOptionsScreenWithDelay()

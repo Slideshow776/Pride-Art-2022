@@ -9,13 +9,13 @@ import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
 class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
-    lateinit var hair0IdleAnimation: Animation<TextureAtlas.AtlasRegion>
-    lateinit var hair0RunWESAnimation: Animation<TextureAtlas.AtlasRegion>
-    lateinit var hair0RunWENAnimation: Animation<TextureAtlas.AtlasRegion>
-    lateinit var hair0RunNAnimation: Animation<TextureAtlas.AtlasRegion>
-    lateinit var hair0RunSAnimation: Animation<TextureAtlas.AtlasRegion>
-    lateinit var hair0DeathAnimation: Animation<TextureAtlas.AtlasRegion>
-    lateinit var hair0SmileAnimation: Animation<TextureAtlas.AtlasRegion>
+    lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
+    lateinit var runWESAnimation: Animation<TextureAtlas.AtlasRegion>
+    lateinit var runWENAnimation: Animation<TextureAtlas.AtlasRegion>
+    lateinit var runNAnimation: Animation<TextureAtlas.AtlasRegion>
+    lateinit var runSAnimation: Animation<TextureAtlas.AtlasRegion>
+    lateinit var deathAnimation: Animation<TextureAtlas.AtlasRegion>
+    lateinit var smileAnimation: Animation<TextureAtlas.AtlasRegion>
 
     private val styles = Array<Int>()
     private var stylesIndex: Int = 0
@@ -42,7 +42,8 @@ class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
 
     fun toggleStyle() {
         val style = getNextStyle()
-        if (style == 1) {
+        println("style is: $style")
+        if (style == 2) {
             isVisible = false
         } else {
             isVisible = true
@@ -54,14 +55,13 @@ class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
     private fun setStyles() {
         styles.add(0)
         styles.add(1)
-        stylesIndex = styles.size - 1
+        styles.add(2)
     }
 
     private fun getNextStyle(): Int {
-        val int = styles[stylesIndex]
         if (stylesIndex < styles.size - 1) stylesIndex++
         else stylesIndex = 0
-        return int
+        return styles[stylesIndex]
     }
 
     private fun setColors() {
@@ -90,41 +90,42 @@ class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
 
     private fun loadAnimation(number: Int) {
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/idle1"))
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/idle1"))
-        hair0IdleAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        for (i in 1..20)
+            animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/idle1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/idle2"))
+        idleAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runWES1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runWES2"))
-        hair0RunWESAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runWESAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runWEN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runWEN2"))
-        hair0RunWENAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runWENAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runN2"))
-        hair0RunNAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runNAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/runS2"))
-        hair0RunSAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
+        runSAnimation = Animation(.1f, animationImages, Animation.PlayMode.LOOP_PINGPONG)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/death1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/death2"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/death3"))
-        hair0DeathAnimation = Animation(.2f, animationImages)
+        deathAnimation = Animation(.2f, animationImages)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/smile1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/smile2"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("player/hair/hair $number/smile3"))
-        hair0SmileAnimation = Animation(.2f, animationImages)
+        smileAnimation = Animation(.2f, animationImages)
         animationImages.clear()
     }
 }

@@ -99,7 +99,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         )
         BeamOut(x, y - 2, stage, this)
         setAnimation(bodyDeathAnimation)
-        hair.setAnimation(hair.hair0DeathAnimation)
+        hair.setAnimation(hair.deathAnimation)
         skin.setAnimation(skin.deathAnimation)
         isPlaying = false
         GroundCrack(x - width / 2, y - height / 1, stage)
@@ -138,6 +138,14 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     fun toggleHairStyle() {
         hair.toggleStyle()
+        var hairAnimation = when (state) {
+            State.Idle -> hair.idleAnimation
+            State.RunningN -> hair.runNAnimation
+            State.RunningS -> hair.runSAnimation
+            State.RunningWEN -> hair.runWENAnimation
+            State.RunningWES -> hair.runWESAnimation
+        }
+        hair.setAnimation(hairAnimation)
     }
 
     fun toggleSkinColor() {
@@ -192,7 +200,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         isCollisionEnabled = false
         val colourDuration = 1.25f
         setAnimation(bodyDeathAnimation)
-        hair.setAnimation(hair.hair0DeathAnimation)
+        hair.setAnimation(hair.deathAnimation)
         skin.setAnimation(skin.deathAnimation)
         isShakyCam = true
         addAction(
@@ -333,7 +341,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         animationImages.clear()
 
         setAnimation(bodyIdleAnimation)
-        hair.setAnimation(hair.hair0IdleAnimation)
+        hair.setAnimation(hair.idleAnimation)
         skin.setAnimation(skin.idleAnimation)
     }
 
@@ -365,23 +373,48 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private fun setAnimation() {
         if (!isMoving() && !isState(State.Idle)) {
-            setAnimationAndState(bodyIdleAnimation, State.Idle, hair.hair0IdleAnimation, skin.idleAnimation)
+            setAnimationAndState(
+                bodyIdleAnimation,
+                State.Idle,
+                hair.idleAnimation,
+                skin.idleAnimation
+            )
             removeWobbleAction()
             removeRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningN) && (getMotionAngle() in 70f..110f)) {
-            setAnimationAndState(bodyRunNAnimation, State.RunningN, hair.hair0RunNAnimation, skin.runNAnimation)
+            setAnimationAndState(
+                bodyRunNAnimation,
+                State.RunningN,
+                hair.runNAnimation,
+                skin.runNAnimation
+            )
             addWobbleAction()
             addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningWEN) && ((getMotionAngle() > 45 && getMotionAngle() < 70f) || (getMotionAngle() > 110f && getMotionAngle() < 135f))) {
-            setAnimationAndState(bodyRunWENAnimation, State.RunningWEN, hair.hair0RunWENAnimation, skin.runWENAnimation)
+            setAnimationAndState(
+                bodyRunWENAnimation,
+                State.RunningWEN,
+                hair.runWENAnimation,
+                skin.runWENAnimation
+            )
             addWobbleAction()
             addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningWES) && ((getMotionAngle() <= 45 || getMotionAngle() > 290) || (getMotionAngle() < 250f && getMotionAngle() >= 135))) {
-            setAnimationAndState(bodyRunWESAnimation, State.RunningWES, hair.hair0RunWESAnimation, skin.runWESAnimation)
+            setAnimationAndState(
+                bodyRunWESAnimation,
+                State.RunningWES,
+                hair.runWESAnimation,
+                skin.runWESAnimation
+            )
             addWobbleAction()
             addRunningSmokeAction()
         } else if (isMoving() && !isState(State.RunningS) && (getMotionAngle() in 250f..290f)) {
-            setAnimationAndState(bodyRunSAnimation, State.RunningS, hair.hair0RunSAnimation, skin.runSAnimation)
+            setAnimationAndState(
+                bodyRunSAnimation,
+                State.RunningS,
+                hair.runSAnimation,
+                skin.runSAnimation
+            )
             addWobbleAction()
             addRunningSmokeAction()
         }
@@ -391,7 +424,12 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         return this.state == state
     }
 
-    private fun setAnimationAndState(animation: Animation<TextureAtlas.AtlasRegion>, state: State, hairAnimation: Animation<TextureAtlas.AtlasRegion>, skinAnimation: Animation<TextureAtlas.AtlasRegion>) {
+    private fun setAnimationAndState(
+        animation: Animation<TextureAtlas.AtlasRegion>,
+        state: State,
+        hairAnimation: Animation<TextureAtlas.AtlasRegion>,
+        skinAnimation: Animation<TextureAtlas.AtlasRegion>
+    ) {
         setAnimation(animation)
         hair.setAnimation(hairAnimation)
         skin.setAnimation(skinAnimation)
