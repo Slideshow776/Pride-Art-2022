@@ -42,8 +42,7 @@ class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
 
     fun toggleStyle() {
         val style = getNextStyle()
-        println("style is: $style")
-        if (style == 2) {
+        if (style == styles.size - 1) {
             isVisible = false
         } else {
             isVisible = true
@@ -56,6 +55,7 @@ class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
         styles.add(0)
         styles.add(1)
         styles.add(2)
+        styles.add(3)
     }
 
     private fun getNextStyle(): Int {
