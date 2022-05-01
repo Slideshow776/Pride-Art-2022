@@ -41,6 +41,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
     private var isPlaying = true
+    private var beard: Beard = Beard(this)
     private var hair: Hair = Hair(this)
     private var skin: Skin = Skin(this)
 
@@ -50,6 +51,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     init {
         addActor(skin)
         addActor(hair)
+        addActor(beard)
 
         loadBodyAnimation()
         centerAtPosition(x, y)
@@ -88,7 +90,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             Actions.parallel(
                 Actions.parallel(
                     Actions.color(Color.WHITE, 0f),
-                    Actions.run { hair.addAction(Actions.color(Color.WHITE, 0f)) }
+                    Actions.run {
+                        hair.addAction(Actions.color(hair.activeColor, 0f))
+                        beard.addAction(Actions.color(beard.activeColor, 0f))
+                    }
                 ),
                 Actions.scaleTo(1f, 1f, 0f),
                 Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
@@ -100,6 +105,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         BeamOut(x, y - 2, stage, this)
         setAnimation(bodyDeathAnimation)
         hair.setAnimation(hair.deathAnimation)
+        beard.setAnimation(beard.deathAnimation)
         skin.setAnimation(skin.deathAnimation)
         isPlaying = false
         GroundCrack(x - width / 2, y - height / 1, stage)
@@ -108,6 +114,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     override fun flip() {
         super.flip()
         hair.flip()
+        beard.flip()
         skin.flip()
     }
 
@@ -134,6 +141,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     fun toggleHairColor() {
         hair.toggleColor()
+        beard.toggleColor()
     }
 
     fun toggleHairStyle() {
@@ -146,6 +154,18 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             State.RunningWES -> hair.runWESAnimation
         }
         hair.setAnimation(hairAnimation)
+    }
+
+    fun toggleBeardStyle() {
+        beard.toggleStyle()
+        var beardAnimation = when (state) {
+            State.Idle -> beard.idleAnimation
+            State.RunningN -> beard.runNAnimation
+            State.RunningS -> beard.runSAnimation
+            State.RunningWEN -> beard.runWENAnimation
+            State.RunningWES -> beard.runWESAnimation
+        }
+        beard.setAnimation(beardAnimation)
     }
 
     fun toggleSkinColor() {
@@ -201,6 +221,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         val colourDuration = 1.25f
         setAnimation(bodyDeathAnimation)
         hair.setAnimation(hair.deathAnimation)
+        beard.setAnimation(hair.deathAnimation)
         skin.setAnimation(skin.deathAnimation)
         isShakyCam = true
         addAction(
@@ -209,6 +230,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     Actions.color(Color.BLACK, colourDuration / 2),
                     Actions.run {
                         hair.addAction(Actions.color(Color.BLACK, colourDuration / 2))
+                        beard.addAction(Actions.color(Color.BLACK, colourDuration / 2))
                         skin.addAction(Actions.color(Color.BLACK, colourDuration / 2))
                     }
                 ),
@@ -217,6 +239,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     Actions.color(Color.WHITE, colourDuration / 2),
                     Actions.run {
                         hair.addAction(Actions.color(hair.activeColor, colourDuration / 2))
+                        beard.addAction(Actions.color(beard.activeColor, colourDuration / 2))
                         skin.addAction(Actions.color(skin.activeColor, colourDuration / 2))
                     }
                 ),
@@ -342,6 +365,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
         setAnimation(bodyIdleAnimation)
         hair.setAnimation(hair.idleAnimation)
+        beard.setAnimation(beard.idleAnimation)
         skin.setAnimation(skin.idleAnimation)
     }
 
@@ -377,7 +401,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 bodyIdleAnimation,
                 State.Idle,
                 hair.idleAnimation,
-                skin.idleAnimation
+                skin.idleAnimation,
+                beard.idleAnimation
             )
             removeWobbleAction()
             removeRunningSmokeAction()
@@ -386,7 +411,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 bodyRunNAnimation,
                 State.RunningN,
                 hair.runNAnimation,
-                skin.runNAnimation
+                skin.runNAnimation,
+                beard.runNAnimation
             )
             addWobbleAction()
             addRunningSmokeAction()
@@ -395,7 +421,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 bodyRunWENAnimation,
                 State.RunningWEN,
                 hair.runWENAnimation,
-                skin.runWENAnimation
+                skin.runWENAnimation,
+                beard.runWENAnimation
             )
             addWobbleAction()
             addRunningSmokeAction()
@@ -404,7 +431,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 bodyRunWESAnimation,
                 State.RunningWES,
                 hair.runWESAnimation,
-                skin.runWESAnimation
+                skin.runWESAnimation,
+                beard.runWESAnimation
             )
             addWobbleAction()
             addRunningSmokeAction()
@@ -413,7 +441,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 bodyRunSAnimation,
                 State.RunningS,
                 hair.runSAnimation,
-                skin.runSAnimation
+                skin.runSAnimation,
+                beard.runSAnimation
             )
             addWobbleAction()
             addRunningSmokeAction()
@@ -428,11 +457,13 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         animation: Animation<TextureAtlas.AtlasRegion>,
         state: State,
         hairAnimation: Animation<TextureAtlas.AtlasRegion>,
-        skinAnimation: Animation<TextureAtlas.AtlasRegion>
+        skinAnimation: Animation<TextureAtlas.AtlasRegion>,
+        beardAnimation: Animation<TextureAtlas.AtlasRegion>
     ) {
         setAnimation(animation)
         hair.setAnimation(hairAnimation)
         skin.setAnimation(skinAnimation)
+        beard.setAnimation(beardAnimation)
         this.state = state
     }
 
@@ -454,6 +485,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                         Actions.color(Color.BLACK, duration),
                         Actions.run {
                             hair.addAction(Actions.color(Color.BLACK, duration))
+                            beard.addAction(Actions.color(Color.BLACK, duration))
                             skin.addAction(Actions.color(Color.BLACK, duration))
                         }
                     )
@@ -464,6 +496,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                         Actions.color(Color.WHITE, duration),
                         Actions.run {
                             hair.addAction(Actions.color(hair.activeColor, duration))
+                            beard.addAction(Actions.color(hair.activeColor, duration))
                             skin.addAction(Actions.color(skin.activeColor, duration))
                         }
                     )
@@ -484,6 +517,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private fun revealAnimation(beamDuration: Float) {
         color.a = 0f
         hair.color.a = 0f
+        beard.color.a = 0f
         setScale(0f, 0f)
         bouncyFadeIn(beamDuration)
     }
@@ -495,7 +529,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 Actions.parallel(
                     Actions.scaleTo(1f, 1f, 1f, Interpolation.bounceOut),
                     Actions.fadeIn(1f, Interpolation.bounceOut),
-                    Actions.run { hair.addAction(Actions.fadeIn(1f, Interpolation.bounceOut)) }
+                    Actions.run {
+                        hair.addAction(Actions.fadeIn(1f, Interpolation.bounceOut))
+                        beard.addAction(Actions.fadeIn(1f, Interpolation.bounceOut))
+                    }
                 )
             )
         )

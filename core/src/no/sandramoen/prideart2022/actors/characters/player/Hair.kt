@@ -52,7 +52,7 @@ class Hair(player: Player) : BaseActor(0f, 0f, player.stage) {
     }
 
     private fun setStyles() {
-        for (i in 0..4)
+        for (i in 0..5)
             styles.add(i)
     }
 

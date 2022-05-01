@@ -93,6 +93,8 @@ open class BaseLevel : BaseScreen() {
             player.toggleSkinColor()
         else if (buttonCode == XBoxGamepad.BUTTON_X)
             player.toggleHairStyle()
+        else if (buttonCode == XBoxGamepad.BUTTON_Y)
+            player.toggleBeardStyle()
         else if (buttonCode == XBoxGamepad.BUTTON_START)
             BaseGame.setActiveScreen(Level1())
         else if (buttonCode == XBoxGamepad.BUTTON_BACK)
