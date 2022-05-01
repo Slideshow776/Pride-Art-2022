@@ -3,7 +3,6 @@ package no.sandramoen.prideart2022.screens.gameplay
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.controllers.Controller
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -176,7 +175,7 @@ open class BaseLevel : BaseScreen() {
 
     private fun setMenuScreen() {
         BaseGame.setActiveScreen(MenuScreen())
-        BaseGame.levelMusic!!.stop()
+        BaseGame.level1Music!!.stop()
     }
 
     private fun unpauseMainLabel() {
@@ -394,6 +393,9 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun setGameOver() {
+        BaseGame.bossMusic!!.stop()
+        BaseGame.level1Music!!.stop()
+        BaseGame.level2Music!!.stop()
         isGameOver = true
         mainLabel.isVisible = true
         mainLabel.setText(BaseGame.myBundle!!.get("gameOver"))

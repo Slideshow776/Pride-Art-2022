@@ -52,12 +52,15 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var textButtonStyle: TextButtonStyle? = null
         var textureAtlas: TextureAtlas? = null
         var skin: Skin? = null
-        var levelMusic: Music? = null
+        var level1Music: Music? = null
         var menuMusic: Music? = null
         var cinematic1Music: Music? = null
         var cinematic2Music: Music? = null
         var cinematic3Music: Music? = null
         var level2IntroMusic: Music? = null
+        var level2Music: Music? = null
+        var bossMusic: Music? = null
+
         var enemyChargeSound: Sound? = null
         var enemyChargeUpSound: Sound? = null
         var enemyDeathSound: Sound? = null
@@ -91,9 +94,11 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var shieldOutSound: Sound? = null
         var lostPickupSound: Sound? = null
         var scream1Sound: Sound? = null
+        var scream2Sound: Sound? = null
         var tentacleChargeUpSound: Sound? = null
         var tentacleWhipSound: Sound? = null
         var intro1VoiceSound: Sound? = null
+
         var level1: TiledMap? = null
         var level2: TiledMap? = null
         var level3: TiledMap? = null
@@ -147,7 +152,9 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/music/341652__devern__cinematic-build.wav", Music::class.java)
             assetManager.load("audio/music/553418__eminyildirim__cinematic-boom-impact-hit-2021.wav", Music::class.java)
             assetManager.load("audio/music/236894__chimerical__cinematic-suspense.wav", Music::class.java)
-            assetManager.load("audio/music/564618__bloodpixelhero__horror-atmospheric-loop.wav", Music::class.java)
+            assetManager.load("audio/music/316821__pearcewilsonking__space-horror-atmosphere-loop.wav", Music::class.java)
+            assetManager.load("audio/music/348834__darkgamer364__creepy-eerie-horror-loop (1).wav", Music::class.java)
+            assetManager.load("audio/music/234475__pcruzn__basslines-1.wav", Music::class.java)
 
             // sounds
             assetManager.load("audio/sound/enemyCharge.wav", Sound::class.java)
@@ -183,6 +190,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/shieldOut.wav", Sound::class.java)
             assetManager.load("audio/sound/lostPickup.wav", Sound::class.java)
             assetManager.load("audio/sound/scream1.wav", Sound::class.java)
+            assetManager.load("audio/sound/scream2.wav", Sound::class.java)
             assetManager.load("audio/sound/tentacleChargeUp.wav", Sound::class.java)
             assetManager.load("audio/sound/tentacleWhip.wav", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
@@ -216,12 +224,14 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             textureAtlas = assetManager.get("images/included/packed/images.pack.atlas") // all images are found in this global static variable
 
             // audio
-            levelMusic = assetManager.get("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
+            level1Music = assetManager.get("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
             menuMusic = assetManager.get("audio/music/530376__andrewkn__pad-ambient.wav", Music::class.java)
             cinematic1Music = assetManager.get("audio/music/341652__devern__cinematic-build.wav", Music::class.java)
             cinematic2Music = assetManager.get("audio/music/553418__eminyildirim__cinematic-boom-impact-hit-2021.wav", Music::class.java)
             cinematic3Music = assetManager.get("audio/music/236894__chimerical__cinematic-suspense.wav", Music::class.java)
-            level2IntroMusic = assetManager.get("audio/music/564618__bloodpixelhero__horror-atmospheric-loop.wav", Music::class.java)
+            level2IntroMusic = assetManager.get("audio/music/316821__pearcewilsonking__space-horror-atmosphere-loop.wav", Music::class.java)
+            level2Music = assetManager.get("audio/music/348834__darkgamer364__creepy-eerie-horror-loop (1).wav", Music::class.java)
+            bossMusic = assetManager.get("audio/music/234475__pcruzn__basslines-1.wav", Music::class.java)
 
             enemyChargeSound = assetManager.get("audio/sound/enemyCharge.wav", Sound::class.java)
             enemyChargeUpSound = assetManager.get("audio/sound/enemyChargeup.wav", Sound::class.java)
@@ -256,6 +266,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             shieldOutSound = assetManager.get("audio/sound/shieldOut.wav", Sound::class.java)
             lostPickupSound = assetManager.get("audio/sound/lostPickup.wav", Sound::class.java)
             scream1Sound = assetManager.get("audio/sound/scream1.wav", Sound::class.java)
+            scream2Sound = assetManager.get("audio/sound/scream2.wav", Sound::class.java)
             tentacleChargeUpSound = assetManager.get("audio/sound/tentacleChargeUp.wav", Sound::class.java)
             tentacleWhipSound = assetManager.get("audio/sound/tentacleWhip.wav", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)

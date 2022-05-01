@@ -7,6 +7,7 @@ import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.lost.Lost0
 import no.sandramoen.prideart2022.actors.characters.lost.Lost1
 import no.sandramoen.prideart2022.actors.characters.lost.Lost2
+import no.sandramoen.prideart2022.actors.characters.lost.Lost3
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -15,6 +16,7 @@ class Level2 : BaseLevel() {
     private lateinit var lost0: Lost0
     private var lost1: Lost1? = null
     private var lost2: Lost2? = null
+    private var lost3: Lost3? = null
     private var isSpawnedBoss = false
     private var isReadyToSpawnBoss = false
 
@@ -22,6 +24,7 @@ class Level2 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level2, mainStage)
         super.initialize()
         spawnLost0()
+        spawnBoss()
     }
 
     override fun update(dt: Float) {
@@ -29,6 +32,7 @@ class Level2 : BaseLevel() {
         lost0Pickup()
         lost1Pickup()
         lost2Pickup()
+        lost3Pickup()
 
         checkIfBossShouldSpawn()
         handleBoss()
@@ -38,12 +42,18 @@ class Level2 : BaseLevel() {
         if (isReadyToSpawnBoss && experienceBar.level >= 5 && !isSpawnedBoss) {
             isSpawnedBoss = true
             spawnBoss()
-        } else if (isReadyToSpawnBoss && BaseActor.count(mainStage, Experience::class.java.canonicalName) <= 0) {
+        } else if (isReadyToSpawnBoss && BaseActor.count(
+                mainStage,
+                Experience::class.java.canonicalName
+            ) <= 0
+        ) {
             spawnBoss()
         }
     }
 
     private fun spawnBoss() {
+        BaseGame.level2Music!!.stop()
+        GameUtils.playAndLoopMusic(BaseGame.bossMusic)
         val position = bossSpawn()
         BossKG(position.x, position.y, mainStage, player)
         bossBar.label.setText("Kjersti Gulbrandsen")
@@ -65,6 +75,7 @@ class Level2 : BaseLevel() {
     }
 
     private fun bossDeath() {
+        BaseGame.bossMusic!!.stop()
         experienceBar.level++
         bossBar.isVisible = false
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral14"))
@@ -90,7 +101,7 @@ class Level2 : BaseLevel() {
                 Actions.run { playerExitLevel() },
                 Actions.delay(2f),
                 Actions.run {
-                    BaseGame.levelMusic!!.stop()
+                    BaseGame.level1Music!!.stop()
                     BaseGame.setActiveScreen(Level3())
                 }
             ))
@@ -147,6 +158,13 @@ class Level2 : BaseLevel() {
     private fun spawnLost2() {
         var position = spawnAtEdgesOfMap(10f)
         lost2 = Lost2(position.x, position.y, mainStage)
+        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral15"), 5f)
+        lostLabel.glintToWhiteAndBack()
+    }
+
+    private fun spawnLost3() {
+        var position = spawnAtEdgesOfMap(10f)
+        lost3 = Lost3(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral11"), 5f)
         lostLabel.glintToWhiteAndBack()
     }
@@ -154,11 +172,10 @@ class Level2 : BaseLevel() {
     private fun lost0Pickup() {
         if (lost0.isPickedUp) {
             lost0.isPickedUp = false
-            lostLabel.setText("Redd 1/3 transpersoner")
-            spawnFollowers()
-            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral9"), 5f)
+            lostLabel.setText("Redd 1/4 transpersoner")
+            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral16"), 6f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
-                Actions.delay(35f),
+                Actions.delay(10f),
                 Actions.run { spawnLost1() }
             ))
         }
@@ -166,9 +183,27 @@ class Level2 : BaseLevel() {
 
     private fun lost1Pickup() {
         if (lost1 != null && lost1!!.isPickedUp) {
-            lostLabel.setText("Redd 2/3 transpersoner")
+            lostLabel.setText("Redd 2/4 transpersoner")
             lost1!!.isPickedUp = false
+            BaseGame.level2IntroMusic!!.stop()
+            GameUtils.playAndLoopMusic(BaseGame.level2Music)
+            spawnFollowers()
+            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral9"), 5f)
+            BaseActor(0f, 0f, mainStage).addAction(
+                Actions.sequence(
+                    Actions.delay(35f),
+                    Actions.run { spawnLost2() }
+                )
+            )
+        }
+    }
+
+    private fun lost2Pickup() {
+        if (lost2 != null && lost2!!.isPickedUp) {
+            println("lost2Pickup")
             spawnEnemies()
+            lostLabel.setText("Redd 3/4 transpersoner")
+            lost2!!.isPickedUp = false
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral12"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.parallel(
                 Actions.sequence(
@@ -177,20 +212,21 @@ class Level2 : BaseLevel() {
                 ),
                 Actions.sequence(
                     Actions.delay(35f),
-                    Actions.run { spawnLost2() }
+                    Actions.run { spawnLost3() }
                 )
             ))
         }
     }
 
-    private fun lost2Pickup() {
-        if (lost2 != null && lost2!!.isPickedUp) {
-            lostLabel.setText("Redd 3/3 transpersoner")
+    private fun lost3Pickup() {
+        if (lost3 != null && lost3!!.isPickedUp) {
+            println("lost3Pickup")
+            lostLabel.setText("Redd 4/4 transpersoner")
             lostLabel.addAction(Actions.sequence(
                 Actions.delay(5f),
                 Actions.run { lostLabel.fadeOut() }
             ))
-            lost2!!.isPickedUp = false
+            lost3!!.isPickedUp = false
             isReadyToSpawnBoss = true
 
             enemySpawner1.clearActions()

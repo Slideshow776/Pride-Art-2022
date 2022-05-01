@@ -30,9 +30,9 @@ class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         progress.addAction(pulse())
         addActor(progress)
 
-        label = Label("Kjersti Gulbrandsen", BaseGame.smallLabelStyle)
-        label.setFontScale(.5f)
-        label.setPosition(width / 2, 0f)
+        label = Label("Kjersti Gulbrandsen", BaseGame.spookySmallLabelStyle)
+        label.setFontScale(.7f)
+        label.setPosition(width / 2 - label.prefWidth / 2, 0f - label.prefHeight / 6)
         addActor(label)
     }
 

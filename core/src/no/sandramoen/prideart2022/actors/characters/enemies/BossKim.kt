@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.BigExplosion
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.particles.BeamChargeEffect
+import no.sandramoen.prideart2022.actors.particles.BloodBeamEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -24,6 +25,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     private val movementSpeed = player.originalMovementSpeed * .2f
     private var state = State.RunningN
     private var beam: BossBeam? = null
+    private var bloodScreamEffect: BloodBeamEffect? = null
 
     var isDying = false
 
@@ -58,6 +60,8 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
         if (beam != null)
             beam!!.centerAtActor(this)
+
+        bloodScreamEffect?.setPosition(x + width / 2, y + height * 4/5)
     }
 
     override fun death() {
@@ -109,12 +113,23 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
                         state = State.Screaming
                         setAnimation(screamAnimation)
                         BaseGame.scream1Sound!!.play(BaseGame.soundVolume * .9f)
+                        startBloodScreamEffect()
                     },
                     Actions.delay(3f),
-                    Actions.run { state = State.RunningN }
+                    Actions.run {
+                        state = State.RunningN
+                        bloodScreamEffect!!.stop()
+                    }
                 )
             )
         )
+    }
+
+    private fun startBloodScreamEffect() {
+        bloodScreamEffect = BloodBeamEffect()
+        bloodScreamEffect!!.setScale(.02f)
+        stage.addActor(bloodScreamEffect)
+        bloodScreamEffect!!.start()
     }
 
     private fun fadeIn() {

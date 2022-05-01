@@ -1,7 +1,5 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
-import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.characters.enemies.BossKim
@@ -19,8 +17,8 @@ class Level1 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level1, mainStage)
         super.initialize()
 
-        /*spawnEnemies()
-        GameUtils.playAndLoopMusic(BaseGame.levelMusic)*/
+        spawnEnemies()
+        GameUtils.playAndLoopMusic(BaseGame.level1Music)
     }
 
     override fun update(dt: Float) {
@@ -83,6 +81,8 @@ class Level1 : BaseLevel() {
 
     private fun spawnBoss() {
         val position = bossSpawn()
+        BaseGame.level1Music!!.stop()
+        GameUtils.playAndLoopMusic(BaseGame.bossMusic)
         BossKim(position.x, position.y, mainStage, player)
         bossBar.label.setText("Kim Alexander Tønseth")
         bossBar.countDown()
@@ -95,6 +95,7 @@ class Level1 : BaseLevel() {
     }
 
     private fun bossDeath() {
+        BaseGame.bossMusic!!.stop()
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
             enemy.death()
         }
@@ -114,7 +115,7 @@ class Level1 : BaseLevel() {
                 Actions.run { playerExitLevel() },
                 Actions.delay(2f),
                 Actions.run {
-                    BaseGame.levelMusic!!.stop()
+                    BaseGame.level1Music!!.stop()
                     BaseGame.setActiveScreen(Level2())
                 }
             ))

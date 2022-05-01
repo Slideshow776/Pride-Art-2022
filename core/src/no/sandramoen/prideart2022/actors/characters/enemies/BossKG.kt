@@ -4,16 +4,14 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.BigExplosion
 import no.sandramoen.prideart2022.actors.characters.player.Player
-import no.sandramoen.prideart2022.actors.particles.BeamChargeEffect
+import no.sandramoen.prideart2022.actors.particles.BloodBeamEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -21,15 +19,17 @@ import no.sandramoen.prideart2022.utils.GameUtils
 class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x, y, stage) {
     private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
     private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>
-
-    private val movementSpeed = player.originalMovementSpeed * .3f
-    private var state = State.RunningN
+    private lateinit var screamAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var tentacle0: Tentacle
     private lateinit var tentacle1: Tentacle
     private lateinit var tentacle2: Tentacle
     private lateinit var tentacle3: Tentacle
     private lateinit var tentacle4: Tentacle
     private lateinit var tentacle5: Tentacle
+
+    private val movementSpeed = player.originalMovementSpeed * .3f
+    private var state = State.RunningN
+    private var bloodScreamEffect: BloodBeamEffect? = null
 
     var isDying = false
 
@@ -51,6 +51,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
 
         initializeTentacles()
         shootCircleShot()
+        scream()
     }
 
     override fun act(dt: Float) {
@@ -65,6 +66,8 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
 
         if (!isWithinDistance2(45f, player))
             teleportToPlayer()
+
+        bloodScreamEffect?.setPosition(x + width / 2, y + height * 4/5)
     }
 
     override fun death() {
@@ -94,6 +97,30 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
                 tentacle5.remove()
             }
         ))
+    }
+
+    private fun scream() {
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(4f),
+            Actions.run {
+                state = State.Screaming
+                setAnimation(screamAnimation)
+                BaseGame.scream2Sound!!.play(BaseGame.soundVolume * .9f)
+                startEffect()
+            },
+            Actions.delay(1.5f),
+            Actions.run {
+                state = State.RunningN
+                bloodScreamEffect!!.stop()
+            }
+        )))
+    }
+
+    private fun startEffect() {
+        bloodScreamEffect = BloodBeamEffect()
+        bloodScreamEffect!!.setScale(.02f)
+        stage.addActor(bloodScreamEffect)
+        bloodScreamEffect!!.start()
     }
 
     private fun teleportToPlayer() {
@@ -129,7 +156,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     }
 
     private enum class State {
-        RunningN, RunningS
+        RunningN, RunningS, Screaming
     }
 
     private fun cardboardFlipSpin(): SequenceAction {
@@ -174,10 +201,10 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     }
 
     private fun setAnimationDirection() {
-        if (getMotionAngle() in 45.0..135.0 && state != State.RunningN) {
+        if (getMotionAngle() in 45.0..135.0 && state != State.RunningN && state != State.Screaming) {
             state = State.RunningN
             setAnimation(runAnimationN)
-        } else if (getMotionAngle() !in 45.0..135.0 && state != State.RunningS) {
+        } else if (getMotionAngle() !in 45.0..135.0 && state != State.RunningS && state != State.Screaming) {
             state = State.RunningS
             setAnimation(runAnimationS)
         }
@@ -194,6 +221,11 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/runS2"))
         runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/scream1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossKG/scream2"))
+        screamAnimation = Animation(.025f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         setAnimation(runAnimationN)
