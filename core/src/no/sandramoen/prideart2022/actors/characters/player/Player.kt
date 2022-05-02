@@ -177,6 +177,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     fun exitLevel() {
+        shield.fadeOut()
         isPlaying = false
         addAction(stretchAndMoveOut())
     }
