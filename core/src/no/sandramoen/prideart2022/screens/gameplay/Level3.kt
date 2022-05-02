@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
+import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.characters.enemies.Beamer
@@ -16,6 +17,16 @@ class Level3 : BaseLevel() {
         super.initialize()
 
         spawnEnemies()
+    }
+
+    override fun keyDown(keycode: Int): Boolean {
+        if (isGameOver) BaseGame.setActiveScreen(Level3())
+        return super.keyDown(keycode)
+    }
+
+    override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
+        if (isGameOver) BaseGame.setActiveScreen(Level3())
+        return super.buttonDown(controller, buttonCode)
     }
 
     private fun spawnEnemies() {

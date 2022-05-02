@@ -288,7 +288,7 @@ class OptionsScreen : BaseScreen() {
     }
 
     private fun setMenuScreen() {
-        BaseGame.clickSound!!.play(BaseGame.soundVolume)
+        BaseGame.click1Sound!!.play(BaseGame.soundVolume)
         BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
             Actions.delay(.5f),
             Actions.run { BaseGame.setActiveScreen(MenuScreen(playMusic = false)) }

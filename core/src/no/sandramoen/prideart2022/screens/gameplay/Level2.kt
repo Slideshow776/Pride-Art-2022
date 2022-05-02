@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
+import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.Experience
 import no.sandramoen.prideart2022.actors.TilemapActor
@@ -24,7 +25,6 @@ class Level2 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level2, mainStage)
         super.initialize()
         spawnLost0()
-        spawnBoss()
     }
 
     override fun update(dt: Float) {
@@ -36,6 +36,16 @@ class Level2 : BaseLevel() {
 
         checkIfBossShouldSpawn()
         handleBoss()
+    }
+
+    override fun keyDown(keycode: Int): Boolean {
+        if (isGameOver) BaseGame.setActiveScreen(Level2())
+        return super.keyDown(keycode)
+    }
+
+    override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
+        if (isGameOver) BaseGame.setActiveScreen(Level2())
+        return super.buttonDown(controller, buttonCode)
     }
 
     private fun checkIfBossShouldSpawn() {

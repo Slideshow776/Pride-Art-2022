@@ -29,7 +29,7 @@ class SplashScreen : BaseScreen() {
 
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE || keycode == Keys.Q) {
-            BaseGame.clickSound!!.play(BaseGame.soundVolume)
+            BaseGame.click1Sound!!.play(BaseGame.soundVolume)
             blackOverlay.clearActions()
             blackOverlay.addAction(Actions.sequence(
                 Actions.fadeIn(.2f),

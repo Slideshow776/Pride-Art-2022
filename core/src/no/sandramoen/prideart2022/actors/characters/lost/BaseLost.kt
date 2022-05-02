@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.actors.characters.lost
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -27,6 +28,16 @@ open class BaseLost(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
     init {
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.glowShader)
         addAction(shiverAnimation())
+        val group = GameUtils.statementLabel(
+            0f,
+            0 * 211112f,
+            "lost",
+            2,
+            1f,
+            Color(0.643f, 0.867f, 0.859f, 1f),
+            BaseGame.smallLabelStyle)
+        group.setPosition(-2f, 4f)
+        addActor(group)
     }
 
     override fun act(dt: Float) {

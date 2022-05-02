@@ -22,7 +22,7 @@ class MadeByLabel :
     }
 
     fun openURIWithDelay() {
-        BaseGame.clickSound!!.play(BaseGame.soundVolume)
+        BaseGame.click1Sound!!.play(BaseGame.soundVolume)
         addAction(Actions.sequence(
             Actions.delay(.5f),
             Actions.run { Gdx.net.openURI("https://sandramoen.no"); }

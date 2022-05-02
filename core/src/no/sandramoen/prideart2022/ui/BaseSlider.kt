@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.badlogic.gdx.utils.compression.lzma.Base
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
@@ -60,7 +59,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
                     "music" -> GameUtils.setMusicVolume(slider.value)
                     "voice" -> BaseGame.voiceVolume = slider.value
                 }
-                BaseGame.clickSound!!.play(BaseGame.musicVolume)
+                BaseGame.click1Sound!!.play(BaseGame.musicVolume)
                 GameUtils.saveGameState()
             }
         })

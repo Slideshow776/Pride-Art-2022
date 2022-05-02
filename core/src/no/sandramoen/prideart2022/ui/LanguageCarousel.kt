@@ -32,7 +32,7 @@ class LanguageCarousel : Table() {
     }
 
     fun changeLanguage() {
-        BaseGame.clickSound!!.play(BaseGame.soundVolume)
+        BaseGame.click1Sound!!.play(BaseGame.soundVolume)
         if (BaseGame.currentLocale == "en") changeLocale("no")
         else if (BaseGame.currentLocale == "no") changeLocale("en")
     }

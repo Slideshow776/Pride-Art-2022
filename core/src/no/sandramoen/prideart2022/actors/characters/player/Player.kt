@@ -127,8 +127,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             health -= amount
             Explosion(this, stage)
             setHealthSpeed()
-            movementSpeed += 3
-            setMaxSpeed(movementSpeed)
             jumpToRandomLocation()
             return true
         }
@@ -140,32 +138,38 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     fun toggleHairColor() {
-        hair.toggleColor()
-        beard.toggleColor()
+        if (isCollisionEnabled) {
+            hair.toggleColor()
+            beard.toggleColor()
+        }
     }
 
     fun toggleHairStyle() {
-        hair.toggleStyle()
-        var hairAnimation = when (state) {
-            State.Idle -> hair.idleAnimation
-            State.RunningN -> hair.runNAnimation
-            State.RunningS -> hair.runSAnimation
-            State.RunningWEN -> hair.runWENAnimation
-            State.RunningWES -> hair.runWESAnimation
+        if (isCollisionEnabled) {
+            hair.toggleStyle()
+            var hairAnimation = when (state) {
+                State.Idle -> hair.idleAnimation
+                State.RunningN -> hair.runNAnimation
+                State.RunningS -> hair.runSAnimation
+                State.RunningWEN -> hair.runWENAnimation
+                State.RunningWES -> hair.runWESAnimation
+            }
+            hair.setAnimation(hairAnimation)
         }
-        hair.setAnimation(hairAnimation)
     }
 
     fun toggleBeardStyle() {
-        beard.toggleStyle()
-        var beardAnimation = when (state) {
-            State.Idle -> beard.idleAnimation
-            State.RunningN -> beard.runNAnimation
-            State.RunningS -> beard.runSAnimation
-            State.RunningWEN -> beard.runWENAnimation
-            State.RunningWES -> beard.runWESAnimation
+        if (isCollisionEnabled) {
+            beard.toggleStyle()
+            var beardAnimation = when (state) {
+                State.Idle -> beard.idleAnimation
+                State.RunningN -> beard.runNAnimation
+                State.RunningS -> beard.runSAnimation
+                State.RunningWEN -> beard.runWENAnimation
+                State.RunningWES -> beard.runWESAnimation
+            }
+            beard.setAnimation(beardAnimation)
         }
-        beard.setAnimation(beardAnimation)
     }
 
     fun toggleSkinColor() {

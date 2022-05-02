@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.*
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.actors.characters.enemies.*
@@ -55,7 +56,6 @@ open class BaseLevel : BaseScreen() {
 
     override fun keyDown(keycode: Int): Boolean {
         if (keycode != Input.Keys.ESCAPE && dtModifier == 0f) resume()
-
         if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
 
         // TODO: for debugging, remove on launch -------------
@@ -132,7 +132,110 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
-    protected fun initializePlayer() {
+    fun playerExitLevel() {
+        BeamOut(player.x, player.y, mainStage, player)
+        player.exitLevel()
+    }
+
+    fun bossSpawn(): Vector2 {
+        return if (MathUtils.randomBoolean()) Vector2(player.x - 30f, player.y + -10f)
+        else Vector2(player.x + 30f, player.y - 5f)
+    }
+
+    fun spawnAroundPlayer(offset: Float): Vector2 {
+        var x: Float
+        var y: Float
+        if (MathUtils.randomBoolean()) { // horizontal
+            x = MathUtils.random(player.x - offset, player.x + offset)
+            if (MathUtils.randomBoolean())
+                y = player.y + offset
+            else
+                y = player.y - offset
+        } else { // vertical
+            if (MathUtils.randomBoolean())
+                x = player.x + offset
+            else
+                x = player.x - offset
+            y = MathUtils.random(player.y - offset, player.y + offset)
+        }
+        return Vector2(x, y)
+    }
+
+    fun handleDestructibles(baseActor: BaseActor) {
+        for (destructible: BaseActor in getList(
+            mainStage,
+            Destructible::class.java.canonicalName
+        )) {
+            destructible as Destructible
+            if (baseActor.overlaps(destructible)) {
+                destructible.destroy()
+            }
+        }
+    }
+
+    fun spawnAtEdgesOfMap(offset: Float): Vector2 {
+        var x: Float
+        var y: Float
+        if (MathUtils.randomBoolean()) { // horizontal
+            x = MathUtils.random(offset, BaseActor.getWorldBounds().width - offset)
+            if (MathUtils.randomBoolean())
+                y = offset
+            else
+                y = BaseActor.getWorldBounds().height - offset
+        } else { // vertical
+            if (MathUtils.randomBoolean())
+                x = offset
+            else
+                x = BaseActor.getWorldBounds().width - offset
+            y = MathUtils.random(offset, BaseActor.getWorldBounds().height - offset)
+        }
+        return Vector2(x, y)
+    }
+
+    fun enemyCollidedWithPlayer(
+        enemy: BaseActor,
+        remove: Boolean,
+        damageAmount: Int,
+        preventOverlap: Boolean = true
+    ) {
+        if (preventOverlap)
+            player.preventOverlap(enemy)
+        if (player.overlaps(enemy) && !isGameOver) {
+            if (remove) enemy.death()
+            if (player.isHurt(damageAmount)) {
+                BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
+                if (player.health <= 0)
+                    setGameOver()
+                else {
+                    dropHealth()
+                    pauseGameForDuration()
+                }
+                healthBar.subtractHealth()
+            }
+        }
+    }
+
+    fun dropShield() {
+        if (fleetAdmiral.actions.size == 0)
+            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral7"))
+        val position = randomWorldPosition()
+        ShieldDrop(position.x, position.y, mainStage, player)
+    }
+
+    fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
+        fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
+        fleetAdmiralSubtitles.clearActions()
+        fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
+        fleetAdmiralSubtitles.setText(subtitles)
+        fleetAdmiralSubtitles.addAction(
+            Actions.sequence(
+                Actions.delay(talkDuration),
+                Actions.fadeOut(1f)
+            )
+        )
+    }
+
+    private fun initializePlayer() {
         val startPoint = tilemap.getRectangleList("player start")[0]
         val playerPosX = startPoint.properties.get("x") as Float * TilemapActor.unitScale
         val playerPosY = startPoint.properties.get("y") as Float * TilemapActor.unitScale
@@ -142,7 +245,7 @@ open class BaseLevel : BaseScreen() {
         groundCrack.centerAtActor(player)
     }
 
-    protected fun initializeDestructibles() {
+    private fun initializeDestructibles() {
         for (i in 0 until 55) {
             Destructible(
                 MathUtils.random(0f, BaseActor.getWorldBounds().width - 5),
@@ -153,7 +256,7 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
-    protected fun initializeImpassables() {
+    private fun initializeImpassables() {
         for (obj in tilemap.getRectangleList("impassable")) {
             val props = obj.properties
             val xPos = props.get("x") as Float * TilemapActor.unitScale
@@ -165,7 +268,8 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun pauseOrGoToMenu() {
-        if (dtModifier == 0f) {
+        if (dtModifier == 0f || isGameOver) {
+            BaseGame.click2Sound!!.play(BaseGame.soundVolume)
             setMenuScreen()
         } else {
             pause()
@@ -174,8 +278,11 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun setMenuScreen() {
-        BaseGame.setActiveScreen(MenuScreen())
         BaseGame.level1Music!!.stop()
+        BaseGame.level2IntroMusic!!.stop()
+        BaseGame.level2Music!!.stop()
+        BaseGame.bossMusic!!.stop()
+        BaseGame.setActiveScreen(MenuScreen())
     }
 
     private fun unpauseMainLabel() {
@@ -188,16 +295,6 @@ open class BaseLevel : BaseScreen() {
         mainLabel.setText(BaseGame.myBundle!!.get("paused"))
         GameUtils.pulseWidget(mainLabel)
         mainLabel.isVisible = true
-    }
-
-    fun playerExitLevel() {
-        BeamOut(player.x, player.y, mainStage, player)
-        player.exitLevel()
-    }
-
-    fun bossSpawn(): Vector2 {
-        return if (MathUtils.randomBoolean()) Vector2(player.x - 30f, player.y + -10f)
-        else Vector2(player.x + 30f, player.y - 5f)
     }
 
     private fun handleEnemies() {
@@ -300,18 +397,6 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
-    fun handleDestructibles(baseActor: BaseActor) {
-        for (destructible: BaseActor in getList(
-            mainStage,
-            Destructible::class.java.canonicalName
-        )) {
-            destructible as Destructible
-            if (baseActor.overlaps(destructible)) {
-                destructible.destroy()
-            }
-        }
-    }
-
     private fun handleImpassables(baseActor: BaseActor, isRemovable: Boolean = false) {
         for (impassable: BaseActor in getList(mainStage, Impassable::class.java.canonicalName)) {
             if (isRemovable && baseActor.overlaps(impassable))
@@ -320,43 +405,11 @@ open class BaseLevel : BaseScreen() {
         }
     }
 
-    fun spawnAroundPlayer(offset: Float): Vector2 {
-        var x: Float
-        var y: Float
-        if (MathUtils.randomBoolean()) { // horizontal
-            x = MathUtils.random(player.x - offset, player.x + offset)
-            if (MathUtils.randomBoolean())
-                y = player.y + offset
-            else
-                y = player.y - offset
-        } else { // vertical
-            if (MathUtils.randomBoolean())
-                x = player.x + offset
-            else
-                x = player.x - offset
-            y = MathUtils.random(player.y - offset, player.y + offset)
-        }
-        return Vector2(x, y)
-    }
-
-
-    fun spawnAtEdgesOfMap(offset: Float): Vector2 {
-        var x: Float
-        var y: Float
-        if (MathUtils.randomBoolean()) { // horizontal
-            x = MathUtils.random(offset, BaseActor.getWorldBounds().width - offset)
-            if (MathUtils.randomBoolean())
-                y = offset
-            else
-                y = BaseActor.getWorldBounds().height - offset
-        } else { // vertical
-            if (MathUtils.randomBoolean())
-                x = offset
-            else
-                x = BaseActor.getWorldBounds().width - offset
-            y = MathUtils.random(offset, BaseActor.getWorldBounds().height - offset)
-        }
-        return Vector2(x, y)
+    private fun randomWorldPosition(offset: Float = 10f): Vector2 {
+        return Vector2(
+            MathUtils.random(10f, BaseActor.getWorldBounds().width - offset),
+            MathUtils.random(10f, BaseActor.getWorldBounds().height - offset)
+        )
     }
 
     private fun pauseGameForDuration(duration: Float = .05f) {
@@ -367,29 +420,6 @@ open class BaseLevel : BaseScreen() {
                 Actions.delay(duration),
                 Actions.run { dtModifier = temp }
             ))
-    }
-
-    fun enemyCollidedWithPlayer(
-        enemy: BaseActor,
-        remove: Boolean,
-        damageAmount: Int,
-        preventOverlap: Boolean = true
-    ) {
-        if (preventOverlap)
-            player.preventOverlap(enemy)
-        if (player.overlaps(enemy) && !isGameOver) {
-            if (remove) enemy.death()
-            if (player.isHurt(damageAmount)) {
-                BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
-                if (player.health <= 0)
-                    setGameOver()
-                else {
-                    dropHealth()
-                    pauseGameForDuration()
-                }
-                healthBar.subtractHealth()
-            }
-        }
     }
 
     private fun setGameOver() {
@@ -405,13 +435,42 @@ open class BaseLevel : BaseScreen() {
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
         bossBar.stop()
         lostLabel.fadeOut()
+        continueToMenu()
     }
 
-    fun dropShield() {
-        if (fleetAdmiral.actions.size == 0)
-            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral7"))
-        val position = randomWorldPosition()
-        ShieldDrop(position.x, position.y, mainStage, player)
+    private fun continueToMenu() {
+        BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
+            Actions.delay(15f),
+            Actions.run {
+                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n5")
+                BaseGame.click1Sound!!.play(BaseGame.soundVolume)
+            },
+            Actions.delay(1f),
+            Actions.run {
+                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n4")
+                BaseGame.click1Sound!!.play(BaseGame.soundVolume)
+                        },
+            Actions.delay(1f),
+            Actions.run {
+                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n3")
+                BaseGame.click1Sound!!.play(BaseGame.soundVolume)
+            },
+            Actions.delay(1f),
+            Actions.run {
+                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n2")
+                BaseGame.click1Sound!!.play(BaseGame.soundVolume)
+            },
+            Actions.delay(1f),
+            Actions.run {
+                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n1")
+                BaseGame.click1Sound!!.play(BaseGame.soundVolume)
+            },
+            Actions.delay(1f),
+            Actions.run {
+                BaseGame.click2Sound!!.play(BaseGame.soundVolume)
+                BaseGame.setActiveScreen(MenuScreen())
+            }
+        ))
     }
 
     private fun dropHealth() {
@@ -419,26 +478,6 @@ open class BaseLevel : BaseScreen() {
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral2"))
         val position = randomWorldPosition()
         HealthDrop(position.x, position.y, mainStage, player)
-    }
-
-    fun randomWorldPosition(offset: Float = 10f): Vector2 {
-        return Vector2(
-            MathUtils.random(10f, BaseActor.getWorldBounds().width - offset),
-            MathUtils.random(10f, BaseActor.getWorldBounds().height - offset)
-        )
-    }
-
-    fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
-        fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
-        fleetAdmiralSubtitles.clearActions()
-        fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
-        fleetAdmiralSubtitles.setText(subtitles)
-        fleetAdmiralSubtitles.addAction(
-            Actions.sequence(
-                Actions.delay(talkDuration),
-                Actions.fadeOut(1f)
-            )
-        )
     }
 
     private fun uiSetup() {
@@ -457,6 +496,7 @@ open class BaseLevel : BaseScreen() {
         fleetAdmiralSetup()
 
         mainLabel = Label("", BaseGame.bigLabelStyle)
+        mainLabel.setAlignment(Align.center)
         mainLabel.isVisible = false
         uiTable.add(mainLabel).expandY().row()
 

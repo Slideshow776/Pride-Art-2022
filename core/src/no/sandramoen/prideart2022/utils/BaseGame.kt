@@ -74,7 +74,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var explosionSound: Sound? = null
         var controllerConnectedSound: Sound? = null
         var controllerDisconnectedSound: Sound? = null
-        var clickSound: Sound? = null
+        var click1Sound: Sound? = null
+        var click2Sound: Sound? = null
         var hoverOverEnterSound: Sound? = null
         var spaceStationBeamSound: Sound? = null
         var fleetAdmiralSound: Sound? = null
@@ -171,6 +172,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/controllerConnected.wav", Sound::class.java)
             assetManager.load("audio/sound/controllerDisconnected.wav", Sound::class.java)
             assetManager.load("audio/sound/click1.wav", Sound::class.java)
+            assetManager.load("audio/sound/click2.wav", Sound::class.java)
             assetManager.load("audio/sound/hoverOverEnter.wav", Sound::class.java)
             assetManager.load("audio/sound/spaceStationBeam.wav", Sound::class.java)
             assetManager.load("audio/sound/fleetAdmiralSound.wav", Sound::class.java)
@@ -246,7 +248,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             explosionSound = assetManager.get("audio/sound/Explosion7.wav", Sound::class.java)
             controllerConnectedSound = assetManager.get("audio/sound/controllerConnected.wav", Sound::class.java)
             controllerDisconnectedSound = assetManager.get("audio/sound/controllerDisconnected.wav", Sound::class.java)
-            clickSound = assetManager.get("audio/sound/click1.wav", Sound::class.java)
+            click1Sound = assetManager.get("audio/sound/click1.wav", Sound::class.java)
+            click2Sound = assetManager.get("audio/sound/click2.wav", Sound::class.java)
             hoverOverEnterSound = assetManager.get("audio/sound/hoverOverEnter.wav", Sound::class.java)
             spaceStationBeamSound = assetManager.get("audio/sound/spaceStationBeam.wav", Sound::class.java)
             healthPickupSuccessSound = assetManager.get("audio/sound/healthPickupSuccess.wav", Sound::class.java)

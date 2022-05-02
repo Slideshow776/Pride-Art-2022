@@ -101,9 +101,17 @@ class GameUtils {
             )))
         }
 
-        fun statementLabel(width: Float, height: Float, statement: String = "statement", numStatements: Int = 70, scaleModifier: Float = 1f): Group {
-            val label = Label(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"), BaseGame.spookySmallLabelStyle)
-            label.color = Color(0.816f, 0.855f, 0.569f, 1f)
+        fun statementLabel(
+            width: Float,
+            height: Float,
+            statement: String = "statement",
+            numStatements: Int = 79,
+            scaleModifier: Float = 1f,
+            color: Color = Color(0.816f, 0.855f, 0.569f, 1f),
+            labelStyle: Label.LabelStyle? = BaseGame.spookySmallLabelStyle
+        ): Group {
+            val label = Label(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"), labelStyle)
+            label.color = color
             label.setAlignment(Align.center)
 
             val group = Group()
@@ -111,7 +119,7 @@ class GameUtils {
             group.setScale(.02f * scaleModifier)
             group.setPosition(width / 2 - label.prefWidth * .01f * scaleModifier, height)
 
-            group.addAction(Actions.forever(Actions.sequence(
+            group.addAction(Actions.forever(Actions.sequence( // display random statement
                 Actions.delay(5f),
                 Actions.run {
                     group.isVisible = false

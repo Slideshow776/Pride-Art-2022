@@ -271,7 +271,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
 
     private fun prepLeaveMenuScreen() {
         BaseGame.menuMusic!!.stop()
-        BaseGame.clickSound!!.play(BaseGame.soundVolume)
+        BaseGame.click1Sound!!.play(BaseGame.soundVolume)
         startButton.touchable = Touchable.disabled
         optionsButton.touchable = Touchable.disabled
     }
