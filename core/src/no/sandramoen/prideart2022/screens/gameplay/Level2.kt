@@ -149,8 +149,8 @@ class Level2 : BaseLevel() {
             Actions.sequence(
                 Actions.delay(9f),
                 Actions.run {
-                    lostLabel.fadeIn()
-                    lostLabel.glintToWhiteAndBack()
+                    objectivesLabel.fadeIn()
+                    objectivesLabel.glintToWhiteAndBack()
                 },
                 Actions.delay(1f),
                 Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }
@@ -162,27 +162,27 @@ class Level2 : BaseLevel() {
         var position = spawnAtEdgesOfMap(10f)
         lost1 = Lost1(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral10"), 5f)
-        lostLabel.glintToWhiteAndBack()
+        objectivesLabel.glintToWhiteAndBack()
     }
 
     private fun spawnLost2() {
         var position = spawnAtEdgesOfMap(10f)
         lost2 = Lost2(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral15"), 5f)
-        lostLabel.glintToWhiteAndBack()
+        objectivesLabel.glintToWhiteAndBack()
     }
 
     private fun spawnLost3() {
         var position = spawnAtEdgesOfMap(10f)
         lost3 = Lost3(position.x, position.y, mainStage)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral11"), 5f)
-        lostLabel.glintToWhiteAndBack()
+        objectivesLabel.glintToWhiteAndBack()
     }
 
     private fun lost0Pickup() {
         if (lost0.isPickedUp) {
             lost0.isPickedUp = false
-            lostLabel.setText("Redd 1/4 transpersoner")
+            objectivesLabel.setText("Redd 1/4 transpersoner")
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral16"), 6f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
                 Actions.delay(10f),
@@ -193,7 +193,7 @@ class Level2 : BaseLevel() {
 
     private fun lost1Pickup() {
         if (lost1 != null && lost1!!.isPickedUp) {
-            lostLabel.setText("Redd 2/4 transpersoner")
+            objectivesLabel.setText("Redd 2/4 transpersoner")
             lost1!!.isPickedUp = false
             BaseGame.level2IntroMusic!!.stop()
             GameUtils.playAndLoopMusic(BaseGame.level2Music)
@@ -212,7 +212,7 @@ class Level2 : BaseLevel() {
         if (lost2 != null && lost2!!.isPickedUp) {
             println("lost2Pickup")
             spawnEnemies()
-            lostLabel.setText("Redd 3/4 transpersoner")
+            objectivesLabel.setText("Redd 3/4 transpersoner")
             lost2!!.isPickedUp = false
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral12"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.parallel(
@@ -231,10 +231,10 @@ class Level2 : BaseLevel() {
     private fun lost3Pickup() {
         if (lost3 != null && lost3!!.isPickedUp) {
             println("lost3Pickup")
-            lostLabel.setText("Redd 4/4 transpersoner")
-            lostLabel.addAction(Actions.sequence(
+            objectivesLabel.setText("Redd 4/4 transpersoner")
+            objectivesLabel.addAction(Actions.sequence(
                 Actions.delay(5f),
-                Actions.run { lostLabel.fadeOut() }
+                Actions.run { objectivesLabel.fadeOut() }
             ))
             lost3!!.isPickedUp = false
             isReadyToSpawnBoss = true

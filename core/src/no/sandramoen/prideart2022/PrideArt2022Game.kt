@@ -12,8 +12,8 @@ class PrideArt2022Game(appLocale: String) : BaseGame(appLocale) {
         // setActiveScreen(OptionsScreen())
         // setActiveScreen(SplashScreen())
         // setActiveScreen(Level1())
-        setActiveScreen(Level2())
-        // setActiveScreen(Level3())
+        // setActiveScreen(Level2())
+        setActiveScreen(Level3())
         // setActiveScreen(IntroSaturnScreen())
         // setActiveScreen(IntroLightspeedScreen())
     }

@@ -16,14 +16,14 @@
  <objectgroup id="4" name="Object Layer 1">
   <object id="2" x="576" y="770.5" width="0.5"/>
   <object id="3" name="player start" x="711.167" y="459.833"/>
-  <object id="28" name="impassable" x="301.636" y="359.455" width="71.2727" height="62.5455"/>
-  <object id="29" name="impassable" x="429.5" y="664.5" width="47.5" height="26.75"/>
-  <object id="33" name="impassable" x="655.75" y="850.75" width="61.25" height="51"/>
+  <object id="28" name="impassable" x="301.636" y="359.455" width="71.2727" height="51.5455"/>
+  <object id="29" name="impassable" x="429.5" y="664.5" width="47.5" height="19.25"/>
+  <object id="33" name="impassable" x="655.75" y="850.75" width="61.25" height="38.5"/>
   <object id="34" name="impassable" x="1157.38" y="751.375" width="21.375" height="12.75"/>
   <object id="35" name="impassable" x="2" y="0" width="59" height="1149"/>
-  <object id="36" name="impassable" x="68" y="2" width="1626" height="56"/>
+  <object id="36" name="impassable" x="68" y="2" width="1626" height="44"/>
   <object id="37" name="impassable" x="1695" y="-2" width="94" height="1150"/>
-  <object id="38" name="impassable" x="1667" y="482" width="61" height="377"/>
+  <object id="38" name="impassable" x="1667" y="482" width="61" height="363.667"/>
   <object id="39" name="impassable" x="1568.25" y="1120.25" width="132.25" height="31.25"/>
  </objectgroup>
 </map>

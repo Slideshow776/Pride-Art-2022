@@ -25,7 +25,7 @@ open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
     protected lateinit var tilemap: TilemapActor
     protected lateinit var mainLabel: Label
-    protected lateinit var lostLabel: LostLabel
+    protected lateinit var objectivesLabel: ObjectivesLabel
     protected lateinit var experienceBar: ExperienceBar
     protected lateinit var bossBar: BossBar
     protected lateinit var healthBar: HealthBar
@@ -222,6 +222,13 @@ open class BaseLevel : BaseScreen() {
         ShieldDrop(position.x, position.y, mainStage, player)
     }
 
+    fun randomWorldPosition(offset: Float = 10f): Vector2 {
+        return Vector2(
+            MathUtils.random(offset, BaseActor.getWorldBounds().width - offset),
+            MathUtils.random(offset, BaseActor.getWorldBounds().height - offset)
+        )
+    }
+
     fun fadeFleetAdmiralInAndOut(subtitles: String, talkDuration: Float = 3f) {
         fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
         fleetAdmiralSubtitles.clearActions()
@@ -282,6 +289,7 @@ open class BaseLevel : BaseScreen() {
         BaseGame.level2IntroMusic!!.stop()
         BaseGame.level2Music!!.stop()
         BaseGame.bossMusic!!.stop()
+        BaseGame.rainMusic!!.stop()
         BaseGame.setActiveScreen(MenuScreen())
     }
 
@@ -403,13 +411,11 @@ open class BaseLevel : BaseScreen() {
                 baseActor.death()
             baseActor.preventOverlap(impassable)
         }
-    }
-
-    private fun randomWorldPosition(offset: Float = 10f): Vector2 {
-        return Vector2(
-            MathUtils.random(10f, BaseActor.getWorldBounds().width - offset),
-            MathUtils.random(10f, BaseActor.getWorldBounds().height - offset)
-        )
+        for (space: BaseActor in getList(mainStage, SpaceIsThePlace::class.java.canonicalName)) {
+            if (isRemovable && baseActor.overlaps(space))
+                baseActor.death()
+            baseActor.preventOverlap(space)
+        }
     }
 
     private fun pauseGameForDuration(duration: Float = .05f) {
@@ -434,7 +440,7 @@ open class BaseLevel : BaseScreen() {
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
         bossBar.stop()
-        lostLabel.fadeOut()
+        objectivesLabel.fadeOut()
         continueToMenu()
     }
 
@@ -489,9 +495,9 @@ open class BaseLevel : BaseScreen() {
             .padBottom(-healthBar.prefHeight - experienceBar.height)
             .row()
 
-        lostLabel = LostLabel()
-        uiTable.add(lostLabel).padTop(experienceBar.height + healthBar.prefHeight)
-            .padBottom(-lostLabel.prefHeight).row()
+        objectivesLabel = ObjectivesLabel()
+        uiTable.add(objectivesLabel).padTop(experienceBar.height + healthBar.prefHeight)
+            .padBottom(-objectivesLabel.prefHeight).row()
 
         fleetAdmiralSetup()
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.utils.BaseGame
 
-class LostLabel : Label("Redd 0/3 transpersoner", BaseGame.smallLabelStyle) {
+class ObjectivesLabel : Label("Redd 0/3 transpersoner", BaseGame.smallLabelStyle) {
     private val white = Color(0.922f, 0.929f, 0.914f, 1f)
     private val lightBlue = Color(0.643f, 0.867f, 0.859f, 1f)
 

@@ -14,12 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.characters.player.BeamOut
+import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.particles.whiteCrystalExplosion
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
-open class BaseLost(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
+open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null) : BaseActor(x, y, stage) {
+    private var movementSpeed = 26f * .1f
     private var shaderProgram: ShaderProgram
     private var time = 0f
     lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
@@ -38,11 +40,22 @@ open class BaseLost(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
             BaseGame.smallLabelStyle)
         group.setPosition(-2f, 4f)
         addActor(group)
+
+        if (player != null) {
+            setAcceleration(movementSpeed * 10f)
+            setMaxSpeed(movementSpeed)
+            setDeceleration(movementSpeed * 10f)
+        }
     }
 
     override fun act(dt: Float) {
         super.act(dt)
         time += dt
+
+        if (player != null && isWithinDistance2(50f, player)) {
+            accelerateAtAngle(getAngleTowardActor(player))
+            applyPhysics(dt)
+        }
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {

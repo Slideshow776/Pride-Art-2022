@@ -50,11 +50,8 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         /*table.debug = true*/
         uiTable.add(table).fill().expand()
 
-        if (playMusic) {
-            BaseGame.menuMusic!!.play()
-            BaseGame.menuMusic!!.isLooping = true
-            BaseGame.menuMusic!!.volume = BaseGame.musicVolume
-        }
+        if (playMusic)
+            GameUtils.playAndLoopMusic(BaseGame.menuMusic)
 
         if (Controllers.getControllers().size > 0) {
             BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
@@ -251,7 +248,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     }
 
     private fun setOptionsScreenWithDelay() {
-        prepLeaveMenuScreen()
+        prepLeaveMenuScreen(stopMusic = false)
         optionsButton.addAction(Actions.sequence(
             Actions.delay(.5f),
             Actions.run { BaseGame.setActiveScreen(OptionsScreen()) }
@@ -269,8 +266,9 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         ))
     }
 
-    private fun prepLeaveMenuScreen() {
-        BaseGame.menuMusic!!.stop()
+    private fun prepLeaveMenuScreen(stopMusic: Boolean = true) {
+        if (stopMusic)
+            BaseGame.menuMusic!!.stop()
         BaseGame.click1Sound!!.play(BaseGame.soundVolume)
         startButton.touchable = Touchable.disabled
         optionsButton.touchable = Touchable.disabled
