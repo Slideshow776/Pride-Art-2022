@@ -172,6 +172,8 @@ Read on below for project specifics.
 * Music by [frankum](https://freesound.org/people/frankum/) on [freesound.org](freesound.org).
 
 ## Project comments
+Menu music acts as an intro to your game, but also as an outro. When players are done playing, they oftentimes end back again to the menu.
+
 ### Inspiration
 [This video](https://www.youtube.com/watch?v=AJdEqssNZ-U) was a great inspiration.
 
