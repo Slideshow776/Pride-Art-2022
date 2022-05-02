@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -32,9 +33,13 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         addActor(progress)
 
         label = Label("${BaseGame.myBundle!!.get("level")} $level", BaseGame.smallLabelStyle)
+        label.color.a = 0f
         label.setFontScale(.5f)
         label.setPosition(width - label.prefWidth * 1.2f, 0f)
         addActor(label)
+
+        color.a = 0f
+        addAction(fadeIn())
     }
 
     fun increment(number: Int): Boolean {
@@ -61,5 +66,18 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
 
         // println("current XP: $currentXP, next level: $nextLevel, constant: $constant")
         progress.addAction(Actions.sizeTo(width * percent, height, .25f))
+    }
+
+    private fun fadeIn(): SequenceAction? {
+        return Actions.sequence(
+            Actions.delay(3f),
+            Actions.fadeIn(1f),
+            Actions.run {
+                label.addAction(Actions.sequence(
+                    Actions.delay(3f),
+                    Actions.fadeIn(1f))
+                )
+            }
+        )
     }
 }

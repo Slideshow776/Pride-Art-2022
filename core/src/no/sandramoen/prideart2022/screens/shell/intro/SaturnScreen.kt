@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
+import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.screens.gameplay.Level1
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 import no.sandramoen.prideart2022.utils.BaseScreen
 
 class SaturnScreen : BaseScreen() {
@@ -29,7 +30,7 @@ class SaturnScreen : BaseScreen() {
 
     private var timeElapsed = 0f
 
-    private val label = Label(BaseGame.myBundle!!.get("skipIntro"), BaseGame.smallLabelStyle)
+    private val label = TypingLabel("${myBundle!!.get("skipIntro")}", BaseGame.smallLabelStyle)
 
     override fun initialize() {
         saturn = BaseActor(0f, 0f, mainStage)
@@ -85,6 +86,7 @@ class SaturnScreen : BaseScreen() {
 
     private fun skipIntro() {
         BaseGame.intro1VoiceSound!!.stop()
+        BaseGame.cinematic1Music!!.stop()
         BaseGame.cinematic2Music!!.stop()
         BaseGame.setActiveScreen(Level1())
     }
@@ -98,16 +100,22 @@ class SaturnScreen : BaseScreen() {
         act2 = false
         act3 = false
 
-        label.setText(BaseGame.myBundle!!.get("saturn1"))
+        label.restart()
+        label.setText("${myBundle!!.get("saturn11")} {WAIT=.5}${myBundle!!.get("saturn12")} {WAIT=.4}${myBundle!!.get("saturn13")}")
         saturn.setScale(0f)
         saturn.isVisible = true
         saturn.addAction(
             Actions.sequence(
                 Actions.scaleTo(.3f, .3f, 3f, Interpolation.linear),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("saturn2")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("{FAST}${myBundle!!.get("saturn21")} {WAIT=.3}{FAST}${myBundle!!.get("saturn22")}")
+                },
                 Actions.scaleTo(1f, 1f, 1f, Interpolation.bounceOut),
                 Actions.delay(1f),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("saturn3")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("${myBundle!!.get("saturn31")} {SPEED=0.85}{COLOR=#c74343}${myBundle!!.get("saturn32")}{CLEARCOLOR} {WAIT=.8}${myBundle!!.get("saturn33")} {WAIT=1}{COLOR=#e8c170}${myBundle!!.get("saturn34")}{CLEARCOLOR}...") },
                 Actions.delay(1f),
                 Actions.run { act2() }
             )
@@ -127,7 +135,9 @@ class SaturnScreen : BaseScreen() {
                     BaseGame.cinematic1Music!!.volume = BaseGame.musicVolume
                 },
                 Actions.delay(3f),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("saturn4")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("{FADE}${BaseGame.myBundle!!.get("saturn4")}") },
                 Actions.delay(3.5f),
                 Actions.run { act3() }
             ))

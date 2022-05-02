@@ -87,9 +87,11 @@ class Level3 : BaseLevel() {
         BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
             Actions.delay(0f),
             Actions.run {
-                val position = randomWorldPosition(0f)
-                val rainSplatter = RainSplatter(position.x, position.y, mainStage)
-                rainSplatter.color = Color(0.647f, 0.188f, 0.188f, 1f) // red
+                for (i in 0..3) {
+                    val position = randomWorldPosition(0f)
+                    val rainSplatter = RainSplatter(position.x, position.y, mainStage)
+                    rainSplatter.color = Color(0.647f, 0.188f, 0.188f, 1f) // red
+                }
             }
         )))
     }

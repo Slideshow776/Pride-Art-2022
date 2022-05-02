@@ -8,10 +8,12 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.screens.gameplay.Level1
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 import no.sandramoen.prideart2022.utils.BaseScreen
 
 class LightspeedScreen : BaseScreen() {
@@ -24,7 +26,7 @@ class LightspeedScreen : BaseScreen() {
     private val lightspeedSpeed = 10f
     private val horizontalSidesOfScreen = 217f
 
-    private val label = Label("", BaseGame.smallLabelStyle)
+    private val label = TypingLabel("", BaseGame.smallLabelStyle)
     private lateinit var fleetAdmiral: FleetAdmiral
 
     override fun initialize() {
@@ -120,21 +122,36 @@ class LightspeedScreen : BaseScreen() {
                 Actions.run {
                     fleetAdmiral.fadeIn()
                     fleetAdmiral.addAction(Actions.sequence(
-                        Actions.delay(1f),
                         Actions.run { fleetAdmiral.talk() }
                     ))
-                    label.setText(BaseGame.myBundle!!.get("lightSpeed1"))
+                    label.restart()
+                    label.setText("${myBundle!!.get("lightSpeed11")} {HANG=.3;.2}{COLOR=#df84a5}${myBundle!!.get("lightSpeed12")}")
                 },
                 Actions.delay(5f),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed2")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("{SHAKE=1;1;3}{COLOR=#d0da91}${myBundle!!.get("lightSpeed21")}{ENDSHAKE}{CLEARCOLOR} ${myBundle!!.get("lightSpeed22")} {COLOR=#c74343}{FADE}${myBundle!!.get("lightSpeed23")}")
+                },
                 Actions.delay(5f),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed3")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("${myBundle!!.get("lightSpeed31")} {COLOR=#a4dddb}${myBundle!!.get("lightSpeed32")}{CLEARCOLOR} ${myBundle!!.get("lightSpeed33")}")
+                },
                 Actions.delay(5f),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed4")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("${myBundle!!.get("lightSpeed41")} {SHAKE=1;1;3}{COLOR=#d0da91}${myBundle!!.get("lightSpeed42")}{ENDSHAKE}{CLEARCOLOR} ${myBundle!!.get("lightSpeed43")}")
+                },
                 Actions.delay(5f),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed5")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("${myBundle!!.get("lightSpeed51")} {COLOR=#a23e8c}${myBundle!!.get("lightSpeed52")}{CLEARCOLOR} ${myBundle!!.get("lightSpeed53")}")
+                },
                 Actions.delay(5f),
-                Actions.run { label.setText(BaseGame.myBundle!!.get("lightSpeed6")) },
+                Actions.run {
+                    label.restart()
+                    label.setText("${myBundle!!.get("lightSpeed61")} {HANG=.3;.2}{COLOR=#df84a5}${myBundle!!.get("lightSpeed62")}")
+                },
                 Actions.delay(2.5f),
                 Actions.run {
                     label.setText("")

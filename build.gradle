@@ -29,6 +29,7 @@ allprojects {
         ashleyVersion = '1.7.3'
         aiVersion = '1.8.2'
         gdxControllersVersion = '2.1.0'
+        typingLabelVersion = '1.2.0'
     }
 
     repositories {
@@ -70,6 +71,7 @@ project(":core") {
         api "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4"
         api "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.4"
         api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        api "com.rafaskoberg.gdx:typing-label:1.2.0"
     }
 
     task packTextures {

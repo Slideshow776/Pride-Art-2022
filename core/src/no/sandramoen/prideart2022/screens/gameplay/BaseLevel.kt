@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
+import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.actors.*
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.actors.characters.enemies.*
@@ -24,14 +25,14 @@ import no.sandramoen.prideart2022.utils.BaseActor.Companion.getList
 open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
     protected lateinit var tilemap: TilemapActor
-    protected lateinit var mainLabel: Label
+    protected lateinit var mainLabel: TypingLabel
     protected lateinit var objectivesLabel: ObjectivesLabel
     protected lateinit var experienceBar: ExperienceBar
     protected lateinit var bossBar: BossBar
     protected lateinit var healthBar: HealthBar
     protected lateinit var controllerMessage: ControllerMessage
     protected lateinit var fleetAdmiral: FleetAdmiral
-    protected lateinit var fleetAdmiralSubtitles: Label
+    protected lateinit var fleetAdmiralSubtitles: TypingLabel
 
     protected var isGameOver = false
     protected var enemySpawner1 = BaseActor(0f, 0f, mainStage)
@@ -434,7 +435,8 @@ open class BaseLevel : BaseScreen() {
         BaseGame.level2Music!!.stop()
         isGameOver = true
         mainLabel.isVisible = true
-        mainLabel.setText(BaseGame.myBundle!!.get("gameOver"))
+        // mainLabel.setText("${BaseGame.myBundle!!.get("gameOver1")} {WAIT}{SLOW}${BaseGame.myBundle!!.get("gameOver2")}")
+        mainLabel.setText("${BaseGame.myBundle!!.get("gameOver1")} {WAIT}{SLOWER}${BaseGame.myBundle!!.get("gameOver2")}")
         dtModifier = .125f
         player.death()
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
@@ -501,7 +503,7 @@ open class BaseLevel : BaseScreen() {
 
         fleetAdmiralSetup()
 
-        mainLabel = Label("", BaseGame.bigLabelStyle)
+        mainLabel = TypingLabel("", BaseGame.bigLabelStyle)
         mainLabel.setAlignment(Align.center)
         mainLabel.isVisible = false
         uiTable.add(mainLabel).expandY().row()
@@ -520,7 +522,7 @@ open class BaseLevel : BaseScreen() {
             Gdx.graphics.height - fleetAdmiral.height * 100f
         )
 
-        fleetAdmiralSubtitles = Label("", BaseGame.smallLabelStyle)
+        fleetAdmiralSubtitles = TypingLabel("", BaseGame.smallLabelStyle)
         fleetAdmiralSubtitles.setPosition(fleetAdmiral.x - 50f, fleetAdmiral.y - 150)
         uiStage.addActor(fleetAdmiralSubtitles)
     }

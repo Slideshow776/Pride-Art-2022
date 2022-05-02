@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
+import com.rafaskoberg.gdx.typinglabel.TypingLabel
 
 class GameUtils {
     companion object {
@@ -110,9 +111,11 @@ class GameUtils {
             color: Color = Color(0.816f, 0.855f, 0.569f, 1f),
             labelStyle: Label.LabelStyle? = BaseGame.spookySmallLabelStyle
         ): Group {
-            val label = Label(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"), labelStyle)
+            val label = TypingLabel("{SPEED=50}${BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}")}", labelStyle)
             label.color = color
             label.setAlignment(Align.center)
+            val defaultTokens = "{SICK=.4;.4;180}"
+            label.defaultToken = defaultTokens
 
             val group = Group()
             group.addActor(label)

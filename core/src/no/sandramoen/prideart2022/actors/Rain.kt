@@ -20,7 +20,6 @@ class Rain(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
     private fun animate() {
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
         for (i in 4 downTo 1) {
-            println(i)
             animationImages.add(BaseGame.textureAtlas!!.findRegion("rain/$i"))
         }
         setAnimation(Animation(.1f, animationImages, Animation.PlayMode.LOOP))

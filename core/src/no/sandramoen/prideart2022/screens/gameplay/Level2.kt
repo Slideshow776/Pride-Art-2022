@@ -210,7 +210,6 @@ class Level2 : BaseLevel() {
 
     private fun lost2Pickup() {
         if (lost2 != null && lost2!!.isPickedUp) {
-            println("lost2Pickup")
             spawnEnemies()
             objectivesLabel.setText("Redd 3/4 transpersoner")
             lost2!!.isPickedUp = false
@@ -230,7 +229,6 @@ class Level2 : BaseLevel() {
 
     private fun lost3Pickup() {
         if (lost3 != null && lost3!!.isPickedUp) {
-            println("lost3Pickup")
             objectivesLabel.setText("Redd 4/4 transpersoner")
             objectivesLabel.addAction(Actions.sequence(
                 Actions.delay(5f),
