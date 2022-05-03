@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.*
 import no.sandramoen.prideart2022.actors.characters.enemies.Beamer
+import no.sandramoen.prideart2022.actors.characters.enemies.Fairy
+import no.sandramoen.prideart2022.actors.characters.enemies.Follower
 import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
 import no.sandramoen.prideart2022.actors.characters.lost.Lost1
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
@@ -20,8 +22,9 @@ class Level3 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level3, mainStage)
         super.initialize()
 
-        triggerEnding()
-        /*spawnEnemies()*/
+        spawnEnemies()
+        /*spawnFairies()*/
+        /*triggerEnding()*/
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -77,7 +80,11 @@ class Level3 : BaseLevel() {
             Actions.delay(3f),
             Actions.run {
                 BaseGame.rainMusic!!.stop()
-                BaseGame.thunderSound!!.play(BaseGame.soundVolume, MathUtils.random(.5f, 1.5f), 0f)
+                BaseGame.thunderSound!!.play(
+                    BaseGame.soundVolume,
+                    MathUtils.random(.5f, 1.5f),
+                    0f
+                )
                 BaseGame.setActiveScreen(MenuScreen())
             }
         ))
@@ -116,22 +123,41 @@ class Level3 : BaseLevel() {
         )))
     }
 
+    private fun spawnFairies() {
+        BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
+            Actions.delay(1f),
+            Actions.run {
+                val position = spawnAroundPlayer(50f)
+                Fairy(position.x, position.y, mainStage, player)
+            }
+        )))
+    }
+
     private fun spawnEnemies() {
         enemySpawner1 = BaseActor(0f, 0f, mainStage)
         enemySpawner1.addAction(
             Actions.forever(
                 Actions.sequence(
-                    Actions.delay(2f),
+                    Actions.delay(10f),
                     Actions.run {
-                        var position = spawnAroundPlayer(50f)
-                        Beamer(position.x + 30f, position.y + 30f, mainStage, player)
-                        /*position = spawnAroundPlayer(50f)
+                        val position = spawnAroundPlayer(50f)
                         Follower(position.x, position.y, mainStage, player)
-                        position = spawnAroundPlayer(50f)
-                        Charger(position.x, position.y, mainStage, player)*/
-                        position = spawnAroundPlayer(50f)
-                        Shooter(position.x, position.y, mainStage, player)
                     }
-                )))
+                )
+            )
+        )
+
+        enemySpawner2 = BaseActor(0f, 0f, mainStage)
+        enemySpawner2.addAction(
+            Actions.forever(
+                Actions.sequence(
+                    Actions.delay(1.5f),
+                    Actions.run {
+                        val position = spawnAroundPlayer(50f)
+                        Beamer(position.x, position.y, mainStage, player)
+                    }
+                )
+            )
+        )
     }
 }

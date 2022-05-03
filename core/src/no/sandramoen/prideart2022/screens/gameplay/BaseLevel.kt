@@ -21,6 +21,7 @@ import no.sandramoen.prideart2022.ui.*
 import no.sandramoen.prideart2022.utils.*
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseActor.Companion.getList
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 
 open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
@@ -203,7 +204,7 @@ open class BaseLevel : BaseScreen() {
             player.preventOverlap(enemy)
         if (player.overlaps(enemy) && !isGameOver) {
             if (remove) enemy.death()
-            if (player.isHurt(damageAmount)) {
+            if (damageAmount > 0 && player.isHurt(damageAmount)) {
                 BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
                 if (player.health <= 0)
                     setGameOver()
@@ -218,7 +219,7 @@ open class BaseLevel : BaseScreen() {
 
     fun dropShield() {
         if (fleetAdmiral.actions.size == 0)
-            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral7"))
+            fadeFleetAdmiralInAndOut("${myBundle!!.get("fleetAdmiral71")} {RAINBOW}${myBundle!!.get("fleetAdmiral72")}{ENDRAINBOW} ${myBundle!!.get("fleetAdmiral73")}")
         val position = randomWorldPosition()
         ShieldDrop(position.x, position.y, mainStage, player)
     }
@@ -234,6 +235,7 @@ open class BaseLevel : BaseScreen() {
         fleetAdmiral.fadeFleetAdmiralInAndOut(talkDuration)
         fleetAdmiralSubtitles.clearActions()
         fleetAdmiralSubtitles.addAction(Actions.fadeIn(1f))
+        fleetAdmiralSubtitles.restart()
         fleetAdmiralSubtitles.setText(subtitles)
         fleetAdmiralSubtitles.addAction(
             Actions.sequence(
@@ -301,7 +303,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun setMainLabelToPaused() {
-        mainLabel.setText(BaseGame.myBundle!!.get("paused"))
+        mainLabel.setText(myBundle!!.get("paused"))
         GameUtils.pulseWidget(mainLabel)
         mainLabel.isVisible = true
     }
@@ -311,6 +313,13 @@ open class BaseLevel : BaseScreen() {
             enemyCollidedWithPlayer(enemy, true, 1)
             handleDestructibles(enemy)
             for (other: BaseActor in getList(mainStage, Follower::class.java.canonicalName)) {
+                if (other != enemy)
+                    other.preventOverlap(enemy)
+            }
+        }
+        for (enemy: BaseActor in getList(mainStage, Fairy::class.java.canonicalName)) {
+            player.preventOverlap(enemy)
+            for (other: BaseActor in getList(mainStage, Fairy::class.java.canonicalName)) {
                 if (other != enemy)
                     other.preventOverlap(enemy)
             }
@@ -401,7 +410,7 @@ open class BaseLevel : BaseScreen() {
                 val isLevelUp = experienceBar.increment(experience.amount)
                 experience.pickup()
                 if (isLevelUp && fleetAdmiral.actions.size == 0)
-                    fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral3"))
+                    fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral3"))
             }
         }
     }
@@ -435,12 +444,12 @@ open class BaseLevel : BaseScreen() {
         BaseGame.level2Music!!.stop()
         isGameOver = true
         mainLabel.isVisible = true
-        // mainLabel.setText("${BaseGame.myBundle!!.get("gameOver1")} {WAIT}{SLOW}${BaseGame.myBundle!!.get("gameOver2")}")
-        mainLabel.setText("${BaseGame.myBundle!!.get("gameOver1")} {WAIT}{SLOWER}${BaseGame.myBundle!!.get("gameOver2")}")
+        mainLabel.restart()
+        mainLabel.setText("{SHAKE=.2;.2;6}${myBundle!!.get("gameOver1")} {WAIT}${myBundle!!.get("gameOver2")}")
         dtModifier = .125f
         player.death()
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral1"))
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral1"))
         bossBar.stop()
         objectivesLabel.fadeOut()
         continueToMenu()
@@ -450,27 +459,27 @@ open class BaseLevel : BaseScreen() {
         BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
             Actions.delay(15f),
             Actions.run {
-                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n5")
+                mainLabel.setText("{RAINBOW}${myBundle!!.get("continue")}\n5")
                 BaseGame.click1Sound!!.play(BaseGame.soundVolume)
             },
             Actions.delay(1f),
             Actions.run {
-                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n4")
-                BaseGame.click1Sound!!.play(BaseGame.soundVolume)
-                        },
-            Actions.delay(1f),
-            Actions.run {
-                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n3")
+                mainLabel.setText("{RAINBOW}${myBundle!!.get("continue")}\n4")
                 BaseGame.click1Sound!!.play(BaseGame.soundVolume)
             },
             Actions.delay(1f),
             Actions.run {
-                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n2")
+                mainLabel.setText("{RAINBOW}${myBundle!!.get("continue")}\n3")
                 BaseGame.click1Sound!!.play(BaseGame.soundVolume)
             },
             Actions.delay(1f),
             Actions.run {
-                mainLabel.setText(BaseGame.myBundle!!.get("continue")+"\n1")
+                mainLabel.setText("{RAINBOW}${myBundle!!.get("continue")}\n2")
+                BaseGame.click1Sound!!.play(BaseGame.soundVolume)
+            },
+            Actions.delay(1f),
+            Actions.run {
+                mainLabel.setText("{RAINBOW}${myBundle!!.get("continue")}\n1")
                 BaseGame.click1Sound!!.play(BaseGame.soundVolume)
             },
             Actions.delay(1f),
@@ -483,7 +492,7 @@ open class BaseLevel : BaseScreen() {
 
     private fun dropHealth() {
         if (fleetAdmiral.actions.size == 0)
-            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral2"))
+            fadeFleetAdmiralInAndOut("${myBundle!!.get("fleetAdmiral21")} {COLOR=#c84646}${myBundle!!.get("fleetAdmiral22")}{CLEARCOLOR} ${myBundle!!.get("fleetAdmiral23")}")
         val position = randomWorldPosition()
         HealthDrop(position.x, position.y, mainStage, player)
     }
