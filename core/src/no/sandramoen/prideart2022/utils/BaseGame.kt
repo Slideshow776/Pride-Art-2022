@@ -100,6 +100,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var tentacleChargeUpSound: Sound? = null
         var tentacleWhipSound: Sound? = null
         var thunderSound: Sound? = null
+        var rainbowSound: Sound? = null
         var intro1VoiceSound: Sound? = null
 
         var level1: TiledMap? = null
@@ -199,6 +200,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/tentacleChargeUp.wav", Sound::class.java)
             assetManager.load("audio/sound/tentacleWhip.wav", Sound::class.java)
             assetManager.load("audio/sound/thunder.wav", Sound::class.java)
+            assetManager.load("audio/sound/Pickup_Coin2.wav", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
@@ -278,6 +280,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             tentacleChargeUpSound = assetManager.get("audio/sound/tentacleChargeUp.wav", Sound::class.java)
             tentacleWhipSound = assetManager.get("audio/sound/tentacleWhip.wav", Sound::class.java)
             thunderSound = assetManager.get("audio/sound/thunder.wav", Sound::class.java)
+            rainbowSound = assetManager.get("audio/sound/Pickup_Coin2.wav", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files

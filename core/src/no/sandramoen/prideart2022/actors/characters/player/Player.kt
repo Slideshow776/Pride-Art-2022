@@ -18,6 +18,8 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.GroundCrack
+import no.sandramoen.prideart2022.actors.particles.RainbowExplosion
+import no.sandramoen.prideart2022.actors.particles.ShieldExplosion
 import no.sandramoen.prideart2022.actors.particles.RunningSmokeEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -141,6 +143,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         if (isCollisionEnabled) {
             hair.toggleColor()
             beard.toggleColor()
+            rainbowExplosionEffect()
+            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
         }
     }
 
@@ -155,6 +159,8 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 State.RunningWES -> hair.runWESAnimation
             }
             hair.setAnimation(hairAnimation)
+            rainbowExplosionEffect()
+            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
         }
     }
 
@@ -169,11 +175,17 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 State.RunningWES -> beard.runWESAnimation
             }
             beard.setAnimation(beardAnimation)
+            rainbowExplosionEffect()
+            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
         }
     }
 
     fun toggleSkinColor() {
-        skin.toggleColor()
+        if (isCollisionEnabled) {
+            skin.toggleColor()
+            rainbowExplosionEffect()
+            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
+        }
     }
 
     fun exitLevel() {
@@ -192,6 +204,15 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             Actions.delay(3f),
             Actions.run { movementSpeed -= 2 }
         ))
+    }
+
+    private fun rainbowExplosionEffect() {
+        val effect = RainbowExplosion()
+        effect.setScale(.02f)
+        effect.centerAtActor(this)
+        stage.addActor(effect)
+        effect.zIndex = zIndex -1
+        effect.start()
     }
 
     private fun setHealthSpeed() {

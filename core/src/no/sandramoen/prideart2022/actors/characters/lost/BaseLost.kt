@@ -42,6 +42,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         addActor(group)
 
         if (player != null) {
+            movementSpeed = player.originalMovementSpeed * .1f
             setAcceleration(movementSpeed * 10f)
             setMaxSpeed(movementSpeed)
             setDeceleration(movementSpeed * 10f)
