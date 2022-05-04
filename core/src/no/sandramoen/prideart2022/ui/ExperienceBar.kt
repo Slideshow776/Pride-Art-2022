@@ -29,17 +29,15 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         progress = BaseActor(0f, 0f, stage)
         progress.loadImage("whitePixel")
         progress.color = Color(0.875f, 0.518f, 0.647f, 1f) // light pink
-        progress.setSize(0f,height)
+        progress.setSize(0f, height)
         addActor(progress)
 
         label = Label("${BaseGame.myBundle!!.get("level")} $level", BaseGame.smallLabelStyle)
         label.color.a = 0f
         label.setFontScale(.5f)
         label.setPosition(width - label.prefWidth * 1.2f, 0f)
+        label.addAction(fadeIn())
         addActor(label)
-
-        color.a = 0f
-        addAction(fadeIn())
     }
 
     fun increment(number: Int): Boolean {
@@ -70,14 +68,8 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
 
     private fun fadeIn(): SequenceAction? {
         return Actions.sequence(
-            Actions.delay(3f),
-            Actions.fadeIn(1f),
-            Actions.run {
-                label.addAction(Actions.sequence(
-                    Actions.delay(3f),
-                    Actions.fadeIn(1f))
-                )
-            }
+            Actions.delay(6f),
+            Actions.fadeIn(1f)
         )
     }
 }

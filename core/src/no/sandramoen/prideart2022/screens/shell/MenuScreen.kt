@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.Align
+import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.actors.Vignette
 import no.sandramoen.prideart2022.screens.shell.intro.SaturnScreen
 import no.sandramoen.prideart2022.ui.ControllerMessage
@@ -23,7 +24,7 @@ import no.sandramoen.prideart2022.utils.*
 class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private lateinit var startButton: TextButton
     private lateinit var optionsButton: TextButton
-    private lateinit var titleLabel: Label
+    private lateinit var titleLabel: TypingLabel
     private lateinit var highlightedActor: Actor
     private lateinit var controllerMessage: ControllerMessage
     private var madeByLabel = MadeByLabel()
@@ -31,8 +32,8 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private var isAxisFreeToMove = true
     private var axisCounter = 0f
 
-    override fun initialize() {
-        titleLabel = Label(BaseGame.myBundle!!.get("title"), BaseGame.bigLabelStyle)
+    override fun initialize() {// {GRADIENT=#73bed3;#ebede9;0.5;0}TRAN{ENDGRADIENT}S AGE
+        titleLabel = TypingLabel("{GRADIENT=#73bed3;#ebede9;0.1;0}TRAN{ENDGRADIENT}S A{GRADIENT=#ebede9;#df84a5;0.1;0}GENT X{ENDGRADIENT}", BaseGame.bigLabelStyle)
         titleLabel.setFontScale(1f)
         titleLabel.setAlignment(Align.center)
 
@@ -235,6 +236,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
             }
             false
         }
+        textButton.label.color.a = .9f
         GameUtils.addTextButtonEnterExitEffect(textButton)
         return textButton
     }
