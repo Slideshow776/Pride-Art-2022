@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="56" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="41">
+ <tileset firstgid="1" name="magecity" tilewidth="32" tileheight="32" tilecount="360" columns="8">
+  <image source="magecity.png" width="256" height="1450"/>
+ </tileset>
+ <layer id="10" name="Tile Layer 1" width="56" height="36">
+  <data encoding="base64" compression="zlib">
+   eAHt1lEOhCAMBFDOuJfw1p5ltx+TmKauQkLbKXwYglmkj6kbj9baMfE6f8+OvGba5NmRNtl7ti/a6OGLNHr5sI93v2JflrH3fFhcus63Tr2Oaf7GyOTRtVb3iffJqM+Ebb59Pt8ws/pi9fw+Tt+gUfltX+738+n9k/wqZ7h9ufsT/1t3fYr82HtUnJaxks/K8uqrkCGMGLWvmnFFX6UMrfxwDz3MPMLyb6zug53Ridp7RiZnj0v/lsGpax6ZZ3aOeKw1WY1WrSP3qvvkTDIaR7K6W5PR9wUlgqDw
+  </data>
+ </layer>
+ <layer id="11" name="Tile Layer 2" width="56" height="36">
+  <data encoding="base64" compression="zlib">
+   eAHt1zEOgCAQRFHtrGy18Qx26gW09ix6/8QapBgCGzR8O8xkCW+VZO/G5plsykZVvaLShFWBvlWT9eY6jOptvnfynW/BE2GJwP8EZv7jV9MOTByTEQ/HgwUCCJQVWLmTyjaA3bMKME9l5aQYAgiIAqeYC8WYlUIqvEMAga8JDMwMyS1ZDA03w9rJB6eALPAASY4Djg==
+  </data>
+ </layer>
+ <objectgroup id="4" name="Object Layer 1">
+  <object id="3" name="player start" x="711.167" y="459.833"/>
+ </objectgroup>
+</map>

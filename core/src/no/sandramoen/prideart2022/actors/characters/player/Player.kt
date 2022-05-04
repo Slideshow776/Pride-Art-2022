@@ -94,6 +94,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     Actions.color(Color.WHITE, 0f),
                     Actions.run {
                         hair.addAction(Actions.color(hair.activeColor, 0f))
+                        skin.addAction(Actions.color(skin.activeColor, 0f))
                         beard.addAction(Actions.color(beard.activeColor, 0f))
                     }
                 ),

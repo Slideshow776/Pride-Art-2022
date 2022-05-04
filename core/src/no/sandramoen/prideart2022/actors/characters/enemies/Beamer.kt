@@ -88,16 +88,16 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     }
 
     private fun shoot() {
-        val angle = getAngleTowardActor(player) - 90f
+        var angle = 0f
+        BaseGame.beamCharge2Sound!!.play(
+            BaseGame.soundVolume * .6f,
+            MathUtils.random(.8f, 1.1f), 0f
+        )
         addAction(
             Actions.sequence(
-                Actions.run {
-                    BaseGame.beamCharge2Sound!!.play(
-                        BaseGame.soundVolume * .6f,
-                        MathUtils.random(.8f, 1.1f), 0f
-                    )
-                },
-                Actions.delay(1f),
+                Actions.delay(.9f),
+                Actions.run { angle = getAngleTowardActor(player) - 90f },
+                Actions.delay(.1f),
                 Actions.run { beam = EnemyBeam(width / 2, height / 2, stage, angle, beamDuration) },
                 Actions.delay(beamDuration),
                 Actions.run { die() }

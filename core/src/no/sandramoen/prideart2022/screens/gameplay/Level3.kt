@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.*
-import no.sandramoen.prideart2022.actors.characters.enemies.Beamer
-import no.sandramoen.prideart2022.actors.characters.enemies.Fairy
-import no.sandramoen.prideart2022.actors.characters.enemies.Follower
-import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
+import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.lost.Lost1
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.utils.BaseActor
@@ -17,14 +14,34 @@ import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level3 : BaseLevel() {
     private val lostSoulsSpawner = BaseActor(0f, 0f, mainStage)
+    private lateinit var orangePortal: Portal
+    private lateinit var bluePortal: Portal
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level3, mainStage)
         super.initialize()
 
+        var position = randomWorldPosition(10f)
+        orangePortal = Portal(position.x, position.y, mainStage, orange = true)
+        position = randomWorldPosition(10f)
+        bluePortal = Portal(position.x, position.y, mainStage, orange = false)
+
         spawnEnemies()
         /*spawnFairies()*/
-        /*triggerEnding()*/
+    }
+
+    override fun update(dt: Float) {
+        super.update(dt)
+
+        if (player.overlaps(bluePortal)) {
+            player.setPosition(orangePortal.x, orangePortal.y)
+            setNewPortalsPositions()
+        }
+
+        if (player.overlaps(orangePortal)) {
+            player.setPosition(bluePortal.x, bluePortal.y)
+            setNewPortalsPositions()
+        }
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -37,90 +54,10 @@ class Level3 : BaseLevel() {
         return super.buttonDown(controller, buttonCode)
     }
 
-    private fun triggerEnding() {
-        val rain = Rain(0f, 0f, uiStage)
-        rain.color = Color(0.647f, 0.188f, 0.188f, 1f) // red
-        objectivesLabel.setText("Redd så mange transpersoner som du kan!")
-        player.shakyCamIntensity = .0125f
-        player.isShakyCam = true
-        spawnSpace()
-        spawnRainSplatter()
-        GameUtils.playAndLoopMusic(BaseGame.rainMusic)
-        spawnLostSouls()
-        DarkThunder(uiStage)
-        BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
-            Actions.run { fadeFleetAdmiralInAndOut("Rikshospitalet går i stykker!") },
-            Actions.delay(3.5f),
-            Actions.run {
-                fadeFleetAdmiralInAndOut("Redd så mange som du klarer!\nSkynd deg, vi må vekk herfra!")
-                player.shakyCamIntensity = .0125f
-            },
-            Actions.delay(2f),
-            Actions.run { objectivesLabel.fadeIn() },
-            Actions.delay(38f),
-            Actions.run {
-                fadeFleetAdmiralInAndOut("Det begynner å bli for farlig!\nVi må dra!!")
-                lostSoulsSpawner.clearActions()
-                player.shakyCamIntensity = .05f
-            },
-            Actions.delay(20f),
-            Actions.run {
-                fadeFleetAdmiralInAndOut(
-                    "Godt jobba Trans Agent X\nDet er over nå...",
-                    6f
-                )
-                player.shakyCamIntensity = .1f
-                objectivesLabel.fadeOut()
-            },
-            Actions.delay(6f),
-            Actions.run {
-                playerExitLevel()
-                player.isShakyCam = false
-            },
-            Actions.delay(3f),
-            Actions.run {
-                BaseGame.rainMusic!!.stop()
-                BaseGame.thunderSound!!.play(
-                    BaseGame.soundVolume,
-                    MathUtils.random(.5f, 1.5f),
-                    0f
-                )
-                BaseGame.setActiveScreen(MenuScreen())
-            }
-        ))
-    }
-
-    private fun spawnRainSplatter() {
-        BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
-            Actions.delay(0f),
-            Actions.run {
-                for (i in 0..3) {
-                    val position = randomWorldPosition(0f)
-                    val rainSplatter = RainSplatter(position.x, position.y, mainStage)
-                    rainSplatter.color = Color(0.647f, 0.188f, 0.188f, 1f) // red
-                }
-            }
-        )))
-    }
-
-    private fun spawnSpace() {
-        BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
-            Actions.delay(.075f),
-            Actions.run {
-                val position = randomWorldPosition(0f)
-                SpaceIsThePlace(position.x, position.y, mainStage)
-            }
-        )))
-    }
-
-    private fun spawnLostSouls() {
-        lostSoulsSpawner.addAction(Actions.forever(Actions.sequence(
-            Actions.delay(2f),
-            Actions.run {
-                val position = randomWorldPosition()
-                Lost1(position.x, position.y, mainStage, player)
-            }
-        )))
+    private fun setNewPortalsPositions() {
+        BaseGame.portalSound!!.play(BaseGame.soundVolume)
+        bluePortal.setNewPosition(randomWorldPosition(10f))
+        orangePortal.setNewPosition(randomWorldPosition(10f))
     }
 
     private fun spawnFairies() {
@@ -138,7 +75,7 @@ class Level3 : BaseLevel() {
         enemySpawner1.addAction(
             Actions.forever(
                 Actions.sequence(
-                    Actions.delay(10f),
+                    Actions.delay(5f),
                     Actions.run {
                         val position = spawnAroundPlayer(50f)
                         Follower(position.x, position.y, mainStage, player)
@@ -151,10 +88,14 @@ class Level3 : BaseLevel() {
         enemySpawner2.addAction(
             Actions.forever(
                 Actions.sequence(
-                    Actions.delay(1.5f),
+                    Actions.delay(5f),
                     Actions.run {
-                        val position = spawnAroundPlayer(50f)
+                        var position = spawnAroundPlayer(50f)
                         Beamer(position.x, position.y, mainStage, player)
+                        position = spawnAroundPlayer(50f)
+                        Shooter(position.x, position.y, mainStage, player)
+                        position = spawnAroundPlayer(50f)
+                        Charger(position.x, position.y, mainStage, player)
                     }
                 )
             )
