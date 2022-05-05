@@ -140,7 +140,7 @@ class OptionsScreen : BaseScreen() {
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == backButton) {
             setMenuScreen()
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == madeByLabel) {
-            madeByLabel.openURIWithDelay()
+            // madeByLabel.openURIWithDelay()
         }
         return super.buttonDown(controller, buttonCode)
     }

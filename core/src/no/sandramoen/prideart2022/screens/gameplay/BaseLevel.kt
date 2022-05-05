@@ -6,7 +6,6 @@ import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.actors.*
@@ -29,13 +28,14 @@ open class BaseLevel : BaseScreen() {
     protected lateinit var mainLabel: TypingLabel
     protected lateinit var objectivesLabel: ObjectivesLabel
     protected lateinit var experienceBar: ExperienceBar
-    protected lateinit var bossBar: BossBar
     protected lateinit var healthBar: HealthBar
     protected lateinit var controllerMessage: ControllerMessage
     protected lateinit var fleetAdmiral: FleetAdmiral
     protected lateinit var fleetAdmiralSubtitles: TypingLabel
 
+    protected var bossBar: BossBar? = null
     protected var isGameOver = false
+    protected var isRestartable = false
     protected var enemySpawner1 = BaseActor(0f, 0f, mainStage)
     protected var enemySpawner2 = BaseActor(0f, 0f, mainStage)
 
@@ -61,7 +61,7 @@ open class BaseLevel : BaseScreen() {
         if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
 
         // TODO: for debugging, remove on launch -------------
-        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level3())
+        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level4())
         else if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.E) experienceBar.increment(1)
         else if (keycode == Input.Keys.NUM_1) setGameOver()
@@ -132,6 +132,30 @@ open class BaseLevel : BaseScreen() {
             dtModifier = 0f
             setMainLabelToPaused()
         }
+    }
+
+    fun setGameOver() {
+        isGameOver = true
+        BaseGame.bossMusic!!.stop()
+        BaseGame.level1Music!!.stop()
+        BaseGame.level2IntroMusic!!.stop()
+        BaseGame.level2Music!!.stop()
+        BaseGame.level3Music!!.stop()
+        BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
+            Actions.delay(1.5f),
+            Actions.run { isRestartable = true }
+        ))
+        mainLabel.isVisible = true
+        mainLabel.restart()
+        mainLabel.setText("{SHAKE=.2;.2;6}${myBundle!!.get("gameOver1")} {WAIT}${myBundle!!.get("gameOver2")}")
+        dtModifier = .125f
+        player.death()
+        BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral1"))
+        if (bossBar != null)
+            bossBar!!.stop()
+        objectivesLabel.fadeOut()
+        continueToMenu()
     }
 
     fun playerExitLevel() {
@@ -309,6 +333,10 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun handleEnemies() {
+        for (enemy: BaseActor in getList(mainStage, Chain::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy, true, 0)
+            handleDestructibles(enemy)
+        }
         for (enemy: BaseActor in getList(mainStage, Follower::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, true, 1)
             handleDestructibles(enemy)
@@ -328,7 +356,7 @@ open class BaseLevel : BaseScreen() {
             enemyCollidedWithPlayer(enemy, false, 1)
             handleDestructibles(enemy)
         }
-        for (enemy: BaseActor in getList(mainStage, Teleport::class.java.canonicalName)) {
+        for (enemy: BaseActor in getList(mainStage, TeleportHazard::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy, false, 1, false)
         }
         for (enemy: BaseActor in getList(mainStage, Charger::class.java.canonicalName)) {
@@ -438,23 +466,6 @@ open class BaseLevel : BaseScreen() {
             ))
     }
 
-    private fun setGameOver() {
-        BaseGame.bossMusic!!.stop()
-        BaseGame.level1Music!!.stop()
-        BaseGame.level2Music!!.stop()
-        isGameOver = true
-        mainLabel.isVisible = true
-        mainLabel.restart()
-        mainLabel.setText("{SHAKE=.2;.2;6}${myBundle!!.get("gameOver1")} {WAIT}${myBundle!!.get("gameOver2")}")
-        dtModifier = .125f
-        player.death()
-        BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
-        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral1"))
-        bossBar.stop()
-        objectivesLabel.fadeOut()
-        continueToMenu()
-    }
-
     private fun continueToMenu() {
         BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
             Actions.delay(15f),
@@ -499,7 +510,6 @@ open class BaseLevel : BaseScreen() {
 
     private fun uiSetup() {
         experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
-        bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage)
 
         healthBar = HealthBar()
         uiTable.add(healthBar).padTop(experienceBar.height)

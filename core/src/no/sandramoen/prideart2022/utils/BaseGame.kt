@@ -59,6 +59,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var cinematic3Music: Music? = null
         var level2IntroMusic: Music? = null
         var level2Music: Music? = null
+        var level3Music: Music? = null
         var bossMusic: Music? = null
         var rainMusic: Music? = null
 
@@ -102,12 +103,15 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var thunderSound: Sound? = null
         var rainbowSound: Sound? = null
         var portalSound: Sound? = null
+        var chainSound: Sound? = null
+        var lostDeathSound: Sound? = null
         var intro1VoiceSound: Sound? = null
 
         var level1: TiledMap? = null
         var level2: TiledMap? = null
         var level3: TiledMap? = null
         var level4: TiledMap? = null
+        var level5: TiledMap? = null
         var defaultShader: String? = null
         var glowShader: String? = null
         var shockwaveShader: String? = null
@@ -162,6 +166,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/music/348834__darkgamer364__creepy-eerie-horror-loop (1).wav", Music::class.java)
             assetManager.load("audio/music/234475__pcruzn__basslines-1.wav", Music::class.java)
             assetManager.load("audio/music/531947__straget__the-rain-falls-against-the-parasol.wav", Music::class.java)
+            assetManager.load("audio/music/585571__frankum__arp-v-frankum-frankumjay.mp3", Music::class.java)
 
             // sounds
             assetManager.load("audio/sound/enemyCharge.wav", Sound::class.java)
@@ -204,6 +209,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/thunder.wav", Sound::class.java)
             assetManager.load("audio/sound/Pickup_Coin2.wav", Sound::class.java)
             assetManager.load("audio/sound/portalSound.wav", Sound::class.java)
+            assetManager.load("audio/sound/chainSound.wav", Sound::class.java)
+            assetManager.load("audio/sound/lostDeathSound.wav", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
@@ -243,6 +250,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             cinematic3Music = assetManager.get("audio/music/236894__chimerical__cinematic-suspense.wav", Music::class.java)
             level2IntroMusic = assetManager.get("audio/music/316821__pearcewilsonking__space-horror-atmosphere-loop.wav", Music::class.java)
             level2Music = assetManager.get("audio/music/348834__darkgamer364__creepy-eerie-horror-loop (1).wav", Music::class.java)
+            level3Music = assetManager.get("audio/music/585571__frankum__arp-v-frankum-frankumjay.mp3", Music::class.java)
             bossMusic = assetManager.get("audio/music/234475__pcruzn__basslines-1.wav", Music::class.java)
             rainMusic = assetManager.get("audio/music/531947__straget__the-rain-falls-against-the-parasol.wav", Music::class.java)
 
@@ -286,6 +294,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             thunderSound = assetManager.get("audio/sound/thunder.wav", Sound::class.java)
             rainbowSound = assetManager.get("audio/sound/Pickup_Coin2.wav", Sound::class.java)
             portalSound = assetManager.get("audio/sound/portalSound.wav", Sound::class.java)
+            chainSound = assetManager.get("audio/sound/chainSound.wav", Sound::class.java)
+            lostDeathSound = assetManager.get("audio/sound/lostDeathSound.wav", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files
@@ -305,6 +315,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             level2 = assetManager.get("maps/level2.tmx", TiledMap::class.java)
             level3 = assetManager.get("maps/level3.tmx", TiledMap::class.java)
             level4 = assetManager.get("maps/level4.tmx", TiledMap::class.java)
+            level5 = assetManager.get("maps/level4.tmx", TiledMap::class.java)
 
             // fonts
             FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android

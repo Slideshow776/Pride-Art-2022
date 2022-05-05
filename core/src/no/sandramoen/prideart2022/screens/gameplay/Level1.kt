@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.TilemapActor
@@ -7,6 +8,7 @@ import no.sandramoen.prideart2022.actors.characters.enemies.BossKim
 import no.sandramoen.prideart2022.actors.characters.enemies.Charger
 import no.sandramoen.prideart2022.actors.characters.enemies.Shooter
 import no.sandramoen.prideart2022.actors.characters.enemies.Shot
+import no.sandramoen.prideart2022.ui.BossBar
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -33,12 +35,12 @@ class Level1 : BaseLevel() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (isGameOver) BaseGame.setActiveScreen(Level1())
+        if (isRestartable) BaseGame.setActiveScreen(Level1())
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (isGameOver) BaseGame.setActiveScreen(Level1())
+        if (isRestartable) BaseGame.setActiveScreen(Level1())
         return super.buttonDown(controller, buttonCode)
     }
 
@@ -83,7 +85,7 @@ class Level1 : BaseLevel() {
         for (enemy: BaseActor in BaseActor.getList(mainStage, BossKim::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy as BossKim, false, player.health)
             handleDestructibles(enemy)
-            if (bossBar.complete && !enemy.isDying) {
+            if (bossBar != null && bossBar!!.complete && !enemy.isDying) {
                 enemy.death()
                 bossDeath()
             }
@@ -95,8 +97,8 @@ class Level1 : BaseLevel() {
         BaseGame.level1Music!!.stop()
         GameUtils.playAndLoopMusic(BaseGame.bossMusic)
         BossKim(position.x, position.y, mainStage, player)
-        bossBar.label.setText("Kim Alexander Tønseth")
-        bossBar.countDown()
+        bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage, "Kim Alexander Tønseth")
+        bossBar!!.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
         fadeFleetAdmiralInAndOut(
@@ -111,7 +113,8 @@ class Level1 : BaseLevel() {
             enemy.death()
         }
         experienceBar.level++
-        bossBar.isVisible = false
+        if (bossBar != null)
+            bossBar!!.isVisible = false
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(

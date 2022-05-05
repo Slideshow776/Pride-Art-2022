@@ -42,8 +42,11 @@ class Portal(x: Float, y: Float, stage: Stage, val orange: Boolean) : BaseActor(
 
     fun setNewPosition(position: Vector2) {
         fadeOut()
+        isShakyCam = true
         addAction(Actions.sequence(
-            Actions.delay(10f),
+            Actions.delay(.75f),
+            Actions.run { isShakyCam = false },
+            Actions.delay(9.25f),
             Actions.run {
                 setPosition(position.x, position.y)
                 fadeIn()

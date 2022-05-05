@@ -90,7 +90,7 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     private fun shoot() {
         var angle = 0f
         BaseGame.beamCharge2Sound!!.play(
-            BaseGame.soundVolume * .6f,
+            BaseGame.soundVolume * .5f,
             MathUtils.random(.8f, 1.1f), 0f
         )
         addAction(

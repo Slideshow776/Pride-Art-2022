@@ -1,109 +1,138 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
-import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.prideart2022.actors.*
-import no.sandramoen.prideart2022.actors.characters.lost.Lost1
-import no.sandramoen.prideart2022.screens.shell.MenuScreen
+import no.sandramoen.prideart2022.actors.TilemapActor
+import no.sandramoen.prideart2022.actors.characters.enemies.BossIra
+import no.sandramoen.prideart2022.actors.characters.enemies.Shot
+import no.sandramoen.prideart2022.actors.characters.enemies.TeleportHazard
+import no.sandramoen.prideart2022.actors.characters.lost.*
+import no.sandramoen.prideart2022.ui.BossBar
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level4 : BaseLevel() {
-    private val lostSoulsSpawner = BaseActor(0f, 0f, mainStage)
+    private var bossIra: BossIra? = null
+    private var lost: BaseLost? = null
+    private var lostKilled = 0
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level4, mainStage)
         super.initialize()
 
-        triggerLevelProgression()
+        /*player.isCollisionEnabled = false*/
+        spawnBoss()
+        spawnLostSouls()
     }
 
-    private fun triggerLevelProgression() {
-        val rain = Rain(0f, 0f, uiStage)
-        rain.color = Color(0.647f, 0.188f, 0.188f, 1f) // red
-        objectivesLabel.setText("Redd så mange transpersoner som du kan!")
-        player.shakyCamIntensity = .0125f
-        player.isShakyCam = true
-        spawnSpace()
-        spawnRainSplatter()
-        GameUtils.playAndLoopMusic(BaseGame.rainMusic)
-        spawnLostSouls()
-        DarkThunder(uiStage)
+    override fun keyDown(keycode: Int): Boolean {
+        if (isRestartable) BaseGame.setActiveScreen(Level4())
+        return super.keyDown(keycode)
+    }
+
+    override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
+        if (isRestartable) BaseGame.setActiveScreen(Level4())
+        return super.buttonDown(controller, buttonCode)
+    }
+
+    override fun update(dt: Float) {
+        super.update(dt)
+
+        if (lost != null && lost!!.isPickedUp) {
+            if (lost!!.isKilled)
+                lostKilled++
+            objectivesLabel.setText("$lostKilled/4 transpersoner tapt")
+            lost = null
+        }
+
+        if (lostKilled >= 4 && !isGameOver)
+            setGameOver()
+
+
+        handleBoss()
+    }
+
+    private fun handleBoss() {
+        for (enemy: BaseActor in BaseActor.getList(mainStage, BossIra::class.java.canonicalName)) {
+            enemyCollidedWithPlayer(enemy as BossIra, false, player.health)
+            handleDestructibles(enemy)
+            if (bossBar != null && bossBar!!.complete && !enemy.isDying) {
+                enemy.death()
+                bossDeath()
+            }
+        }
+    }
+
+    private fun bossDeath() {
+        BaseGame.bossMusic!!.stop()
+        for (enemy: BaseActor in BaseActor.getList(
+            mainStage,
+            TeleportHazard::class.java.canonicalName
+        )) {
+            enemy.death()
+        }
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
+            enemy.death()
+        }
+        experienceBar.level++
+        if (bossBar != null)
+            bossBar!!.isVisible = false
+        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
-                Actions.run { fadeFleetAdmiralInAndOut("Rikshospitalet går i stykker!") },
-                Actions.delay(3.5f),
-                Actions.run {
-                    fadeFleetAdmiralInAndOut("Redd så mange som du klarer!\nSkynd deg, vi må vekk herfra!")
-                    player.shakyCamIntensity = .0125f
-                },
-                Actions.delay(2f),
-                Actions.run { objectivesLabel.fadeIn() },
-                Actions.delay(38f),
-                Actions.run {
-                    fadeFleetAdmiralInAndOut("Det begynner å bli for farlig!\nVi må dra!!")
-                    lostSoulsSpawner.clearActions()
-                    player.shakyCamIntensity = .05f
-                },
-                Actions.delay(20f),
-                Actions.run {
-                    fadeFleetAdmiralInAndOut(
-                        "Godt jobba Trans Agent X\nDet er over nå...",
-                        6f
-                    )
-                    player.shakyCamIntensity = .1f
-                    objectivesLabel.fadeOut()
-                },
                 Actions.delay(6f),
                 Actions.run {
-                    playerExitLevel()
-                    player.isShakyCam = false
-                },
-                Actions.delay(3f),
-                Actions.run {
-                    BaseGame.rainMusic!!.stop()
-                    BaseGame.thunderSound!!.play(
-                        BaseGame.soundVolume,
-                        MathUtils.random(.5f, 1.5f),
-                        0f
+                    fadeFleetAdmiralInAndOut(
+                        BaseGame.myBundle!!.get("fleetAdmiral6"),
+                        6f
                     )
-                    BaseGame.setActiveScreen(MenuScreen())
+                },
+                Actions.delay(5f),
+                Actions.run { playerExitLevel() },
+                Actions.delay(2f),
+                Actions.run {
+                    BaseGame.level1Music!!.stop()
+                    BaseGame.setActiveScreen(Level5())
                 }
             ))
     }
 
-    private fun spawnRainSplatter() {
+    private fun spawnLostSouls() {
         BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
-            Actions.delay(0f),
+            Actions.delay(15f),
             Actions.run {
-                for (i in 0..3) {
-                    val position = randomWorldPosition(0f)
-                    val rainSplatter = RainSplatter(position.x, position.y, mainStage)
-                    rainSplatter.color = Color(0.647f, 0.188f, 0.188f, 1f) // red
+                if (bossIra!!.lost == null) {
+                    fadeFleetAdmiralInAndOut("{SHAKE}Hun fant en transperson å spise!\nRedd dem først!")
+                    objectivesLabel.setText("Redd transperonen!")
+                    objectivesLabel.fadeIn()
+                    val position = randomWorldPosition(50f)
+                    when (MathUtils.random(0, 3)) {
+                        0 -> lost = Lost0(position.x, position.y, mainStage)
+                        1 -> lost = Lost1(position.x, position.y, mainStage)
+                        2 -> lost = Lost2(position.x, position.y, mainStage)
+                        3 -> lost = Lost3(position.x, position.y, mainStage)
+                    }
+                    bossIra!!.lost = lost
                 }
             }
         )))
     }
 
-    private fun spawnSpace() {
-        BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
-            Actions.delay(.075f),
-            Actions.run {
-                val position = randomWorldPosition(0f)
-                SpaceIsThePlace(position.x, position.y, mainStage)
-            }
-        )))
-    }
-
-    private fun spawnLostSouls() {
-        lostSoulsSpawner.addAction(Actions.forever(Actions.sequence(
-            Actions.delay(2f),
-            Actions.run {
-                val position = randomWorldPosition()
-                Lost1(position.x, position.y, mainStage, player)
-            }
-        )))
+    private fun spawnBoss() {
+        BaseGame.level3Music!!.stop()
+        GameUtils.playAndLoopMusic(BaseGame.bossMusic)
+        val position = bossSpawn()
+        bossIra = BossIra(position.x, position.y, mainStage, player)
+        bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage, "Ira Haraldsen")
+        if (bossBar != null) {
+            bossBar!!.time = 120f
+            bossBar!!.countDown()
+        }
+        enemySpawner1.clearActions()
+        enemySpawner2.clearActions()
+        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral17"), 5f)
     }
 }

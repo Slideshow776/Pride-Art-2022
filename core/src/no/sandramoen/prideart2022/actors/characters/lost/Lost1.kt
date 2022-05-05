@@ -5,6 +5,6 @@ import no.sandramoen.prideart2022.actors.characters.player.Player
 
 class Lost1(x: Float, y: Float, stage: Stage, player: Player? = null) : BaseLost(x, y, stage, player) {
     init {
-        initializeIdleAnimation(1)
+        initializeAnimation(1)
     }
 }

@@ -25,7 +25,7 @@ class EnemyBeam(
 
     init {
         BaseGame.spaceStationBeamSound!!.play(
-            BaseGame.soundVolume * .6f,
+            BaseGame.soundVolume * .5f,
             MathUtils.random(.8f, 1.1f),
             0f
         )

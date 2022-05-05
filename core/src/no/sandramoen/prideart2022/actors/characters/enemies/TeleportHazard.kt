@@ -10,8 +10,8 @@ import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
-class Teleport(bossKG: BossKG, stage: Stage, player: Player) :
-    BaseActor(bossKG.x, bossKG.y, stage) {
+class TeleportHazard(baseActor: BaseActor, stage: Stage, player: Player) :
+    BaseActor(baseActor.x, baseActor.y, stage) {
     init {
         Explosion(this, stage)
         zIndex = player.zIndex - 1

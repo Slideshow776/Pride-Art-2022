@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
-class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
+class BossBar(x: Float, y: Float, stage: Stage, name: String) : BaseActor(0f, 0f, stage) {
     private var progress: BaseActor
-    private var time = 60f
+    var time = 60f
 
     var label: Label
     var complete = false
@@ -30,7 +30,7 @@ class BossBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         progress.addAction(pulse())
         addActor(progress)
 
-        label = Label("Kjersti Gulbrandsen", BaseGame.spookySmallLabelStyle)
+        label = Label(name, BaseGame.spookySmallLabelStyle)
         label.setFontScale(.7f)
         label.setPosition(width / 2 - label.prefWidth / 2, 0f - label.prefHeight / 6)
         addActor(label)

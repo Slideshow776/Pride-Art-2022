@@ -24,8 +24,11 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
     private var movementSpeed = 26f * .1f
     private var shaderProgram: ShaderProgram
     private var time = 0f
+
+    lateinit var deathAnimation: Animation<TextureAtlas.AtlasRegion>
     lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     var isPickedUp = false
+    var isKilled = false
 
     init {
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.glowShader)
@@ -71,7 +74,19 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         }
     }
 
-    open fun initializeIdleAnimation(number: Int) {
+    override fun death() {
+        super.death()
+        isPickedUp = true
+        isKilled = true
+        setAnimation(deathAnimation)
+        BaseGame.lostDeathSound!!.play(BaseGame.soundVolume)
+        addAction(Actions.sequence(
+            Actions.delay(1.2f),
+            Actions.removeActor()
+        ))
+    }
+
+    open fun initializeAnimation(number: Int) {
         var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
 
         for (i in 1..20)
@@ -81,6 +96,11 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         animationImages.clear()
         setAnimation(idleAnimation)
 
+        for (i in 1..6)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("lost/lost$number/death$i"))
+        deathAnimation = Animation(.2f, animationImages, Animation.PlayMode.NORMAL)
+        animationImages.clear()
+
         setBoundaryRectangle()
     }
 
@@ -88,7 +108,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         isCollisionEnabled = false
         isPickedUp = true
         BaseGame.lostPickupSound!!.play(BaseGame.soundVolume)
-        addAction(removeAnimation())
+        addAction(savedAnimation())
         crystalExplosionEffect()
     }
 
@@ -128,7 +148,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         ))
     }
 
-    private fun removeAnimation(): SequenceAction? {
+    private fun savedAnimation(): SequenceAction? {
         return Actions.sequence(
             Actions.run { BeamOut(x, y, stage, this) },
             stretchAndMoveOut(),

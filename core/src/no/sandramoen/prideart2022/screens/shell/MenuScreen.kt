@@ -107,7 +107,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == optionsButton) {
             setOptionsScreenWithDelay()
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == madeByLabel) {
-            madeByLabel.openURIWithDelay()
+            // madeByLabel.openURIWithDelay()
         }
         return super.buttonDown(controller, buttonCode)
     }

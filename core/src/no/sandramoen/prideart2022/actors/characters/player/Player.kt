@@ -18,8 +18,8 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.Explosion
 import no.sandramoen.prideart2022.actors.GroundCrack
+import no.sandramoen.prideart2022.actors.characters.enemies.SpiderWeb
 import no.sandramoen.prideart2022.actors.particles.RainbowExplosion
-import no.sandramoen.prideart2022.actors.particles.ShieldExplosion
 import no.sandramoen.prideart2022.actors.particles.RunningSmokeEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -42,12 +42,12 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var state = State.Idle
     private var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
-    private var isPlaying = true
+    var isPlaying = true
     private var beard: Beard = Beard(this)
     private var hair: Hair = Hair(this)
     private var skin: Skin = Skin(this)
 
-    var originalMovementSpeed = movementSpeed
+    val originalMovementSpeed = movementSpeed
     var health: Int = 3
 
     init {
@@ -84,9 +84,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         boundToWorld()
         alignCamera(lerp = .1f)
         shield.centerAtActor(this)
+        checkSpiderWeb()
     }
 
     override fun death() {
+        isCollisionEnabled = false
         clearActions()
         addAction(
             Actions.parallel(
@@ -121,6 +123,15 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         skin.flip()
     }
 
+    fun fadeOut() {
+        val duration = 2f
+        addAction(Actions.fadeOut(duration))
+        skin.addAction(Actions.fadeOut(duration))
+        beard.addAction(Actions.fadeOut(duration))
+        hair.addAction(Actions.fadeOut(duration))
+        removeRunningSmokeAction()
+    }
+
     fun isHurt(amount: Int): Boolean {
         hurtAnimation()
         if (shield.isActive) {
@@ -145,7 +156,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             hair.toggleColor()
             beard.toggleColor()
             rainbowExplosionEffect()
-            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
+            BaseGame.rainbowSound!!.play(
+                BaseGame.soundVolume * .2f,
+                MathUtils.random(.95f, 1.05f),
+                0f
+            )
         }
     }
 
@@ -161,7 +176,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             }
             hair.setAnimation(hairAnimation)
             rainbowExplosionEffect()
-            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
+            BaseGame.rainbowSound!!.play(
+                BaseGame.soundVolume * .2f,
+                MathUtils.random(.95f, 1.05f),
+                0f
+            )
         }
     }
 
@@ -177,7 +196,11 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             }
             beard.setAnimation(beardAnimation)
             rainbowExplosionEffect()
-            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
+            BaseGame.rainbowSound!!.play(
+                BaseGame.soundVolume * .2f,
+                MathUtils.random(.95f, 1.05f),
+                0f
+            )
         }
     }
 
@@ -185,13 +208,21 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         if (isCollisionEnabled) {
             skin.toggleColor()
             rainbowExplosionEffect()
-            BaseGame.rainbowSound!!.play(BaseGame.soundVolume * .2f, MathUtils.random(.95f, 1.05f), 0f)
+            BaseGame.rainbowSound!!.play(
+                BaseGame.soundVolume * .2f,
+                MathUtils.random(.95f, 1.05f),
+                0f
+            )
         }
     }
 
     fun exitLevel() {
         isPlaying = false
         shield.isVisible = false
+        skin.color = skin.activeColor
+        color = Color.WHITE
+        hair.color = hair.activeColor
+        beard.color = beard.activeColor
         addAction(stretchAndMoveOut())
     }
 
@@ -207,12 +238,26 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         ))
     }
 
+    private fun checkSpiderWeb() {
+        for (enemy: BaseActor in getList(stage, SpiderWeb::class.java.canonicalName)) {
+            if (overlaps(enemy)) {
+                addAction(Actions.sequence(
+                    Actions.delay(.1f),
+                    Actions.run { setMaxSpeed(originalMovementSpeed * .25f) }
+                ))
+            }
+            else {
+                setHealthSpeed()
+            }
+        }
+    }
+
     private fun rainbowExplosionEffect() {
         val effect = RainbowExplosion()
         effect.setScale(.02f)
         effect.centerAtActor(this)
         stage.addActor(effect)
-        effect.zIndex = zIndex -1
+        effect.zIndex = zIndex - 1
         effect.start()
     }
 

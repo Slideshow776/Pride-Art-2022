@@ -124,7 +124,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     }
 
     private fun teleportToPlayer() {
-        Teleport(this, stage, player)
+        TeleportHazard(this, stage, player)
         val distance = 25f
         if (MathUtils.randomBoolean()) { // horizontal
             x = MathUtils.random(player.x - distance, player.x + distance)
@@ -139,7 +139,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
                 x = player.x - distance
             y = MathUtils.random(player.y - distance, player.y + distance)
         }
-        Teleport(this, stage, player)
+        TeleportHazard(this, stage, player)
     }
 
     private fun fadeIn() {

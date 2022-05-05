@@ -106,7 +106,7 @@ class GameUtils {
             width: Float,
             height: Float,
             statement: String = "statement",
-            numStatements: Int = 90,
+            numStatements: Int = 106,
             scaleModifier: Float = 1f,
             color: Color = Color(0.816f, 0.855f, 0.569f, 1f),
             labelStyle: Label.LabelStyle? = BaseGame.spookySmallLabelStyle

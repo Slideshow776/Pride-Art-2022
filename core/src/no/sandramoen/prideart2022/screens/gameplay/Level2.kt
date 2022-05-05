@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.Experience
@@ -9,6 +10,7 @@ import no.sandramoen.prideart2022.actors.characters.lost.Lost0
 import no.sandramoen.prideart2022.actors.characters.lost.Lost1
 import no.sandramoen.prideart2022.actors.characters.lost.Lost2
 import no.sandramoen.prideart2022.actors.characters.lost.Lost3
+import no.sandramoen.prideart2022.ui.BossBar
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
@@ -36,15 +38,16 @@ class Level2 : BaseLevel() {
 
         checkIfBossShouldSpawn()
         handleBoss()
+        Follower(0f, 0f, mainStage, player)
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (isGameOver) BaseGame.setActiveScreen(Level2())
+        if (isRestartable) BaseGame.setActiveScreen(Level2())
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (isGameOver) BaseGame.setActiveScreen(Level2())
+        if (isRestartable) BaseGame.setActiveScreen(Level2())
         return super.buttonDown(controller, buttonCode)
     }
 
@@ -66,8 +69,8 @@ class Level2 : BaseLevel() {
         GameUtils.playAndLoopMusic(BaseGame.bossMusic)
         val position = bossSpawn()
         BossKG(position.x, position.y, mainStage, player)
-        bossBar.label.setText("Kjersti Gulbrandsen")
-        bossBar.countDown()
+        bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage, "Kjersti Gulbrandsen")
+        bossBar!!.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral13"), 5f)
@@ -77,7 +80,7 @@ class Level2 : BaseLevel() {
         for (enemy: BaseActor in BaseActor.getList(mainStage, BossKG::class.java.canonicalName)) {
             enemyCollidedWithPlayer(enemy as BossKG, false, player.health)
             handleDestructibles(enemy)
-            if (bossBar.complete && !enemy.isDying) {
+            if (bossBar != null && bossBar!!.complete && !enemy.isDying) {
                 enemy.death()
                 bossDeath()
             }
@@ -87,12 +90,16 @@ class Level2 : BaseLevel() {
     private fun bossDeath() {
         BaseGame.bossMusic!!.stop()
         experienceBar.level++
-        bossBar.isVisible = false
+        if (bossBar != null)
+            bossBar!!.isVisible = false
         fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral14"))
         for (enemy: BaseActor in BaseActor.getList(mainStage, Follower::class.java.canonicalName)) {
             enemy.death()
         }
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Teleport::class.java.canonicalName)) {
+        for (enemy: BaseActor in BaseActor.getList(
+            mainStage,
+            TeleportHazard::class.java.canonicalName
+        )) {
             enemy.death()
         }
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
