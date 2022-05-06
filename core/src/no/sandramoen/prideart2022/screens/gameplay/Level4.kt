@@ -12,12 +12,14 @@ import no.sandramoen.prideart2022.actors.characters.lost.*
 import no.sandramoen.prideart2022.ui.BossBar
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level4 : BaseLevel() {
     private var bossIra: BossIra? = null
     private var lost: BaseLost? = null
     private var lostKilled = 0
+    private val maxLostKilled = 4
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level4, mainStage)
@@ -29,12 +31,14 @@ class Level4 : BaseLevel() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level4())
+        if (isRestartable && !isButtonCodeDpad(keycode))
+            BaseGame.setActiveScreen(Level4())
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level4())
+        if (isRestartable && !isButtonCodeDpad(buttonCode))
+            BaseGame.setActiveScreen(Level4())
         return super.buttonDown(controller, buttonCode)
     }
 
@@ -44,7 +48,7 @@ class Level4 : BaseLevel() {
         if (lost != null && lost!!.isPickedUp) {
             if (lost!!.isKilled)
                 lostKilled++
-            objectivesLabel.setText("$lostKilled/4 transpersoner tapt")
+            objectivesLabel.setMyText("$lostKilled/$maxLostKilled ${myBundle!!.get("objective8")}")
             lost = null
         }
 
@@ -80,7 +84,7 @@ class Level4 : BaseLevel() {
         experienceBar.level++
         if (bossBar != null)
             bossBar!!.isVisible = false
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
+        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral14"))
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(6f),
@@ -105,8 +109,8 @@ class Level4 : BaseLevel() {
             Actions.delay(15f),
             Actions.run {
                 if (bossIra!!.lost == null) {
-                    fadeFleetAdmiralInAndOut("{SHAKE}Hun fant en transperson å spise!\nRedd dem først!")
-                    objectivesLabel.setText("Redd transperonen!")
+                    fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral27"))
+                    objectivesLabel.setMyText(myBundle!!.get("objective9"))
                     objectivesLabel.fadeIn()
                     val position = randomWorldPosition(50f)
                     when (MathUtils.random(0, 3)) {
@@ -133,6 +137,6 @@ class Level4 : BaseLevel() {
         }
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral17"), 5f)
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral17"), 5f)
     }
 }

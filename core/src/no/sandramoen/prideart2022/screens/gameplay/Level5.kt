@@ -8,6 +8,7 @@ import no.sandramoen.prideart2022.actors.characters.lost.Lost1
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level5 : BaseLevel() {
@@ -23,7 +24,7 @@ class Level5 : BaseLevel() {
     private fun triggerLevelProgression() {
         val rain = Rain(0f, 0f, uiStage)
         rain.color = Color(0.647f, 0.188f, 0.188f, 1f) // red
-        objectivesLabel.setText("Redd så mange transpersoner som du kan!")
+        objectivesLabel.setMyText(myBundle!!.get("objective7"))
         player.shakyCamIntensity = .0125f
         player.isShakyCam = true
         spawnSpace()
@@ -33,24 +34,24 @@ class Level5 : BaseLevel() {
         DarkThunder(uiStage)
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
-                Actions.run { fadeFleetAdmiralInAndOut("Rikshospitalet går i stykker!") },
+                Actions.run { fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral28")) },
                 Actions.delay(3.5f),
                 Actions.run {
-                    fadeFleetAdmiralInAndOut("Redd så mange som du klarer!\nSkynd deg, vi må vekk herfra!")
+                    fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral29"))
                     player.shakyCamIntensity = .0125f
                 },
                 Actions.delay(2f),
                 Actions.run { objectivesLabel.fadeIn() },
                 Actions.delay(38f),
                 Actions.run {
-                    fadeFleetAdmiralInAndOut("Det begynner å bli for farlig!\nVi må dra!!")
+                    fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral30"))
                     lostSoulsSpawner.clearActions()
                     player.shakyCamIntensity = .05f
                 },
                 Actions.delay(20f),
                 Actions.run {
                     fadeFleetAdmiralInAndOut(
-                        "Godt jobba Trans Agent X\nDet er over nå...",
+                        myBundle!!.get("fleetAdmiral31"),
                         6f
                     )
                     player.shakyCamIntensity = .1f

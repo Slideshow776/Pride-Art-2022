@@ -86,8 +86,10 @@ open class BaseLevel : BaseScreen() {
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (buttonCode != XBoxGamepad.BUTTON_BACK && dtModifier == 0f) resume()
-
+        if ((buttonCode != XBoxGamepad.BUTTON_BACK || buttonCode == XBoxGamepad.BUTTON_START) && dtModifier == 0f) {
+            resume()
+            return super.buttonDown(controller, buttonCode)
+        }
         if (buttonCode == XBoxGamepad.BUTTON_A)
             player.toggleHairColor()
         else if (buttonCode == XBoxGamepad.BUTTON_B)
@@ -96,9 +98,12 @@ open class BaseLevel : BaseScreen() {
             player.toggleHairStyle()
         else if (buttonCode == XBoxGamepad.BUTTON_Y)
             player.toggleBeardStyle()
-        else if (buttonCode == XBoxGamepad.BUTTON_START)
-            BaseGame.setActiveScreen(Level1())
-        else if (buttonCode == XBoxGamepad.BUTTON_BACK)
+        else if (buttonCode == XBoxGamepad.BUTTON_START) {
+            if (dtModifier == 1f) {
+                pause()
+                BaseGame.controllerDisconnectedSound!!.play(BaseGame.soundVolume)
+            }
+        } else if (buttonCode == XBoxGamepad.BUTTON_BACK)
             pauseOrGoToMenu()
 
         return super.buttonDown(controller, buttonCode)
@@ -243,7 +248,13 @@ open class BaseLevel : BaseScreen() {
 
     fun dropShield() {
         if (fleetAdmiral.actions.size == 0)
-            fadeFleetAdmiralInAndOut("${myBundle!!.get("fleetAdmiral71")} {RAINBOW}${myBundle!!.get("fleetAdmiral72")}{ENDRAINBOW} ${myBundle!!.get("fleetAdmiral73")}")
+            fadeFleetAdmiralInAndOut(
+                "${myBundle!!.get("fleetAdmiral71")} {RAINBOW}${
+                    myBundle!!.get(
+                        "fleetAdmiral72"
+                    )
+                }{ENDRAINBOW} ${myBundle!!.get("fleetAdmiral73")}"
+            )
         val position = randomWorldPosition()
         ShieldDrop(position.x, position.y, mainStage, player)
     }
@@ -267,6 +278,12 @@ open class BaseLevel : BaseScreen() {
                 Actions.fadeOut(1f)
             )
         )
+    }
+
+    fun isButtonCodeDpad(buttonCode: Int): Boolean {
+        if (buttonCode == XBoxGamepad.DPAD_UP || buttonCode == XBoxGamepad.DPAD_RIGHT || buttonCode == XBoxGamepad.DPAD_DOWN || buttonCode == XBoxGamepad.DPAD_LEFT)
+            return true
+        return false
     }
 
     private fun initializePlayer() {
@@ -503,7 +520,13 @@ open class BaseLevel : BaseScreen() {
 
     private fun dropHealth() {
         if (fleetAdmiral.actions.size == 0)
-            fadeFleetAdmiralInAndOut("${myBundle!!.get("fleetAdmiral21")} {COLOR=#c84646}${myBundle!!.get("fleetAdmiral22")}{CLEARCOLOR} ${myBundle!!.get("fleetAdmiral23")}")
+            fadeFleetAdmiralInAndOut(
+                "${myBundle!!.get("fleetAdmiral21")} {COLOR=#c84646}${
+                    myBundle!!.get(
+                        "fleetAdmiral22"
+                    )
+                }{CLEARCOLOR} ${myBundle!!.get("fleetAdmiral23")}"
+            )
         val position = randomWorldPosition()
         HealthDrop(position.x, position.y, mainStage, player)
     }

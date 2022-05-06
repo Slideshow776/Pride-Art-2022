@@ -4,11 +4,13 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.particles.BluePortalEffect
 import no.sandramoen.prideart2022.actors.particles.OrangePortalEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 
-class Portal(x: Float, y: Float, stage: Stage, val orange: Boolean) : BaseActor(x, y, stage) {
+class Portal(x: Float, y: Float, stage: Stage, val orange: Boolean, player: Player) :
+    BaseActor(x, y, stage) {
     private var orangePortalEffect: OrangePortalEffect
     private var bluePortalEffect: BluePortalEffect
 
@@ -25,6 +27,8 @@ class Portal(x: Float, y: Float, stage: Stage, val orange: Boolean) : BaseActor(
         }
 
         startValueAnimation()
+        setScale(0f)
+        zIndex = player.zIndex - 1
     }
 
     override fun setPosition(x: Float, y: Float) {
@@ -56,14 +60,15 @@ class Portal(x: Float, y: Float, stage: Stage, val orange: Boolean) : BaseActor(
 
     private fun fadeOut() {
         isCollisionEnabled = false
-        addAction(Actions.fadeOut(1f))
+        clearActions()
+        addAction(Actions.scaleTo(0f, 0f, 1f))
         if (orange) orangePortalEffect.stop()
         else bluePortalEffect.stop()
     }
 
     private fun fadeIn() {
         isCollisionEnabled = true
-        addAction(Actions.fadeIn(1f))
+        startValueAnimation()
         if (orange) orangePortalEffect.start()
         else bluePortalEffect.start()
     }

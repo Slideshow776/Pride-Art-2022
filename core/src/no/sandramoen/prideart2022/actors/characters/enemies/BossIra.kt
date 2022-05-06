@@ -25,6 +25,7 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     private var state = State.RunningN
     private var beam: BossBeam? = null
     private var beamActor = BaseActor(0f, 0f, stage)
+    private var isShootingBeam = false
 
     var lost: BaseLost? = null
     var isDying = false
@@ -64,6 +65,7 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
     override fun death() {
         super.death()
+        beamActor.clearActions()
         BaseGame.beamChargeSound!!.stop()
         isDying = true
         isCollisionEnabled = false
@@ -88,7 +90,10 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     private fun shootSpiderWeb() {
         BaseActor(0f, 0f, stage).addAction(Actions.forever(Actions.sequence(
             Actions.delay(5f),
-            Actions.run { SpiderWebShot(x, y, stage, player) }
+            Actions.run {
+                if (!isDying)
+                    SpiderWebShot(x, y, stage, player)
+            }
         )))
     }
 
@@ -104,7 +109,7 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
             }
         } else {
             accelerateAtAngle(getAngleTowardActor(player))
-            if (!isWithinDistance2(50f, player))
+            if (!isWithinDistance2(50f, player) && !isShootingBeam)
                 teleportToPlayer()
         }
     }
@@ -116,21 +121,25 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
             Actions.delay(2.5f),
             Actions.run { beam() },
             Actions.delay(3f),
-            Actions.run { state = State.RunningN }
+            Actions.run { isShootingBeam = false }
         )))
     }
 
     private fun beamCharge() {
-        BaseGame.beamChargeSound!!.play(BaseGame.soundVolume)
-        val effect = BeamChargeEffect()
-        effect.setScale(.05f)
-        effect.centerAtActor(this)
-        stage.addActor(effect)
-        effect.start()
+        if (!isDying) {
+            isShootingBeam = true
+            BaseGame.beamChargeSound!!.play(BaseGame.soundVolume)
+            val effect = BeamChargeEffect()
+            effect.setScale(.05f)
+            effect.centerAtActor(this)
+            stage.addActor(effect)
+            effect.start()
+        }
     }
 
     private fun beam() {
-        beam = BossBeam(width / 2, height / 2, stage, getAngleTowardActor(player) - 90f)
+        if (!isDying)
+            beam = BossBeam(width / 2, height / 2, stage, getAngleTowardActor(player) - 90f)
     }
 
     private fun shootCircleShot() {
@@ -141,15 +150,17 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     }
 
     private fun circleShot(numShots: Int) {
-        BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
-        for (i in 0 until numShots)
-            Shot(
-                x + width / 2,
-                y + height / 2,
-                stage,
-                i.toFloat() * (360 / numShots),
-                player.originalMovementSpeed
-            )
+        if (!isDying) {
+            BaseGame.enemyShootSound!!.play(BaseGame.soundVolume)
+            for (i in 0 until numShots)
+                Shot(
+                    x + width / 2,
+                    y + height / 2,
+                    stage,
+                    i.toFloat() * (360 / numShots),
+                    player.originalMovementSpeed
+                )
+        }
     }
 
     private fun shootChains() {
@@ -160,15 +171,17 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     }
 
     private fun chains(numChains: Int) {
-        BaseGame.chainSound!!.play(BaseGame.soundVolume)
-        for (i in 0 until numChains)
-            Chain(
-                x + width / 2,
-                y + height / 2,
-                stage,
-                this,
-                i.toFloat() * (360 / numChains)
-            )
+        if (!isDying) {
+            BaseGame.chainSound!!.play(BaseGame.soundVolume)
+            for (i in 0 until numChains)
+                Chain(
+                    x + width / 2,
+                    y + height / 2,
+                    stage,
+                    this,
+                    i.toFloat() * (360 / numChains)
+                )
+        }
     }
 
     private fun fadeIn() {
@@ -187,9 +200,9 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     private enum class State { RunningN, RunningS }
 
     private fun teleportToPlayer() {
-        beamActor.clearActions()
+        /*beamActor.clearActions()
         BaseGame.beamChargeSound!!.stop()
-        BaseGame.spaceStationBeamSound!!.stop()
+        BaseGame.spaceStationBeamSound!!.stop()*/
         TeleportHazard(this, stage, player)
         val distance = 25f
         if (MathUtils.randomBoolean()) { // horizontal
@@ -206,7 +219,7 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
             y = MathUtils.random(player.y - distance, player.y + distance)
         }
         TeleportHazard(this, stage, player)
-        shootBeam()
+        /*shootBeam()*/
     }
 
     private fun cardboardFlipSpin(): SequenceAction {

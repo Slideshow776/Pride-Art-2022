@@ -11,6 +11,7 @@ import no.sandramoen.prideart2022.actors.characters.enemies.Shot
 import no.sandramoen.prideart2022.ui.BossBar
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level1 : BaseLevel() {
@@ -22,6 +23,12 @@ class Level1 : BaseLevel() {
 
         spawnEnemies()
         GameUtils.playAndLoopMusic(BaseGame.level1Music)
+        BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
+            Actions.delay(6f),
+            Actions.run { objectivesLabel.setMyText(myBundle!!.get("objective0")) },
+            Actions.delay(6f),
+            Actions.run { objectivesLabel.fadeOut() }
+        ))
     }
 
     override fun update(dt: Float) {
@@ -35,12 +42,14 @@ class Level1 : BaseLevel() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level1())
+        if (isRestartable && !isButtonCodeDpad(keycode))
+            BaseGame.setActiveScreen(Level1())
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level1())
+        if (isRestartable && !isButtonCodeDpad(buttonCode))
+            BaseGame.setActiveScreen(Level1())
         return super.buttonDown(controller, buttonCode)
     }
 
@@ -101,10 +110,14 @@ class Level1 : BaseLevel() {
         bossBar!!.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
-        fadeFleetAdmiralInAndOut(
-            BaseGame.myBundle!!.get("fleetAdmiral4"),
-            5f
-        )
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral4"), 5f)
+        objectivesLabel.addAction(Actions.sequence(
+            Actions.delay(6f),
+            Actions.run { objectivesLabel.setMyText(myBundle!!.get("objective0")) },
+            Actions.delay(6f),
+            Actions.run { objectivesLabel.fadeOut() }
+        ))
+
     }
 
     private fun bossDeath() {
@@ -115,16 +128,11 @@ class Level1 : BaseLevel() {
         experienceBar.level++
         if (bossBar != null)
             bossBar!!.isVisible = false
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral5"))
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral5"))
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(6f),
-                Actions.run {
-                    fadeFleetAdmiralInAndOut(
-                        BaseGame.myBundle!!.get("fleetAdmiral6"),
-                        6f
-                    )
-                },
+                Actions.run { fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral6"), 6f) },
                 Actions.delay(5f),
                 Actions.run { playerExitLevel() },
                 Actions.delay(2f),

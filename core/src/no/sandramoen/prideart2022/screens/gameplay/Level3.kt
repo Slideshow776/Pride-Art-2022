@@ -1,7 +1,6 @@
 package no.sandramoen.prideart2022.screens.gameplay
 
 import com.badlogic.gdx.controllers.Controller
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.*
@@ -9,6 +8,7 @@ import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.lost.Lost1
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level3 : BaseLevel() {
@@ -25,17 +25,11 @@ class Level3 : BaseLevel() {
         super.initialize()
 
         var position = randomWorldPosition(10f)
-        orangePortal = Portal(position.x, position.y, mainStage, orange = true)
+        orangePortal = Portal(position.x, position.y, mainStage, orange = true, player = player)
         position = randomWorldPosition(10f)
-        bluePortal = Portal(position.x, position.y, mainStage, orange = false)
+        bluePortal = Portal(position.x, position.y, mainStage, orange = false, player = player)
 
         intro()
-        GameUtils.playAndLoopMusic(BaseGame.level3Music)
-
-        /*spawnBeamers()*/
-        /*spawnLostSouls()*/
-        /*spawnEnemies()*/
-        /*spawnFairies()*/
     }
 
     override fun update(dt: Float) {
@@ -53,12 +47,14 @@ class Level3 : BaseLevel() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level3())
+        if (isRestartable && !isButtonCodeDpad(keycode))
+            BaseGame.setActiveScreen(Level3())
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level3())
+        if (isRestartable && !isButtonCodeDpad(buttonCode))
+            BaseGame.setActiveScreen(Level3())
         return super.buttonDown(controller, buttonCode)
     }
 
@@ -68,7 +64,7 @@ class Level3 : BaseLevel() {
             BossPortal::class.java.canonicalName
         )) {
             if (player.overlaps(bossPortal) && !isLevelOver) {
-                fadeFleetAdmiralInAndOut("Lykke til Trans Agent X!")
+                fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral18"))
                 isLevelOver = true
                 player.isPlaying = false
                 player.addAction(
@@ -101,18 +97,14 @@ class Level3 : BaseLevel() {
     private fun intro() {
         BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
             Actions.delay(1f),
-            Actions.run { fadeFleetAdmiralInAndOut("Nå er vi dypt inne i riksen!", 4f) },
+            Actions.run { fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral19"), 4f) },
             Actions.delay(4f),
-            Actions.run {
-                fadeFleetAdmiralInAndOut(
-                    "Scannerne mine plukker opp alt mulig {SHAKE}rart{ENDSHAKE}\nVær på vakt!",
-                    5f
-                )
-            },
+            Actions.run { fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral20"), 5f) },
             Actions.delay(10f),
             Actions.run {
                 objectivesLabel.fadeIn()
-                objectivesLabel.setText("Provoser spøkelsene")
+                objectivesLabel.setMyText(myBundle!!.get("objective6"))
+                GameUtils.playAndLoopMusic(BaseGame.level3Music)
                 spawnBeamers(4f)
             },
             Actions.delay(10f),
@@ -125,8 +117,8 @@ class Level3 : BaseLevel() {
         BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
             Actions.delay(4f),
             Actions.run {
-                fadeFleetAdmiralInAndOut("Jeg ser flere transpersoner\nRedd dem!", 5f)
-                objectivesLabel.setText("Redd så mange transpersoner som du kan!")
+                fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral24"), 5f)
+                objectivesLabel.setMyText(myBundle!!.get("objective7"))
                 objectivesLabel.fadeIn()
                 spawnFollowers(25f)
                 spawnLostSouls()
@@ -136,16 +128,17 @@ class Level3 : BaseLevel() {
 
     private fun triggerChapter2() {
         isLevel3Reached = true
-        fadeFleetAdmiralInAndOut("Hold ut litt til!\n{SHAKE}Jeg tror det kommer noen...", 5f)
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral25"), 5f)
         spawnChargers(5f)
         spawnShooters(3f)
     }
 
     private fun triggerChapter3() {
         isLevel4Reached = true
-        fadeFleetAdmiralInAndOut("Hva{WAIT}er{WAIT}det?{WAIT}\nBare en måte å finne ut på...", 5f)
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral26"), 5f)
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
+        objectivesLabel.setMyText(myBundle!!.get("objective10"))
         BossPortal(143.5f, 143.5f, mainStage, player)
     }
 
@@ -166,12 +159,18 @@ class Level3 : BaseLevel() {
 
     private fun checkIfOverlapPortals() {
         if (player.overlaps(bluePortal)) {
-            player.setPosition(orangePortal.x, orangePortal.y)
+            player.setPosition(
+                (orangePortal.x + orangePortal.width / 2) - player.width / 2,
+                (orangePortal.y + orangePortal.height / 2) - player.height / 2
+            )
             setNewPortalsPositions()
         }
 
         if (player.overlaps(orangePortal)) {
-            player.setPosition(bluePortal.x, bluePortal.y)
+            player.setPosition(
+                (bluePortal.x + bluePortal.width / 2) - player.width / 2,
+                (bluePortal.y + bluePortal.height / 2) - player.height / 2
+            )
             setNewPortalsPositions()
         }
     }

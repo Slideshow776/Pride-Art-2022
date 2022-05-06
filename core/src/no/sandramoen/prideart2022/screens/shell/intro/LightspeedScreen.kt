@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.screens.gameplay.Level1

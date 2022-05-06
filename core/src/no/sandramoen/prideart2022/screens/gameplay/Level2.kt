@@ -13,6 +13,7 @@ import no.sandramoen.prideart2022.actors.characters.lost.Lost3
 import no.sandramoen.prideart2022.ui.BossBar
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level2 : BaseLevel() {
@@ -38,16 +39,17 @@ class Level2 : BaseLevel() {
 
         checkIfBossShouldSpawn()
         handleBoss()
-        Follower(0f, 0f, mainStage, player)
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level2())
+        if (isRestartable && !isButtonCodeDpad(keycode))
+            BaseGame.setActiveScreen(Level2())
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (isRestartable) BaseGame.setActiveScreen(Level2())
+        if (isRestartable && !isButtonCodeDpad(buttonCode))
+            BaseGame.setActiveScreen(Level2())
         return super.buttonDown(controller, buttonCode)
     }
 
@@ -73,7 +75,7 @@ class Level2 : BaseLevel() {
         bossBar!!.countDown()
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral13"), 5f)
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral13"), 5f)
     }
 
     private fun handleBoss() {
@@ -92,7 +94,7 @@ class Level2 : BaseLevel() {
         experienceBar.level++
         if (bossBar != null)
             bossBar!!.isVisible = false
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral14"))
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral14"))
         for (enemy: BaseActor in BaseActor.getList(mainStage, Follower::class.java.canonicalName)) {
             enemy.death()
         }
@@ -109,10 +111,7 @@ class Level2 : BaseLevel() {
             Actions.sequence(
                 Actions.delay(6f),
                 Actions.run {
-                    fadeFleetAdmiralInAndOut(
-                        BaseGame.myBundle!!.get("fleetAdmiral6"),
-                        9f
-                    )
+                    fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral6"), 9f)
                 },
                 Actions.delay(5f),
                 Actions.run { playerExitLevel() },
@@ -151,14 +150,11 @@ class Level2 : BaseLevel() {
     private fun spawnLost0() {
         var position = spawnAtEdgesOfMap(10f)
         lost0 = Lost0(position.x, position.y, mainStage)
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral8"), 7f)
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral8"), 7f)
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(9f),
-                Actions.run {
-                    objectivesLabel.fadeIn()
-                    objectivesLabel.glintToWhiteAndBack()
-                },
+                Actions.run { objectivesLabel.setMyText(myBundle!!.get("objective11")) },
                 Actions.delay(1f),
                 Actions.run { GameUtils.playAndLoopMusic(BaseGame.level2IntroMusic) }
             )
@@ -189,7 +185,7 @@ class Level2 : BaseLevel() {
     private fun lost0Pickup() {
         if (lost0.isPickedUp) {
             lost0.isPickedUp = false
-            objectivesLabel.setText("Redd 1/4 transpersoner")
+            objectivesLabel.setMyText(myBundle!!.get("objective2"))
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral16"), 6f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
                 Actions.delay(10f),
@@ -200,12 +196,12 @@ class Level2 : BaseLevel() {
 
     private fun lost1Pickup() {
         if (lost1 != null && lost1!!.isPickedUp) {
-            objectivesLabel.setText("Redd 2/4 transpersoner")
+            objectivesLabel.setMyText(myBundle!!.get("objective3"))
             lost1!!.isPickedUp = false
             BaseGame.level2IntroMusic!!.stop()
             GameUtils.playAndLoopMusic(BaseGame.level2Music)
             spawnFollowers()
-            fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral9"), 5f)
+            fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral9"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(
                 Actions.sequence(
                     Actions.delay(35f),
@@ -218,7 +214,7 @@ class Level2 : BaseLevel() {
     private fun lost2Pickup() {
         if (lost2 != null && lost2!!.isPickedUp) {
             spawnEnemies()
-            objectivesLabel.setText("Redd 3/4 transpersoner")
+            objectivesLabel.setMyText(myBundle!!.get("objective4"))
             lost2!!.isPickedUp = false
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral12"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.parallel(
@@ -236,7 +232,7 @@ class Level2 : BaseLevel() {
 
     private fun lost3Pickup() {
         if (lost3 != null && lost3!!.isPickedUp) {
-            objectivesLabel.setText("Redd 4/4 transpersoner")
+            objectivesLabel.setMyText(myBundle!!.get("objective5"))
             objectivesLabel.addAction(Actions.sequence(
                 Actions.delay(5f),
                 Actions.run { objectivesLabel.fadeOut() }

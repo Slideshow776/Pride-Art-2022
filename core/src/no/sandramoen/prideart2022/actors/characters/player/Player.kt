@@ -157,7 +157,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             beard.toggleColor()
             rainbowExplosionEffect()
             BaseGame.rainbowSound!!.play(
-                BaseGame.soundVolume * .2f,
+                BaseGame.soundVolume * .1f,
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
@@ -177,7 +177,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             hair.setAnimation(hairAnimation)
             rainbowExplosionEffect()
             BaseGame.rainbowSound!!.play(
-                BaseGame.soundVolume * .2f,
+                BaseGame.soundVolume * .1f,
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
@@ -197,7 +197,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             beard.setAnimation(beardAnimation)
             rainbowExplosionEffect()
             BaseGame.rainbowSound!!.play(
-                BaseGame.soundVolume * .2f,
+                BaseGame.soundVolume * .1f,
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
@@ -209,7 +209,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
             skin.toggleColor()
             rainbowExplosionEffect()
             BaseGame.rainbowSound!!.play(
-                BaseGame.soundVolume * .2f,
+                BaseGame.soundVolume * .1f,
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
