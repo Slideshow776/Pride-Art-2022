@@ -1,12 +1,12 @@
-# Pride Art 2022 :rainbow: :two_hearts:
+# Trans Agent X :rainbow: :two_hearts:
 *This document is subject to change.*
 
-This game is part of a [norwegian pride art](https://www.prideart.no) project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
+This game is part of a [norwegian pride art](https://www.prideart.no) 2022 project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
 This will be done with symbols and other imagery, and hopefully through gameplay.
 
-The release date will be sometime in may.
+The release date is the 20th of May.
 
-This game will be for desktop only and is best played with a controller. The game will be displayed among other art using a pc, screen, and controllers.
+This game will be for desktop only and is **best played with a controller**. The game will be displayed among other art using a pc, screen, and controllers.
 
 The language of the game will be norwegian and/or english.
 The number of players might be two.
