@@ -86,8 +86,8 @@ class Portal(x: Float, y: Float, stage: Stage, val orange: Boolean, player: Play
 
     private fun pulseAnimation(): SequenceAction? {
         return Actions.sequence(
-            Actions.scaleTo(1.05f, 1.05f, .5f),
-            Actions.scaleTo(.95f, .95f, .5f)
+            Actions.scaleTo(1.05f, 1.05f, 1f),
+            Actions.scaleTo(.95f, .95f, 1f)
         )
     }
 

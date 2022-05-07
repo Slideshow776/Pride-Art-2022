@@ -126,8 +126,11 @@ open class BaseLevel : BaseScreen() {
     override fun resume() {
         super.resume()
         if (!isGameOver) {
+            BaseGame.windAmbianceMusic!!.stop()
             dtModifier = 1f
             unpauseMainLabel()
+            if (bossBar != null)
+                bossBar!!.pause = false
         }
     }
 
@@ -136,29 +139,22 @@ open class BaseLevel : BaseScreen() {
         if (!isGameOver) {
             dtModifier = 0f
             setMainLabelToPaused()
+            if (bossBar != null)
+                bossBar!!.pause = true
         }
     }
 
     fun setGameOver() {
         isGameOver = true
-        BaseGame.bossMusic!!.stop()
-        BaseGame.level1Music!!.stop()
-        BaseGame.level2IntroMusic!!.stop()
-        BaseGame.level2Music!!.stop()
-        BaseGame.level3Music!!.stop()
-        BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
-            Actions.delay(1.5f),
-            Actions.run { isRestartable = true }
-        ))
-        mainLabel.isVisible = true
-        mainLabel.restart()
-        mainLabel.setText("{SHAKE=.2;.2;6}${myBundle!!.get("gameOver1")} {WAIT}${myBundle!!.get("gameOver2")}")
+        stopMusic()
+        disableInput(1.5f)
+        setMainLabelToGameOver()
         dtModifier = .125f
         player.death()
         BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
         fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral1"))
         if (bossBar != null)
-            bossBar!!.stop()
+            bossBar!!.clearActions()
         objectivesLabel.fadeOut()
         continueToMenu()
     }
@@ -286,6 +282,27 @@ open class BaseLevel : BaseScreen() {
         return false
     }
 
+    private fun setMainLabelToGameOver() {
+        mainLabel.isVisible = true
+        mainLabel.restart()
+        mainLabel.setText("{SHAKE=.2;.2;6}${myBundle!!.get("gameOver1")} {WAIT}${myBundle!!.get("gameOver2")}")
+    }
+
+    private fun disableInput(duration: Float) {
+        BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
+            Actions.delay(duration),
+            Actions.run { isRestartable = true }
+        ))
+    }
+
+    private fun stopMusic() {
+        BaseGame.bossMusic!!.stop()
+        BaseGame.level1Music!!.stop()
+        BaseGame.level2IntroMusic!!.stop()
+        BaseGame.level2Music!!.stop()
+        BaseGame.level3Music!!.stop()
+    }
+
     private fun initializePlayer() {
         val startPoint = tilemap.getRectangleList("player start")[0]
         val playerPosX = startPoint.properties.get("x") as Float * TilemapActor.unitScale
@@ -297,7 +314,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun initializeDestructibles() {
-        for (i in 0 until 55) {
+        for (i in 0 until 65) {
             Destructible(
                 MathUtils.random(0f, BaseActor.getWorldBounds().width - 5),
                 MathUtils.random(0f, BaseActor.getWorldBounds().height - 5),
@@ -484,6 +501,8 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun continueToMenu() {
+        BaseGame.windAmbianceMusic!!.play()
+        BaseGame.windAmbianceMusic!!.volume = BaseGame.musicVolume
         BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
             Actions.delay(15f),
             Actions.run {
@@ -514,6 +533,7 @@ open class BaseLevel : BaseScreen() {
             Actions.run {
                 BaseGame.click2Sound!!.play(BaseGame.soundVolume)
                 BaseGame.setActiveScreen(MenuScreen())
+                BaseGame.windAmbianceMusic!!.stop()
             }
         ))
     }

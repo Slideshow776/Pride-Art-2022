@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import no.sandramoen.prideart2022.actors.TheArtifact
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.characters.enemies.BossIra
 import no.sandramoen.prideart2022.actors.characters.enemies.Shot
@@ -20,6 +21,7 @@ class Level4 : BaseLevel() {
     private var lost: BaseLost? = null
     private var lostKilled = 0
     private val maxLostKilled = 4
+    private val lostSoulSpawner = BaseActor(0f, 0f, mainStage)
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level4, mainStage)
@@ -55,15 +57,42 @@ class Level4 : BaseLevel() {
         if (lostKilled >= 4 && !isGameOver)
             setGameOver()
 
-
         handleBoss()
+        handleTheArtifact()
+    }
+
+    private fun handleTheArtifact() {
+        for (artifact: BaseActor in BaseActor.getList(
+            mainStage,
+            TheArtifact::class.java.canonicalName
+        )) {
+            if (player.overlaps(artifact)) {
+                artifact.death()
+                artifact.isCollisionEnabled = false
+                player.smile()
+                fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral33"))
+                BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
+                    Actions.delay(5f),
+                    Actions.run { playerExitLevel() },
+                    Actions.delay(2f),
+                    Actions.run {
+                        BaseGame.level1Music!!.stop()
+                        BaseGame.setActiveScreen(Level5())
+                    }
+                ))
+            }
+        }
     }
 
     private fun handleBoss() {
-        for (enemy: BaseActor in BaseActor.getList(mainStage, BossIra::class.java.canonicalName)) {
+        for (enemy: BaseActor in BaseActor.getList(
+            mainStage,
+            BossIra::class.java.canonicalName
+        )) {
             enemyCollidedWithPlayer(enemy as BossIra, false, player.health)
             handleDestructibles(enemy)
             if (bossBar != null && bossBar!!.complete && !enemy.isDying) {
+                TheArtifact(enemy.x, enemy.y, mainStage)
                 enemy.death()
                 bossDeath()
             }
@@ -72,6 +101,9 @@ class Level4 : BaseLevel() {
 
     private fun bossDeath() {
         BaseGame.bossMusic!!.stop()
+        BaseGame.windAmbianceMusic!!.play()
+        BaseGame.windAmbianceMusic!!.volume = BaseGame.musicVolume
+        lostSoulSpawner.clearActions()
         for (enemy: BaseActor in BaseActor.getList(
             mainStage,
             TeleportHazard::class.java.canonicalName
@@ -84,28 +116,17 @@ class Level4 : BaseLevel() {
         experienceBar.level++
         if (bossBar != null)
             bossBar!!.isVisible = false
-        fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral14"))
+        fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral14"))
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
-                Actions.delay(6f),
-                Actions.run {
-                    fadeFleetAdmiralInAndOut(
-                        BaseGame.myBundle!!.get("fleetAdmiral6"),
-                        6f
-                    )
-                },
-                Actions.delay(5f),
-                Actions.run { playerExitLevel() },
-                Actions.delay(2f),
-                Actions.run {
-                    BaseGame.level1Music!!.stop()
-                    BaseGame.setActiveScreen(Level5())
-                }
-            ))
+                Actions.delay(4f),
+                Actions.run { fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral32"), 6f) }
+            )
+        )
     }
 
     private fun spawnLostSouls() {
-        BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
+        lostSoulSpawner.addAction(Actions.forever(Actions.sequence(
             Actions.delay(15f),
             Actions.run {
                 if (bossIra!!.lost == null) {
@@ -132,7 +153,7 @@ class Level4 : BaseLevel() {
         bossIra = BossIra(position.x, position.y, mainStage, player)
         bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage, "Ira Haraldsen")
         if (bossBar != null) {
-            bossBar!!.time = 120f
+            bossBar!!.time = .120f
             bossBar!!.countDown()
         }
         enemySpawner1.clearActions()

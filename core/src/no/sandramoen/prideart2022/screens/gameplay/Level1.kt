@@ -122,6 +122,8 @@ class Level1 : BaseLevel() {
 
     private fun bossDeath() {
         BaseGame.bossMusic!!.stop()
+        BaseGame.windAmbianceMusic!!.play()
+        BaseGame.windAmbianceMusic!!.volume = BaseGame.musicVolume
         for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
             enemy.death()
         }

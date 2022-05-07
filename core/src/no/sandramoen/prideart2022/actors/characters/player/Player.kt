@@ -34,20 +34,18 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private lateinit var bodyDeathAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var bodySmileAnimation: Animation<TextureAtlas.AtlasRegion>
 
-
     private var shield: Shield
-
     private var wobbleAction: RepeatAction? = null
     private var runningSmokeAction: RepeatAction? = null
     private var state = State.Idle
     private var movementSpeed = 26f
     private var movementAcceleration = movementSpeed * 8f
-    var isPlaying = true
     private var beard: Beard = Beard(this)
     private var hair: Hair = Hair(this)
     private var skin: Skin = Skin(this)
 
     val originalMovementSpeed = movementSpeed
+    var isPlaying = true
     var health: Int = 3
 
     init {
@@ -89,17 +87,9 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     override fun death() {
         isCollisionEnabled = false
-        clearActions()
+        resetColors()
         addAction(
             Actions.parallel(
-                Actions.parallel(
-                    Actions.color(Color.WHITE, 0f),
-                    Actions.run {
-                        hair.addAction(Actions.color(hair.activeColor, 0f))
-                        skin.addAction(Actions.color(skin.activeColor, 0f))
-                        beard.addAction(Actions.color(beard.activeColor, 0f))
-                    }
-                ),
                 Actions.scaleTo(1f, 1f, 0f),
                 Actions.moveBy(0f, 100f, BeamOut.animationDuration, Interpolation.circleIn),
                 Actions.fadeOut(BeamOut.animationDuration, Interpolation.circleIn),
@@ -121,6 +111,13 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         hair.flip()
         beard.flip()
         skin.flip()
+    }
+
+    fun smile() {
+        setAnimation(bodySmileAnimation)
+        hair.setAnimation(hair.smileAnimation)
+        skin.setAnimation(skin.smileAnimation)
+        beard.setAnimation(beard.smileAnimation)
     }
 
     fun fadeOut() {
@@ -217,12 +214,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     fun exitLevel() {
+        smile()
         isPlaying = false
         shield.isVisible = false
-        skin.color = skin.activeColor
-        color = Color.WHITE
-        hair.color = hair.activeColor
-        beard.color = beard.activeColor
+        resetColors()
         addAction(stretchAndMoveOut())
     }
 
@@ -238,9 +233,20 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         ))
     }
 
+    private fun resetColors() {
+        clearActions()
+        color = Color.WHITE
+        hair.clearActions()
+        hair.color = hair.activeColor
+        beard.clearActions()
+        beard.color = beard.activeColor
+        skin.clearActions()
+        skin.color = skin.activeColor
+    }
+
     private fun checkSpiderWeb() {
         for (enemy: BaseActor in getList(stage, SpiderWeb::class.java.canonicalName)) {
-            if (overlaps(enemy)) {
+            if (overlaps(enemy as SpiderWeb)) {
                 addAction(Actions.sequence(
                     Actions.delay(.1f),
                     Actions.run { setMaxSpeed(originalMovementSpeed * .25f) }

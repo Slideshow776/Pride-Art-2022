@@ -19,6 +19,7 @@ class GhostFreed(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         setOrigin(Align.center)
         setScale(.5f)
         initializeAnimation()
+        occasionallyFlip()
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.waveShader)
     }
 
@@ -57,5 +58,12 @@ class GhostFreed(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
                 Actions.removeActor()
             )
         )
+    }
+
+    private fun occasionallyFlip() {
+        addAction(Actions.forever(Actions.sequence(
+            Actions.delay(2f),
+            Actions.run { flip() }
+        )))
     }
 }

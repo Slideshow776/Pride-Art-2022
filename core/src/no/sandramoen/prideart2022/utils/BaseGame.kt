@@ -62,6 +62,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var level3Music: Music? = null
         var bossMusic: Music? = null
         var rainMusic: Music? = null
+        var windAmbianceMusic: Music? = null
 
         var enemyChargeSound: Sound? = null
         var enemyChargeUpSound: Sound? = null
@@ -105,6 +106,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var portalSound: Sound? = null
         var chainSound: Sound? = null
         var lostDeathSound: Sound? = null
+        var artifactPickUpSound: Sound? = null
+        var demonWhispersSound: Sound? = null
         var intro1VoiceSound: Sound? = null
 
         var level1: TiledMap? = null
@@ -167,6 +170,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/music/234475__pcruzn__basslines-1.wav", Music::class.java)
             assetManager.load("audio/music/531947__straget__the-rain-falls-against-the-parasol.wav", Music::class.java)
             assetManager.load("audio/music/585571__frankum__arp-v-frankum-frankumjay.mp3", Music::class.java)
+            assetManager.load("audio/music/159509__mistersherlock__halloween-graveyard-at-night-howling-wind.wav", Music::class.java)
 
             // sounds
             assetManager.load("audio/sound/enemyCharge.wav", Sound::class.java)
@@ -211,6 +215,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             assetManager.load("audio/sound/portalSound.wav", Sound::class.java)
             assetManager.load("audio/sound/chainSound.wav", Sound::class.java)
             assetManager.load("audio/sound/lostDeathSound.wav", Sound::class.java)
+            assetManager.load("audio/sound/artifactPickUpSound.wav", Sound::class.java)
+            assetManager.load("audio/sound/438989__magnesus__demonic-whisper.mp3", Sound::class.java)
             assetManager.load("audio/voice/intro1.wav", Sound::class.java)
 
             // fonts
@@ -253,6 +259,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             level3Music = assetManager.get("audio/music/585571__frankum__arp-v-frankum-frankumjay.mp3", Music::class.java)
             bossMusic = assetManager.get("audio/music/234475__pcruzn__basslines-1.wav", Music::class.java)
             rainMusic = assetManager.get("audio/music/531947__straget__the-rain-falls-against-the-parasol.wav", Music::class.java)
+            windAmbianceMusic = assetManager.get("audio/music/159509__mistersherlock__halloween-graveyard-at-night-howling-wind.wav", Music::class.java)
 
             enemyChargeSound = assetManager.get("audio/sound/enemyCharge.wav", Sound::class.java)
             enemyChargeUpSound = assetManager.get("audio/sound/enemyChargeup.wav", Sound::class.java)
@@ -296,6 +303,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             portalSound = assetManager.get("audio/sound/portalSound.wav", Sound::class.java)
             chainSound = assetManager.get("audio/sound/chainSound.wav", Sound::class.java)
             lostDeathSound = assetManager.get("audio/sound/lostDeathSound.wav", Sound::class.java)
+            artifactPickUpSound = assetManager.get("audio/sound/artifactPickUpSound.wav", Sound::class.java)
+            demonWhispersSound = assetManager.get("audio/sound/438989__magnesus__demonic-whisper.mp3", Sound::class.java)
             intro1VoiceSound = assetManager.get("audio/voice/intro1.wav", Sound::class.java)
 
             // text files

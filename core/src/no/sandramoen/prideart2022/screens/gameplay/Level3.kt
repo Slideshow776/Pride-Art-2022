@@ -129,6 +129,10 @@ class Level3 : BaseLevel() {
     private fun triggerChapter2() {
         isLevel3Reached = true
         fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral25"), 5f)
+        BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
+            Actions.delay(10f),
+            Actions.run { dropShield() }
+        ))
         spawnChargers(5f)
         spawnShooters(3f)
     }

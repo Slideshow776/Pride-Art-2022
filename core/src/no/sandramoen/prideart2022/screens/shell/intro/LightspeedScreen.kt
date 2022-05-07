@@ -124,7 +124,7 @@ class LightspeedScreen : BaseScreen() {
                         Actions.run { fleetAdmiral.talk() }
                     ))
                     label.restart()
-                    label.setText("${myBundle!!.get("lightSpeed11")} {HANG=.3;.2}{COLOR=#df84a5}${myBundle!!.get("lightSpeed12")}")
+                    label.setText("${myBundle!!.get("lightSpeed11")} ${myBundle!!.get("lightSpeed12")}")
                 },
                 Actions.delay(5f),
                 Actions.run {
@@ -149,7 +149,7 @@ class LightspeedScreen : BaseScreen() {
                 Actions.delay(5f),
                 Actions.run {
                     label.restart()
-                    label.setText("${myBundle!!.get("lightSpeed61")} {HANG=.3;.2}{COLOR=#df84a5}${myBundle!!.get("lightSpeed62")}")
+                    label.setText("${myBundle!!.get("lightSpeed61")} ${myBundle!!.get("lightSpeed62")}")
                 },
                 Actions.delay(2.5f),
                 Actions.run {

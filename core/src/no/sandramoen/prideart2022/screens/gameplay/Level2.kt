@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.Experience
+import no.sandramoen.prideart2022.actors.TheArtifact
 import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.actors.characters.enemies.*
 import no.sandramoen.prideart2022.actors.characters.lost.Lost0
@@ -28,6 +29,7 @@ class Level2 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level2, mainStage)
         super.initialize()
         spawnLost0()
+        TheArtifact(player.x + 10f, player.y + 10f, mainStage)
     }
 
     override fun update(dt: Float) {
@@ -67,6 +69,7 @@ class Level2 : BaseLevel() {
     }
 
     private fun spawnBoss() {
+        BaseGame.level2IntroMusic!!.stop()
         BaseGame.level2Music!!.stop()
         GameUtils.playAndLoopMusic(BaseGame.bossMusic)
         val position = bossSpawn()
@@ -91,6 +94,8 @@ class Level2 : BaseLevel() {
 
     private fun bossDeath() {
         BaseGame.bossMusic!!.stop()
+        BaseGame.windAmbianceMusic!!.play()
+        BaseGame.windAmbianceMusic!!.volume = BaseGame.musicVolume
         experienceBar.level++
         if (bossBar != null)
             bossBar!!.isVisible = false
