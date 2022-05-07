@@ -29,7 +29,6 @@ class Level2 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level2, mainStage)
         super.initialize()
         spawnLost0()
-        TheArtifact(player.x + 10f, player.y + 10f, mainStage)
     }
 
     override fun update(dt: Float) {

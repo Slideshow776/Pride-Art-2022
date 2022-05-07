@@ -153,7 +153,7 @@ class Level4 : BaseLevel() {
         bossIra = BossIra(position.x, position.y, mainStage, player)
         bossBar = BossBar(0f, Gdx.graphics.height.toFloat(), uiStage, "Ira Haraldsen")
         if (bossBar != null) {
-            bossBar!!.time = .120f
+            bossBar!!.time = 120f
             bossBar!!.countDown()
         }
         enemySpawner1.clearActions()

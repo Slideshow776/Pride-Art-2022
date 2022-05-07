@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.prideart2022.actors.characters.player.BeamOut
 import no.sandramoen.prideart2022.actors.characters.player.Player
@@ -20,7 +22,9 @@ import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
-open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null) : BaseActor(x, y, stage) {
+open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null) :
+    BaseActor(x, y, stage) {
+    private val labelColor = Color(0.643f, 0.867f, 0.859f, 1f)
     private var movementSpeed = 26f * .1f
     private var shaderProgram: ShaderProgram
     private var time = 0f
@@ -35,13 +39,14 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         addAction(shiverAnimation())
         val group = GameUtils.statementLabel(
             0f,
-            0 * 211112f,
+            0f,
             "lost",
-            2,
+            12,
             1f,
-            Color(0.643f, 0.867f, 0.859f, 1f),
-            BaseGame.smallLabelStyle)
-        group.setPosition(-2f, 4f)
+            labelColor,
+            BaseGame.smallLabelStyle
+        )
+        group.setPosition(-3.5f, 4f)
         addActor(group)
 
         if (player != null) {
@@ -80,10 +85,12 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         isKilled = true
         setAnimation(deathAnimation)
         BaseGame.lostDeathSound!!.play(BaseGame.soundVolume)
-        addAction(Actions.sequence(
-            Actions.delay(1.2f),
-            Actions.removeActor()
-        ))
+        addAction(
+            Actions.sequence(
+                Actions.delay(1.2f),
+                Actions.removeActor()
+            )
+        )
     }
 
     open fun initializeAnimation(number: Int) {
@@ -97,7 +104,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         setAnimation(idleAnimation)
 
         for (i in 1..6)
-        animationImages.add(BaseGame.textureAtlas!!.findRegion("lost/lost$number/death$i"))
+            animationImages.add(BaseGame.textureAtlas!!.findRegion("lost/lost$number/death$i"))
         deathAnimation = Animation(.2f, animationImages, Animation.PlayMode.NORMAL)
         animationImages.clear()
 
@@ -105,6 +112,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
     }
 
     fun pickup() {
+        leaveAMessage()
         isCollisionEnabled = false
         isPickedUp = true
         BaseGame.lostPickupSound!!.play(BaseGame.soundVolume)
@@ -112,40 +120,59 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         crystalExplosionEffect()
     }
 
+    private fun leaveAMessage() {
+        val label = Label(BaseGame.myBundle!!.get("lost99"), BaseGame.smallLabelStyle)
+        label.color = labelColor
+        val group = Group()
+        group.addActor(label)
+        group.setScale(.025f)
+        group.setPosition(x, y)
+        stage.addActor(group)
+        group.addAction(
+            Actions.sequence(
+                Actions.delay(.5f),
+                Actions.fadeOut(.5f),
+                Actions.removeActor()
+            )
+        )
+    }
+
     private fun shiverAnimation(): RepeatAction? {
         val amountX = .1f
         val duration = .04f
-        return Actions.forever(Actions.sequence(
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.moveBy(amountX, 0f, duration),
-            Actions.moveBy(-amountX, 0f, duration),
-            Actions.delay(1f)
-        ))
+        return Actions.forever(
+            Actions.sequence(
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.moveBy(amountX, 0f, duration),
+                Actions.moveBy(-amountX, 0f, duration),
+                Actions.delay(1f)
+            )
+        )
     }
 
     private fun savedAnimation(): SequenceAction? {

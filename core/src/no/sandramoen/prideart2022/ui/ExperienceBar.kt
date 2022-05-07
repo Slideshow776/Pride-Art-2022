@@ -22,7 +22,7 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
 
     init {
         loadImage("whitePixel")
-        color = Color.BLACK
+        color = Color(0.035f, 0.039f, 0.078f, 1f)
         setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height * .05f)
         setPosition(x, y - height)
 
@@ -33,7 +33,7 @@ class ExperienceBar(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage)
         addActor(progress)
 
         label = Label("${BaseGame.myBundle!!.get("level")} $level", BaseGame.smallLabelStyle)
-        label.color.a = 0f
+        label.color = Color(0.922f, 0.929f, 0.914f, 0f) // white
         label.setFontScale(.5f)
         label.setPosition(width - label.prefWidth * 1.2f, 0f)
         label.addAction(fadeIn())
