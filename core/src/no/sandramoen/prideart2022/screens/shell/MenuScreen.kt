@@ -5,12 +5,12 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.Align
@@ -32,8 +32,11 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private var isAxisFreeToMove = true
     private var axisCounter = 0f
 
-    override fun initialize() {// {GRADIENT=#73bed3;#ebede9;0.5;0}TRAN{ENDGRADIENT}S AGE
-        titleLabel = TypingLabel("{GRADIENT=#73bed3;#ebede9;0.1;0}TRAN{ENDGRADIENT}S A{GRADIENT=#ebede9;#df84a5;0.1;0}GENT X{ENDGRADIENT}", BaseGame.bigLabelStyle)
+    override fun initialize() {
+        titleLabel = TypingLabel(
+            "{GRADIENT=#73bed3;#ebede9;0.1;0}TRAN{ENDGRADIENT}S A{GRADIENT=#ebede9;#df84a5;0.1;0}GENT X{ENDGRADIENT}",
+            BaseGame.mediumLabelStyle
+        )
         titleLabel.setFontScale(1f)
         titleLabel.setAlignment(Align.center)
 
@@ -65,6 +68,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         }
 
         checkControllerConnected()
+        background()
     }
 
     override fun update(dt: Float) {
@@ -223,6 +227,10 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
             }
             false
         }
+        textButton.addAction(Actions.forever(Actions.sequence(
+            Actions.alpha(.75f, .25f),
+            Actions.alpha(1f, .25f)
+        )))
         GameUtils.addTextButtonEnterExitEffect(textButton)
         return textButton
     }
@@ -236,7 +244,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
             }
             false
         }
-        textButton.label.color.a = .9f
+        textButton.label.color.a = .8f
         GameUtils.addTextButtonEnterExitEffect(textButton)
         return textButton
     }
@@ -274,5 +282,155 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         BaseGame.click1Sound!!.play(BaseGame.soundVolume)
         startButton.touchable = Touchable.disabled
         optionsButton.touchable = Touchable.disabled
+    }
+
+    private fun background() {
+        val saturn = BaseActor(-5f, -10f, mainStage)
+        saturn.loadImage("saturn")
+        saturn.color.a = 0f
+        saturn.addAction(Actions.fadeIn(1f))
+        /*saturn.color = Color.GRAY*/
+
+        val spaceship = BaseActor(-100f, 0f, mainStage)
+        spaceship.loadImage("spaceship")
+        spaceship.setScale(.5f)
+        spaceship.addAction(Actions.forever(Actions.sequence(
+            Actions.moveTo(100f, 0f, 120f),
+            Actions.run { spaceship.flip() },
+            Actions.moveTo(-100f, 0f, 120f),
+            Actions.run { spaceship.flip() }
+        )))
+        spaceship.color = Color.GRAY
+
+        val playerPortrait = BaseActor(35f, -20f, mainStage)
+        playerPortrait.loadImage("player/portrait")
+        playerPortrait.setScale(8f)
+        playerPortrait.flip()
+        playerPortrait.color.a = 0f
+        playerPortrait.addAction(Actions.fadeIn(1f))
+        /*playerPortrait.color = Color.GRAY*/
+
+        val fleetAdmiral = BaseActor(-35f, 0f, mainStage)
+        fleetAdmiral.loadImage("fleet admiral/idle1")
+        fleetAdmiral.setScale(12f)
+        fleetAdmiral.color.a = 0f
+        fleetAdmiral.addAction(Actions.fadeIn(1f))
+        /*fleetAdmiral.color = Color.GRAY*/
+
+        val earth = BaseActor(-80f, -45f, mainStage)
+        earth.loadImage("earth")
+        earth.color.a = 0f
+        earth.addAction(Actions.fadeIn(1f))
+        earth.color = Color.GRAY
+
+        /* ------------------------------------------------------------------------ */
+        for (i in 0..11) {
+            val enemy = BaseActor(-100f + i * 20, -70f, mainStage)
+            enemy.loadImage("enemies/charger/runS1")
+            enemy.setScale(5f)
+            enemy.color = Color.BLACK
+            enemy.addAction(Actions.sequence(
+                Actions.delay(MathUtils.random(2f, 4f)),
+                Actions.moveTo(enemy.x, -55f, 1f)
+            ))
+        }
+
+        for (i in 0..11) {
+            val enemy = BaseActor(-110f + i * 20, -70f, mainStage)
+            enemy.loadImage("enemies/charger/runS1")
+            enemy.setScale(5f)
+            enemy.color = Color.BLACK
+            enemy.addAction(Actions.sequence(
+                Actions.delay(MathUtils.random(2f, 4f)),
+                Actions.moveTo(enemy.x, -53f, 1f)
+            ))
+        }
+
+        val bossKim = BaseActor(80f, -100f, mainStage)
+        bossKim.loadImage("enemies/bossKim/scream1")
+        bossKim.setScale(5f)
+        bossKim.color = Color.BLACK
+        bossKim.addAction(Actions.sequence(
+            Actions.delay(4f),
+            Actions.moveTo(bossKim.x, -56f, 1f)
+        ))
+
+        val bossKG = BaseActor(-65f, -100f, mainStage)
+        bossKG.loadImage("enemies/bossKG/scream1")
+        bossKG.setScale(5f)
+        bossKG.color = Color.BLACK
+        bossKG.addAction(Actions.sequence(
+            Actions.delay(4f),
+            Actions.moveTo(bossKG.x, -58f, 1f)
+        ))
+
+        val bossIra = BaseActor(-90f, -100f, mainStage)
+        bossIra.loadImage("enemies/bossIra/runS1")
+        bossIra.setScale(5f)
+        bossIra.color = Color.BLACK
+        bossIra.addAction(Actions.sequence(
+            Actions.delay(4f),
+            Actions.moveTo(bossIra.x, -52f, 1f)
+        ))
+
+        /* ------------------------------------------------------------------------ */
+        for (i in 0..20) {
+            val enemy = BaseActor(-100f + i * 10, 60f, mainStage)
+            enemy.loadImage("enemies/tentacle0")
+            enemy.setScale(.75f)
+            enemy.rotateBy(180f)
+            enemy.color = Color.BLACK
+            if (MathUtils.randomBoolean())
+                enemy.flip()
+            enemy.addAction(Actions.sequence(
+                Actions.delay(MathUtils.random(2f, 4f)),
+                Actions.moveTo(enemy.x, 44f, 1f)
+            ))
+        }
+
+        for (i in 0..20) {
+            val enemy = BaseActor(-105f + i * 10, 60f, mainStage)
+            enemy.loadImage("enemies/tentacle0")
+            enemy.setScale(.75f)
+            enemy.rotateBy(180f)
+            enemy.color = Color.BLACK
+            if (MathUtils.randomBoolean())
+                enemy.flip()
+            enemy.addAction(Actions.sequence(
+                Actions.delay(MathUtils.random(2f, 4f)),
+                Actions.moveTo(enemy.x, 46f, 1f)
+            ))
+        }
+
+        /* ------------------------------------------------------------------------ */
+
+        /*for (i in 0..20) {
+            val enemy = BaseActor(100f, -45f + i * 5, mainStage)
+            enemy.loadImage("enemies/tentacle0")
+            enemy.setScale(.75f)
+            enemy.rotateBy(90f)
+            enemy.color = Color.BLACK
+            if (MathUtils.randomBoolean())
+                enemy.flip()
+            enemy.addAction(Actions.sequence(
+                Actions.delay(MathUtils.random(2f, 4f)),
+                Actions.moveTo(87f, enemy.y, 1f)
+            ))
+        }
+
+        for (i in 0..20) {
+            val enemy = BaseActor(-110f, -45f + i * 5, mainStage)
+            enemy.loadImage("enemies/tentacle0")
+            enemy.setScale(.75f)
+            enemy.rotateBy(270f)
+            enemy.color = Color.BLACK
+            if (MathUtils.randomBoolean())
+                enemy.flip()
+            enemy.addAction(Actions.sequence(
+                Actions.delay(MathUtils.random(2f, 4f)),
+                Actions.moveTo(-92f, enemy.y, 1f)
+            ))
+        }*/
+
     }
 }

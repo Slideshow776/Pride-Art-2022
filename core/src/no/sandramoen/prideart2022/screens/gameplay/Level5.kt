@@ -19,6 +19,14 @@ class Level5 : BaseLevel() {
         super.initialize()
 
         triggerLevelProgression()
+        playMusicWithDelay()
+    }
+
+    private fun playMusicWithDelay() {
+        BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
+            Actions.delay(5f),
+            Actions.run { GameUtils.playAndLoopMusic(BaseGame.menuMusic) }
+        ))
     }
 
     private fun triggerLevelProgression() {

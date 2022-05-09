@@ -33,14 +33,18 @@ class Level4 : BaseLevel() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (isRestartable && !isButtonCodeDpad(keycode))
+        if (isRestartable && !isButtonCodeDpad(keycode)) {
+            BaseGame.windAmbianceMusic!!.stop()
             BaseGame.setActiveScreen(Level4())
+        }
         return super.keyDown(keycode)
     }
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
-        if (isRestartable && !isButtonCodeDpad(buttonCode))
+        if (isRestartable && !isButtonCodeDpad(buttonCode)) {
+            BaseGame.windAmbianceMusic!!.stop()
             BaseGame.setActiveScreen(Level4())
+        }
         return super.buttonDown(controller, buttonCode)
     }
 

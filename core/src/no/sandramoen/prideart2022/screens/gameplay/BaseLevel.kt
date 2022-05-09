@@ -296,6 +296,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun stopMusic() {
+        BaseGame.menuMusic!!.stop()
         BaseGame.bossMusic!!.stop()
         BaseGame.level1Music!!.stop()
         BaseGame.level2IntroMusic!!.stop()
@@ -565,7 +566,7 @@ open class BaseLevel : BaseScreen() {
 
         fleetAdmiralSetup()
 
-        mainLabel = TypingLabel("", BaseGame.bigLabelStyle)
+        mainLabel = TypingLabel("", BaseGame.mediumLabelStyle)
         mainLabel.setAlignment(Align.center)
         mainLabel.isVisible = false
         uiTable.add(mainLabel).expandY().row()

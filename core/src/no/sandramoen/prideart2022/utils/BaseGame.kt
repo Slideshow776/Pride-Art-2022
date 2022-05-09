@@ -48,6 +48,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
 
         // game assets
         var smallLabelStyle: LabelStyle? = null
+        var mediumLabelStyle: LabelStyle? = null
         var bigLabelStyle: LabelStyle? = null
         var spookySmallLabelStyle: LabelStyle? = null
         var spookyBigLabelStyle: LabelStyle? = null
@@ -343,6 +344,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             fontParameters.minFilter = TextureFilter.Linear
             fontParameters.magFilter = TextureFilter.Linear
             val fontSmall = fontGenerator.generateFont(fontParameters)
+            fontParameters.size = (.15f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+            val fontMedium = fontGenerator.generateFont(fontParameters)
             fontParameters.size = (.2f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
             val fontBig = fontGenerator.generateFont(fontParameters)
 
@@ -358,6 +361,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
 
             smallLabelStyle = LabelStyle()
             smallLabelStyle!!.font = fontSmall
+            mediumLabelStyle = LabelStyle()
+            mediumLabelStyle!!.font = fontMedium
             bigLabelStyle = LabelStyle()
             bigLabelStyle!!.font = fontBig
 

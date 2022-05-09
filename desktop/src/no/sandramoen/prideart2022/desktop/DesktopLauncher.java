@@ -16,11 +16,14 @@ public class DesktopLauncher {
 		float screenRation = .461538461f;
 		config.height = (int) (config.width * screenRation);
 
+		/*config.width = dimension.width;
+		config.height = dimension.height;*/
+
 		config.vSyncEnabled = true;
 		config.useGL30 = true;
-		config.title = "Pride Art 2022";
+		config.title = "Trans Agent X";
 		config.resizable = true;
-		// config.fullscreen = true;
+		/*config.fullscreen = true;*/
 
 		new LwjglApplication(new PrideArt2022Game("no"), config);
 	}
