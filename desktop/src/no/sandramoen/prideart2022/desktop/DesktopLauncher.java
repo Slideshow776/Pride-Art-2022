@@ -8,23 +8,26 @@ import java.awt.Dimension;
 import no.sandramoen.prideart2022.PrideArt2022Game;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+    public static void main(String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		config.width = (int) (dimension.width * .9f);
-		float screenRation = .461538461f;
-		config.height = (int) (config.width * screenRation);
+        Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
-		/*config.width = dimension.width;
-		config.height = dimension.height;*/
+        if (false) {
+            config.width = dimension.width;
+            config.height = dimension.height;
+            config.fullscreen = true;
+        } else { // debug
+            config.width = (int) (dimension.width * .9f);
+            float screenRation = .461538461f;
+            config.height = (int) (config.width * screenRation);
+        }
 
-		config.vSyncEnabled = true;
-		config.useGL30 = true;
-		config.title = "Trans Agent X";
-		config.resizable = true;
-		/*config.fullscreen = true;*/
+        config.vSyncEnabled = true;
+        config.useGL30 = true;
+        config.title = "Trans Agent X";
+        config.resizable = true;
 
-		new LwjglApplication(new PrideArt2022Game("no"), config);
-	}
+        new LwjglApplication(new PrideArt2022Game("no"), config);
+    }
 }

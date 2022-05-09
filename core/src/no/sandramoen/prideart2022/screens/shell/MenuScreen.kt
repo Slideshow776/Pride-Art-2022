@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -14,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.utils.Array
 import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.actors.Vignette
 import no.sandramoen.prideart2022.screens.shell.intro.SaturnScreen
@@ -21,7 +24,7 @@ import no.sandramoen.prideart2022.ui.ControllerMessage
 import no.sandramoen.prideart2022.ui.MadeByLabel
 import no.sandramoen.prideart2022.utils.*
 
-class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
+class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     private lateinit var startButton: TextButton
     private lateinit var optionsButton: TextButton
     private lateinit var titleLabel: TypingLabel
@@ -33,8 +36,8 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private var axisCounter = 0f
 
     override fun initialize() {
-        titleLabel = TypingLabel(
-            "{GRADIENT=#73bed3;#ebede9;0.1;0}TRAN{ENDGRADIENT}S A{GRADIENT=#ebede9;#df84a5;0.1;0}GENT X{ENDGRADIENT}",
+        titleLabel = TypingLabel( // {HANG=.3;.2}{COLOR=#df84a5}Trans Agent X{ENDHANG}{CLEARCOLOR}
+            "{HANG=.3;.2}{GRADIENT=#73bed3;#ebede9;0.1;0}TRAN{ENDGRADIENT}S A{GRADIENT=#ebede9;#df84a5;0.1;0}GENT X{ENDGRADIENT}{ENDHANG}",
             BaseGame.mediumLabelStyle
         )
         titleLabel.setFontScale(1f)
@@ -51,11 +54,10 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         table.add(controllerMessage)
         table.row()
         table.add(madeByLabel).padBottom(Gdx.graphics.height * .02f)
-        /*table.debug = true*/
         uiTable.add(table).fill().expand()
 
         if (playMusic)
-            GameUtils.playAndLoopMusic(BaseGame.menuMusic)
+            GameUtils.playAndLoopMusic(BaseGame.level5Music)
 
         if (Controllers.getControllers().size > 0) {
             BaseActor(0f, 0f, uiStage).addAction(Actions.sequence(
@@ -222,7 +224,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         textButton.label.setFontScale(buttonFontScale)
         textButton.addListener { e: Event ->
             if (GameUtils.isTouchDownEvent(e)) {
-                BaseGame.menuMusic!!.stop()
+                BaseGame.level5Music!!.stop()
                 setLevelScreenWithDelay()
             }
             false
@@ -251,6 +253,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
 
     private fun setLevelScreenWithDelay() {
         prepLeaveMenuScreen()
+        BaseGame.spaceStationBeamSound!!.play(BaseGame.soundVolume, .5f, 0f)
         startButton.addAction(Actions.sequence(
             Actions.delay(.5f),
             Actions.run { BaseGame.setActiveScreen(SaturnScreen()) }
@@ -278,7 +281,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
 
     private fun prepLeaveMenuScreen(stopMusic: Boolean = true) {
         if (stopMusic)
-            BaseGame.menuMusic!!.stop()
+            BaseGame.level5Music!!.stop()
         BaseGame.click1Sound!!.play(BaseGame.soundVolume)
         startButton.touchable = Touchable.disabled
         optionsButton.touchable = Touchable.disabled
@@ -303,7 +306,12 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         spaceship.color = Color.GRAY
 
         val playerPortrait = BaseActor(35f, -20f, mainStage)
-        playerPortrait.loadImage("player/portrait")
+        var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
+        for (i in 1..45)
+            animationImages.add(BaseGame.textureAtlas!!.findRegion("player/portrait"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("player/portraitBlink"))
+        playerPortrait.setAnimation(Animation(.1f, animationImages, Animation.PlayMode.LOOP))
+        animationImages.clear()
         playerPortrait.setScale(8f)
         playerPortrait.flip()
         playerPortrait.color.a = 0f
@@ -311,7 +319,11 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
         /*playerPortrait.color = Color.GRAY*/
 
         val fleetAdmiral = BaseActor(-35f, 0f, mainStage)
-        fleetAdmiral.loadImage("fleet admiral/idle1")
+        for (i in 1..35)
+            animationImages.add(BaseGame.textureAtlas!!.findRegion("fleet admiral/idle1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("fleet admiral/idle2"))
+        fleetAdmiral.setAnimation(Animation(.1f, animationImages, Animation.PlayMode.LOOP))
+        animationImages.clear()
         fleetAdmiral.setScale(12f)
         fleetAdmiral.color.a = 0f
         fleetAdmiral.addAction(Actions.fadeIn(1f))

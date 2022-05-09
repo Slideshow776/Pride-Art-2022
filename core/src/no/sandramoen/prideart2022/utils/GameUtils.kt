@@ -52,7 +52,7 @@ class GameUtils {
             if (volume > 1f || volume < 0f)
                 Gdx.app.error(javaClass.simpleName, "Volume needs to be within [0-1]. Volume is: $volume")
             BaseGame.musicVolume = volume
-            BaseGame.menuMusic!!.volume = BaseGame.musicVolume
+            BaseGame.level5Music!!.volume = BaseGame.musicVolume
         }
 
         fun playAndLoopMusic(music: Music?, volume: Float = BaseGame.musicVolume) {

@@ -18,7 +18,7 @@ class BossBar(x: Float, y: Float, stage: Stage, name: String) : BaseActor(0f, 0f
 
     init {
         loadImage("whitePixel")
-        color = Color.BLACK
+        color = Color(0.035f, 0.039f, 0.078f, 1f)
         isVisible = false
         setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height * .05f)
         setPosition(x, y - height)
@@ -35,8 +35,6 @@ class BossBar(x: Float, y: Float, stage: Stage, name: String) : BaseActor(0f, 0f
         label.setPosition(width / 2 - label.prefWidth / 2, 0f - label.prefHeight / 6)
         addActor(label)
     }
-
-    // fun stop() = clearActions()
 
     fun countDown() {
         isVisible = true

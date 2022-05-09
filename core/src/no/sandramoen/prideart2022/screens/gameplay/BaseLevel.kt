@@ -296,7 +296,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     private fun stopMusic() {
-        BaseGame.menuMusic!!.stop()
+        BaseGame.level5Music!!.stop()
         BaseGame.bossMusic!!.stop()
         BaseGame.level1Music!!.stop()
         BaseGame.level2IntroMusic!!.stop()

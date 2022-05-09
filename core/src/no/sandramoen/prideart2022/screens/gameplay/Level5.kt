@@ -13,6 +13,7 @@ import no.sandramoen.prideart2022.utils.GameUtils
 
 class Level5 : BaseLevel() {
     private val lostSoulsSpawner = BaseActor(0f, 0f, mainStage)
+    private val rainSplatter = BaseActor(0f, 0f, mainStage)
 
     override fun initialize() {
         tilemap = TilemapActor(BaseGame.level4, mainStage)
@@ -22,10 +23,20 @@ class Level5 : BaseLevel() {
         playMusicWithDelay()
     }
 
+    override fun pause() {
+        super.pause()
+        rainSplatter.clearActions()
+    }
+
+    override fun resume() {
+        super.resume()
+        spawnRainSplatter()
+    }
+
     private fun playMusicWithDelay() {
         BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
             Actions.delay(5f),
-            Actions.run { GameUtils.playAndLoopMusic(BaseGame.menuMusic) }
+            Actions.run { GameUtils.playAndLoopMusic(BaseGame.level5Music) }
         ))
     }
 
@@ -62,7 +73,7 @@ class Level5 : BaseLevel() {
                         myBundle!!.get("fleetAdmiral31"),
                         6f
                     )
-                    player.shakyCamIntensity = .1f
+                    player.shakyCamIntensity = .15f
                     objectivesLabel.fadeOut()
                 },
                 Actions.delay(6f),
@@ -78,13 +89,14 @@ class Level5 : BaseLevel() {
                         MathUtils.random(.5f, 1.5f),
                         0f
                     )
+                    BaseGame.level5Music!!.isLooping = false
                     BaseGame.setActiveScreen(MenuScreen())
                 }
             ))
     }
 
     private fun spawnRainSplatter() {
-        BaseActor(0f, 0f, mainStage).addAction(Actions.forever(Actions.sequence(
+        rainSplatter.addAction(Actions.forever(Actions.sequence(
             Actions.delay(0f),
             Actions.run {
                 for (i in 0..3) {

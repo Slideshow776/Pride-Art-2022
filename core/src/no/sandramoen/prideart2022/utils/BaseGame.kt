@@ -10,8 +10,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Cursor
-import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -56,7 +54,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var textureAtlas: TextureAtlas? = null
         var skin: Skin? = null
         var level1Music: Music? = null
-        var menuMusic: Music? = null
+        var level5Music: Music? = null
         var cinematic1Music: Music? = null
         var cinematic2Music: Music? = null
         var cinematic3Music: Music? = null
@@ -253,7 +251,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
 
             // audio
             level1Music = assetManager.get("audio/music/384468__frankum__vintage-elecro-pop-loop.mp3", Music::class.java)
-            menuMusic = assetManager.get("audio/music/530376__andrewkn__pad-ambient.wav", Music::class.java)
+            level5Music = assetManager.get("audio/music/530376__andrewkn__pad-ambient.wav", Music::class.java)
             cinematic1Music = assetManager.get("audio/music/341652__devern__cinematic-build.wav", Music::class.java)
             cinematic2Music = assetManager.get("audio/music/553418__eminyildirim__cinematic-boom-impact-hit-2021.wav", Music::class.java)
             cinematic3Music = assetManager.get("audio/music/236894__chimerical__cinematic-suspense.wav", Music::class.java)

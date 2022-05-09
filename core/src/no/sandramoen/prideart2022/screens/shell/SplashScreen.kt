@@ -81,7 +81,7 @@ class SplashScreen : BaseScreen() {
     private fun disposeAndSetActiveScreen() {
         blackOverlay.addAction(Actions.after(Actions.run {
             dispose()
-            BaseGame.setActiveScreen(MenuScreen())
+            BaseGame.setActiveScreen(MenuScreen(playMusic = false))
         }))
     }
 }

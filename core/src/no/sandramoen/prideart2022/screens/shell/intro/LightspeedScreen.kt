@@ -39,6 +39,8 @@ class LightspeedScreen : BaseScreen() {
         BaseGame.cinematic3Music!!.play()
         BaseGame.cinematic3Music!!.volume = BaseGame.musicVolume
 
+        label.setFontScale(.9f)
+
         uiTable.add(label).expandY().bottom().padBottom(Gdx.graphics.height * .02f)
         camera.zoom = .09f
     }
