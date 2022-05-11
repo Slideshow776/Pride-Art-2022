@@ -29,7 +29,8 @@ class Level3 : BaseLevel() {
         position = randomWorldPosition(10f)
         bluePortal = Portal(position.x, position.y, mainStage, orange = false, player = player)
 
-        intro()
+        // intro()
+        triggerChapter3()
     }
 
     override fun update(dt: Float) {
@@ -68,6 +69,7 @@ class Level3 : BaseLevel() {
             BossPortal::class.java.canonicalName
         )) {
             if (player.overlaps(bossPortal) && !isLevelOver) {
+                player.isCollisionEnabled = false
                 fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral18"))
                 isLevelOver = true
                 player.isPlaying = false
@@ -167,6 +169,7 @@ class Level3 : BaseLevel() {
 
     private fun checkIfOverlapPortals() {
         if (player.overlaps(bluePortal)) {
+            GameUtils.vibrateController()
             player.setPosition(
                 (orangePortal.x + orangePortal.width / 2) - player.width / 2,
                 (orangePortal.y + orangePortal.height / 2) - player.height / 2
@@ -175,6 +178,7 @@ class Level3 : BaseLevel() {
         }
 
         if (player.overlaps(orangePortal)) {
+            GameUtils.vibrateController()
             player.setPosition(
                 (bluePortal.x + bluePortal.width / 2) - player.width / 2,
                 (bluePortal.y + bluePortal.height / 2) - player.height / 2

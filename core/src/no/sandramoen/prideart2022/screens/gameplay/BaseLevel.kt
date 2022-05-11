@@ -3,6 +3,7 @@ package no.sandramoen.prideart2022.screens.gameplay
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.controllers.Controller
+import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -46,6 +47,7 @@ open class BaseLevel : BaseScreen() {
         initializeDestructibles()
         initializeImpassables()
         uiSetup()
+        GameUtils.cancelVibration()
     }
 
     override fun update(dt: Float) {
@@ -81,6 +83,7 @@ open class BaseLevel : BaseScreen() {
                 dropHealth()
             }
         } else if (keycode == Input.Keys.NUM_4) dropShield()
+        else if (keycode == Input.Keys.NUM_5) GameUtils.vibrateController()
         // ----------------------------------------------------
         return super.keyDown(keycode)
     }
@@ -110,8 +113,7 @@ open class BaseLevel : BaseScreen() {
     }
 
     override fun connected(controller: Controller?) {
-        if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
-            controller.startVibration(1000, .2f)
+        GameUtils.vibrateController()
         controllerMessage.showConnected()
         BaseGame.controllerConnectedSound!!.play(BaseGame.soundVolume)
         pause()
@@ -156,6 +158,7 @@ open class BaseLevel : BaseScreen() {
         if (bossBar != null)
             bossBar!!.clearActions()
         objectivesLabel.fadeOut()
+        healthBar.addAction(Actions.fadeOut(.5f))
         continueToMenu()
     }
 
@@ -195,6 +198,11 @@ open class BaseLevel : BaseScreen() {
         )) {
             destructible as Destructible
             if (baseActor.overlaps(destructible)) {
+                try {
+                    baseActor as Player
+                    GameUtils.vibrateController(200, .1f)
+                } catch (classCastException: ClassCastException) {
+                }
                 destructible.destroy()
             }
         }
@@ -230,6 +238,7 @@ open class BaseLevel : BaseScreen() {
         if (player.overlaps(enemy) && !isGameOver) {
             if (remove) enemy.death()
             if (damageAmount > 0 && player.isHurt(damageAmount)) {
+                GameUtils.vibrateController()
                 BaseGame.playerDeathSound!!.play(BaseGame.soundVolume, 1.5f, 0f)
                 if (player.health <= 0)
                     setGameOver()
@@ -441,8 +450,10 @@ open class BaseLevel : BaseScreen() {
 
     private fun handleLost() {
         for (lost: BaseActor in getList(mainStage, BaseLost::class.java.canonicalName))
-            if (player.overlaps(lost as BaseLost))
+            if (player.overlaps(lost as BaseLost)) {
+                GameUtils.vibrateController()
                 lost.pickup()
+            }
     }
 
     private fun handleHealthPickup() {
@@ -451,6 +462,7 @@ open class BaseLevel : BaseScreen() {
                 if (healthBar.addHealth()) {
                     player.healthBack()
                     healthDrop.pickup(true)
+                    GameUtils.vibrateController()
                 }
                 healthDrop.pickup(false)
             }
@@ -462,6 +474,7 @@ open class BaseLevel : BaseScreen() {
             if (player.overlaps(shieldDrop as ShieldDrop)) {
                 shieldDrop.pickup()
                 player.activateShield()
+                GameUtils.vibrateController()
             }
         }
     }
@@ -470,11 +483,23 @@ open class BaseLevel : BaseScreen() {
         for (experience: BaseActor in getList(mainStage, Experience::class.java.canonicalName)) {
             if (player.overlaps(experience as Experience)) {
                 player.speedBoost()
-                val isLevelUp = experienceBar.increment(experience.amount)
-                experience.pickup()
-                if (isLevelUp && fleetAdmiral.actions.size == 0)
-                    fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral3"))
+                checkIfLevelUp(experience)
+            } else if (
+                (experience.x < 0f || experience.x >= BaseActor.getWorldBounds().width) ||
+                (experience.y < 0f || experience.y >= BaseActor.getWorldBounds().height) &&
+                experience.isCollisionEnabled
+            ) {
+                checkIfLevelUp(experience)
             }
+        }
+    }
+
+    private fun checkIfLevelUp(experience: Experience) {
+        experience.pickup()
+        val isLevelUp = experienceBar.increment(experience.amount)
+        if (isLevelUp && fleetAdmiral.actions.size == 0) {
+            GameUtils.vibrateController(duration = 500)
+            fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral3"))
         }
     }
 

@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -27,6 +28,8 @@ public class DesktopLauncher {
         config.useGL30 = true;
         config.title = "Trans Agent X";
         config.resizable = true;
+        config.addIcon("images/excluded/icon_32x32.png", Files.FileType.Internal);
+        config.addIcon("images/excluded/icon_16x16.png", Files.FileType.Internal);
 
         new LwjglApplication(new PrideArt2022Game("no"), config);
     }

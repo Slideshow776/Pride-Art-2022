@@ -99,13 +99,13 @@ class Tentacle(stage: Stage, private val bossKG: BossKG, private val player: Pla
                 Actions.sizeTo(width, height / 2, .1f),
                 Actions.run {
                     BaseGame.tentacleWhipSound!!.play(
-                        BaseGame.soundVolume * .25f,
+                        BaseGame.soundVolume * .5f,
                         MathUtils.random(.9f, 1.1f),
                         0f
                     )
                 }
             ),
-            Actions.sizeTo(width * .8f, attackRange(), .75f, Interpolation.elasticIn),
+            Actions.sizeTo(width * .8f, attackRange(), 1f, Interpolation.elasticIn),
             Actions.run { setBoundaryRectangle() },
             Actions.delay(.1f),
             Actions.run { isCollisionEnabled = false }

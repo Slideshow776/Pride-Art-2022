@@ -9,9 +9,9 @@ import no.sandramoen.prideart2022.utils.BaseGame
 class PrideArt2022Game(appLocale: String) : BaseGame(appLocale) {
     override fun create() {
         super.create()
+        // setActiveScreen(SplashScreen())
         // setActiveScreen(MenuScreen())
         // setActiveScreen(OptionsScreen())
-        // setActiveScreen(SplashScreen())
         setActiveScreen(Level1())
         // setActiveScreen(Level2())
         // setActiveScreen(Level3())

@@ -22,7 +22,7 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
     private lateinit var shootingAnimation: Animation<TextureAtlas.AtlasRegion>
 
-    private val movementSpeed = player.originalMovementSpeed * .7f
+    private val movementSpeed = player.originalMovementSpeed * .65f
     private val shootDistance = 20f
     private var shotsUntilDeath = 3
     private var dying = false
@@ -95,9 +95,9 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
         )
         addAction(
             Actions.sequence(
-                Actions.delay(.9f),
+                Actions.delay(.85f),
                 Actions.run { angle = getAngleTowardActor(player) - 90f },
-                Actions.delay(.1f),
+                Actions.delay(.15f),
                 Actions.run { beam = EnemyBeam(width / 2, height / 2, stage, angle, beamDuration) },
                 Actions.delay(beamDuration),
                 Actions.run { die() }

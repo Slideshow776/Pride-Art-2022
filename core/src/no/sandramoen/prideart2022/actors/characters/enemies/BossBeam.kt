@@ -19,7 +19,6 @@ class BossBeam(x: Float, y: Float, stage: Stage, angleTowardsPlayer: Float) :
         BaseGame.spaceStationBeamSound!!.play(BaseGame.soundVolume)
         loadImage("enemies/beam")
         setScale(.1f, 1f)
-        /*color = Color(0.745f, 0.467f, 0.169f, 1f)*/
         setOrigin(Align.bottom)
 
         rotation = angleTowardsPlayer
@@ -32,7 +31,7 @@ class BossBeam(x: Float, y: Float, stage: Stage, angleTowardsPlayer: Float) :
     private fun scaleTo() {
         addAction(
             Actions.sequence(
-                Actions.scaleTo(.6f, 100f, 1.5f)
+                Actions.scaleTo(.6f, 100f, 2f)
             )
         )
     }

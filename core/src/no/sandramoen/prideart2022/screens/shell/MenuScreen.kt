@@ -28,7 +28,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     private lateinit var startButton: TextButton
     private lateinit var optionsButton: TextButton
     private lateinit var titleLabel: TypingLabel
-    private lateinit var highlightedActor: Actor
+    private var highlightedActor: Actor? = null
     private lateinit var controllerMessage: ControllerMessage
     private var madeByLabel = MadeByLabel()
     private var usingMouse = true
@@ -36,7 +36,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     private var axisCounter = 0f
 
     override fun initialize() {
-        titleLabel = TypingLabel( // {HANG=.3;.2}{COLOR=#df84a5}Trans Agent X{ENDHANG}{CLEARCOLOR}
+        titleLabel = TypingLabel(
             "{HANG=.3;.2}{GRADIENT=#73bed3;#ebede9;0.1;0}TRAN{ENDGRADIENT}S A{GRADIENT=#ebede9;#df84a5;0.1;0}GENT X{ENDGRADIENT}{ENDHANG}",
             BaseGame.mediumLabelStyle
         )
@@ -137,8 +137,9 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     }
 
     override fun connected(controller: Controller?) {
-        if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
-            controller!!.startVibration(1000, .2f)
+        highlightedActor = startButton
+        usingMouse = false
+        GameUtils.vibrateController()
         controllerMessage.showConnected()
         BaseGame.controllerConnectedSound!!.play(BaseGame.soundVolume)
         pause()

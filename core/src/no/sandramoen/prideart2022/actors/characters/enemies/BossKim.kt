@@ -61,7 +61,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         if (beam != null)
             beam!!.centerAtActor(this)
 
-        bloodScreamEffect?.setPosition(x + width / 2, y + height * 4/5)
+        bloodScreamEffect?.setPosition(x + width / 2, y + height * 4 / 5)
     }
 
     override fun death() {
@@ -97,7 +97,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     private fun shootCircleShot() {
         addAction(Actions.forever(Actions.sequence(
             Actions.delay(1f),
-            Actions.run { circleShot(9) }
+            Actions.run { circleShot(8) }
         )))
     }
 

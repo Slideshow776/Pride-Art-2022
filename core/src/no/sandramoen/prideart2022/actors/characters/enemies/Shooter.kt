@@ -20,7 +20,7 @@ import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class Shooter(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x, y, stage) {
-    private val movementSpeed = player.originalMovementSpeed * .72f
+    private val movementSpeed = player.originalMovementSpeed * .7f
     private val shootDistance = 20f
     private var shotsUntilDeath = 3
     private var shootFrequency = 5f

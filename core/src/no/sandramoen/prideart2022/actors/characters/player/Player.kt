@@ -46,7 +46,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     val originalMovementSpeed = movementSpeed
     var isPlaying = true
-    var health: Int = 3
+    var health: Int = 4
 
     init {
         addActor(skin)
@@ -234,7 +234,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     private fun resetColors() {
-        clearActions()
         color = Color.WHITE
         hair.clearActions()
         hair.color = hair.activeColor
@@ -269,9 +268,10 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
 
     private fun setHealthSpeed() {
         when (health) {
-            3 -> movementSpeed = 27f
-            2 -> movementSpeed = 28f
-            1 -> movementSpeed = 30f
+            4 -> movementSpeed = 27f
+            3 -> movementSpeed = 28f
+            2 -> movementSpeed = 30f
+            1 -> movementSpeed = 31f
         }
         setMaxSpeed(movementSpeed)
     }
@@ -312,7 +312,6 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                         skin.addAction(Actions.color(Color.BLACK, colourDuration / 2))
                     }
                 ),
-                Actions.run { isCollisionEnabled = true },
                 Actions.parallel(
                     Actions.color(Color.WHITE, colourDuration / 2),
                     Actions.run {
@@ -322,6 +321,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     }
                 ),
                 Actions.run {
+                    isCollisionEnabled = true
                     state = State.Idle
                     setMovementAnimation()
                     isShakyCam = false

@@ -13,13 +13,16 @@ import no.sandramoen.prideart2022.actors.BigExplosion
 import no.sandramoen.prideart2022.actors.characters.lost.BaseLost
 import no.sandramoen.prideart2022.actors.characters.player.Player
 import no.sandramoen.prideart2022.actors.particles.BeamChargeEffect
+import no.sandramoen.prideart2022.actors.particles.BloodSplatterEffect
+import no.sandramoen.prideart2022.actors.particles.HeartExplosion
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 import no.sandramoen.prideart2022.utils.GameUtils
 
 class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x, y, stage) {
-    private lateinit var runAnimationS: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runSAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var runNAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var eatAnimation: Animation<TextureAtlas.AtlasRegion>
 
     private val movementSpeed = player.originalMovementSpeed * .2f
     private var state = State.RunningN
@@ -104,6 +107,13 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         if (lost != null) {
             accelerateAtAngle(getAngleTowardActor(lost!!))
             if (overlaps(lost!!)) {
+                state = State.Eat
+                setAnimation(eatAnimation)
+                bloodSplatterEffect()
+                addAction(Actions.sequence(
+                    Actions.delay(1f),
+                    Actions.run { state = State.RunningN }
+                ))
                 lost!!.death()
                 lost = null
             }
@@ -112,6 +122,14 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
             if (!isWithinDistance2(50f, player) && !isShootingBeam)
                 teleportToPlayer()
         }
+    }
+
+    private fun bloodSplatterEffect() {
+        val effect = BloodSplatterEffect()
+        effect.setScale(.025f)
+        effect.centerAtActor(this)
+        stage.addActor(effect)
+        effect.start()
     }
 
     private fun shootBeam() {
@@ -197,12 +215,9 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         )
     }
 
-    private enum class State { RunningN, RunningS }
+    private enum class State { RunningN, RunningS, Eat }
 
     private fun teleportToPlayer() {
-        /*beamActor.clearActions()
-        BaseGame.beamChargeSound!!.stop()
-        BaseGame.spaceStationBeamSound!!.stop()*/
         TeleportHazard(this, stage, player)
         val distance = 25f
         if (MathUtils.randomBoolean()) { // horizontal
@@ -264,12 +279,12 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
     }
 
     private fun setAnimationDirection() {
-        if (getMotionAngle() in 45.0..135.0 && state != State.RunningN) {
+        if (getMotionAngle() in 45.0..135.0 && state != State.RunningN && state != State.Eat) {
             state = State.RunningN
-            setAnimation(runAnimationN)
-        } else if (getMotionAngle() !in 45.0..135.0 && state != State.RunningS) {
+            setAnimation(runNAnimation)
+        } else if (getMotionAngle() !in 45.0..135.0 && state != State.RunningS && state != State.Eat) {
             state = State.RunningS
-            setAnimation(runAnimationS)
+            setAnimation(runSAnimation)
         }
     }
 
@@ -278,14 +293,21 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/runN1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/runN2"))
-        runAnimationN = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
+        runNAnimation = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/runS1"))
         animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/runS2"))
-        runAnimationS = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
+        runSAnimation = Animation(.5f, animationImages, Animation.PlayMode.LOOP)
         animationImages.clear()
 
-        setAnimation(runAnimationN)
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/eat1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/eat2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/eat2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("enemies/bossIra/eat2"))
+        eatAnimation = Animation(.125f, animationImages, Animation.PlayMode.LOOP)
+        animationImages.clear()
+
+        setAnimation(runNAnimation)
     }
 }

@@ -15,10 +15,10 @@
  </layer>
  <objectgroup id="4" name="Object Layer 1">
   <object id="55" name="player start" x="1183" y="356"/>
-  <object id="56" name="impassable" x="0" y="-1.33333" width="30.6667" height="1153.33"/>
-  <object id="60" name="impassable" x="1764" y="0" width="29.3333" height="1150.67"/>
-  <object id="62" name="impassable" x="0" y="-2.66667" width="1790.67" height="18.6667"/>
-  <object id="64" name="impassable" x="0" y="1117.33" width="1800" height="41.3333"/>
+  <object id="56" name="impassable" x="0" y="-1.33333" width="15.6667" height="1153.33"/>
+  <object id="60" name="impassable" x="1776" y="0" width="17.3333" height="1150.67"/>
+  <object id="62" name="impassable" x="0" y="-2.66667" width="1790.67" height="15.6667"/>
+  <object id="64" name="impassable" x="0" y="1133.33" width="1800" height="25.3333"/>
   <object id="65" name="impassable" x="129.333" y="672.333" width="286.333" height="19"/>
   <object id="66" name="impassable" x="163.546" y="964.306" width="186.278" height="18.2699" rotation="-0.306232"/>
   <object id="67" name="impassable" x="482.194" y="962.865" width="186.278" height="18.2699" rotation="-0.306232"/>

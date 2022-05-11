@@ -9,6 +9,7 @@ import no.sandramoen.prideart2022.actors.particles.BossPortalEffect
 import no.sandramoen.prideart2022.actors.particles.Explosion0Effect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.GameUtils
 
 class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x, y, stage) {
     private var effect: BossPortalEffect? = null
@@ -35,6 +36,7 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
         if (player.isWithinDistance2(25f, this) && !isTriggeredClose1) {
             isTriggeredClose1 = true
             shakyCamIntensity = .2f
+            GameUtils.vibrateController(duration = 100000, strength = .1f)
             clearActions()
             startValueAnimation(1f)
         }
@@ -42,6 +44,8 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
         if (player.isWithinDistance2(15f, this) && !isTriggeredClose2) {
             isTriggeredClose2 = true
             shakyCamIntensity = .4f
+            GameUtils.cancelVibration()
+            GameUtils.vibrateController(duration = 100000, strength = .15f)
             clearActions()
             startValueAnimation(.5f)
         }
@@ -49,6 +53,8 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
         if (player.isWithinDistance2(7f, this) && !isTriggeredClose3) {
             isTriggeredClose3 = true
             shakyCamIntensity = 1f
+            GameUtils.cancelVibration()
+            GameUtils.vibrateController(duration = 100000, strength = .2f)
             clearActions()
             startValueAnimation(.1f)
         }

@@ -38,11 +38,11 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.glowShader)
         addAction(shiverAnimation())
         val group = GameUtils.statementLabel(
-            0f,
+            -50f,
             0f,
             "lost",
             12,
-            1f,
+            1.5f,
             labelColor,
             BaseGame.smallLabelStyle
         )

@@ -22,13 +22,13 @@
   <object id="44" name="impassable" x="1664.85" y="159.818" width="61.9693" height="18.8636"/>
   <object id="45" name="impassable" x="64.8487" y="160.152" width="125.969" height="17.8636"/>
   <object id="46" name="impassable" x="224.515" y="158.818" width="126.303" height="19.3636"/>
-  <object id="47" name="impassable" x="416.432" y="64.8182" width="31.636" height="81.3636"/>
+  <object id="47" name="impassable" x="421.207" y="64.8182" width="20.1748" height="81.3636"/>
   <object id="48" name="impassable" x="416.432" y="0.0682" width="31.636" height="20.3636"/>
-  <object id="49" name="impassable" x="224.849" y="927.485" width="31.636" height="114.364"/>
-  <object id="50" name="impassable" x="0.0153333" y="672.485" width="31.636" height="479.364"/>
-  <object id="51" name="impassable" x="-0.484667" y="0.8182" width="31.636" height="510.364"/>
-  <object id="52" name="impassable" x="1760.18" y="0.8182" width="31.636" height="1150.36"/>
+  <object id="49" name="impassable" x="230.58" y="927.485" width="17.3096" height="114.364"/>
+  <object id="50" name="impassable" x="0.0153333" y="672.485" width="15.3994" height="479.364"/>
+  <object id="51" name="impassable" x="-0.484667" y="0.8182" width="17.3096" height="510.364"/>
+  <object id="52" name="impassable" x="1775.46" y="0.8182" width="16.3545" height="1150.36"/>
   <object id="53" name="impassable" x="1088.56" y="96.3182" width="31.636" height="15.3636"/>
-  <object id="54" name="impassable" x="1088.68" y="0.5682" width="31.636" height="51.3636"/>
+  <object id="54" name="impassable" x="1094.41" y="0.5682" width="20.1748" height="51.3636"/>
  </objectgroup>
 </map>

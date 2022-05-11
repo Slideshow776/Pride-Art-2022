@@ -2,6 +2,8 @@ package no.sandramoen.prideart2022.utils
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
+import com.badlogic.gdx.controllers.Controller
+import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.MathUtils
@@ -100,6 +102,18 @@ class GameUtils {
             )))
         }
 
+        fun vibrateController(duration: Int = 1000, strength: Float = .2f) {
+            try {
+                val controller = Controllers.getControllers()[0]
+                if (strength < 0 || strength > 1)
+                    Gdx.app.error(javaClass.canonicalName, "Error, vibrating strength must be [0, 1], strength is: $strength")
+                if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
+                    controller!!.startVibration(duration, strength)
+            } catch (indexOutOfBoundsException: IndexOutOfBoundsException) {
+                Gdx.app.error(javaClass.canonicalName, "Error, Vibration failed because no controller found")
+            }
+        }
+
         fun statementLabel(
             width: Float,
             height: Float,
@@ -130,6 +144,14 @@ class GameUtils {
                 Actions.run { group.isVisible = true }
             )))
             return group
+        }
+
+        fun cancelVibration() {
+            try {
+                val controller = Controllers.getControllers()[0]
+                if (controller!!.isVibrating)
+                    controller.cancelVibration()
+            } catch (indexOutOfBoundsException: IndexOutOfBoundsException) {}
         }
     }
 }

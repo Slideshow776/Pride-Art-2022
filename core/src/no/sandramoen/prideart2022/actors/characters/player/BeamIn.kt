@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Align
 import no.sandramoen.prideart2022.actors.particles.StarsVerticalEffect
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.GameUtils
 
 class BeamIn(x: Float, y: Float, stage: Stage, baseActor: BaseActor) : BaseActor(x, y + 100, stage) {
     private val player = baseActor
@@ -34,6 +35,7 @@ class BeamIn(x: Float, y: Float, stage: Stage, baseActor: BaseActor) : BaseActor
                 Actions.run {
                     isShakyCam = true
                     BaseGame.groundCrackSound!!.play(BaseGame.soundVolume)
+                    GameUtils.vibrateController(duration = 500)
                 },
                 Actions.delay(.5f),
                 Actions.run {

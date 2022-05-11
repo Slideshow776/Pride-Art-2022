@@ -27,7 +27,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     private lateinit var tentacle4: Tentacle
     private lateinit var tentacle5: Tentacle
 
-    private val movementSpeed = player.originalMovementSpeed * .3f
+    private val movementSpeed = player.originalMovementSpeed * .27f
     private var state = State.RunningN
     private var bloodScreamEffect: BloodBeamEffect? = null
 
@@ -64,7 +64,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
 
         setTentaclePositions()
 
-        if (!isWithinDistance2(45f, player))
+        if (!isWithinDistance2(48f, player))
             teleportToPlayer()
 
         bloodScreamEffect?.setPosition(x + width / 2, y + height * 4/5)
@@ -234,7 +234,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
     private fun shootCircleShot() {
         addAction(Actions.forever(Actions.sequence(
             Actions.delay(.8f),
-            Actions.run { circleShot(12) }
+            Actions.run { circleShot(10) }
         )))
     }
 

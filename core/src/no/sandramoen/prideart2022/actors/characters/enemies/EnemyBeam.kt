@@ -43,7 +43,7 @@ class EnemyBeam(
     private fun scaleTo() {
         addAction(
             Actions.sequence(
-                Actions.scaleTo(.2f, 100f, 3f)
+                Actions.scaleTo(.2f, 100f, 3.5f)
             )
         )
     }

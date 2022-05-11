@@ -196,7 +196,7 @@ class Level2 : BaseLevel() {
             objectivesLabel.setMyText(myBundle!!.get("objective2"))
             fadeFleetAdmiralInAndOut(BaseGame.myBundle!!.get("fleetAdmiral16"), 6f)
             BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
-                Actions.delay(10f),
+                Actions.delay(7f),
                 Actions.run { spawnLost1() }
             ))
         }
@@ -212,7 +212,7 @@ class Level2 : BaseLevel() {
             fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral9"), 5f)
             BaseActor(0f, 0f, mainStage).addAction(
                 Actions.sequence(
-                    Actions.delay(35f),
+                    Actions.delay(30f),
                     Actions.run { spawnLost2() }
                 )
             )
@@ -231,7 +231,7 @@ class Level2 : BaseLevel() {
                     Actions.run { dropShield() }
                 ),
                 Actions.sequence(
-                    Actions.delay(35f),
+                    Actions.delay(30f),
                     Actions.run { spawnLost3() }
                 )
             ))
