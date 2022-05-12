@@ -3,7 +3,6 @@ package no.sandramoen.prideart2022.screens.gameplay
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.controllers.Controller
-import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -22,6 +21,7 @@ import no.sandramoen.prideart2022.utils.*
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseActor.Companion.getList
 import no.sandramoen.prideart2022.utils.BaseGame.Companion.myBundle
+import no.sandramoen.prideart2022.utils.BaseGame.Companion.voiceVolume
 
 open class BaseLevel : BaseScreen() {
     protected lateinit var player: Player
@@ -47,7 +47,7 @@ open class BaseLevel : BaseScreen() {
         initializeDestructibles()
         initializeImpassables()
         uiSetup()
-        GameUtils.cancelVibration()
+        GameUtils.cancelControllerVibration()
     }
 
     override fun update(dt: Float) {
@@ -106,16 +106,20 @@ open class BaseLevel : BaseScreen() {
                 pause()
                 BaseGame.controllerDisconnectedSound!!.play(BaseGame.soundVolume)
             }
-        } else if (buttonCode == XBoxGamepad.BUTTON_BACK)
-            pauseOrGoToMenu()
+        } else if (buttonCode == XBoxGamepad.BUTTON_BACK) {
+            if (dtModifier == 0f) {
+                BaseGame.click2Sound!!.play(BaseGame.soundVolume)
+                setMenuScreen()
+            }
+        }
 
         return super.buttonDown(controller, buttonCode)
     }
 
     override fun connected(controller: Controller?) {
         GameUtils.vibrateController()
-        controllerMessage.showConnected()
         BaseGame.controllerConnectedSound!!.play(BaseGame.soundVolume)
+        controllerMessage.showConnected()
         pause()
     }
 
@@ -133,6 +137,7 @@ open class BaseLevel : BaseScreen() {
             unpauseMainLabel()
             if (bossBar != null)
                 bossBar!!.pause = false
+            controllerMessage.fadeOut()
         }
     }
 
@@ -359,6 +364,7 @@ open class BaseLevel : BaseScreen() {
         BaseGame.level1Music!!.stop()
         BaseGame.level2IntroMusic!!.stop()
         BaseGame.level2Music!!.stop()
+        BaseGame.level3Music!!.stop()
         BaseGame.bossMusic!!.stop()
         BaseGame.rainMusic!!.stop()
         BaseGame.setActiveScreen(MenuScreen())
@@ -482,7 +488,7 @@ open class BaseLevel : BaseScreen() {
     private fun handleExperiencePickup() {
         for (experience: BaseActor in getList(mainStage, Experience::class.java.canonicalName)) {
             if (player.overlaps(experience as Experience)) {
-                player.speedBoost()
+                /*player.speedBoost()*/
                 checkIfLevelUp(experience)
             } else if (
                 (experience.x < 0f || experience.x >= BaseActor.getWorldBounds().width) ||
@@ -581,7 +587,7 @@ open class BaseLevel : BaseScreen() {
         experienceBar = ExperienceBar(0f, Gdx.graphics.height.toFloat(), uiStage)
 
         healthBar = HealthBar()
-        uiTable.add(healthBar).padTop(experienceBar.height)
+        uiTable.add(healthBar).padTop(experienceBar.height * 1.05f)
             .padBottom(-healthBar.prefHeight - experienceBar.height)
             .row()
 

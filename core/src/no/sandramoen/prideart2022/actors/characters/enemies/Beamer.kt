@@ -53,7 +53,7 @@ class Beamer(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
         if (!isWithinDistance(shootDistance, player) && !isStoppedToShoot) {
             accelerateAtAngle(getAngleTowardActor(player))
             applyPhysics(dt)
-        } else if (!isStoppedToShoot) {
+        } else if (!isStoppedToShoot && x > 0 && x < getWorldBounds().width && y > 0 && y < getWorldBounds().height) {
             isStoppedToShoot = true
             shoot()
             setAnimation(shootingAnimation)

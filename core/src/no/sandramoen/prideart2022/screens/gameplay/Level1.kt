@@ -24,10 +24,8 @@ class Level1 : BaseLevel() {
         spawnEnemies()
         GameUtils.playAndLoopMusic(BaseGame.level1Music)
         BaseActor(0f, 0f, mainStage).addAction(Actions.sequence(
-            Actions.delay(6f),
-            Actions.run { objectivesLabel.setMyText(myBundle!!.get("objective0")) },
-            Actions.delay(6f),
-            Actions.run { objectivesLabel.fadeOut() }
+            Actions.delay(8f),
+            Actions.run { objectivesLabel.setMyText(myBundle!!.get("objective0")) }
         ))
     }
 
@@ -115,16 +113,16 @@ class Level1 : BaseLevel() {
         enemySpawner1.clearActions()
         enemySpawner2.clearActions()
         fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral4"), 5f)
+        objectivesLabel.fadeOut()
         objectivesLabel.addAction(Actions.sequence(
-            Actions.delay(6f),
-            Actions.run { objectivesLabel.setMyText(myBundle!!.get("objective0")) },
-            Actions.delay(6f),
-            Actions.run { objectivesLabel.fadeOut() }
+            Actions.delay(2f),
+            Actions.run { objectivesLabel.setMyText(myBundle!!.get("objective1")) }
         ))
 
     }
 
     private fun bossDeath() {
+        objectivesLabel.fadeOut()
         BaseGame.bossMusic!!.stop()
         BaseGame.windAmbianceMusic!!.play()
         BaseGame.windAmbianceMusic!!.volume = BaseGame.musicVolume

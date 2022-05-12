@@ -44,9 +44,13 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
             12,
             1.5f,
             labelColor,
-            BaseGame.smallLabelStyle
+            BaseGame.smallLabelStyle,
+            3f
         )
-        group.setPosition(-3.5f, 4f)
+        group.setPosition(
+            -((group.getChild(0) as Label).prefWidth / 2) * .022f,
+            4.2f
+        )
         addActor(group)
 
         if (player != null) {
@@ -125,7 +129,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         label.color = labelColor
         val group = Group()
         group.addActor(label)
-        group.setScale(.025f)
+        group.setScale(.035f)
         group.setPosition(x, y)
         stage.addActor(group)
         group.addAction(
@@ -138,7 +142,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
     }
 
     private fun shiverAnimation(): RepeatAction? {
-        val amountX = .1f
+        val amountX = .15f
         val duration = .04f
         return Actions.forever(
             Actions.sequence(

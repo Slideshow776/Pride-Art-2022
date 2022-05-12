@@ -73,7 +73,7 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
         isDying = true
         isCollisionEnabled = false
         clearActions()
-        for (i in 0 until 8)
+        for (i in 0 until 5)
             BigExplosion(this, stage)
         isShakyCam = true
         shakyCamIntensity *= 4f
@@ -106,9 +106,12 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
 
         if (lost != null) {
             accelerateAtAngle(getAngleTowardActor(lost!!))
-            if (overlaps(lost!!)) {
+            if (state != State.Eat) {
                 state = State.Eat
                 setAnimation(eatAnimation)
+            }
+
+            if (overlaps(lost!!)) {
                 bloodSplatterEffect()
                 addAction(Actions.sequence(
                     Actions.delay(1f),
@@ -121,6 +124,10 @@ class BossIra(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
             accelerateAtAngle(getAngleTowardActor(player))
             if (!isWithinDistance2(50f, player) && !isShootingBeam)
                 teleportToPlayer()
+
+            if (state == State.Eat) {
+                state = State.RunningN
+            }
         }
     }
 

@@ -30,15 +30,17 @@ class GameUtils {
             BaseGame.prefs!!.putBoolean("loadPersonalParameters", true)
             BaseGame.prefs!!.putFloat("musicVolume", BaseGame.musicVolume)
             BaseGame.prefs!!.putFloat("soundVolume", BaseGame.soundVolume)
+            BaseGame.prefs!!.putFloat("voiceVolume", BaseGame.voiceVolume)
             BaseGame.prefs!!.putString("locale", BaseGame.currentLocale)
             BaseGame.prefs!!.flush()
         }
 
         fun loadGameState() {
-            BaseGame.prefs = Gdx.app.getPreferences("prideArt2022GameState")
+            BaseGame.prefs = Gdx.app.getPreferences("transAgentX2022GameState")
             BaseGame.loadPersonalParameters = BaseGame.prefs!!.getBoolean("loadPersonalParameters")
             BaseGame.musicVolume = BaseGame.prefs!!.getFloat("musicVolume")
             BaseGame.soundVolume = BaseGame.prefs!!.getFloat("soundVolume")
+            BaseGame.voiceVolume = BaseGame.prefs!!.getFloat("voiceVolume")
             BaseGame.currentLocale = BaseGame.prefs!!.getString("locale")
         }
 
@@ -52,7 +54,10 @@ class GameUtils {
 
         fun setMusicVolume(volume: Float) {
             if (volume > 1f || volume < 0f)
-                Gdx.app.error(javaClass.simpleName, "Volume needs to be within [0-1]. Volume is: $volume")
+                Gdx.app.error(
+                    javaClass.simpleName,
+                    "Volume needs to be within [0-1]. Volume is: $volume"
+                )
             BaseGame.musicVolume = volume
             BaseGame.level5Music!!.volume = BaseGame.musicVolume
         }
@@ -63,54 +68,103 @@ class GameUtils {
             music!!.isLooping = true
         }
 
-        fun addTextButtonEnterExitEffect(textButton: TextButton, enterColor: Color = BaseGame.lightPink, exitColor: Color = Color.WHITE) {
+        fun addTextButtonEnterExitEffect(
+            textButton: TextButton,
+            enterColor: Color = BaseGame.lightPink,
+            exitColor: Color = Color.WHITE
+        ) {
             textButton.addListener(object : ClickListener() {
-                override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
+                override fun enter(
+                    event: InputEvent?,
+                    x: Float,
+                    y: Float,
+                    pointer: Int,
+                    fromActor: Actor?
+                ) {
                     textButton.label.addAction(Actions.color(enterColor, .125f))
                     BaseGame.hoverOverEnterSound!!.play(BaseGame.soundVolume)
                     super.enter(event, x, y, pointer, fromActor)
                 }
 
-                override fun exit(event: InputEvent?, x: Float, y: Float, pointer: Int, toActor: Actor?) {
+                override fun exit(
+                    event: InputEvent?,
+                    x: Float,
+                    y: Float,
+                    pointer: Int,
+                    toActor: Actor?
+                ) {
                     textButton.label.addAction(Actions.color(exitColor, .125f))
                     super.exit(event, x, y, pointer, toActor)
                 }
             })
         }
 
-        fun addWidgetEnterExitEffect(widget: Widget, enterColor: Color = BaseGame.lightPink, exitColor: Color = Color.WHITE) {
+        fun addWidgetEnterExitEffect(
+            widget: Widget,
+            enterColor: Color = BaseGame.lightPink,
+            exitColor: Color = Color.WHITE
+        ) {
             widget.addListener(object : ClickListener() {
-                override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
+                override fun enter(
+                    event: InputEvent?,
+                    x: Float,
+                    y: Float,
+                    pointer: Int,
+                    fromActor: Actor?
+                ) {
                     widget.addAction(Actions.color(enterColor, .125f))
                     BaseGame.hoverOverEnterSound!!.play(BaseGame.soundVolume)
                     super.enter(event, x, y, pointer, fromActor)
                 }
 
-                override fun exit(event: InputEvent?, x: Float, y: Float, pointer: Int, toActor: Actor?) {
+                override fun exit(
+                    event: InputEvent?,
+                    x: Float,
+                    y: Float,
+                    pointer: Int,
+                    toActor: Actor?
+                ) {
                     widget.addAction(Actions.color(exitColor, .125f))
                     super.exit(event, x, y, pointer, toActor)
                 }
             })
         }
 
-        fun normalizeValue(value: Float, min: Float, max: Float): Float { return (value - min) / (max - min) }
+        fun normalizeValue(value: Float, min: Float, max: Float): Float {
+            return (value - min) / (max - min)
+        }
 
         fun pulseWidget(actor: Actor, lowestAlpha: Float = .7f, duration: Float = 1f) {
-            actor.addAction(Actions.forever(Actions.sequence(
-                    Actions.alpha(lowestAlpha, duration / 2),
-                    Actions.alpha(1f, duration / 2)
-            )))
+            actor.addAction(
+                Actions.forever(
+                    Actions.sequence(
+                        Actions.alpha(lowestAlpha, duration / 2),
+                        Actions.alpha(1f, duration / 2)
+                    )
+                )
+            )
         }
 
         fun vibrateController(duration: Int = 1000, strength: Float = .2f) {
             try {
                 val controller = Controllers.getControllers()[0]
                 if (strength < 0 || strength > 1)
-                    Gdx.app.error(javaClass.canonicalName, "Error, vibrating strength must be [0, 1], strength is: $strength")
+                    Gdx.app.error(
+                        javaClass.canonicalName,
+                        "Error, vibrating strength must be [0, 1], strength is: $strength"
+                    )
                 if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
                     controller!!.startVibration(duration, strength)
             } catch (indexOutOfBoundsException: IndexOutOfBoundsException) {
-                Gdx.app.error(javaClass.canonicalName, "Error, Vibration failed because no controller found")
+            }
+        }
+
+        fun cancelControllerVibration() {
+            try {
+                val controller = Controllers.getControllers()[0]
+                if (controller!!.isVibrating)
+                    controller.cancelVibration()
+            } catch (indexOutOfBoundsException: IndexOutOfBoundsException) {
             }
         }
 
@@ -118,12 +172,24 @@ class GameUtils {
             width: Float,
             height: Float,
             statement: String = "statement",
-            numStatements: Int = 106,
+            numStatements: Int = 111,
             scaleModifier: Float = 1f,
             color: Color = Color(0.816f, 0.855f, 0.569f, 1f),
-            labelStyle: Label.LabelStyle? = BaseGame.spookySmallLabelStyle
+            labelStyle: Label.LabelStyle? = BaseGame.spookySmallLabelStyle,
+            delay: Float = 5f
         ): Group {
-            val label = TypingLabel("{SPEED=50}${BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}")}", labelStyle)
+            val label = TypingLabel(
+                "{SPEED=50}${
+                    BaseGame.myBundle!!.get(
+                        "$statement${
+                            MathUtils.random(
+                                0,
+                                numStatements
+                            )
+                        }"
+                    )
+                }", labelStyle
+            )
             label.color = color
             label.setAlignment(Align.center)
             val defaultTokens = "{SICK=.4;.4;180}"
@@ -135,23 +201,24 @@ class GameUtils {
             group.setPosition(width / 2 - label.prefWidth * .01f * scaleModifier, height)
 
             group.addAction(Actions.forever(Actions.sequence( // display random statement
-                Actions.delay(5f),
+                Actions.delay(delay),
                 Actions.run {
                     group.isVisible = false
-                    label.setText(BaseGame.myBundle!!.get("$statement${MathUtils.random(0, numStatements)}"))
+                    label.setText(
+                        BaseGame.myBundle!!.get(
+                            "$statement${
+                                MathUtils.random(
+                                    0,
+                                    numStatements
+                                )
+                            }"
+                        )
+                    )
                 },
-                Actions.delay(5f),
+                Actions.delay(delay),
                 Actions.run { group.isVisible = true }
             )))
             return group
-        }
-
-        fun cancelVibration() {
-            try {
-                val controller = Controllers.getControllers()[0]
-                if (controller!!.isVibrating)
-                    controller.cancelVibration()
-            } catch (indexOutOfBoundsException: IndexOutOfBoundsException) {}
         }
     }
 }

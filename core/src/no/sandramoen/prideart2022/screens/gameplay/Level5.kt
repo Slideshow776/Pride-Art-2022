@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.actors.*
 import no.sandramoen.prideart2022.actors.characters.lost.Lost1
+import no.sandramoen.prideart2022.screens.shell.EpilogueScreen
 import no.sandramoen.prideart2022.screens.shell.MenuScreen
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
@@ -90,7 +91,7 @@ class Level5 : BaseLevel() {
                         0f
                     )
                     BaseGame.level5Music!!.isLooping = false
-                    BaseGame.setActiveScreen(MenuScreen())
+                    BaseGame.setActiveScreen(EpilogueScreen())
                 }
             ))
     }

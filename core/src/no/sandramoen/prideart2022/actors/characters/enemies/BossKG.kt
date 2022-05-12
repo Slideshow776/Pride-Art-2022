@@ -105,7 +105,7 @@ class BossKG(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(x
             Actions.run {
                 state = State.Screaming
                 setAnimation(screamAnimation)
-                BaseGame.scream2Sound!!.play(BaseGame.soundVolume * .9f)
+                BaseGame.scream2Sound!!.play(BaseGame.soundVolume * .7f)
                 startEffect()
             },
             Actions.delay(1.5f),

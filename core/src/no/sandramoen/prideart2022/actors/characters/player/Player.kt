@@ -44,6 +44,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     private var hair: Hair = Hair(this)
     private var skin: Skin = Skin(this)
 
+    var isInvulnerable = false
     val originalMovementSpeed = movementSpeed
     var isPlaying = true
     var health: Int = 4
@@ -130,17 +131,19 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     fun isHurt(amount: Int): Boolean {
-        hurtAnimation()
-        if (shield.isActive) {
-            shield.fadeOut()
-            return false
-        } else {
-            health -= amount
-            Explosion(this, stage)
-            setHealthSpeed()
-            jumpToRandomLocation()
-            return true
+        if (!isInvulnerable) {
+            hurtAnimation()
+            if (shield.isActive) {
+                shield.fadeOut()
+            } else {
+                health -= amount
+                Explosion(this, stage)
+                setHealthSpeed()
+                jumpToRandomLocation()
+                return true
+            }
         }
+        return false
     }
 
     fun healthBack() {
@@ -225,11 +228,20 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
         shield.fadeIn()
     }
 
+    fun disableShield() {
+        if (shield.isActive)
+            shield.fadeOut()
+    }
+
     fun speedBoost() {
         movementSpeed += 2
+        setMaxSpeed(movementSpeed)
         addAction(Actions.sequence(
             Actions.delay(3f),
-            Actions.run { movementSpeed -= 2 }
+            Actions.run {
+                movementSpeed -= 2
+                setMaxSpeed(movementSpeed)
+            }
         ))
     }
 
@@ -250,8 +262,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                     Actions.delay(.1f),
                     Actions.run { setMaxSpeed(originalMovementSpeed * .25f) }
                 ))
-            }
-            else {
+            } else {
                 setHealthSpeed()
             }
         }

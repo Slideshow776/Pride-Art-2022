@@ -29,8 +29,7 @@ class Level3 : BaseLevel() {
         position = randomWorldPosition(10f)
         bluePortal = Portal(position.x, position.y, mainStage, orange = false, player = player)
 
-        // intro()
-        triggerChapter3()
+        intro()
     }
 
     override fun update(dt: Float) {
@@ -69,7 +68,8 @@ class Level3 : BaseLevel() {
             BossPortal::class.java.canonicalName
         )) {
             if (player.overlaps(bossPortal) && !isLevelOver) {
-                player.isCollisionEnabled = false
+                player.isInvulnerable = true
+                player.disableShield()
                 fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral18"))
                 isLevelOver = true
                 player.isPlaying = false
@@ -108,8 +108,7 @@ class Level3 : BaseLevel() {
             Actions.run { fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral20"), 5f) },
             Actions.delay(10f),
             Actions.run {
-                objectivesLabel.fadeIn()
-                objectivesLabel.setMyText(myBundle!!.get("objective6"))
+                objectivesLabel.setMyText(myBundle!!.get("objective0"))
                 GameUtils.playAndLoopMusic(BaseGame.level3Music)
                 spawnBeamers(4f)
             },
@@ -124,8 +123,6 @@ class Level3 : BaseLevel() {
             Actions.delay(4f),
             Actions.run {
                 fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral24"), 5f)
-                objectivesLabel.setMyText(myBundle!!.get("objective7"))
-                objectivesLabel.fadeIn()
                 spawnFollowers(25f)
                 spawnLostSouls()
             }
@@ -154,7 +151,7 @@ class Level3 : BaseLevel() {
 
     private fun spawnLostSouls() {
         lostSoulsSpawner.addAction(Actions.forever(Actions.sequence(
-            Actions.delay(30f),
+            Actions.delay(25f),
             Actions.run {
                 val position = randomWorldPosition()
                 when (MathUtils.random(0, 3)) {

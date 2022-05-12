@@ -27,9 +27,9 @@ class Level4 : BaseLevel() {
         tilemap = TilemapActor(BaseGame.level4, mainStage)
         super.initialize()
 
-        /*player.isCollisionEnabled = false*/
         spawnBoss()
         spawnLostSouls()
+        objectivesLabel.setMyText("${myBundle!!.get("objective1")}")
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -137,13 +137,20 @@ class Level4 : BaseLevel() {
                     fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral27"))
                     objectivesLabel.setMyText(myBundle!!.get("objective9"))
                     objectivesLabel.fadeIn()
-                    val position = randomWorldPosition(50f)
+                    var position = randomWorldPosition(50f)
                     when (MathUtils.random(0, 3)) {
                         0 -> lost = Lost0(position.x, position.y, mainStage)
                         1 -> lost = Lost1(position.x, position.y, mainStage)
                         2 -> lost = Lost2(position.x, position.y, mainStage)
                         3 -> lost = Lost3(position.x, position.y, mainStage)
                     }
+
+                    while (lost?.let { bossIra!!.isWithinDistance2(40f, it) } == true) {
+                        position = randomWorldPosition(50f)
+                        println("${MathUtils.random(1000, 9999)} lost too close, repositioning: ${position.x}, ${position.y}")
+                        lost!!.setPosition(position.x, position.y)
+                    }
+
                     bossIra!!.lost = lost
                 }
             }

@@ -112,7 +112,7 @@ class BossKim(x: Float, y: Float, stage: Stage, val player: Player) : BaseActor(
                         beam()
                         state = State.Screaming
                         setAnimation(screamAnimation)
-                        BaseGame.scream1Sound!!.play(BaseGame.soundVolume * .9f)
+                        BaseGame.scream1Sound!!.play(BaseGame.soundVolume * .6f)
                         startBloodScreamEffect()
                     },
                     Actions.delay(3f),

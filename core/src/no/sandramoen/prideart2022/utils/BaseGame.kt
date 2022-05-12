@@ -125,8 +125,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         var prefs: Preferences? = null
         var loadPersonalParameters = false
         var voiceVolume = 1f
-        var soundVolume = .75f
-        var musicVolume = .5f
+        var soundVolume = .3f
+        var musicVolume = .7f
         var currentLocale: String? = null
         var myBundle: I18NBundle? = null
 
@@ -144,8 +144,9 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         GameUtils.loadGameState()
         if (!loadPersonalParameters) {
             currentLocale = appLocale
-            soundVolume = .75f
-            musicVolume = .25f
+            soundVolume = .3f
+            musicVolume = .7f
+            voiceVolume = 1f
         }
 
         try {

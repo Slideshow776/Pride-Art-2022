@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
+import no.sandramoen.prideart2022.utils.GameUtils
 
 class DarkThunder(stage: Stage) : BaseActor(0f, 0f, stage) {
     init {
@@ -22,7 +23,14 @@ class DarkThunder(stage: Stage) : BaseActor(0f, 0f, stage) {
             Actions.alpha(.25f, .1f),
             Actions.alpha(0f, .1f),
             Actions.delay(MathUtils.random(6f, 18f)),
-            Actions.run { BaseGame.thunderSound!!.play(BaseGame.soundVolume, MathUtils.random(.5f, 1.5f), 0f) }
+            Actions.run {
+                GameUtils.vibrateController(500, .1f)
+                BaseGame.thunderSound!!.play(
+                    BaseGame.soundVolume,
+                    MathUtils.random(.5f, 1.5f),
+                    0f
+                )
+            }
         )))
     }
 }

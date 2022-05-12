@@ -22,7 +22,7 @@ import no.sandramoen.prideart2022.utils.GameUtils
 
 class Follower(x: Float, y: Float, stage: Stage, player: Player) : BaseActor(x, y, stage) {
     private val player = player
-    private var movementSpeed = player.originalMovementSpeed * .68f
+    private var movementSpeed = player.originalMovementSpeed * .7f
 
     private var dying = false
     private lateinit var runAnimationN: Animation<TextureAtlas.AtlasRegion>

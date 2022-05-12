@@ -44,7 +44,7 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
         if (player.isWithinDistance2(15f, this) && !isTriggeredClose2) {
             isTriggeredClose2 = true
             shakyCamIntensity = .4f
-            GameUtils.cancelVibration()
+            GameUtils.cancelControllerVibration()
             GameUtils.vibrateController(duration = 100000, strength = .15f)
             clearActions()
             startValueAnimation(.5f)
@@ -53,7 +53,7 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
         if (player.isWithinDistance2(7f, this) && !isTriggeredClose3) {
             isTriggeredClose3 = true
             shakyCamIntensity = 1f
-            GameUtils.cancelVibration()
+            GameUtils.cancelControllerVibration()
             GameUtils.vibrateController(duration = 100000, strength = .2f)
             clearActions()
             startValueAnimation(.1f)

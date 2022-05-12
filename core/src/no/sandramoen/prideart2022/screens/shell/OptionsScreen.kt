@@ -17,18 +17,20 @@ import no.sandramoen.prideart2022.ui.*
 import no.sandramoen.prideart2022.utils.*
 
 class OptionsScreen : BaseScreen() {
+    private lateinit var highlightedActor: Actor
+
     private var madeByLabel = MadeByLabel()
     private var backButton = backButton()
     private var soundSlider = BaseSlider("sound", BaseGame.myBundle!!.get("sound"))
     private var musicSlider = BaseSlider("music", BaseGame.myBundle!!.get("music"))
     private var voiceSlider = BaseSlider("voice", BaseGame.myBundle!!.get("voice"))
     private var languageCarousel = LanguageCarousel()
-    private lateinit var highlightedActor: Actor
     private var usingMouse = true
     private var isAxisFreeToMove = true
     private var axisCounter = 0f
 
     override fun initialize() {
+        println("options screen initialize, loaded with locale: ${BaseGame.currentLocale}")
         Vignette(uiStage)
 
         val table = Table()
@@ -54,6 +56,11 @@ class OptionsScreen : BaseScreen() {
             isAxisFreeToMove = true
         else
             axisCounter += dt
+    }
+
+    override fun connected(controller: Controller?) {
+        super.connected(controller)
+        highlightedActor = soundSlider
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
@@ -116,6 +123,16 @@ class OptionsScreen : BaseScreen() {
 
     override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
         usingMouse = false
+
+        if (
+            (controller!!.getButton(XBoxGamepad.BUTTON_A) ||
+            controller!!.getButton(XBoxGamepad.DPAD_LEFT) ||
+            controller!!.getButton(XBoxGamepad.DPAD_RIGHT)) &&
+            highlightedActor == languageCarousel
+        ) {
+            languageCarousel.changeLanguage()
+        }
+
         if (isDirectionalPad(controller)) {
             if (controller!!.getButton(XBoxGamepad.DPAD_UP))
                 swapButtons(up = true)
@@ -135,8 +152,6 @@ class OptionsScreen : BaseScreen() {
                 voiceSlider.slider.value += voiceSlider.stepSize
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_B)) {
             setMenuScreen()
-        } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == languageCarousel) {
-            languageCarousel.changeLanguage()
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == backButton) {
             setMenuScreen()
         } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == madeByLabel) {

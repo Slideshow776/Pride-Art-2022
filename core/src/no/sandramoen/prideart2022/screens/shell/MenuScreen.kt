@@ -28,8 +28,9 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     private lateinit var startButton: TextButton
     private lateinit var optionsButton: TextButton
     private lateinit var titleLabel: TypingLabel
-    private var highlightedActor: Actor? = null
     private lateinit var controllerMessage: ControllerMessage
+
+    private var highlightedActor: Actor? = null
     private var madeByLabel = MadeByLabel()
     private var usingMouse = true
     private var isAxisFreeToMove = true
@@ -291,8 +292,8 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     private fun background() {
         val saturn = BaseActor(-5f, -10f, mainStage)
         saturn.loadImage("saturn")
-        saturn.color.a = 0f
-        saturn.addAction(Actions.fadeIn(1f))
+        saturn.color.a = 1f
+        /*saturn.addAction(Actions.fadeIn(1f))*/
         /*saturn.color = Color.GRAY*/
 
         val spaceship = BaseActor(-100f, 0f, mainStage)

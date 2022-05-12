@@ -14,7 +14,7 @@ public class DesktopLauncher {
 
         Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
-        if (false) {
+        if (true) {
             config.width = dimension.width;
             config.height = dimension.height;
             config.fullscreen = true;

@@ -42,7 +42,10 @@ class ControllerMessage : Table() {
         fadeInAndOut()
     }
 
-    fun fadeIn() = addAction(Actions.fadeIn(.5f))
+    fun fadeIn() {
+        clearActions()
+        addAction(Actions.fadeIn(.5f))
+    }
 
     fun fadeOut() = addAction(
         Actions.after(
