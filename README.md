@@ -1,5 +1,17 @@
 # Trans Agent X :rainbow: :two_hearts:
-*This document is subject to change.*
+
+Trans Agent X is a sci-fi video game about transgender people re-visiting post-apocalyptic earth searching for a lost artifact. 
+
+Every enemy in the game depicts a narrative fragment of "treatment" transgender people in norway suffered in Rikshospitalet.
+These fragments were collected from the norwegian transgendered community, norwegian media, and personal experience.
+
+The video game explores topics of growth, healing, and trauma.
+
+[Play it](https://github.com/Slideshow776/Pride-Art-2022/releases/latest)
+![demo](https://user-images.githubusercontent.com/4059636/167386118-fb0aa9a8-067a-4aed-adc6-982df19d17db.gif)
+![demo](https://user-images.githubusercontent.com/4059636/162579541-c4386f83-7d6e-4977-bf7f-0fbf9a514cdf.gif)
+![demo](https://user-images.githubusercontent.com/4059636/162924889-6944eac5-90d4-495d-90a4-4272188daa2b.gif)
+[![image](https://user-images.githubusercontent.com/4059636/163727724-cbca9c2a-0ad1-4cb8-ae96-f05873e56bad.png)](https://www.youtube.com/watch?v=82lc-GC7yGU)
 
 This game is part of a [norwegian pride art](https://www.prideart.no) 2022 project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
 This will be done with symbols and other imagery, and hopefully through gameplay.
@@ -9,12 +21,6 @@ The release date is the 20th of May.
 This game will be for desktop only and is **best played with a controller**. The game will be displayed among other art using a pc, screen, and controllers.
 
 Available in norwegian **and English**.
-
-[Play it](https://github.com/Slideshow776/Pride-Art-2022/releases/latest)
-![demo](https://user-images.githubusercontent.com/4059636/167386118-fb0aa9a8-067a-4aed-adc6-982df19d17db.gif)
-![demo](https://user-images.githubusercontent.com/4059636/162579541-c4386f83-7d6e-4977-bf7f-0fbf9a514cdf.gif)
-![demo](https://user-images.githubusercontent.com/4059636/162924889-6944eac5-90d4-495d-90a4-4272188daa2b.gif)
-[![image](https://user-images.githubusercontent.com/4059636/163727724-cbca9c2a-0ad1-4cb8-ae96-f05873e56bad.png)](https://www.youtube.com/watch?v=82lc-GC7yGU)
 
 Read on below for project specifics.
 
