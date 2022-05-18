@@ -14,7 +14,7 @@ The video game explores topics of growth, healing, and trauma.
 
 [![image](https://user-images.githubusercontent.com/4059636/163727724-cbca9c2a-0ad1-4cb8-ae96-f05873e56bad.png)](https://www.youtube.com/watch?v=82lc-GC7yGU)
 
-<!-- [![image](https://user-images.githubusercontent.com/4059636/169043513-38363484-ae51-4451-ad2b-7d9cf123ef03.png)](https://www.youtube.com/watch?v=U7A47wJIoT0) -->
+[![image](https://user-images.githubusercontent.com/4059636/169043513-38363484-ae51-4451-ad2b-7d9cf123ef03.png)](https://www.youtube.com/watch?v=U7A47wJIoT0)
 
 
 This game is part of a [norwegian pride art](https://www.prideart.no) 2022 project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
