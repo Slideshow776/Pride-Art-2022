@@ -63,7 +63,7 @@ open class BaseLevel : BaseScreen() {
         if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
 
         // TODO: for debugging, remove on launch -------------
-        else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level4())
+        /*else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level4())
         else if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.E) experienceBar.increment(1)
         else if (keycode == Input.Keys.NUM_1) setGameOver()
@@ -83,7 +83,7 @@ open class BaseLevel : BaseScreen() {
                 dropHealth()
             }
         } else if (keycode == Input.Keys.NUM_4) dropShield()
-        else if (keycode == Input.Keys.NUM_5) GameUtils.vibrateController()
+        else if (keycode == Input.Keys.NUM_5) GameUtils.vibrateController()*/
         // ----------------------------------------------------
         return super.keyDown(keycode)
     }
