@@ -25,7 +25,7 @@ public class DesktopLauncher {
         }
 
         config.vSyncEnabled = true;
-        config.useGL30 = true;
+        config.useGL30 = false;
         config.title = "Trans Agent X";
         config.resizable = true;
         config.addIcon("images/excluded/icon_32x32.png", Files.FileType.Internal);
