@@ -226,6 +226,15 @@ private fun setAnimation() {
 }
 ```
 
+## Credits
+* [Basslines 1.wav by pcruzn](https://freesound.org/people/pcruzn/sounds/234475/)
+* [Cinematic Suspense.wav by chimerical](https://freesound.org/people/chimerical/sounds/236894/) 
+* [Space Horror atmosphere loop by PearceWilsonKing](https://freesound.org/people/PearceWilsonKing/sounds/316821/)
+* [Vintage Elecro pop loop by frankum](https://freesound.org/people/frankum/sounds/384468/)
+* [Pad, Ambient by Andrewkn](https://freesound.org/people/Andrewkn/sounds/530376/)
+* [Cinematic Boom Impact Hit 2021 by EminYILDIRIM](https://freesound.org/people/EminYILDIRIM/sounds/553418/)
+* [Arp V - Frankum - Frankumjay by frankum](https://freesound.org/people/frankum/sounds/585571/)
+
 ## Other
 For other project specifics check out the [commits](https://github.com/Slideshow776/Pride-Art-2022/commits/main).
 
