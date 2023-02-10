@@ -1,11 +1,13 @@
 package no.sandramoen.prideart2022.actors.characters
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Array
+import no.sandramoen.prideart2022.actors.TilemapActor
 import no.sandramoen.prideart2022.utils.BaseActor
 import no.sandramoen.prideart2022.utils.BaseGame
 
@@ -28,12 +30,14 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
 
     fun talk() {
         setAnimation(talkAnimation)
+        setSize(Gdx.graphics.width * .105f, Gdx.graphics.height * .22f)
         talk = true
     }
 
     fun stopTalking() {
         talk = false
         setAnimation(idleAnimation)
+        setSize(Gdx.graphics.width * .105f, Gdx.graphics.height * .22f)
     }
 
     fun fadeFleetAdmiralInAndOut(talkDuration: Float = 3f) {
@@ -86,5 +90,6 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         animationImages.clear()
 
         setAnimation(idleAnimation)
+        setSize(Gdx.graphics.width * .105f, Gdx.graphics.height * .22f)
     }
 }

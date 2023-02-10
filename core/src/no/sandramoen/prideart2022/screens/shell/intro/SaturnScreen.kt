@@ -55,7 +55,9 @@ class SaturnScreen : BaseScreen() {
             Actions.run { act1() }
         ))
 
-        uiTable.add(label).expandY().bottom().padBottom(Gdx.graphics.height * .02f)
+        label.setAlignment(Align.center)
+        label.wrap = true
+        uiTable.add(label).expandY().bottom().padBottom(Gdx.graphics.height * .02f).width(Gdx.graphics.width * .98f)
         Gdx.input.setCursorPosition(Gdx.graphics.width / 2, Gdx.graphics.height + 10)
     }
 
@@ -73,7 +75,7 @@ class SaturnScreen : BaseScreen() {
         // TODO: debug, remove before launch -------------------------
         if (keycode == Keys.Q) Gdx.app.exit()
         else if (keycode == Keys.R) BaseGame.setActiveScreen(SaturnScreen())
-        else if (keycode == Keys.W) println("time elapsed: $timeElapsed")
+        // else if (keycode == Keys.W) println("time elapsed: $timeElapsed")
         // -----------------------------------------------------------
         else skipIntro()
         return super.keyDown(keycode)

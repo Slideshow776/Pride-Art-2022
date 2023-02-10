@@ -610,14 +610,16 @@ open class BaseLevel : BaseScreen() {
 
     private fun fleetAdmiralSetup() {
         fleetAdmiral = FleetAdmiral(0f, 0f, uiStage)
-        fleetAdmiral.scaleBy(100f)
         fleetAdmiral.setPosition(
-            Gdx.graphics.width * .1f,
-            Gdx.graphics.height - fleetAdmiral.height * 100f
+            Gdx.graphics.width * .03f,
+            Gdx.graphics.height * .65f
         )
 
         fleetAdmiralSubtitles = TypingLabel("", BaseGame.smallLabelStyle)
-        fleetAdmiralSubtitles.setPosition(fleetAdmiral.x - 50f, fleetAdmiral.y - 150)
+        fleetAdmiralSubtitles.setPosition(
+            Gdx.graphics.width * .07f,
+            Gdx.graphics.height * .625f
+        )
         uiStage.addActor(fleetAdmiralSubtitles)
     }
 }

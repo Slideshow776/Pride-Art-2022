@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.utils.Align
 import com.rafaskoberg.gdx.typinglabel.TypingLabel
 import no.sandramoen.prideart2022.actors.characters.FleetAdmiral
 import no.sandramoen.prideart2022.screens.gameplay.Level1
@@ -41,7 +42,9 @@ class LightspeedScreen : BaseScreen() {
 
         label.setFontScale(.9f)
 
-        uiTable.add(label).expandY().bottom().padBottom(Gdx.graphics.height * .02f)
+        label.setAlignment(Align.center)
+        label.wrap = true
+        uiTable.add(label).expandY().bottom().padBottom(Gdx.graphics.height * .02f).width(Gdx.graphics.width * .98f)
         camera.zoom = .09f
     }
 
@@ -58,7 +61,7 @@ class LightspeedScreen : BaseScreen() {
         // TODO: debug, remove before launch -------------------------
         if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level1())
-        else if (keycode == Input.Keys.W) println("time elapsed: $timeElapsed")
+        // else if (keycode == Input.Keys.W) println("time elapsed: $timeElapsed")
         // ------------------------------------------------------------
         else skipIntro()
         return super.keyDown(keycode)

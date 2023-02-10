@@ -147,7 +147,7 @@ class Level4 : BaseLevel() {
 
                     while (lost?.let { bossIra!!.isWithinDistance2(40f, it) } == true) {
                         position = randomWorldPosition(50f)
-                        println("${MathUtils.random(1000, 9999)} lost too close, repositioning: ${position.x}, ${position.y}")
+                        // println("${MathUtils.random(1000, 9999)} lost too close, repositioning: ${position.x}, ${position.y}")
                         lost!!.setPosition(position.x, position.y)
                     }
 

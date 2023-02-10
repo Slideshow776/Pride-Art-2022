@@ -30,7 +30,7 @@ class OptionsScreen : BaseScreen() {
     private var axisCounter = 0f
 
     override fun initialize() {
-        println("options screen initialize, loaded with locale: ${BaseGame.currentLocale}")
+        // println("options screen initialize, loaded with locale: ${BaseGame.currentLocale}")
         Vignette(uiStage)
 
         val table = Table()

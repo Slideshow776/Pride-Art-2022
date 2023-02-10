@@ -14,12 +14,12 @@ public class DesktopLauncher {
 
         Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
-        if (true) {
+        if (false) {
             config.width = dimension.width;
             config.height = dimension.height;
             config.fullscreen = true;
         } else { // debug
-            config.width = (int) (dimension.width * .9f);
+            config.width = (int) (dimension.width * .8f);
             float screenRation = .461538461f;
             config.height = (int) (config.width * screenRation);
         }

@@ -1,5 +1,6 @@
 package no.sandramoen.prideart2022.ui
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -26,19 +27,28 @@ class ControllerMessage : Table() {
 
     fun showConnected() {
         changeImageTo("controllerConnected")
-        setLabel(BaseGame.myBundle!!.get("controllerConnected"), Color(0.659f, 0.792f, 0.345f, 1f)) // green
+        setLabel(
+            BaseGame.myBundle!!.get("controllerConnected"),
+            Color(0.659f, 0.792f, 0.345f, 1f)
+        ) // green
         fadeInAndOut()
     }
 
     fun showDisConnected() {
         changeImageTo("controllerDisconnected")
-        setLabel(BaseGame.myBundle!!.get("controllerDisconnected"), Color(0.812f, 0.341f, 0.235f, 1f)) // red
+        setLabel(
+            BaseGame.myBundle!!.get("controllerDisconnected"),
+            Color(0.812f, 0.341f, 0.235f, 1f)
+        ) // red
         fadeIn()
     }
 
     fun showNoControllerFound() {
         changeImageTo("controllerDisconnected")
-        setLabel(BaseGame.myBundle!!.get("noControllerFound"), Color(0.812f, 0.341f, 0.235f, 1f)) // red
+        setLabel(
+            BaseGame.myBundle!!.get("noControllerFound"),
+            Color(0.812f, 0.341f, 0.235f, 1f)
+        ) // red
         fadeInAndOut()
     }
 
@@ -77,7 +87,7 @@ class ControllerMessage : Table() {
 
     private fun initializeImage(): Image {
         val image = Image(BaseGame.textureAtlas!!.findRegion("controllerConnected"))
-        image.setScale(4f)
+        image.setScale(Gdx.graphics.width * .002f)
         image.setOrigin(Align.bottom)
         return image
     }
