@@ -28,14 +28,16 @@ class LightspeedScreen : BaseScreen() {
 
     private val label = TypingLabel("", BaseGame.smallLabelStyle)
     private lateinit var fleetAdmiral: FleetAdmiral
+    private val fleetAdmiralWidth = Gdx.graphics.width * .01f
+    private val fleetAdmiralHeight = Gdx.graphics.width * .01f
 
     override fun initialize() {
         initializeLightspeed()
         initializeBeam()
         initializeSpaceship()
 
-        fleetAdmiral = FleetAdmiral(-50f, -27.5f, mainStage)
-        fleetAdmiral.scaleBy(10f)
+        fleetAdmiral = FleetAdmiral(-75f, -38f, mainStage)
+        fleetAdmiral.setSize(fleetAdmiralWidth, fleetAdmiralHeight)
 
         BaseGame.cinematic3Music!!.play()
         BaseGame.cinematic3Music!!.volume = BaseGame.musicVolume
@@ -126,7 +128,9 @@ class LightspeedScreen : BaseScreen() {
                 Actions.run {
                     fleetAdmiral.fadeIn()
                     fleetAdmiral.addAction(Actions.sequence(
-                        Actions.run { fleetAdmiral.talk() }
+                        Actions.run {
+                            fleetAdmiral.talk()
+                            fleetAdmiral.setSize(fleetAdmiralWidth, fleetAdmiralHeight)}
                     ))
                     label.restart()
                     label.setText("${myBundle!!.get("lightSpeed11")} ${myBundle!!.get("lightSpeed12")}")
@@ -160,6 +164,7 @@ class LightspeedScreen : BaseScreen() {
                 Actions.run {
                     label.setText("")
                     fleetAdmiral.stopTalking()
+                    fleetAdmiral.setSize(fleetAdmiralWidth, fleetAdmiralHeight)
                     fleetAdmiral.fadeOut()
                 }
             )

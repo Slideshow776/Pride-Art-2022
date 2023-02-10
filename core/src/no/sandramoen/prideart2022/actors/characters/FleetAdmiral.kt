@@ -17,6 +17,8 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
     private var talk = false
     private val talkFrequency = .35f
     private var talkCounter = 0f
+    private val fleetAdmiralWidth = Gdx.graphics.width * .115f
+    private val fleetAdmiralHeight = Gdx.graphics.height * .22f
 
     init {
         initializeAnimations()
@@ -30,14 +32,14 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
 
     fun talk() {
         setAnimation(talkAnimation)
-        setSize(Gdx.graphics.width * .105f, Gdx.graphics.height * .22f)
+        setSize(fleetAdmiralWidth, fleetAdmiralHeight)
         talk = true
     }
 
     fun stopTalking() {
         talk = false
         setAnimation(idleAnimation)
-        setSize(Gdx.graphics.width * .105f, Gdx.graphics.height * .22f)
+        setSize(fleetAdmiralWidth, fleetAdmiralHeight)
     }
 
     fun fadeFleetAdmiralInAndOut(talkDuration: Float = 3f) {
@@ -90,6 +92,6 @@ class FleetAdmiral(x: Float, y: Float, stage: Stage) : BaseActor(x, y, stage) {
         animationImages.clear()
 
         setAnimation(idleAnimation)
-        setSize(Gdx.graphics.width * .105f, Gdx.graphics.height * .22f)
+        setSize(fleetAdmiralWidth, fleetAdmiralHeight)
     }
 }

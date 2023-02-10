@@ -29,7 +29,10 @@ import kotlin.system.measureTimeMillis
 
 abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
     private val appLocale = appLocale
-    init { game = this }
+
+    init {
+        game = this
+    }
 
     companion object {
         private var game: BaseGame? = null
@@ -385,6 +388,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         spookyFontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/SHLOP___.ttf"))
         val fontParameters = FreeTypeFontParameter()
         fontParameters.size = (.06f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+        if (fontParameters.size > 128)
+            fontParameters.size = 90
         fontParameters.color = Color.WHITE
         fontParameters.borderWidth = 4f
         fontParameters.shadowColor = Color(0f, 0f, 0f, .25f)
@@ -396,6 +401,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         fontParameters.magFilter = TextureFilter.Linear
         val fontSmall = spookyFontGenerator.generateFont(fontParameters)
         fontParameters.size = (.3f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+        if (fontParameters.size > 150)
+            fontParameters.size = 100
         val fontBig = spookyFontGenerator.generateFont(fontParameters)
 
         spookySmallLabelStyle = LabelStyle()

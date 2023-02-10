@@ -71,7 +71,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         }
     }
 
-    override fun draw(batch: Batch, parentAlpha: Float) {
+    /*override fun draw(batch: Batch, parentAlpha: Float) {
         if (BaseGame.isCustomShadersEnabled) {
             try {
                 drawWithShader(batch, parentAlpha)
@@ -81,7 +81,7 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
         } else {
             super.draw(batch, parentAlpha)
         }
-    }
+    }*/
 
     override fun death() {
         super.death()

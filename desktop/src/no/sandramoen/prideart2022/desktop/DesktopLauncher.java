@@ -19,7 +19,7 @@ public class DesktopLauncher {
             config.height = dimension.height;
             config.fullscreen = true;
         } else { // debug
-            config.width = (int) (dimension.width * .8f);
+            config.width = (int) (dimension.width * 1.8f);
             float screenRation = .461538461f;
             config.height = (int) (config.width * screenRation);
         }
