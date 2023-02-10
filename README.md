@@ -10,8 +10,8 @@ Here is [the list](https://github.com/Slideshow776/Trans-Agent-X/tree/main/core/
 
 If you want to [Sponsor me](https://github.com/sponsors/Slideshow776?frequency=recurring) I'd be honored.
 
-[Play it](https://github.com/Slideshow776/Pride-Art-2022/releases/latest)
-[![image](https://user-images.githubusercontent.com/4059636/169043513-38363484-ae51-4451-ad2b-7d9cf123ef03.png)](https://www.youtube.com/watch?v=akDdn8ha0bo)
+Check it out on [Steam](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1).
+[![image](https://user-images.githubusercontent.com/4059636/169043513-38363484-ae51-4451-ad2b-7d9cf123ef03.png)](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1)
 
 <!-- ![demo](https://user-images.githubusercontent.com/4059636/167386118-fb0aa9a8-067a-4aed-adc6-982df19d17db.gif) -->
 ![demo](https://user-images.githubusercontent.com/4059636/162579541-c4386f83-7d6e-4977-bf7f-0fbf9a514cdf.gif)
