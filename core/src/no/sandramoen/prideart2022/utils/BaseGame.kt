@@ -333,6 +333,8 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf")) // hemi-head-426.rg-bolditalic
             val fontParameters = FreeTypeFontParameter()
             fontParameters.size = (.038f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+            if (fontParameters.size > 230)
+                fontParameters.size = 230
             fontParameters.color = Color.WHITE
             fontParameters.borderWidth = 2f
             fontParameters.shadowColor = Color(0f, 0f, 0f, .25f)
@@ -343,9 +345,13 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             fontParameters.minFilter = TextureFilter.Linear
             fontParameters.magFilter = TextureFilter.Linear
             val fontSmall = fontGenerator.generateFont(fontParameters)
-            fontParameters.size = (.15f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+            fontParameters.size = (.116f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+            if (fontParameters.size > 230)
+                fontParameters.size = 230
             val fontMedium = fontGenerator.generateFont(fontParameters)
             fontParameters.size = (.2f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+            if (fontParameters.size > 230)
+                fontParameters.size = 230
             val fontBig = fontGenerator.generateFont(fontParameters)
 
             val buttonFontParameters = FreeTypeFontParameter()
