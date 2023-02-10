@@ -31,6 +31,6 @@ public class DesktopLauncher {
         config.addIcon("images/excluded/icon_32x32.png", Files.FileType.Internal);
         config.addIcon("images/excluded/icon_16x16.png", Files.FileType.Internal);
 
-        new LwjglApplication(new PrideArt2022Game("no"), config);
+        new LwjglApplication(new PrideArt2022Game("en"), config);
     }
 }
