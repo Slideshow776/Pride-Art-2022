@@ -33,11 +33,8 @@ class LanguageCarousel : Table() {
 
     fun changeLanguage() {
         BaseGame.click1Sound!!.play(BaseGame.soundVolume)
-        // println("before: ${BaseGame.currentLocale}")
-        if (BaseGame.currentLocale == "en") changeLocale("no")
-        else if (BaseGame.currentLocale == "no") changeLocale("en")
-        else Gdx.app.error(javaClass.canonicalName, "Error, locale not supported. Locale is: ${BaseGame.currentLocale}")
-        // println("now: ${BaseGame.currentLocale}")
+        if (BaseGame.currentLocale == "no") changeLocale("en")
+        else changeLocale("no")
     }
 
     private fun arrowButton(arrowLabel: String): TextButton {

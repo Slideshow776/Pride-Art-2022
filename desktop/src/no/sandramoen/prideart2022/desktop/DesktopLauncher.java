@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import java.awt.Dimension;
+import java.util.Locale;
 
 import no.sandramoen.prideart2022.PrideArt2022Game;
 
@@ -31,6 +32,8 @@ public class DesktopLauncher {
         config.addIcon("images/excluded/icon_32x32.png", Files.FileType.Internal);
         config.addIcon("images/excluded/icon_16x16.png", Files.FileType.Internal);
 
-        new LwjglApplication(new PrideArt2022Game("en"), config);
+        String locale = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
+        System.out.println("Loading the game with system locale: " + locale);
+        new LwjglApplication(new PrideArt2022Game(locale), config);
     }
 }
