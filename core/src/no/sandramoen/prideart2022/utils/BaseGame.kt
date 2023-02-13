@@ -28,7 +28,7 @@ import kotlin.system.measureTimeMillis
 
 
 abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
-    private val appLocale = appLocale
+    private val appLocale = appLocale.toLowerCase()
 
     init {
         game = this
@@ -143,10 +143,10 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
         Gdx.input.setCatchKey(Keys.BACK, true) // so that android doesn't exit game on back button
         Gdx.input.inputProcessor = InputMultiplexer() // discrete input
 
-        currentLocale = appLocale
+        currentLocale = appLocale.toLowerCase()
         GameUtils.loadGameState()
         if (!loadPersonalParameters) {
-            currentLocale = appLocale
+            currentLocale = appLocale.toLowerCase()
             soundVolume = .3f
             musicVolume = .7f
             voiceVolume = 1f
@@ -322,7 +322,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener {
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)
 
             // i18n
-            myBundle = assetManager["i18n/MyBundle", I18NBundle::class.java]
+            myBundle = assetManager.get("i18n/MyBundle", I18NBundle::class.java)
 
             // tiled map
             level1 = assetManager.get("maps/level1.tmx", TiledMap::class.java)

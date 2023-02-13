@@ -55,10 +55,10 @@ class LanguageCarousel : Table() {
     private fun changeLocale(locale: String) {
         // println("changeLocale: $locale")
         BaseGame.assetManager.unload("i18n/MyBundle")
-        BaseGame.assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleLoader.I18NBundleParameter(Locale(locale)))
+        BaseGame.assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleLoader.I18NBundleParameter(Locale(locale.toLowerCase())))
         BaseGame.assetManager.finishLoading()
-        BaseGame.myBundle = BaseGame.assetManager["i18n/MyBundle", I18NBundle::class.java]
-        BaseGame.currentLocale = locale
+        BaseGame.myBundle = BaseGame.assetManager.get("i18n/MyBundle", I18NBundle::class.java)
+        BaseGame.currentLocale = locale.toLowerCase()
         GameUtils.saveGameState()
         BaseGame.setActiveScreen(OptionsScreen())
     }
