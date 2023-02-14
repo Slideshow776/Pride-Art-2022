@@ -1,0 +1,2725 @@
+
+images.pack.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+beam
+  rotate: false
+  xy: 918, 82
+  size: 32, 1
+  orig: 32, 1
+  offset: 0, 0
+  index: -1
+bigExplosionGray
+  rotate: false
+  xy: 749, 411
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bigExplosionLightGray
+  rotate: false
+  xy: 749, 153
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bigExplosionTealGray
+  rotate: false
+  xy: 2, 34
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bigExplosionWhite
+  rotate: false
+  xy: 260, 34
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+blueCrystal
+  rotate: false
+  xy: 1003, 913
+  size: 15, 32
+  orig: 15, 32
+  offset: 0, 0
+  index: -1
+bossPortal
+  rotate: false
+  xy: 778, 25
+  size: 83, 126
+  orig: 83, 126
+  offset: 0, 0
+  index: -1
+controllerConnected
+  rotate: false
+  xy: 863, 35
+  size: 61, 38
+  orig: 61, 38
+  offset: 0, 0
+  index: -1
+earth
+  rotate: false
+  xy: 518, 70
+  size: 220, 220
+  orig: 220, 220
+  offset: 0, 0
+  index: -1
+explosionGray
+  rotate: false
+  xy: 518, 2
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: -1
+explosionLightGray
+  rotate: false
+  xy: 586, 2
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: -1
+explosionTealGray
+  rotate: false
+  xy: 654, 2
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: -1
+explosionWhite
+  rotate: false
+  xy: 918, 85
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: -1
+groundCrack
+  rotate: false
+  xy: 952, 19
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+heart
+  rotate: false
+  xy: 1003, 812
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+hrt
+  rotate: false
+  xy: 986, 103
+  size: 30, 12
+  orig: 30, 12
+  offset: 0, 0
+  index: -1
+hurt
+  rotate: false
+  xy: 1003, 761
+  size: 8, 21
+  orig: 8, 21
+  offset: 0, 0
+  index: -1
+lightspeed
+  rotate: false
+  xy: 740, 11
+  size: 36, 140
+  orig: 36, 140
+  offset: 0, 0
+  index: -1
+pinkCrystal
+  rotate: false
+  xy: 1003, 879
+  size: 15, 32
+  orig: 15, 32
+  offset: 0, 0
+  index: -1
+rainbowHorizontal
+  rotate: false
+  xy: 1003, 784
+  size: 14, 7
+  orig: 14, 7
+  offset: 0, 0
+  index: -1
+rainbowVertical
+  rotate: false
+  xy: 1003, 754
+  size: 7, 5
+  orig: 7, 5
+  offset: 0, 0
+  index: -1
+runningSmoke
+  rotate: false
+  xy: 1003, 828
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+saturn
+  rotate: false
+  xy: 2, 292
+  size: 745, 375
+  orig: 745, 375
+  offset: 0, 0
+  index: -1
+shield
+  rotate: false
+  xy: 986, 117
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
+shieldDrop
+  rotate: false
+  xy: 1003, 793
+  size: 14, 17
+  orig: 14, 17
+  offset: 0, 0
+  index: -1
+shot
+  rotate: false
+  xy: 1003, 1004
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+skeiveSpillutviklere
+  rotate: false
+  xy: 2, 669
+  size: 999, 353
+  orig: 999, 353
+  offset: 0, 0
+  index: -1
+spaceship
+  rotate: false
+  xy: 863, 17
+  size: 58, 16
+  orig: 58, 16
+  offset: 0, 0
+  index: -1
+sprinkle
+  rotate: false
+  xy: 1003, 744
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+starBlue
+  rotate: false
+  xy: 1003, 985
+  size: 16, 17
+  orig: 16, 17
+  offset: 0, 0
+  index: -1
+starPink
+  rotate: false
+  xy: 1003, 966
+  size: 16, 17
+  orig: 16, 17
+  offset: 0, 0
+  index: -1
+starWhite
+  rotate: false
+  xy: 1003, 947
+  size: 16, 17
+  orig: 16, 17
+  offset: 0, 0
+  index: -1
+theArtifact
+  rotate: false
+  xy: 863, 75
+  size: 53, 76
+  orig: 53, 76
+  offset: 0, 0
+  index: -1
+transFlagHorizontal
+  rotate: false
+  xy: 1003, 747
+  size: 1, 5
+  orig: 1, 5
+  offset: 0, 0
+  index: -1
+whiteCrystal
+  rotate: false
+  xy: 1003, 845
+  size: 15, 32
+  orig: 15, 32
+  offset: 0, 0
+  index: -1
+whitePixel
+  rotate: false
+  xy: 1003, 741
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+
+images.pack2.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+bluePortal
+  rotate: false
+  xy: 404, 170
+  size: 26, 42
+  orig: 26, 42
+  offset: 0, 0
+  index: -1
+controllerDisconnected
+  rotate: false
+  xy: 804, 976
+  size: 61, 38
+  orig: 61, 38
+  offset: 0, 0
+  index: -1
+orangePortal
+  rotate: false
+  xy: 804, 932
+  size: 26, 42
+  orig: 26, 42
+  offset: 0, 0
+  index: -1
+rikshospitalet
+  rotate: false
+  xy: 2, 2
+  size: 400, 210
+  orig: 400, 210
+  offset: 0, 0
+  index: -1
+vignette
+  rotate: false
+  xy: 2, 214
+  size: 800, 800
+  orig: 800, 800
+  offset: 0, 0
+  index: -1
+
+images.pack3.png
+size: 256, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+destructibles/barrel
+  rotate: false
+  xy: 104, 41
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+destructibles/barrelDestroyed
+  rotate: false
+  xy: 70, 33
+  size: 32, 29
+  orig: 32, 29
+  offset: 0, 0
+  index: -1
+destructibles/bottle
+  rotate: false
+  xy: 191, 46
+  size: 17, 16
+  orig: 17, 16
+  offset: 0, 0
+  index: -1
+destructibles/bottleDestroyed
+  rotate: false
+  xy: 210, 46
+  size: 17, 16
+  orig: 17, 16
+  offset: 0, 0
+  index: -1
+destructibles/chair
+  rotate: false
+  xy: 37, 2
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+destructibles/chairDestroyed
+  rotate: false
+  xy: 2, 4
+  size: 25, 23
+  orig: 25, 23
+  offset: 0, 0
+  index: -1
+destructibles/skeleton
+  rotate: false
+  xy: 2, 29
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: -1
+destructibles/skeletonDestroyed
+  rotate: false
+  xy: 37, 31
+  size: 31, 31
+  orig: 31, 31
+  offset: 0, 0
+  index: -1
+destructibles/skull
+  rotate: false
+  xy: 104, 21
+  size: 16, 18
+  orig: 16, 18
+  offset: 0, 0
+  index: -1
+destructibles/skullDestroyed
+  rotate: false
+  xy: 168, 30
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+destructibles/skulls
+  rotate: false
+  xy: 186, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+destructibles/skullsDestroyed
+  rotate: false
+  xy: 168, 48
+  size: 21, 14
+  orig: 21, 14
+  offset: 0, 0
+  index: -1
+destructibles/smallBush
+  rotate: false
+  xy: 126, 42
+  size: 19, 20
+  orig: 19, 20
+  offset: 0, 0
+  index: -1
+destructibles/smallBushDestroyed
+  rotate: false
+  xy: 147, 42
+  size: 19, 20
+  orig: 19, 20
+  offset: 0, 0
+  index: -1
+destructibles/vase
+  rotate: false
+  xy: 229, 46
+  size: 17, 16
+  orig: 17, 16
+  offset: 0, 0
+  index: -1
+destructibles/vaseDestroyed
+  rotate: false
+  xy: 204, 28
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+
+images.pack4.png
+size: 128, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/beam
+  rotate: false
+  xy: 27, 413
+  size: 63, 16
+  orig: 63, 16
+  offset: 0, 0
+  index: -1
+enemies/chain
+  rotate: false
+  xy: 2, 67
+  size: 23, 566
+  orig: 23, 566
+  offset: 0, 0
+  index: -1
+enemies/ghostFreed
+  rotate: false
+  xy: 2, 20
+  size: 23, 45
+  orig: 23, 45
+  offset: 0, 0
+  index: -1
+enemies/remains1
+  rotate: false
+  xy: 109, 617
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+enemies/remains2
+  rotate: false
+  xy: 2, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+enemies/spiderShot
+  rotate: false
+  xy: 74, 535
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+enemies/spiderWeb
+  rotate: false
+  xy: 27, 553
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+enemies/teleport1
+  rotate: false
+  xy: 27, 450
+  size: 80, 17
+  orig: 80, 17
+  offset: 0, 0
+  index: -1
+enemies/teleport2
+  rotate: false
+  xy: 27, 431
+  size: 80, 17
+  orig: 80, 17
+  offset: 0, 0
+  index: -1
+enemies/tentacle0
+  rotate: false
+  xy: 27, 469
+  size: 45, 82
+  orig: 45, 82
+  offset: 0, 0
+  index: -1
+
+images.pack5.png
+size: 32, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/beamer/runN1
+  rotate: false
+  xy: 2, 197
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: -1
+enemies/beamer/runN2
+  rotate: false
+  xy: 2, 158
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: -1
+enemies/beamer/runS1
+  rotate: false
+  xy: 2, 119
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: -1
+enemies/beamer/runS2
+  rotate: false
+  xy: 2, 80
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: -1
+enemies/beamer/shooting1
+  rotate: false
+  xy: 2, 41
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: -1
+enemies/beamer/shooting2
+  rotate: false
+  xy: 2, 2
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: -1
+
+images.pack6.png
+size: 512, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/bossIra/eat1
+  rotate: false
+  xy: 2, 2
+  size: 71, 82
+  orig: 71, 82
+  offset: 0, 0
+  index: -1
+enemies/bossIra/eat2
+  rotate: false
+  xy: 75, 2
+  size: 71, 82
+  orig: 71, 82
+  offset: 0, 0
+  index: -1
+enemies/bossIra/runN1
+  rotate: false
+  xy: 148, 2
+  size: 71, 82
+  orig: 71, 82
+  offset: 0, 0
+  index: -1
+enemies/bossIra/runN2
+  rotate: false
+  xy: 221, 2
+  size: 71, 82
+  orig: 71, 82
+  offset: 0, 0
+  index: -1
+enemies/bossIra/runS1
+  rotate: false
+  xy: 294, 2
+  size: 71, 82
+  orig: 71, 82
+  offset: 0, 0
+  index: -1
+enemies/bossIra/runS2
+  rotate: false
+  xy: 367, 2
+  size: 71, 82
+  orig: 71, 82
+  offset: 0, 0
+  index: -1
+
+images.pack7.png
+size: 128, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/bossKG/runN1
+  rotate: false
+  xy: 2, 164
+  size: 57, 79
+  orig: 57, 79
+  offset: 0, 0
+  index: -1
+enemies/bossKG/runN2
+  rotate: false
+  xy: 2, 83
+  size: 57, 79
+  orig: 57, 79
+  offset: 0, 0
+  index: -1
+enemies/bossKG/runS1
+  rotate: false
+  xy: 61, 164
+  size: 57, 79
+  orig: 57, 79
+  offset: 0, 0
+  index: -1
+enemies/bossKG/runS2
+  rotate: false
+  xy: 2, 2
+  size: 57, 79
+  orig: 57, 79
+  offset: 0, 0
+  index: -1
+enemies/bossKG/scream1
+  rotate: false
+  xy: 61, 83
+  size: 57, 79
+  orig: 57, 79
+  offset: 0, 0
+  index: -1
+enemies/bossKG/scream2
+  rotate: false
+  xy: 61, 2
+  size: 57, 79
+  orig: 57, 79
+  offset: 0, 0
+  index: -1
+
+images.pack8.png
+size: 256, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/bossKim/death1
+  rotate: false
+  xy: 2, 162
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+enemies/bossKim/death2
+  rotate: false
+  xy: 2, 82
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+enemies/bossKim/death3
+  rotate: false
+  xy: 59, 162
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+enemies/bossKim/death4
+  rotate: false
+  xy: 2, 2
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+enemies/bossKim/death5
+  rotate: false
+  xy: 59, 82
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+enemies/bossKim/death6
+  rotate: false
+  xy: 116, 162
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+enemies/bossKim/runN1
+  rotate: false
+  xy: 173, 172
+  size: 54, 68
+  orig: 54, 68
+  offset: 0, 0
+  index: -1
+enemies/bossKim/runN2
+  rotate: false
+  xy: 116, 12
+  size: 54, 68
+  orig: 54, 68
+  offset: 0, 0
+  index: -1
+enemies/bossKim/runS1
+  rotate: false
+  xy: 173, 102
+  size: 54, 68
+  orig: 54, 68
+  offset: 0, 0
+  index: -1
+enemies/bossKim/runS2
+  rotate: false
+  xy: 173, 32
+  size: 54, 68
+  orig: 54, 68
+  offset: 0, 0
+  index: -1
+enemies/bossKim/scream1
+  rotate: false
+  xy: 59, 2
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+enemies/bossKim/scream2
+  rotate: false
+  xy: 116, 82
+  size: 55, 78
+  orig: 55, 78
+  offset: 0, 0
+  index: -1
+
+images.pack9.png
+size: 32, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/charger/runN1
+  rotate: false
+  xy: 2, 110
+  size: 27, 34
+  orig: 27, 34
+  offset: 0, 0
+  index: -1
+enemies/charger/runN2
+  rotate: false
+  xy: 2, 74
+  size: 27, 34
+  orig: 27, 34
+  offset: 0, 0
+  index: -1
+enemies/charger/runS1
+  rotate: false
+  xy: 2, 38
+  size: 27, 34
+  orig: 27, 34
+  offset: 0, 0
+  index: -1
+enemies/charger/runS2
+  rotate: false
+  xy: 2, 2
+  size: 27, 34
+  orig: 27, 34
+  offset: 0, 0
+  index: -1
+
+images.pack10.png
+size: 64, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/fairy/1
+  rotate: false
+  xy: 2, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+enemies/fairy/fairy1
+  rotate: false
+  xy: 2, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+enemies/fairy/2
+  rotate: false
+  xy: 20, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+enemies/fairy/fairy2
+  rotate: false
+  xy: 20, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+
+images.pack11.png
+size: 256, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/follower/closeN1
+  rotate: false
+  xy: 2, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+enemies/follower/closeN2
+  rotate: false
+  xy: 29, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+enemies/follower/closeS1
+  rotate: false
+  xy: 56, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+enemies/follower/closeS2
+  rotate: false
+  xy: 83, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+enemies/follower/runN1
+  rotate: false
+  xy: 110, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+enemies/follower/runN2
+  rotate: false
+  xy: 137, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+enemies/follower/runS1
+  rotate: false
+  xy: 164, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+enemies/follower/runS2
+  rotate: false
+  xy: 191, 2
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: -1
+
+images.pack12.png
+size: 256, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/lion/lion
+  rotate: false
+  xy: 2, 2
+  size: 65, 77
+  orig: 65, 77
+  offset: 0, 0
+  index: -1
+enemies/lion/lion1
+  rotate: false
+  xy: 69, 2
+  size: 65, 77
+  orig: 65, 77
+  offset: 0, 0
+  index: -1
+enemies/lion/lion2
+  rotate: false
+  xy: 136, 2
+  size: 65, 77
+  orig: 65, 77
+  offset: 0, 0
+  index: -1
+
+images.pack13.png
+size: 512, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+enemies/shooter/runN1
+  rotate: false
+  xy: 2, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/runN2
+  rotate: false
+  xy: 41, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/runS1
+  rotate: false
+  xy: 80, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/runS2
+  rotate: false
+  xy: 119, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/shooting1
+  rotate: false
+  xy: 158, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/shooting2
+  rotate: false
+  xy: 197, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/shooting3
+  rotate: false
+  xy: 236, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/shooting4
+  rotate: false
+  xy: 275, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+enemies/shooter/shooting5
+  rotate: false
+  xy: 314, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+
+images.pack14.png
+size: 64, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+fleet admiral/idle1
+  rotate: false
+  xy: 2, 2
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+fleet admiral/talk1
+  rotate: false
+  xy: 2, 2
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+fleet admiral/idle2
+  rotate: false
+  xy: 19, 2
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+fleet admiral/talk2
+  rotate: false
+  xy: 36, 2
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+
+images.pack15.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+lost/lost0/death1
+  rotate: false
+  xy: 2, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost0/death2
+  rotate: false
+  xy: 25, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost0/death3
+  rotate: false
+  xy: 48, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost0/death4
+  rotate: false
+  xy: 71, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost0/death5
+  rotate: false
+  xy: 94, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost0/death6
+  rotate: false
+  xy: 117, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost0/idle1
+  rotate: false
+  xy: 140, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost0/idle2
+  rotate: false
+  xy: 163, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+
+images.pack16.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+lost/lost1/death1
+  rotate: false
+  xy: 2, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+lost/lost1/death2
+  rotate: false
+  xy: 26, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+lost/lost1/death3
+  rotate: false
+  xy: 50, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+lost/lost1/death4
+  rotate: false
+  xy: 74, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+lost/lost1/death5
+  rotate: false
+  xy: 98, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+lost/lost1/death6
+  rotate: false
+  xy: 122, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+lost/lost1/idle1
+  rotate: false
+  xy: 146, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+lost/lost1/idle2
+  rotate: false
+  xy: 170, 2
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+
+images.pack17.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+lost/lost2/death1
+  rotate: false
+  xy: 2, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost2/death2
+  rotate: false
+  xy: 25, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost2/death3
+  rotate: false
+  xy: 48, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost2/death4
+  rotate: false
+  xy: 71, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost2/death5
+  rotate: false
+  xy: 94, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost2/death6
+  rotate: false
+  xy: 117, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost2/idle1
+  rotate: false
+  xy: 140, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost2/idle2
+  rotate: false
+  xy: 163, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+
+images.pack18.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+lost/lost3/death1
+  rotate: false
+  xy: 2, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost3/death2
+  rotate: false
+  xy: 25, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost3/death3
+  rotate: false
+  xy: 48, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost3/death4
+  rotate: false
+  xy: 71, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost3/death5
+  rotate: false
+  xy: 94, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost3/death6
+  rotate: false
+  xy: 117, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost3/idle1
+  rotate: false
+  xy: 140, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+lost/lost3/idle2
+  rotate: false
+  xy: 163, 2
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+
+images.pack19.png
+size: 64, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/portrait
+  rotate: false
+  xy: 2, 2
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+player/portraitBlink
+  rotate: false
+  xy: 26, 2
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+
+images.pack20.png
+size: 128, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/beard/beard 0/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/death2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/death3
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/idle1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/idle2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runS1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runS2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/smile2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/smile3
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runN1
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runN2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runWEN1
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runWEN2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runWES1
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 0/runWES2
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack21.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/beard/beard 1/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/death2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/death3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/idle1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/idle2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runS1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runS2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runN1
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runN2
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runWEN1
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runWEN2
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runWES1
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/runWES2
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/smile2
+  rotate: false
+  xy: 170, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 1/smile3
+  rotate: false
+  xy: 198, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack22.png
+size: 512, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/beard/beard 2/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/death2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/death3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/idle1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/idle2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runS1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runN1
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runN2
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runWEN1
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runWEN2
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runS2
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runWES1
+  rotate: false
+  xy: 170, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/runWES2
+  rotate: false
+  xy: 198, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/smile2
+  rotate: false
+  xy: 226, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/beard/beard 2/smile3
+  rotate: false
+  xy: 254, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack23.png
+size: 512, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/body/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/death2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/death3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/idle1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/idle2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/smile1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runN1
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runN2
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runS1
+  rotate: false
+  xy: 170, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runS2
+  rotate: false
+  xy: 198, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runWEN1
+  rotate: false
+  xy: 226, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runWEN2
+  rotate: false
+  xy: 254, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runWES1
+  rotate: false
+  xy: 282, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/runWES2
+  rotate: false
+  xy: 310, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/smile2
+  rotate: false
+  xy: 338, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/body/smile3
+  rotate: false
+  xy: 366, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack24.png
+size: 512, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/hair/hair 0/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/idle1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/idle2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runS1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/death2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/smile2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/death3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/smile3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runN1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runN2
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runS2
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runWEN1
+  rotate: false
+  xy: 170, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runWEN2
+  rotate: false
+  xy: 198, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runWES1
+  rotate: false
+  xy: 226, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 0/runWES2
+  rotate: false
+  xy: 254, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack25.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/hair/hair 1/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/death2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/idle1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/idle2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runS1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/smile2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/death3
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/smile3
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runN1
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runN2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runS2
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runWEN1
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runWEN2
+  rotate: false
+  xy: 170, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runWES1
+  rotate: false
+  xy: 198, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 1/runWES2
+  rotate: false
+  xy: 226, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack26.png
+size: 512, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/hair/hair 2/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runWES1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/death2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/smile2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/death3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/smile3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/idle1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/idle2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runS1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runN1
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runN2
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runS2
+  rotate: false
+  xy: 170, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runWEN1
+  rotate: false
+  xy: 198, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runWEN2
+  rotate: false
+  xy: 226, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 2/runWES2
+  rotate: false
+  xy: 254, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack27.png
+size: 128, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/hair/hair 3/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/death2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/death3
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/idle1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/idle2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runS1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runS2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/smile2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/smile3
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runN1
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runN2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runWEN1
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runWEN2
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runWES1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 3/runWES2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack28.png
+size: 128, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/hair/hair 4/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/death2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/death3
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/idle1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/idle2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runS1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runS2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/smile1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/smile2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/smile3
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runN1
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runN2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runWEN1
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runWEN2
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runWES1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/hair/hair 4/runWES2
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack29.png
+size: 512, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+player/skin/death1
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/death2
+  rotate: false
+  xy: 30, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/death3
+  rotate: false
+  xy: 58, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/idle1
+  rotate: false
+  xy: 86, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/idle2
+  rotate: false
+  xy: 114, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runN1
+  rotate: false
+  xy: 142, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runN2
+  rotate: false
+  xy: 170, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runS1
+  rotate: false
+  xy: 198, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runS2
+  rotate: false
+  xy: 226, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runWEN1
+  rotate: false
+  xy: 254, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runWEN2
+  rotate: false
+  xy: 282, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runWES1
+  rotate: false
+  xy: 310, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/runWES2
+  rotate: false
+  xy: 338, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/smile1
+  rotate: false
+  xy: 366, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/smile2
+  rotate: false
+  xy: 394, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+player/skin/smile3
+  rotate: false
+  xy: 422, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+
+images.pack30.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+rain/1
+  rotate: false
+  xy: 2, 350
+  size: 528, 346
+  orig: 528, 346
+  offset: 0, 0
+  index: -1
+rain/2
+  rotate: false
+  xy: 2, 2
+  size: 528, 346
+  orig: 528, 346
+  offset: 0, 0
+  index: -1
+
+images.pack31.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+rain/3
+  rotate: false
+  xy: 2, 350
+  size: 528, 346
+  orig: 528, 346
+  offset: 0, 0
+  index: -1
+rain/4
+  rotate: false
+  xy: 2, 2
+  size: 528, 346
+  orig: 528, 346
+  offset: 0, 0
+  index: -1
+
+images.pack32.png
+size: 64, 16
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+rain splatter/1
+  rotate: false
+  xy: 2, 2
+  size: 13, 10
+  orig: 13, 10
+  offset: 0, 0
+  index: -1
+rain splatter/2
+  rotate: false
+  xy: 17, 2
+  size: 13, 10
+  orig: 13, 10
+  offset: 0, 0
+  index: -1
+rain splatter/3
+  rotate: false
+  xy: 32, 2
+  size: 13, 10
+  orig: 13, 10
+  offset: 0, 0
+  index: -1
+
+images.pack33.png
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+space/1
+  rotate: false
+  xy: 2, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/31
+  rotate: false
+  xy: 2, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/10
+  rotate: false
+  xy: 202, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/11
+  rotate: false
+  xy: 252, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/12
+  rotate: false
+  xy: 252, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/13
+  rotate: false
+  xy: 302, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/14
+  rotate: false
+  xy: 302, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/15
+  rotate: false
+  xy: 352, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/16
+  rotate: false
+  xy: 352, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/17
+  rotate: false
+  xy: 402, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/18
+  rotate: false
+  xy: 402, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/19
+  rotate: false
+  xy: 452, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/2
+  rotate: false
+  xy: 2, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/20
+  rotate: false
+  xy: 452, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/21
+  rotate: false
+  xy: 502, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/22
+  rotate: false
+  xy: 502, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/23
+  rotate: false
+  xy: 552, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/24
+  rotate: false
+  xy: 552, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/25
+  rotate: false
+  xy: 602, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/26
+  rotate: false
+  xy: 602, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/27
+  rotate: false
+  xy: 652, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/28
+  rotate: false
+  xy: 652, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/29
+  rotate: false
+  xy: 702, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/3
+  rotate: false
+  xy: 52, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/30
+  rotate: false
+  xy: 702, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/4
+  rotate: false
+  xy: 52, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/5
+  rotate: false
+  xy: 102, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/6
+  rotate: false
+  xy: 102, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/7
+  rotate: false
+  xy: 152, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/8
+  rotate: false
+  xy: 152, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+space/9
+  rotate: false
+  xy: 202, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
