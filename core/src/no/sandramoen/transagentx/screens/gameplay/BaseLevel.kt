@@ -59,7 +59,16 @@ open class BaseLevel : BaseScreen() {
         if (keycode != Input.Keys.ESCAPE && dtModifier == 0f) resume()
         if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
 
-        // TODO: for debugging, remove on launch -------------
+        if (keycode == Input.Keys.NUMPAD_0)
+            player.toggleHairColor()
+        else if (keycode == Input.Keys.NUMPAD_1)
+            player.toggleSkinColor()
+        else if (keycode == Input.Keys.NUMPAD_2)
+            player.toggleHairStyle()
+        else if (keycode == Input.Keys.NUMPAD_3)
+            player.toggleBeardStyle()
+
+        // debug
         /*else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level4())
         else if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.E) experienceBar.increment(1)

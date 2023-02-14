@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import java.awt.Dimension;
 import java.util.Locale;
 
-
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -28,7 +27,7 @@ public class DesktopLauncher {
 
 	private static String getCountryCode() {
 		String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
-		System.out.println("Loading with country code: " + countryCode);
+		System.out.println("[DesktopLauncher] Locale => Country code:" + countryCode);
 		return countryCode;
 	}
 
@@ -39,7 +38,7 @@ public class DesktopLauncher {
 		float aspectRatio = 16 / 9f;
 		int height = (int) (width / aspectRatio);
 
-		System.out.println("Window dimensions => width: " + width + ", height: " + height);
+		System.out.println("[DesktopLauncher] Window dimensions => width: " + width + ", height: " + height);
 		config.setWindowedMode(width, height);
 	}
 }

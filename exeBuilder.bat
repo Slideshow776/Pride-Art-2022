@@ -10,8 +10,8 @@ java -jar packr-all-4.0.0.jar ^
 --useZgcIfSupportedOs ^
 --executable "desktop-1.0" ^
 --classpath "C:\Users\Sandra Moen\dev\Trans Agent X\desktop\build\libs\desktop-1.0.jar" ^
---mainclass "no.sandramoen.prideart2022.desktop.DesktopLauncher" ^
---resources "C:\Users\Sandra Moen\dev\Trans Agent X\core\assets" ^
+--mainclass "no.sandramoen.transagentx.DesktopLauncher" ^
+--resources "C:\Users\Sandra Moen\dev\Trans Agent X\assets" ^
 --output "C:\Users\Sandra Moen\dev\Trans Agent X\packr build files"
 
 CD C:\Users\Sandra Moen\dev\Trans Agent X

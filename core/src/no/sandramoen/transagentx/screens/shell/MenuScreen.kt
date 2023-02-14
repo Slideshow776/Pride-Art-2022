@@ -42,7 +42,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
             BaseGame.mediumLabelStyle
         )
         titleLabel.setScale(1f)
-        titleLabel.setAlignment(Align.center)
+        titleLabel.alignment = Align.center
 
         Vignette(uiStage)
         controllerMessage = ControllerMessage()
@@ -94,7 +94,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE || keycode == Keys.Q)
             exitGame()
-        else if (keycode == Keys.ENTER) {
+        else if (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER) {
             setLevelScreenWithDelay()
         }
         return false
