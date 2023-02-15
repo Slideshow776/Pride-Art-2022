@@ -3,8 +3,8 @@ package no.sandramoen.transagentx.screens.gameplay
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.transagentx.actors.characters.lost.Lost1
 import no.sandramoen.transagentx.actors.*
+import no.sandramoen.transagentx.actors.characters.lost.Lost1
 import no.sandramoen.transagentx.screens.shell.EpilogueScreen
 import no.sandramoen.transagentx.utils.BaseActor
 import no.sandramoen.transagentx.utils.BaseGame
@@ -75,6 +75,7 @@ class Level5 : BaseLevel() {
                     )
                     player.shakyCamIntensity = .15f
                     objectivesLabel.fadeOut()
+                    BaseGame.setSteamAchievement("ACHIEVEMENT_LEVEL_5")
                 },
                 Actions.delay(6f),
                 Actions.run {

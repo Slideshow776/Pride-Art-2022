@@ -161,6 +161,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
+            BaseGame.setSteamAchievement("ACHIEVEMENT_COLOUR")
         }
     }
 
@@ -181,6 +182,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
+            BaseGame.setSteamAchievement("ACHIEVEMENT_COLOUR")
         }
     }
 
@@ -201,6 +203,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
+            BaseGame.setSteamAchievement("ACHIEVEMENT_COLOUR")
         }
     }
 
@@ -213,6 +216,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
                 MathUtils.random(.95f, 1.05f),
                 0f
             )
+            BaseGame.setSteamAchievement("ACHIEVEMENT_COLOUR")
         }
     }
 
@@ -401,13 +405,13 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     }
 
     private fun keyboardPolling() {
-        if (Gdx.input.isKeyPressed(Keys.W))
+        if (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.UP))
             accelerateAtAngle(90f)
-        if (Gdx.input.isKeyPressed(Keys.A))
+        if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT))
             accelerateAtAngle(180f)
-        if (Gdx.input.isKeyPressed(Keys.S))
+        if (Gdx.input.isKeyPressed(Keys.S) || Gdx.input.isKeyPressed(Keys.DOWN))
             accelerateAtAngle(270f)
-        if (Gdx.input.isKeyPressed(Keys.D))
+        if (Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.RIGHT))
             accelerateAtAngle(0f)
     }
 

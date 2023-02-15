@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
+import com.github.tommyettinger.textra.TypingLabel
 import no.sandramoen.transagentx.actors.characters.player.BeamOut
 import no.sandramoen.transagentx.actors.characters.player.Player
 import no.sandramoen.transagentx.actors.particles.WhiteCrystalExplosion
@@ -48,8 +49,8 @@ open class BaseLost(x: Float, y: Float, stage: Stage, val player: Player? = null
             3f
         )
         group.setPosition(
-            -((group.getChild(0) as Label).prefWidth / 2) * .022f,
-            4.2f
+            -((group.getChild(0) as TypingLabel).prefWidth / 2) * -.01f,
+            6f
         )
         addActor(group)
 

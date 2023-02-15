@@ -69,6 +69,10 @@ open class BaseLevel : BaseScreen() {
             player.toggleBeardStyle()
 
         // debug
+        /*else if (keycode == Input.Keys.T) {
+            Gdx.app.error(javaClass.simpleName, "Cleared all achievements!")
+            BaseGame.clearSteamAchievements()
+        }*/
         /*else if (keycode == Input.Keys.R) BaseGame.setActiveScreen(Level4())
         else if (keycode == Input.Keys.Q) Gdx.app.exit()
         else if (keycode == Input.Keys.E) experienceBar.increment(1)
@@ -465,6 +469,9 @@ open class BaseLevel : BaseScreen() {
             if (player.overlaps(lost as BaseLost)) {
                 GameUtils.vibrateController()
                 lost.pickup()
+
+                if (this is Level5)
+                    BaseGame.incrementSteamLostSoulsStat()
             }
     }
 
@@ -599,7 +606,7 @@ open class BaseLevel : BaseScreen() {
 
         objectivesLabel = ObjectivesLabel()
         uiTable.add(objectivesLabel).padTop(experienceBar.height + healthBar.prefHeight)
-            .padBottom(-objectivesLabel.prefHeight).row()
+            .padBottom(-objectivesLabel.prefHeight).width(Gdx.graphics.width * 98f).row()
 
         fleetAdmiralSetup()
 

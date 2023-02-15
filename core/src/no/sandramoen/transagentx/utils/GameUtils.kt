@@ -2,7 +2,6 @@ package no.sandramoen.transagentx.utils
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
-import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
@@ -178,27 +177,16 @@ class GameUtils {
             labelStyle: Label.LabelStyle? = BaseGame.spookySmallLabelStyle,
             delay: Float = 5f
         ): Group {
-            val label = TypingLabel(
-                "{SPEED=50}${
-                    BaseGame.myBundle!!.get(
-                        "$statement${
-                            MathUtils.random(
-                                0,
-                                numStatements
-                            )
-                        }"
-                    )
-                }", labelStyle
-            )
+            val label = TypingLabel("{SPEED=50}${BaseGame.myBundle!!.get("$statement${MathUtils.random(0 ,numStatements)}")}", labelStyle)
             label.color = color
-            label.setAlignment(Align.center)
+            label.alignment = Align.center
             val defaultTokens = "{SICK=.4;.4;180}"
             label.defaultToken = defaultTokens
 
             val group = Group()
             group.addActor(label)
             group.setScale(.02f * scaleModifier)
-            group.setPosition(width / 2 - label.prefWidth * .01f * scaleModifier, height)
+            group.setPosition(width / 2 - label.prefWidth * 0 * scaleModifier, height * 1.3f)
 
             group.addAction(Actions.forever(Actions.sequence( // display random statement
                 Actions.delay(delay),

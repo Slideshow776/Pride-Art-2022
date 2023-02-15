@@ -34,7 +34,6 @@ class OptionsScreen : BaseScreen() {
     private var axisCounter = 0f
 
     override fun initialize() {
-        // println("options screen initialize, loaded with locale: ${BaseGame.currentLocale}")
         Vignette(uiStage)
 
         val table = Table()
@@ -82,10 +81,6 @@ class OptionsScreen : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE || keycode == Keys.Q)
             setMenuScreen()
-        else if (keycode == Keys.NUM_1)
-            languageCarousel.changeLocale("en")
-        else if (keycode == Keys.NUM_2)
-            languageCarousel.changeLocale("no")
         return false
     }
 

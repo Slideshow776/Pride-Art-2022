@@ -16,7 +16,7 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setWindowIcon("images/excluded/icon_16x16.png", "images/excluded/icon_32x32.png");
 
-		boolean isFullscreen = false;
+		boolean isFullscreen = true;
 		if (isFullscreen)
 			config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		else
@@ -27,7 +27,7 @@ public class DesktopLauncher {
 
 	private static String getCountryCode() {
 		String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
-		System.out.println("[DesktopLauncher] Locale => Country code:" + countryCode);
+		System.out.println("[DesktopLauncher] Locale => Country code: " + countryCode);
 		return countryCode;
 	}
 

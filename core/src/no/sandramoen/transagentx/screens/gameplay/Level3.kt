@@ -3,10 +3,10 @@ package no.sandramoen.transagentx.screens.gameplay
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.transagentx.actors.characters.lost.Lost1
 import no.sandramoen.transagentx.actors.Portal
 import no.sandramoen.transagentx.actors.TilemapActor
 import no.sandramoen.transagentx.actors.characters.enemies.*
+import no.sandramoen.transagentx.actors.characters.lost.Lost1
 import no.sandramoen.transagentx.utils.BaseActor
 import no.sandramoen.transagentx.utils.BaseGame
 import no.sandramoen.transagentx.utils.BaseGame.Companion.myBundle
@@ -74,6 +74,7 @@ class Level3 : BaseLevel() {
                 fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral18"))
                 isLevelOver = true
                 player.isPlaying = false
+                BaseGame.setSteamAchievement("ACHIEVEMENT_LEVEL_3")
                 player.addAction(
                     Actions.sequence(
                         Actions.parallel(

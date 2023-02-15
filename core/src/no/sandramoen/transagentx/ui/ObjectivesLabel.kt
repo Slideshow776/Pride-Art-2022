@@ -3,6 +3,7 @@ package no.sandramoen.transagentx.ui
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import com.badlogic.gdx.utils.Align
 import com.github.tommyettinger.textra.TypingLabel
 
 import no.sandramoen.transagentx.utils.BaseGame
@@ -15,6 +16,7 @@ class ObjectivesLabel : TypingLabel("", BaseGame.smallLabelStyle) {
         isVisible = false
         color = lightBlue
         setText("")
+        alignment = Align.center
     }
 
     fun setMyText(newText: String){

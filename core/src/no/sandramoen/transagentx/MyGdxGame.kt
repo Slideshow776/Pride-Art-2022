@@ -1,14 +1,14 @@
 package no.sandramoen.transagentx
 
-import no.sandramoen.transagentx.screens.shell.MenuScreen
+import no.sandramoen.transagentx.screens.shell.SandraSplashScreen
 import no.sandramoen.transagentx.utils.BaseGame
 
 class MyGdxGame(appLocale: String) : BaseGame(appLocale) {
     override fun create() {
         super.create()
-        // setActiveScreen(SandraSplashScreen())
+        setActiveScreen(SandraSplashScreen())
         // setActiveScreen(SkeiveSpillutviklereSplashScreen())
-        setActiveScreen(MenuScreen())
+        // setActiveScreen(MenuScreen())
         // setActiveScreen(OptionsScreen())
         // setActiveScreen(Level1())
         // setActiveScreen(Level2())

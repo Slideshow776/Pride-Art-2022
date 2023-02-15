@@ -66,6 +66,10 @@ project(":core") {
         api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
         api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         implementation "com.github.tommyettinger:textratypist:0.7.6"
+
+        apply plugin: 'java-library'
+        implementation "com.code-disaster.steamworks4j:steamworks4j:1.9.0"
+        implementation "com.code-disaster.steamworks4j:steamworks4j-server:1.9.0"
     }
 
     task packTextures {

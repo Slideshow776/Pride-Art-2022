@@ -12,12 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import com.codedisaster.steamworks.*
 
-abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
+abstract class BaseScreen : Screen, InputProcessor, ControllerListener, SteamFriendsCallback {
     protected var mainStage: Stage
     protected var uiStage: Stage
     protected var uiTable: Table
     protected var dtModifier = 1f
+    protected var isPause = false
 
     init {
         mainStage = Stage()
@@ -28,6 +30,8 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
         uiStage = Stage()
         uiStage.addActor(uiTable)
         uiStage.viewport = ScreenViewport()
+
+        SteamFriends(this)
     }
 
     abstract fun initialize()
@@ -35,8 +39,13 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
 
     override fun render(dt: Float) {
         uiStage.act(dt)
-        mainStage.act(dt * dtModifier)
-        update(dt * dtModifier)
+        if (!isPause) {
+            mainStage.act(dt * dtModifier)
+            update(dt * dtModifier)
+        }
+
+        if (SteamAPI.isSteamRunning())
+            SteamAPI.runCallbacks()
 
         Gdx.gl.glClearColor(0.035f, 0.039f, 0.078f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
@@ -69,22 +78,80 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener {
         uiStage.viewport.update(width, height, true)
     }
 
-    override fun pause() {}
-    override fun resume() {}
+    override fun pause() {
+        isPause = true
+    }
+
+    override fun resume() {
+        isPause = false
+    }
+
     override fun dispose() {}
 
-    override fun keyDown(keycode: Int): Boolean { return false }
-    override fun keyUp(keycode: Int): Boolean { return false }
-    override fun keyTyped(character: Char): Boolean { return false }
-    override fun mouseMoved(screenX: Int, screenY: Int): Boolean { return false }
-    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean { return false }
-    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean { return false }
-    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean { return false }
-    override fun scrolled(amountX: Float, amountY: Float): Boolean { return false }
+    override fun keyDown(keycode: Int): Boolean {
+        return false
+    }
 
-    override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean { return false }
-    override fun buttonUp(controller: Controller?, buttonCode: Int): Boolean  { return false }
-    override fun axisMoved(controller: Controller?, axisCode: Int, value: Float): Boolean  { return false }
+    override fun keyUp(keycode: Int): Boolean {
+        return false
+    }
+
+    override fun keyTyped(character: Char): Boolean {
+        return false
+    }
+
+    override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
+        return false
+    }
+
+    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        return false
+    }
+
+    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+        return false
+    }
+
+    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        return false
+    }
+
+    override fun scrolled(amountX: Float, amountY: Float): Boolean {
+        return false
+    }
+
+    override fun buttonDown(controller: Controller?, buttonCode: Int): Boolean {
+        return false
+    }
+
+    override fun buttonUp(controller: Controller?, buttonCode: Int): Boolean {
+        return false
+    }
+
+    override fun axisMoved(controller: Controller?, axisCode: Int, value: Float): Boolean {
+        return false
+    }
+
     override fun connected(controller: Controller?) {}
     override fun disconnected(controller: Controller?) {}
+
+
+    override fun onGameOverlayActivated(active: Boolean) {
+        if (active) pause()
+        else resume()
+    }
+
+    override fun onSetPersonaNameResponse(
+        success: Boolean,
+        localSuccess: Boolean,
+        result: SteamResult?
+    ) {
+    }
+
+    override fun onPersonaStateChange(steamID: SteamID?, change: SteamFriends.PersonaChange?) {}
+    override fun onGameLobbyJoinRequested(steamIDLobby: SteamID?, steamIDFriend: SteamID?) {}
+    override fun onAvatarImageLoaded(steamID: SteamID?, image: Int, width: Int, height: Int) {}
+    override fun onFriendRichPresenceUpdate(steamIDFriend: SteamID?, appID: Int) {}
+    override fun onGameRichPresenceJoinRequested(steamIDFriend: SteamID?, connect: String?) {}
+    override fun onGameServerChangeRequested(server: String?, password: String?) {}
 }

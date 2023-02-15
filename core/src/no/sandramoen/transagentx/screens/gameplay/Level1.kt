@@ -126,13 +126,13 @@ class Level1 : BaseLevel() {
         BaseGame.bossMusic!!.stop()
         BaseGame.windAmbianceMusic!!.play()
         BaseGame.windAmbianceMusic!!.volume = BaseGame.musicVolume
-        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName)) {
+        for (enemy: BaseActor in BaseActor.getList(mainStage, Shot::class.java.canonicalName))
             enemy.death()
-        }
         experienceBar.level++
         if (bossBar != null)
             bossBar!!.isVisible = false
         fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral5"))
+        BaseGame.setSteamAchievement("ACHIEVEMENT_LEVEL_1")
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(6f),

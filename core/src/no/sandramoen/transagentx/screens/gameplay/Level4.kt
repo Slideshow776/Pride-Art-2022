@@ -4,16 +4,12 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.transagentx.actors.characters.lost.Lost1
 import no.sandramoen.transagentx.actors.TheArtifact
 import no.sandramoen.transagentx.actors.TilemapActor
 import no.sandramoen.transagentx.actors.characters.enemies.BossIra
 import no.sandramoen.transagentx.actors.characters.enemies.Shot
 import no.sandramoen.transagentx.actors.characters.enemies.TeleportHazard
-import no.sandramoen.transagentx.actors.characters.lost.BaseLost
-import no.sandramoen.transagentx.actors.characters.lost.Lost0
-import no.sandramoen.transagentx.actors.characters.lost.Lost2
-import no.sandramoen.transagentx.actors.characters.lost.Lost3
+import no.sandramoen.transagentx.actors.characters.lost.*
 import no.sandramoen.transagentx.ui.BossBar
 import no.sandramoen.transagentx.utils.BaseActor
 import no.sandramoen.transagentx.utils.BaseGame
@@ -125,6 +121,7 @@ class Level4 : BaseLevel() {
         if (bossBar != null)
             bossBar!!.isVisible = false
         fadeFleetAdmiralInAndOut(myBundle!!.get("fleetAdmiral14"))
+        BaseGame.setSteamAchievement("ACHIEVEMENT_LEVEL_4")
         BaseActor(0f, 0f, mainStage).addAction(
             Actions.sequence(
                 Actions.delay(4f),

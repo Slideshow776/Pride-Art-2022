@@ -3,12 +3,11 @@ package no.sandramoen.transagentx.screens.gameplay
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import no.sandramoen.transagentx.actors.characters.enemies.BossKG
-import no.sandramoen.transagentx.actors.characters.lost.Lost1
 import no.sandramoen.transagentx.actors.Experience
 import no.sandramoen.transagentx.actors.TilemapActor
 import no.sandramoen.transagentx.actors.characters.enemies.*
 import no.sandramoen.transagentx.actors.characters.lost.Lost0
+import no.sandramoen.transagentx.actors.characters.lost.Lost1
 import no.sandramoen.transagentx.actors.characters.lost.Lost2
 import no.sandramoen.transagentx.actors.characters.lost.Lost3
 import no.sandramoen.transagentx.ui.BossBar
@@ -101,6 +100,7 @@ class Level2 : BaseLevel() {
     }
 
     private fun bossDeath() {
+        BaseGame.setSteamAchievement("ACHIEVEMENT_LEVEL_2")
         objectivesLabel.fadeOut()
         BaseGame.bossMusic!!.stop()
         BaseGame.windAmbianceMusic!!.play()
