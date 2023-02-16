@@ -6,7 +6,7 @@ Every enemy in the game depicts a narrative fragment of "treatment" transgender 
 These fragments were collected from the norwegian transgendered community, norwegian media, and personal experience.
 
 The video game explores topics of growth, healing, and trauma.
-Here is [the list](https://github.com/Slideshow776/Trans-Agent-X/tree/main/core/assets/i18n) of charater dialogs and sayings, these are accurately produced from the assesments of 'treatment' transgendere people in norway received.
+Here is [the list](https://github.com/Slideshow776/Trans-Agent-X/wiki) of charater dialogs and sayings, these are accurately produced from the assesments of 'treatment' transgendere people in norway received.
 
 If you want to [Sponsor me](https://github.com/sponsors/Slideshow776?frequency=recurring) I'd be honored.
 
