@@ -1,7 +1,7 @@
 package no.sandramoen.transagentx.screens.gameplay
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
@@ -56,17 +56,14 @@ open class BaseLevel : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (keycode != Input.Keys.ESCAPE && dtModifier == 0f) resume()
-        if (keycode == Input.Keys.ESCAPE) pauseOrGoToMenu()
-
-        if (keycode == Input.Keys.NUMPAD_0)
-            player.toggleHairColor()
-        else if (keycode == Input.Keys.NUMPAD_1)
-            player.toggleSkinColor()
-        else if (keycode == Input.Keys.NUMPAD_2)
-            player.toggleHairStyle()
-        else if (keycode == Input.Keys.NUMPAD_3)
-            player.toggleBeardStyle()
+        when {
+            (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER || keycode == Keys.SPACE) && dtModifier == 0f -> resume()
+            keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE -> pauseOrGoToMenu()
+            keycode == Keys.NUMPAD_0 -> player.toggleHairColor()
+            keycode == Keys.NUMPAD_1 -> player.toggleSkinColor()
+            keycode == Keys.NUMPAD_2 -> player.toggleHairStyle()
+            keycode == Keys.NUMPAD_3 -> player.toggleBeardStyle()
+        }
 
         // debug
         /*else if (keycode == Input.Keys.T) {
@@ -174,7 +171,7 @@ open class BaseLevel : BaseScreen() {
             bossBar!!.clearActions()
         objectivesLabel.fadeOut()
         healthBar.addAction(Actions.fadeOut(.5f))
-        continueToMenu()
+        // continueToMenu()
     }
 
     fun playerExitLevel() {
@@ -611,14 +608,16 @@ open class BaseLevel : BaseScreen() {
         fleetAdmiralSetup()
 
         mainLabel = TypingLabel("", BaseGame.mediumLabelStyle)
-        mainLabel.setAlignment(Align.center)
+        mainLabel.alignment = Align.center
         mainLabel.isVisible = false
-        uiTable.add(mainLabel).expandY().row()
+        uiTable.add(mainLabel).expandY().width(Gdx.graphics.width * .98f).padBottom(uiTable.prefHeight * 1.5f).row()
 
         controllerMessage = ControllerMessage()
         uiTable.add(controllerMessage)
             .padTop(-controllerMessage.prefHeight - Gdx.graphics.height * .1f)
             .padBottom(Gdx.graphics.height * .1f)
+
+        // uiTable.debug = true
     }
 
     private fun fleetAdmiralSetup() {

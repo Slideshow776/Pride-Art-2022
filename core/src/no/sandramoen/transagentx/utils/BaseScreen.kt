@@ -66,6 +66,7 @@ abstract class BaseScreen : Screen, InputProcessor, ControllerListener, SteamFri
     }
 
     override fun hide() {
+        pause()
         val im: InputMultiplexer = Gdx.input.inputProcessor as InputMultiplexer
         im.removeProcessor(this)
         im.removeProcessor(uiStage)

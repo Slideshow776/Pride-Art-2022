@@ -94,7 +94,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE || keycode == Keys.Q)
             exitGame()
-        else if (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER)
+        else if (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER || keycode == Keys.SPACE)
             setLevelScreenWithDelay()
         return false
     }
