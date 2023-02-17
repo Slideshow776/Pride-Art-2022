@@ -6,11 +6,11 @@ Every enemy in the game depicts a narrative fragment of "treatment" transgender 
 These fragments were collected from the norwegian transgendered community, norwegian media, and personal experience.
 
 The video game explores topics of growth, healing, and trauma.
-Here is [the list](https://github.com/Slideshow776/Trans-Agent-X/tree/main/core/assets/i18n) of charater dialogs and sayings, these are accurately produced from the assesments of 'treatment' transgendere people in norway received.
+Here is [the list](https://github.com/Slideshow776/Trans-Agent-X/wiki) of charater dialogs and sayings, these are accurately produced from the assesments of 'treatment' transgendere people in norway received.
 
 If you want to [Sponsor me](https://github.com/sponsors/Slideshow776?frequency=recurring) I'd be honored.
 
-Check it out on [Steam](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1).
+### Wishlist it on [Steam](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1)!
 [![image](https://user-images.githubusercontent.com/4059636/169043513-38363484-ae51-4451-ad2b-7d9cf123ef03.png)](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1)
 
 <!-- ![demo](https://user-images.githubusercontent.com/4059636/167386118-fb0aa9a8-067a-4aed-adc6-982df19d17db.gif) -->
@@ -19,6 +19,7 @@ Check it out on [Steam](https://store.steampowered.com/app/2314960/Trans_Agent_X
 
 [![image](https://user-images.githubusercontent.com/4059636/163727724-cbca9c2a-0ad1-4cb8-ae96-f05873e56bad.png)](https://www.youtube.com/watch?v=82lc-GC7yGU)
 
+### Wishlist it on [Steam](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1)? : )
 
 This game is part of a [norwegian pride art](https://www.prideart.no) 2022 project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
 This will be done with symbols and other imagery, and hopefully through gameplay.
