@@ -10,7 +10,7 @@ Here is [the list](https://github.com/Slideshow776/Trans-Agent-X/wiki) of charat
 
 If you want to [Sponsor me](https://github.com/sponsors/Slideshow776?frequency=recurring) I'd be honored.
 
-Check it out on [Steam](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1).
+Wishlist it on [Steam](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1)!
 [![image](https://user-images.githubusercontent.com/4059636/169043513-38363484-ae51-4451-ad2b-7d9cf123ef03.png)](https://store.steampowered.com/app/2314960/Trans_Agent_X/?beta=1)
 
 <!-- ![demo](https://user-images.githubusercontent.com/4059636/167386118-fb0aa9a8-067a-4aed-adc6-982df19d17db.gif) -->
