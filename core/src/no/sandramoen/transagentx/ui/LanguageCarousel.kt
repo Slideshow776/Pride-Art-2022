@@ -15,7 +15,7 @@ import java.util.*
 
 class LanguageCarousel : Table() {
     val chooseLanguageLabel =
-        Label("${BaseGame.myBundle!!.get("chooseLanguage")}", BaseGame.smallLabelStyle)
+        Label(BaseGame.myBundle!!.get("chooseLanguage"), BaseGame.smallLabelStyle)
 
     init {
         GameUtils.addWidgetEnterExitEffect(chooseLanguageLabel)
@@ -49,14 +49,17 @@ class LanguageCarousel : Table() {
         return button
     }
 
-    fun changeLocale(locale: String) {
+    private fun changeLocale(locale: String) {
         BaseGame.assetManager.unload("i18n/MyBundle")
-        BaseGame.assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleLoader.I18NBundleParameter(Locale(locale.toLowerCase())))
+        BaseGame.assetManager.load(
+            "i18n/MyBundle",
+            I18NBundle::class.java,
+            I18NBundleLoader.I18NBundleParameter(Locale(locale.toLowerCase()))
+        )
         BaseGame.assetManager.finishLoading()
         BaseGame.myBundle = BaseGame.assetManager.get("i18n/MyBundle", I18NBundle::class.java)
         BaseGame.currentLocale = locale.toLowerCase()
         GameUtils.saveGameState()
-        // println("changing locale to: $locale")
         BaseGame.setActiveScreen(OptionsScreen())
     }
 }
