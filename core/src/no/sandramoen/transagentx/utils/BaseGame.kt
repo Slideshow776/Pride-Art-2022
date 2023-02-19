@@ -135,6 +135,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener, SteamUs
         var voiceVolume = 1f
         var soundVolume = .3f
         var musicVolume = .7f
+        var vibrationStrength = 1f
         var currentLocale: String? = null
         var lastPlayedLevel: String? = null
         var myBundle: I18NBundle? = null
@@ -217,6 +218,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener, SteamUs
             soundVolume = .3f
             musicVolume = .7f
             voiceVolume = 1f
+            vibrationStrength = 1f
             lastPlayedLevel = "Level1"
         }
     }

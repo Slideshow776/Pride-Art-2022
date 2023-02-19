@@ -32,6 +32,7 @@ class GameUtils {
             BaseGame.prefs!!.putFloat("voiceVolume", BaseGame.voiceVolume)
             BaseGame.prefs!!.putString("locale", BaseGame.currentLocale)
             BaseGame.prefs!!.putString("lastPlayedLevel", BaseGame.lastPlayedLevel)
+            BaseGame.prefs!!.putFloat("vibrationStrength", BaseGame.vibrationStrength)
             BaseGame.prefs!!.flush()
         }
 
@@ -42,6 +43,7 @@ class GameUtils {
             BaseGame.soundVolume = BaseGame.prefs!!.getFloat("soundVolume")
             BaseGame.voiceVolume = BaseGame.prefs!!.getFloat("voiceVolume")
             BaseGame.currentLocale = BaseGame.prefs!!.getString("locale")
+            BaseGame.vibrationStrength = BaseGame.prefs!!.getFloat("vibrationStrength")
             BaseGame.lastPlayedLevel = BaseGame.prefs!!.getString("lastPlayedLevel")
         }
 
@@ -150,12 +152,9 @@ class GameUtils {
             try {
                 val controller = Controllers.getControllers()[0]
                 if (strength < 0 || strength > 1)
-                    Gdx.app.error(
-                        javaClass.canonicalName,
-                        "Error, vibrating strength must be [0, 1], strength is: $strength"
-                    )
+                    Gdx.app.error(javaClass.canonicalName, "Error, vibrating strength must be [0, 1], strength is: $strength")
                 if (controller!!.canVibrate() && BaseGame.isVibrationEnabled)
-                    controller!!.startVibration(duration, strength)
+                    controller.startVibration(duration, strength * BaseGame.vibrationStrength)
             } catch (indexOutOfBoundsException: IndexOutOfBoundsException) {
             }
         }

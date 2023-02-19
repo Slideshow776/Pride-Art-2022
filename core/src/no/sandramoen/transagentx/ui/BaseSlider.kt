@@ -46,6 +46,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
             "sound" -> slider.value = BaseGame.soundVolume
             "music" -> slider.value = BaseGame.musicVolume
             "voice" -> slider.value = BaseGame.voiceVolume
+            "vibration" -> slider.value = BaseGame.vibrationStrength
             else -> Gdx.app.error(
                 javaClass.simpleName,
                 "Error, value could not be appropriated => $value"
@@ -58,6 +59,10 @@ class BaseSlider(value: String, labelText: String) : Table() {
                     "sound" -> BaseGame.soundVolume = slider.value
                     "music" -> GameUtils.setMusicVolume(slider.value)
                     "voice" -> BaseGame.voiceVolume = slider.value
+                    "vibration" -> {
+                        BaseGame.vibrationStrength = slider.value
+                        GameUtils.vibrateController(100)
+                    }
                 }
                 BaseGame.click1Sound!!.play(BaseGame.musicVolume)
                 GameUtils.saveGameState()

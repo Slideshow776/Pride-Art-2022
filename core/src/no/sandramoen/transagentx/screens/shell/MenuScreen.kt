@@ -166,7 +166,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
                 controllerMessage.showConnected()
                 val controller = Controllers.getControllers()[0]
                 if (controller.canVibrate() && BaseGame.isVibrationEnabled)
-                    controller.startVibration(1000, .2f)
+                    GameUtils.vibrateController(1000, .2f)
             } else {
                 controllerMessage.showNoControllerFound()
             }
