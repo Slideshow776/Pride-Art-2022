@@ -45,6 +45,9 @@ open class BaseLevel : BaseScreen() {
         initializeImpassables()
         uiSetup()
         GameUtils.cancelControllerVibration()
+
+        BaseGame.lastPlayedLevel = javaClass.simpleName
+        GameUtils.saveGameState()
     }
 
     override fun update(dt: Float) {

@@ -50,6 +50,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener, SteamUs
         const val isVibrationEnabled = true // debugging purposes
         var isControllerChecked = false // debugging purposes
         val lightPink = Color(0.875f, 0.518f, 0.647f, 1f)
+        val lightBlue = Color(0.31f, 0.561f, 0.729f, 1f)
 
         // game assets
         var smallLabelStyle: LabelStyle? = null
@@ -135,6 +136,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener, SteamUs
         var soundVolume = .3f
         var musicVolume = .7f
         var currentLocale: String? = null
+        var lastPlayedLevel: String? = null
         var myBundle: I18NBundle? = null
         private var steamUserStats: SteamUserStats? = null
 
@@ -215,6 +217,7 @@ abstract class BaseGame(appLocale: String) : Game(), AssetErrorListener, SteamUs
             soundVolume = .3f
             musicVolume = .7f
             voiceVolume = 1f
+            lastPlayedLevel = "Level1"
         }
     }
 

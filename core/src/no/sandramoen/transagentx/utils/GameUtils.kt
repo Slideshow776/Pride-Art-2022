@@ -31,6 +31,7 @@ class GameUtils {
             BaseGame.prefs!!.putFloat("soundVolume", BaseGame.soundVolume)
             BaseGame.prefs!!.putFloat("voiceVolume", BaseGame.voiceVolume)
             BaseGame.prefs!!.putString("locale", BaseGame.currentLocale)
+            BaseGame.prefs!!.putString("lastPlayedLevel", BaseGame.lastPlayedLevel)
             BaseGame.prefs!!.flush()
         }
 
@@ -41,6 +42,7 @@ class GameUtils {
             BaseGame.soundVolume = BaseGame.prefs!!.getFloat("soundVolume")
             BaseGame.voiceVolume = BaseGame.prefs!!.getFloat("voiceVolume")
             BaseGame.currentLocale = BaseGame.prefs!!.getString("locale")
+            BaseGame.lastPlayedLevel = BaseGame.prefs!!.getString("lastPlayedLevel")
         }
 
         fun initShaderProgram(vertexShader: String?, fragmentShader: String?): ShaderProgram {

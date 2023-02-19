@@ -84,6 +84,8 @@ class Level5 : BaseLevel() {
                 },
                 Actions.delay(3f),
                 Actions.run {
+                    BaseGame.lastPlayedLevel = "Level1"
+                    GameUtils.saveGameState()
                     BaseGame.rainMusic!!.stop()
                     BaseGame.thunderSound!!.play(
                         BaseGame.soundVolume,

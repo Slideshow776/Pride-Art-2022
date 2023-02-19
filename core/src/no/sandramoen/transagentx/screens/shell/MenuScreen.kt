@@ -19,12 +19,17 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import com.github.tommyettinger.textra.TypingLabel
 import no.sandramoen.transagentx.actors.Vignette
+import no.sandramoen.transagentx.screens.gameplay.Level2
+import no.sandramoen.transagentx.screens.gameplay.Level3
+import no.sandramoen.transagentx.screens.gameplay.Level4
+import no.sandramoen.transagentx.screens.gameplay.Level5
 import no.sandramoen.transagentx.screens.shell.intro.SaturnScreen
 import no.sandramoen.transagentx.ui.ControllerMessage
 import no.sandramoen.transagentx.ui.MadeByLabel
 import no.sandramoen.transagentx.utils.*
 
 class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
+    private lateinit var continueButton: TextButton
     private lateinit var startButton: TextButton
     private lateinit var optionsButton: TextButton
     private lateinit var titleLabel: TypingLabel
@@ -83,6 +88,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         if (!usingMouse) {
+            continueButton.label.color = BaseGame.lightBlue
             startButton.label.color = Color.WHITE
             optionsButton.label.color = Color.WHITE
             madeByLabel.color = madeByLabel.grayColor
@@ -95,7 +101,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE || keycode == Keys.Q)
             exitGame()
         else if (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER || keycode == Keys.SPACE)
-            setLevelScreenWithDelay()
+            BaseGame.lastPlayedLevel?.let { setLevelScreenWithDelay(it) }
         return false
     }
 
@@ -106,14 +112,16 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
                 swapButtons(up = true)
             else if (controller.getButton(XBoxGamepad.DPAD_DOWN))
                 swapButtons(up = false)
-        }/* else if (controller!!.getButton(XBoxGamepad.BUTTON_B)) {
+        } else if (controller!!.getButton(XBoxGamepad.BUTTON_B)) {
             exitGame()
-        }*/ else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == startButton) {
-            setLevelScreenWithDelay()
+        } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == continueButton) {
+            BaseGame.lastPlayedLevel?.let { setLevelScreenWithDelay(it) }
+        } else if (controller!!.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == startButton) {
+            setLevelScreenWithDelay("Level1")
         } else if (controller.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == optionsButton) {
             setOptionsScreenWithDelay()
         } else if (controller.getButton(XBoxGamepad.BUTTON_A) && highlightedActor == madeByLabel) {
-            // madeByLabel.openURIWithDelay()
+            madeByLabel.openURIWithDelay()
         }
         return super.buttonDown(controller, buttonCode)
     }
@@ -167,36 +175,54 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
 
     private fun swapButtons(up: Boolean) {
         if (up) {
-            if (highlightedActor == startButton) {
+            if (highlightedActor == continueButton) {
                 highlightedActor = madeByLabel
+                continueButton.label.color = BaseGame.lightBlue
                 startButton.label.color = Color.WHITE
                 optionsButton.label.color = Color.WHITE
                 madeByLabel.color = BaseGame.lightPink
+            } else if (highlightedActor == startButton) {
+                highlightedActor = continueButton
+                continueButton.label.color = BaseGame.lightPink
+                startButton.label.color = Color.WHITE
+                optionsButton.label.color = Color.WHITE
+                madeByLabel.color = Color.WHITE
             } else if (highlightedActor == optionsButton) {
                 highlightedActor = startButton
+                continueButton.label.color = BaseGame.lightBlue
                 startButton.label.color = BaseGame.lightPink
                 optionsButton.label.color = Color.WHITE
                 madeByLabel.color = madeByLabel.grayColor
             } else if (highlightedActor == madeByLabel) {
                 highlightedActor = optionsButton
+                continueButton.label.color = BaseGame.lightBlue
                 startButton.label.color = Color.WHITE
                 optionsButton.label.color = BaseGame.lightPink
                 madeByLabel.color = madeByLabel.grayColor
             }
         } else {
-            if (highlightedActor == startButton) {
+            if (highlightedActor == continueButton) {
+                highlightedActor = startButton
+                continueButton.label.color = BaseGame.lightBlue
+                startButton.label.color = BaseGame.lightPink
+                optionsButton.label.color = Color.WHITE
+                madeByLabel.color = madeByLabel.grayColor
+            } else if (highlightedActor == startButton) {
+                continueButton.label.color = BaseGame.lightBlue
                 highlightedActor = optionsButton
                 startButton.label.color = Color.WHITE
                 optionsButton.label.color = BaseGame.lightPink
                 madeByLabel.color = madeByLabel.grayColor
             } else if (highlightedActor == optionsButton) {
+                continueButton.label.color = BaseGame.lightBlue
                 highlightedActor = madeByLabel
                 startButton.label.color = Color.WHITE
                 optionsButton.label.color = Color.WHITE
                 madeByLabel.color = BaseGame.lightPink
             } else if (highlightedActor == madeByLabel) {
-                highlightedActor = startButton
-                startButton.label.color = BaseGame.lightPink
+                continueButton.label.color = BaseGame.lightPink
+                highlightedActor = continueButton
+                startButton.label.color = Color.WHITE
                 optionsButton.label.color = Color.WHITE
                 madeByLabel.color = madeByLabel.grayColor
             }
@@ -211,13 +237,44 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
 
     private fun menuButtonsTable(): Table {
         val buttonFontScale = 1f
+        continueButton = initializeContinueButton(.75f)
         startButton = initializeStartButton(buttonFontScale)
         optionsButton = initializeOptionsButton(buttonFontScale)
 
         val table = Table()
+        if (BaseGame.lastPlayedLevel != "Level1")
+            table.add(continueButton).padBottom(Gdx.graphics.height * .03f).row()
         table.add(startButton).padBottom(Gdx.graphics.height * .03f).row()
         table.add(optionsButton).padBottom(Gdx.graphics.height * .03f)
         return table
+    }
+
+    private fun initializeContinueButton(buttonFontScale: Float): TextButton {
+        val textButton =
+            TextButton(BaseGame.myBundle!!.get("continue"), BaseGame.textButtonStyle)
+        textButton.label.setFontScale(buttonFontScale)
+        textButton.label.color = BaseGame.lightBlue
+        textButton.addListener { e: Event ->
+            if (GameUtils.isTouchDownEvent(e)) {
+                BaseGame.level5Music!!.stop()
+                BaseGame.lastPlayedLevel?.let { setLevelScreenWithDelay(it) }
+            }
+            false
+        }
+        textButton.addAction(
+            Actions.forever(
+                Actions.sequence(
+                    Actions.alpha(.75f, .25f),
+                    Actions.alpha(1f, .25f)
+                )
+            )
+        )
+        GameUtils.addTextButtonEnterExitEffect(
+            textButton = textButton,
+            enterColor = BaseGame.lightPink,
+            exitColor = BaseGame.lightBlue
+        )
+        return textButton
     }
 
     private fun initializeStartButton(buttonFontScale: Float): TextButton {
@@ -226,20 +283,26 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
         textButton.addListener { e: Event ->
             if (GameUtils.isTouchDownEvent(e)) {
                 BaseGame.level5Music!!.stop()
-                setLevelScreenWithDelay()
+                setLevelScreenWithDelay("Level1")
             }
             false
         }
-        textButton.addAction(Actions.forever(Actions.sequence(
-            Actions.alpha(.75f, .25f),
-            Actions.alpha(1f, .25f)
-        )))
+        if (BaseGame.lastPlayedLevel == "Level1")
+            textButton.addAction(
+                Actions.forever(
+                    Actions.sequence(
+                        Actions.alpha(.75f, .25f),
+                        Actions.alpha(1f, .25f)
+                    )
+                )
+            )
         GameUtils.addTextButtonEnterExitEffect(textButton)
         return textButton
     }
 
     private fun initializeOptionsButton(buttonFontScale: Float): TextButton {
-        val textButton = TextButton(BaseGame.myBundle!!.get("options"), BaseGame.textButtonStyle)
+        val textButton =
+            TextButton(BaseGame.myBundle!!.get("options"), BaseGame.textButtonStyle)
         textButton.label.setFontScale(buttonFontScale)
         textButton.addListener { e: Event ->
             if (GameUtils.isTouchDownEvent(e)) {
@@ -252,12 +315,21 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
         return textButton
     }
 
-    private fun setLevelScreenWithDelay() {
+    private fun setLevelScreenWithDelay(level: String) {
+        println("setLevelScreenWithDelay: $level")
         prepLeaveMenuScreen()
         BaseGame.spaceStationBeamSound!!.play(BaseGame.soundVolume, .5f, 0f)
         startButton.addAction(Actions.sequence(
             Actions.delay(.5f),
-            Actions.run { BaseGame.setActiveScreen(SaturnScreen()) }
+            Actions.run {
+                when (level.toLowerCase()) {
+                    "level1" -> BaseGame.setActiveScreen(SaturnScreen())
+                    "level2" -> BaseGame.setActiveScreen(Level2())
+                    "level3" -> BaseGame.setActiveScreen(Level3())
+                    "level4" -> BaseGame.setActiveScreen(Level4())
+                    "level5" -> BaseGame.setActiveScreen(Level5())
+                }
+            }
         ))
     }
 
@@ -342,10 +414,12 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
             enemy.loadImage("enemies/charger/runS1")
             enemy.setScale(5f)
             enemy.color = Color.BLACK
-            enemy.addAction(Actions.sequence(
-                Actions.delay(MathUtils.random(2f, 4f)),
-                Actions.moveTo(enemy.x, -55f, 1f)
-            ))
+            enemy.addAction(
+                Actions.sequence(
+                    Actions.delay(MathUtils.random(2f, 4f)),
+                    Actions.moveTo(enemy.x, -55f, 1f)
+                )
+            )
         }
 
         for (i in 0..11) {
@@ -353,38 +427,46 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
             enemy.loadImage("enemies/charger/runS1")
             enemy.setScale(5f)
             enemy.color = Color.BLACK
-            enemy.addAction(Actions.sequence(
-                Actions.delay(MathUtils.random(2f, 4f)),
-                Actions.moveTo(enemy.x, -53f, 1f)
-            ))
+            enemy.addAction(
+                Actions.sequence(
+                    Actions.delay(MathUtils.random(2f, 4f)),
+                    Actions.moveTo(enemy.x, -53f, 1f)
+                )
+            )
         }
 
         val bossKim = BaseActor(80f, -100f, mainStage)
         bossKim.loadImage("enemies/bossKim/scream1")
         bossKim.setScale(5f)
         bossKim.color = Color.BLACK
-        bossKim.addAction(Actions.sequence(
-            Actions.delay(4f),
-            Actions.moveTo(bossKim.x, -56f, 1f)
-        ))
+        bossKim.addAction(
+            Actions.sequence(
+                Actions.delay(4f),
+                Actions.moveTo(bossKim.x, -56f, 1f)
+            )
+        )
 
         val bossKG = BaseActor(-65f, -100f, mainStage)
         bossKG.loadImage("enemies/bossKG/scream1")
         bossKG.setScale(5f)
         bossKG.color = Color.BLACK
-        bossKG.addAction(Actions.sequence(
-            Actions.delay(4f),
-            Actions.moveTo(bossKG.x, -58f, 1f)
-        ))
+        bossKG.addAction(
+            Actions.sequence(
+                Actions.delay(4f),
+                Actions.moveTo(bossKG.x, -58f, 1f)
+            )
+        )
 
         val bossIra = BaseActor(-90f, -100f, mainStage)
         bossIra.loadImage("enemies/bossIra/runS1")
         bossIra.setScale(5f)
         bossIra.color = Color.BLACK
-        bossIra.addAction(Actions.sequence(
-            Actions.delay(4f),
-            Actions.moveTo(bossIra.x, -52f, 1f)
-        ))
+        bossIra.addAction(
+            Actions.sequence(
+                Actions.delay(4f),
+                Actions.moveTo(bossIra.x, -52f, 1f)
+            )
+        )
 
         /* ------------------------------------------------------------------------ */
         for (i in 0..20) {
@@ -395,10 +477,12 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
             enemy.color = Color.BLACK
             if (MathUtils.randomBoolean())
                 enemy.flip()
-            enemy.addAction(Actions.sequence(
-                Actions.delay(MathUtils.random(2f, 4f)),
-                Actions.moveTo(enemy.x, 44f, 1f)
-            ))
+            enemy.addAction(
+                Actions.sequence(
+                    Actions.delay(MathUtils.random(2f, 4f)),
+                    Actions.moveTo(enemy.x, 44f, 1f)
+                )
+            )
         }
 
         for (i in 0..20) {
@@ -409,10 +493,12 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
             enemy.color = Color.BLACK
             if (MathUtils.randomBoolean())
                 enemy.flip()
-            enemy.addAction(Actions.sequence(
-                Actions.delay(MathUtils.random(2f, 4f)),
-                Actions.moveTo(enemy.x, 46f, 1f)
-            ))
+            enemy.addAction(
+                Actions.sequence(
+                    Actions.delay(MathUtils.random(2f, 4f)),
+                    Actions.moveTo(enemy.x, 46f, 1f)
+                )
+            )
         }
 
         /* ------------------------------------------------------------------------ */
