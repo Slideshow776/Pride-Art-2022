@@ -606,7 +606,7 @@ open class BaseLevel : BaseScreen() {
 
         objectivesLabel = ObjectivesLabel()
         uiTable.add(objectivesLabel).padTop(experienceBar.height + healthBar.prefHeight)
-            .padBottom(-objectivesLabel.prefHeight).width(Gdx.graphics.width * 98f).row()
+            .padBottom(-objectivesLabel.prefHeight).width(Gdx.graphics.width * .98f).row()
 
         fleetAdmiralSetup()
 
