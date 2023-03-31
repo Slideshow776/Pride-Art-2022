@@ -168,7 +168,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     fun toggleHairStyle() {
         if (isCollisionEnabled) {
             hair.toggleStyle()
-            var hairAnimation = when (state) {
+            val hairAnimation = when (state) {
                 State.Idle -> hair.idleAnimation
                 State.RunningN -> hair.runNAnimation
                 State.RunningS -> hair.runSAnimation
@@ -189,7 +189,7 @@ class Player(x: Float, y: Float, stage: Stage) : BaseActor(0f, 0f, stage) {
     fun toggleBeardStyle() {
         if (isCollisionEnabled) {
             beard.toggleStyle()
-            var beardAnimation = when (state) {
+            val beardAnimation = when (state) {
                 State.Idle -> beard.idleAnimation
                 State.RunningN -> beard.runNAnimation
                 State.RunningS -> beard.runSAnimation

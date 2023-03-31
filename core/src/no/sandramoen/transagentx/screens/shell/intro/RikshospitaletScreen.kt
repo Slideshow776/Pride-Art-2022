@@ -17,7 +17,7 @@ class RikshospitaletScreen : BaseScreen() {
 
         BaseActor(0f, 0f, uiStage).addAction(
             Actions.sequence(
-            Actions.delay(1f),
+            Actions.delay(2f),
             Actions.run { BaseGame.setActiveScreen(Level1()) }
         ))
     }

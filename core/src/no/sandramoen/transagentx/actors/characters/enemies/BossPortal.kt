@@ -22,7 +22,6 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
         startEffect()
         startValueAnimation(3f)
         fadeIn()
-        isCollisionEnabled = false
         for (i in 0 until 20)
             explosionEffect()
         zIndex = player.zIndex - 1
@@ -54,7 +53,7 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
             isTriggeredClose3 = true
             shakyCamIntensity = 1f
             GameUtils.cancelControllerVibration()
-            GameUtils.vibrateController(duration = 100000, strength = .2f)
+            GameUtils.vibrateController(duration = 100_000, strength = .2f)
             clearActions()
             startValueAnimation(.1f)
         }
@@ -73,11 +72,7 @@ class BossPortal(x: Float, y: Float, stage: Stage, val player: Player) : BaseAct
     }
 
     private fun fadeIn() {
-        isCollisionEnabled = true
-        addAction(Actions.sequence(
-            Actions.fadeIn(1f),
-            Actions.run { isCollisionEnabled = true }
-        ))
+        addAction(Actions.fadeIn(1f))
     }
 
     private fun startValueAnimation(duration: Float) {

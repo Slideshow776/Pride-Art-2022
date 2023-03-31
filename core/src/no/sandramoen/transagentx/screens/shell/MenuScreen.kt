@@ -40,6 +40,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     private var usingMouse = true
     private var isAxisFreeToMove = true
     private var axisCounter = 0f
+    private var time = 0f
 
     override fun initialize() {
         titleLabel = TypingLabel(
@@ -80,6 +81,9 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     }
 
     override fun update(dt: Float) {
+        if (time < 2)
+            time += dt
+
         if (axisCounter > .25f)
             isAxisFreeToMove = true
         else
@@ -98,7 +102,7 @@ class MenuScreen(private val playMusic: Boolean = false) : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE || keycode == Keys.Q)
+        if (time > 1 && (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE || keycode == Keys.Q))
             exitGame()
         else if (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER || keycode == Keys.SPACE)
             BaseGame.lastPlayedLevel?.let { setLevelScreenWithDelay(it) }
