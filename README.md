@@ -24,6 +24,8 @@ If you want to [Sponsor me](https://github.com/sponsors/Slideshow776?frequency=r
 This game is part of a [norwegian pride art](https://www.prideart.no) 2022 project under the submission of [PKI](https://kjonnsinkongruens.no/). The only known requirement at the time of writing is that it should represent the organizations' members with a 'pro-trans' theme.
 This will be done with symbols and other imagery, and hopefully through gameplay.
 
+Nominated for ['Best newcommer' Spillprisen award in 2023](https://www.virke.no/konferanser/spillprisen/)
+
 The release date is the 20th of May.
 
 This game will be for desktop only and is **best played with a controller**. The game will be displayed among other art using a pc, screen, and controllers.
